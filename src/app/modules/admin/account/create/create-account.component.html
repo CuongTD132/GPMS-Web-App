@@ -3,7 +3,7 @@
     <div
         class="flex h-16 flex-0 items-center justify-between bg-primary pl-6 pr-3 text-on-primary sm:pl-8 sm:pr-5"
     >
-        <div class="text-lg font-medium">Material</div>
+        <div class="text-lg font-medium">Create</div>
         <button mat-icon-button (click)="matDialogRef.close()" [tabIndex]="-1">
             <mat-icon
                 class="text-current"
@@ -12,9 +12,9 @@
         </button>
     </div>
     <div class="font-poppins overflow-y-scroll p-8 dark:bg-gray-800">
-        <ng-container *ngIf="updateMaterialForm">
-            <form [formGroup]="updateMaterialForm">
-                <!-- <section class="container mx-auto w-full items-center">
+        <ng-container *ngIf="createAccountForm">
+            <form [formGroup]="createAccountForm">
+                <section class="container mx-auto w-full items-center">
                     <div class="px-4 py-6">
                         <div
                             id="image-preview"
@@ -86,16 +86,8 @@
                             </div>
                         </div>
                     </div>
-                </section> -->
+                </section>
                 <div class="flex gap-4">
-                    <mat-form-field class="w-full">
-                        <mat-label>Code</mat-label>
-                        <input
-                            matInput
-                            placeholder="Code"
-                            [formControlName]="'code'"
-                        />
-                    </mat-form-field>
                     <mat-form-field class="w-full">
                         <mat-label>Name</mat-label>
                         <input
@@ -104,74 +96,16 @@
                             [formControlName]="'name'"
                         />
                     </mat-form-field>
-                    <!-- <mat-form-field class="w-full">
-                        <mat-label>Status</mat-label>
-                        <mat-select
-                            [(value)]="material.status"
-                            (selectionChange)="onMaterialStatusChange($event)"
-                        >
-                            <mat-option [value]="'Active'">Active</mat-option>
-                            <mat-option [value]="'Unactive'"
-                                >Unactive</mat-option
-                            >
-                        </mat-select>
-                    </mat-form-field> -->
-                </div>
-                <div class="flex gap-4">
-                    <mat-form-field class="w-full">
-                        <mat-label>Consumption Unit</mat-label>
-                        <input
-                            matInput
-                            placeholder="Consumption Unit"
-                            [formControlName]="'consumptionUnit'"
-                        />
-                    </mat-form-field>
-                    <mat-form-field class="w-full">
-                        <mat-label>Size Width Unit</mat-label>
-                        <input
-                            matInput
-                            placeholder="Size Width Unit"
-                            [formControlName]="'sizeWidthUnit'"
-                        />
-                    </mat-form-field>
-                </div>
-                <div class="flex gap-4">
-                    <mat-form-field class="w-full">
-                        <mat-label>Color Name</mat-label>
-                        <input
-                            matInput
-                            placeholder="Color Name"
-                            [formControlName]="'colorName'"
-                        />
-                    </mat-form-field>
-                    <mat-form-field class="w-full">
-                        <mat-label>Color Code</mat-label>
-                        <input
-                            matInput
-                            placeholder="Color Code"
-                            [formControlName]="'colorCode'"
-                        />
-                    </mat-form-field>
-                </div>
-                <div class="flex gap-4">
-                    <mat-form-field class="w-full">
-                        <mat-label>Description</mat-label>
-                        <input
-                            matInput
-                            placeholder="Description"
-                            [formControlName]="'description'"
-                        />
-                    </mat-form-field>
                 </div>
                 <div class="mt-4 flex justify-end">
                     <button
-                        (click)="updateMaterial()"
+                        (click)="createAccount()"
                         mat-raised-button
                         color="primary"
                         class="flex min-w-fit gap-2"
                     >
                         <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
-                        <span> Update </span>
+                        <span> Create </span>
                     </button>
                 </div>
             </form>

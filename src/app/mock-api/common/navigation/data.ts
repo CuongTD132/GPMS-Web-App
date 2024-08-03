@@ -7,7 +7,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
         title: 'Materials',
         type: 'basic',
         icon: 'heroicons_outline:chart-pie',
-        link: '/materials'
+        link: '/materials',
+    },
+    {
+        id: 'accounts',
+        title: 'Accounts',
+        type: 'basic',
+        icon: 'heroicons_outline:user',
+        link: '/accounts',
     },
 ];
 export const compactNavigation: FuseNavigationItem[] = [
@@ -16,7 +23,14 @@ export const compactNavigation: FuseNavigationItem[] = [
         title: 'Materials',
         type: 'basic',
         icon: 'heroicons_outline:chart-pie',
-        link: '/materials'
+        link: '/materials',
+    },
+    {
+        id: 'accounts',
+        title: 'Accounts',
+        type: 'basic',
+        icon: 'heroicons_outline:user',
+        link: '/accounts',
     },
 ];
 export const futuristicNavigation: FuseNavigationItem[] = [
@@ -25,7 +39,14 @@ export const futuristicNavigation: FuseNavigationItem[] = [
         title: 'Materials',
         type: 'basic',
         icon: 'heroicons_outline:chart-pie',
-        link: '/materials'
+        link: '/materials',
+    },
+    {
+        id: 'accounts',
+        title: 'Accounts',
+        type: 'basic',
+        icon: 'heroicons_outline:user',
+        link: '/accounts',
     },
 ];
 export const horizontalNavigation: FuseNavigationItem[] = [
@@ -34,6 +55,13 @@ export const horizontalNavigation: FuseNavigationItem[] = [
         title: 'Materials',
         type: 'basic',
         icon: 'heroicons_outline:chart-pie',
-        link: '/materials'
+        link: '/materials',
+    },
+    {
+        id: 'accounts',
+        title: 'Accounts',
+        type: 'basic',
+        icon: 'heroicons_outline:user',
+        link: '/accounts',
     },
 ];

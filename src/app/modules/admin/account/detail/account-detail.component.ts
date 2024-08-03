@@ -14,12 +14,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MaterialService } from '../material.service';
+import { AccountService } from '../account.service';
 
 @Component({
-    selector: 'material-detail',
+    selector: 'account-detail',
     standalone: true,
-    templateUrl: './material-detail.component.html',
+    templateUrl: './account-detail.component.html',
     imports: [
         CommonModule,
         MatButtonModule,
@@ -32,38 +32,33 @@ import { MaterialService } from '../material.service';
         MatSelectModule,
     ],
 })
-export class MaterialDetailComponent implements OnInit {
-    material: Material;
+export class AccountDetailComponent implements OnInit {
+    account: AccountInfo;
     previewUrl: string | ArrayBuffer;
     selectedFile: File;
     uploadMessage: string;
-    updateMaterialForm: UntypedFormGroup;
+    updateAccountForm: UntypedFormGroup;
 
     constructor(
-        public matDialogRef: MatDialogRef<MaterialDetailComponent>,
+        public matDialogRef: MatDialogRef<AccountDetailComponent>,
         private _formBuilder: UntypedFormBuilder,
-        private _materialService: MaterialService
+        private _accountService: AccountService
     ) {}
 
     ngOnInit(): void {
-        this._materialService.material$.subscribe((material) => {
-            this.material = material;
-            this.initMaterialForm();
+        this._accountService.accountInfo$.subscribe((account) => {
+            this.account = account;
+            this.initAccountForm();
         });
     }
-
-    initMaterialForm() {
-        this.updateMaterialForm = this._formBuilder.group({
-            name: [this.material.name, [Validators.required]],
-            code: [this.material.code, [Validators.required]],
-            consumptionUnit: [
-                this.material.consumptionUnit,
-                [Validators.required],
-            ],
-            sizeWidthUnit: [this.material.sizeWidthUnit, [Validators.required]],
-            colorCode: [this.material.colorCode, [Validators.required]],
-            colorName: [this.material.colorName, [Validators.required]],
-            description: [this.material.description],
+    initAccountForm() {
+        this.updateAccountForm = this._formBuilder.group({
+            code: [this.account.code, [Validators.required]],
+            fullName: [this.account.fullName, [Validators.required]],
+            email: [this.account.email, [Validators.required]],
+            position: [this.account.email, [Validators.required]],
+            status: [this.account.email, [Validators.required]],
+            createdDate: [this.account.email, [Validators.required]],
         });
     }
 
@@ -80,25 +75,25 @@ export class MaterialDetailComponent implements OnInit {
         }
     }
 
-    updateMaterial() {
-        if (this.updateMaterialForm.valid) {
+    updateAccount() {
+        if (this.updateAccountForm.valid) {
             const formData = new FormData();
-            for (const key in this.updateMaterialForm.controls) {
-                if (this.updateMaterialForm.controls.hasOwnProperty(key)) {
+            for (const key in this.updateAccountForm.controls) {
+                if (this.updateAccountForm.controls.hasOwnProperty(key)) {
                     formData.append(
                         key,
-                        this.updateMaterialForm.controls[key].value
+                        this.updateAccountForm.controls[key].value
                     );
                 }
             }
             if (this.selectedFile) {
                 formData.append('thumbnail', this.selectedFile);
             }
-            this._materialService
-                .updateMaterial(this.material.id, formData)
+            this._accountService
+                .updateAccount(this.account.id, formData)
                 .subscribe({
-                    next: (material) => {
-                        if (material) {
+                    next: (account) => {
+                        if (account) {
                             this.matDialogRef.close('success');
                         }
                     },

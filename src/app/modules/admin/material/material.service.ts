@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Material } from 'app/types/material.type';
 import { Pagination } from 'app/types/pagination.type';
 import { BehaviorSubject, Observable, map, switchMap, take, tap } from 'rxjs';
 

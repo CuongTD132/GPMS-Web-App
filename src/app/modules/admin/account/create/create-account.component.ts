@@ -14,12 +14,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MaterialService } from '../material.service';
+import { AccountService } from '../account.service';
 
 @Component({
-    selector: 'material-detail',
+    selector: 'create-account',
     standalone: true,
-    templateUrl: './material-detail.component.html',
+    templateUrl: './create-account.component.html',
     imports: [
         CommonModule,
         MatButtonModule,
@@ -32,38 +32,25 @@ import { MaterialService } from '../material.service';
         MatSelectModule,
     ],
 })
-export class MaterialDetailComponent implements OnInit {
-    material: Material;
+export class CreateAccountComponent implements OnInit {
     previewUrl: string | ArrayBuffer;
     selectedFile: File;
     uploadMessage: string;
-    updateMaterialForm: UntypedFormGroup;
+    createAccountForm: UntypedFormGroup;
 
     constructor(
-        public matDialogRef: MatDialogRef<MaterialDetailComponent>,
+        public matDialogRef: MatDialogRef<CreateAccountComponent>,
         private _formBuilder: UntypedFormBuilder,
-        private _materialService: MaterialService
+        private _accountService: AccountService
     ) {}
 
     ngOnInit(): void {
-        this._materialService.material$.subscribe((material) => {
-            this.material = material;
-            this.initMaterialForm();
-        });
+        this.initAccountForm();
     }
 
-    initMaterialForm() {
-        this.updateMaterialForm = this._formBuilder.group({
-            name: [this.material.name, [Validators.required]],
-            code: [this.material.code, [Validators.required]],
-            consumptionUnit: [
-                this.material.consumptionUnit,
-                [Validators.required],
-            ],
-            sizeWidthUnit: [this.material.sizeWidthUnit, [Validators.required]],
-            colorCode: [this.material.colorCode, [Validators.required]],
-            colorName: [this.material.colorName, [Validators.required]],
-            description: [this.material.description],
+    initAccountForm() {
+        this.createAccountForm = this._formBuilder.group({
+            name: [null, [Validators.required]],
         });
     }
 
@@ -80,29 +67,27 @@ export class MaterialDetailComponent implements OnInit {
         }
     }
 
-    updateMaterial() {
-        if (this.updateMaterialForm.valid) {
+    createAccount() {
+        if (this.createAccountForm.valid) {
             const formData = new FormData();
-            for (const key in this.updateMaterialForm.controls) {
-                if (this.updateMaterialForm.controls.hasOwnProperty(key)) {
+            for (const key in this.createAccountForm.controls) {
+                if (this.createAccountForm.controls.hasOwnProperty(key)) {
                     formData.append(
                         key,
-                        this.updateMaterialForm.controls[key].value
+                        this.createAccountForm.controls[key].value
                     );
                 }
             }
             if (this.selectedFile) {
                 formData.append('thumbnail', this.selectedFile);
             }
-            this._materialService
-                .updateMaterial(this.material.id, formData)
-                .subscribe({
-                    next: (material) => {
-                        if (material) {
-                            this.matDialogRef.close('success');
-                        }
-                    },
-                });
+            this._accountService.createAccount(formData).subscribe({
+                next: (account) => {
+                    if (account) {
+                        this.matDialogRef.close('success');
+                    }
+                },
+            });
         }
     }
 }

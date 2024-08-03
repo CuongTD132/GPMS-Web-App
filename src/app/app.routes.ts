@@ -118,6 +118,11 @@ export const appRoutes: Route[] = [
                 loadChildren: () =>
                     import('app/modules/admin/material/material.routes'),
             },
+            {
+                path: 'accounts',
+                loadChildren: () =>
+                    import('app/modules/admin/account/account.routes'),
+            },
         ],
     },
 ];

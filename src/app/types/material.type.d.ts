@@ -1,4 +1,4 @@
-export interface Material {
+interface Material {
     id: string;
     name: string;
     code: string;
@@ -6,5 +6,5 @@ export interface Material {
     sizeWidthUnit: string;
     colorCode: string;
     colorName: string;
-    description: string;
+    description?: string;
 }

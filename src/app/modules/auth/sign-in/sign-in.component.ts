@@ -55,7 +55,7 @@ export class AuthSignInComponent implements OnInit {
         private _authService: AuthService,
         private _formBuilder: UntypedFormBuilder,
         private _router: Router
-    ) { }
+    ) {}
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks

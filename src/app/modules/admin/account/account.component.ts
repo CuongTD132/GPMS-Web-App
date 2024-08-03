@@ -40,15 +40,15 @@ import {
     switchMap,
     takeUntil,
 } from 'rxjs';
-import { CreateMaterialComponent } from './create/create-material.component';
-import { MaterialDetailComponent } from './detail/material-detail.component';
-import { MaterialService } from './material.service';
+import { AccountService } from './account.service';
+import { CreateAccountComponent } from './create/create-account.component';
+import { AccountDetailComponent } from './detail/account-detail.component';
 
 @Component({
-    selector: 'material',
+    selector: 'account',
     standalone: true,
-    templateUrl: './material.component.html',
-    styleUrls: ['./material.component.css'],
+    templateUrl: './account.component.html',
+    styleUrls: ['./account.component.css'],
     encapsulation: ViewEncapsulation.None,
     imports: [
         CommonModule,
@@ -66,7 +66,7 @@ import { MaterialService } from './material.service';
         MatCheckboxModule,
     ],
 })
-export class MaterialComponent implements OnInit, AfterViewInit {
+export class AccountComponent implements OnInit, AfterViewInit {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
     @ViewChildren('inputField') inputFields: QueryList<ElementRef>;
@@ -74,7 +74,7 @@ export class MaterialComponent implements OnInit, AfterViewInit {
     searchInputControl: UntypedFormControl = new UntypedFormControl();
     filterForm: UntypedFormGroup;
 
-    materials$: Observable<Material[]>;
+    accounts$: Observable<Account[]>;
     pagination: Pagination;
     isLoading: boolean = false;
     flashMessage: 'success' | 'error' | null = null;
@@ -85,22 +85,25 @@ export class MaterialComponent implements OnInit, AfterViewInit {
      * Constructor
      */
     constructor(
-        private _materialService: MaterialService,
+        private _accountService: AccountService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: UntypedFormBuilder,
         private _dialog: MatDialog
     ) {}
 
     ngOnInit(): void {
-        // Get the materials
-        this.getMaterials();
+        // Get the accounts
+        this.getAccounts();
 
         // Get the pagination
-        this._materialService.pagination$
+        this._accountService.pagination$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((pagination: Pagination) => {
                 // Update the pagination
                 this.pagination = pagination;
+
+                console.log(this.pagination);
+
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
@@ -153,8 +156,8 @@ export class MaterialComponent implements OnInit, AfterViewInit {
         }
     }
 
-    private getMaterials() {
-        this.materials$ = this._materialService.materials$;
+    private getAccounts() {
+        this.accounts$ = this._accountService.accounts$;
     }
 
     private setPaginationFilter(pageIndex: number, pageSize: number) {
@@ -193,8 +196,8 @@ export class MaterialComponent implements OnInit, AfterViewInit {
                 debounceTime(500),
                 switchMap((filter) => {
                     this.isLoading = true;
-                    this._materialService
-                        .getMaterials(filter)
+                    this._accountService
+                        .getAccounts(filter)
                         .subscribe((result) => {
                             if (result.data.length == 0) {
                                 this.showFlashMessage(
@@ -227,9 +230,9 @@ export class MaterialComponent implements OnInit, AfterViewInit {
         }, time);
     }
 
-    openCreateMaterialDialog() {
+    openCreateAccountDialog() {
         this._dialog
-            .open(CreateMaterialComponent, {
+            .open(CreateAccountComponent, {
                 width: '720px',
             })
             .afterClosed()
@@ -237,18 +240,18 @@ export class MaterialComponent implements OnInit, AfterViewInit {
                 if (result === 'success') {
                     this.showFlashMessage(
                         'success',
-                        'Create material successful',
+                        'Create account successful',
                         3000
                     );
                 }
             });
     }
 
-    openMaterialDetailDialog(id: string) {
-        this._materialService.getMaterialById(id).subscribe((material) => {
-            if (material) {
+    openAccountDetailDialog(id: string) {
+        this._accountService.getAccountById(id).subscribe((account) => {
+            if (account) {
                 this._dialog
-                    .open(MaterialDetailComponent, {
+                    .open(AccountDetailComponent, {
                         width: '720px',
                     })
                     .afterClosed()
@@ -256,7 +259,7 @@ export class MaterialComponent implements OnInit, AfterViewInit {
                         if (result === 'success') {
                             this.showFlashMessage(
                                 'success',
-                                'Update material successful',
+                                'Update account successful',
                                 3000
                             );
                         }
