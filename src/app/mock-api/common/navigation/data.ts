@@ -16,6 +16,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
         icon: 'heroicons_outline:user',
         link: '/accounts',
     },
+    {
+        id: 'departments',
+        title: 'Departments',
+        type: 'basic',
+        icon: 'heroicons_outline:server-stack',
+        link: '/departments',
+    },
 ];
 export const compactNavigation: FuseNavigationItem[] = [
     {
@@ -31,6 +38,13 @@ export const compactNavigation: FuseNavigationItem[] = [
         type: 'basic',
         icon: 'heroicons_outline:user',
         link: '/accounts',
+    },
+    {
+        id: 'departments',
+        title: 'Departments',
+        type: 'basic',
+        icon: 'heroicons_outline:server-stack',
+        link: '/departments',
     },
 ];
 export const futuristicNavigation: FuseNavigationItem[] = [
@@ -48,6 +62,13 @@ export const futuristicNavigation: FuseNavigationItem[] = [
         icon: 'heroicons_outline:user',
         link: '/accounts',
     },
+    {
+        id: 'departments',
+        title: 'Departments',
+        type: 'basic',
+        icon: 'heroicons_outline:server-stack',
+        link: '/departments',
+    },
 ];
 export const horizontalNavigation: FuseNavigationItem[] = [
     {
@@ -61,7 +82,14 @@ export const horizontalNavigation: FuseNavigationItem[] = [
         id: 'accounts',
         title: 'Accounts',
         type: 'basic',
-        icon: 'heroicons_outline:user',
+        icon: 'heroicons_outline:users',
         link: '/accounts',
+    },
+    {
+        id: 'departments',
+        title: 'Departments',
+        type: 'basic',
+        icon: 'heroicons_outline:server-stack',
+        link: '/departments',
     },
 ];

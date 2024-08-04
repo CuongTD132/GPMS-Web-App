@@ -67,10 +67,7 @@ export class AuthSignInComponent implements OnInit {
     ngOnInit(): void {
         // Create the form
         this.signInForm = this._formBuilder.group({
-            email: [
-                'hughes.brian@company.com',
-                [Validators.required, Validators.email],
-            ],
+            email: ['admin@gmail.com', [Validators.required, Validators.email]],
             password: ['admin', Validators.required],
             rememberMe: [''],
         });
@@ -116,11 +113,11 @@ export class AuthSignInComponent implements OnInit {
 
                 // Reset the form
                 this.signInNgForm.resetForm();
-
+                console.log(response);
                 // Set the alert
                 this.alert = {
                     type: 'error',
-                    message: response.error,
+                    message: response.error.message,
                 };
 
                 // Show the alert

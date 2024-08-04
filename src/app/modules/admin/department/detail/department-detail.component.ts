@@ -14,12 +14,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MaterialService } from '../material.service';
+import { DepartmentService } from '../department.service';
 
 @Component({
-    selector: 'material-detail',
+    selector: 'department-detail',
     standalone: true,
-    templateUrl: './material-detail.component.html',
+    templateUrl: './department-detail.component.html',
     imports: [
         CommonModule,
         MatButtonModule,
@@ -32,38 +32,35 @@ import { MaterialService } from '../material.service';
         MatSelectModule,
     ],
 })
-export class MaterialDetailComponent implements OnInit {
-    material: Material;
+export class DepartmentDetailComponent implements OnInit {
+    department: DepartmentDetail;
     previewUrl: string | ArrayBuffer;
     selectedFile: File;
     uploadMessage: string;
-    updateMaterialForm: UntypedFormGroup;
+    updateDepartmentForm: UntypedFormGroup;
 
     constructor(
-        public matDialogRef: MatDialogRef<MaterialDetailComponent>,
+        public matDialogRef: MatDialogRef<DepartmentDetailComponent>,
         private _formBuilder: UntypedFormBuilder,
-        private _materialService: MaterialService
+        private _departmentService: DepartmentService
     ) {}
 
     ngOnInit(): void {
-        this._materialService.material$.subscribe((material) => {
-            this.material = material;
-            this.initMaterialForm();
+        this._departmentService._departmentInfo$.subscribe((department) => {
+            this.department = department;
+            this.initDepartmentForm();
         });
     }
 
-    initMaterialForm() {
-        this.updateMaterialForm = this._formBuilder.group({
-            name: [this.material.name, [Validators.required]],
-            code: [this.material.code, [Validators.required]],
-            consumptionUnit: [
-                this.material.consumptionUnit,
-                [Validators.required],
-            ],
-            sizeWidthUnit: [this.material.sizeWidthUnit, [Validators.required]],
-            colorCode: [this.material.colorCode, [Validators.required]],
-            colorName: [this.material.colorName, [Validators.required]],
-            description: [this.material.description],
+    initDepartmentForm() {
+        this.updateDepartmentForm = this._formBuilder.group({
+            name: [this.department.name, [Validators.required]],
+            staffs: this._formBuilder.group({
+                code: [null, [Validators.required]],
+                fullName: [null, [Validators.required]],
+                position: [null, [Validators.required]],
+                status: [null, [Validators.required]],
+            }),
         });
     }
 
@@ -80,38 +77,41 @@ export class MaterialDetailComponent implements OnInit {
         }
     }
 
-    updateMaterial() {
-        this._materialService
-            .updateMaterial(this.material.id, this.updateMaterialForm.value)
-            .subscribe({
-                next: (result) => {
-                    this.matDialogRef.close('success');
-                },
-                error: (err) => {
-                    this.matDialogRef.close('error');
-                },
-                // complete: () => console.log('There are no more action happen.')
-            });
-    }
-    // updateMaterial() {
-    //     if (this.updateMaterialForm.valid) {
+    // updateDepartment() {
+    //     this._departmentService
+    //         .updateDepartment(
+    //             this.department.id,
+    //             this.updateDepartmentForm.value
+    //         )
+    //         .subscribe({
+    //             next: (result) => {
+    //                 this.matDialogRef.close('success');
+    //             },
+    //             error: (err) => {
+    //                 this.matDialogRef.close('error');
+    //             },
+    //             // complete: () => console.log('There are no more action happen.')
+    //         });
+    // }
+    // updateDepartment() {
+    //     if (this.updateDepartmentForm.valid) {
     //         const formData = new FormData();
-    //         for (const key in this.updateMaterialForm.controls) {
-    //             if (this.updateMaterialForm.controls.hasOwnProperty(key)) {
+    //         for (const key in this.updateDepartmentForm.controls) {
+    //             if (this.updateDepartmentForm.controls.hasOwnProperty(key)) {
     //                 formData.append(
     //                     key,
-    //                     this.updateMaterialForm.controls[key].value
+    //                     this.updateDepartmentForm.controls[key].value
     //                 );
     //             }
     //         }
     //         if (this.selectedFile) {
     //             formData.append('thumbnail', this.selectedFile);
     //         }
-    //         this._materialService
-    //             .updateMaterial(this.material.id, formData)
+    //         this._departmentService
+    //             .updateDepartment(this.department.id, formData)
     //             .subscribe({
-    //                 next: (material) => {
-    //                     if (material) {
+    //                 next: (department) => {
+    //                     if (department) {
     //                         this.matDialogRef.close('success');
     //                     }
     //                 },

@@ -8,11 +8,14 @@ export class AccountService {
     private _account: BehaviorSubject<Account | null> = new BehaviorSubject(
         null
     );
+
     private _accountInfo: BehaviorSubject<AccountInfo | null> =
         new BehaviorSubject(null);
+
     private _accounts: BehaviorSubject<Account[] | null> = new BehaviorSubject(
         null
     );
+
     private _pagination: BehaviorSubject<Pagination | null> =
         new BehaviorSubject(null);
 
@@ -87,7 +90,7 @@ export class AccountService {
         return this.accounts$.pipe(
             take(1),
             switchMap((accounts) =>
-                this._httpClient.post<Account>('/api/accounts', data).pipe(
+                this._httpClient.post<Account>('/api/v1/accounts', data).pipe(
                     map((newAccount) => {
                         // Update account list with current page size
                         this._accounts.next(
@@ -111,21 +114,23 @@ export class AccountService {
         return this.accounts$.pipe(
             take(1),
             switchMap((accounts) =>
-                this._httpClient.put<Account>('/api/accounts/' + id, data).pipe(
-                    map((updatedAccount) => {
-                        // Find and replace updated account
-                        const index = accounts.findIndex(
-                            (item) => item.id === id
-                        );
-                        accounts[index] = updatedAccount;
-                        this._accounts.next(accounts);
+                this._httpClient
+                    .patch<Account>('/api/v1/accounts/' + id, data)
+                    .pipe(
+                        map((updatedAccount) => {
+                            // Find and replace updated account
+                            const index = accounts.findIndex(
+                                (item) => item.id === id
+                            );
+                            accounts[index] = updatedAccount;
+                            this._accounts.next(accounts);
 
-                        // Update account
-                        this._account.next(updatedAccount);
+                            // Update account
+                            this._account.next(updatedAccount);
 
-                        return updatedAccount;
-                    })
-                )
+                            return updatedAccount;
+                        })
+                    )
             )
         );
     }

@@ -1,0 +1,3 @@
+.department-grid {
+    grid-template-columns: 120px auto;
+}

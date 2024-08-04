@@ -14,6 +14,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { Observable } from 'rxjs';
+import { DepartmentService } from '../../department/department.service';
 import { AccountService } from '../account.service';
 
 @Component({
@@ -33,24 +35,39 @@ import { AccountService } from '../account.service';
     ],
 })
 export class CreateAccountComponent implements OnInit {
+    departments$: Observable<Department[]>;
     previewUrl: string | ArrayBuffer;
     selectedFile: File;
     uploadMessage: string;
     createAccountForm: UntypedFormGroup;
-
+    showDepartment = true;
     constructor(
+        private _departmentService: DepartmentService,
         public matDialogRef: MatDialogRef<CreateAccountComponent>,
         private _formBuilder: UntypedFormBuilder,
         private _accountService: AccountService
     ) {}
 
     ngOnInit(): void {
+        this.departments$ = this._departmentService.departments$;
         this.initAccountForm();
+        this.logForm();
+    }
+
+    logForm() {
+        console.log(this.createAccountForm.value);
     }
 
     initAccountForm() {
         this.createAccountForm = this._formBuilder.group({
-            name: [null, [Validators.required]],
+            code: [null, [Validators.required]],
+            email: [null, [Validators.required, Validators.email]],
+            password: [null, [Validators.required]],
+            personalInfo: this._formBuilder.group({
+                fullName: [null, [Validators.required]],
+                position: [null, [Validators.required]],
+                departmentId: [null, [Validators.required]],
+            }),
         });
     }
 
@@ -67,7 +84,42 @@ export class CreateAccountComponent implements OnInit {
         }
     }
 
+    onPositionChange(event: any) {
+        this.createAccountForm
+            .get('personalInfo.position')
+            .setValue(event.value);
+        if (event.value === 0 || event.value === 3) {
+            this.showDepartment = false;
+        } else {
+            this.showDepartment = true;
+        }
+
+        this.logForm();
+    }
+    onDepartmentChange(event: any) {
+        this.createAccountForm
+            .get('personalInfo.departmentId')
+            .setValue(event.value);
+        this.logForm();
+    }
+
     createAccount() {
+        this._accountService
+            .createAccount(this.createAccountForm.value)
+            .subscribe({
+                next: (result) => {
+                    this.matDialogRef.close('success');
+                },
+                error: (err) => {
+                    this.matDialogRef.close('error');
+                },
+                // complete: () => console.log('There are no more action happen.')
+            });
+    }
+
+    createAccounts() {
+        this.logForm();
+        return;
         if (this.createAccountForm.valid) {
             const formData = new FormData();
             for (const key in this.createAccountForm.controls) {

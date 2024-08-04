@@ -15,3 +15,16 @@ type AccountInfo = {
     status: string;
     createdDate: string;
 };
+
+type NewAccount = {
+    code: string;
+    email: string;
+    password: string;
+    personalInfo: PersonalInfoProps;
+};
+
+type PersonalInfoProps = {
+    fullName: string;
+    position: number;
+    departmentId?: string;
+};

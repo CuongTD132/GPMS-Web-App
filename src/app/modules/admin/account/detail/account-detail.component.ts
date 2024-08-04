@@ -15,7 +15,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { AccountService } from '../account.service';
-
 @Component({
     selector: 'account-detail',
     standalone: true,
@@ -52,14 +51,38 @@ export class AccountDetailComponent implements OnInit {
         });
     }
     initAccountForm() {
+        const i = this.account.createdDate.indexOf('T');
+        const formatedDate = this.account.createdDate.substring(0, i);
         this.updateAccountForm = this._formBuilder.group({
-            code: [this.account.code, [Validators.required]],
-            fullName: [this.account.fullName, [Validators.required]],
-            email: [this.account.email, [Validators.required]],
-            position: [this.account.email, [Validators.required]],
-            status: [this.account.email, [Validators.required]],
-            createdDate: [this.account.email, [Validators.required]],
+            code: [
+                { value: this.account.code, disabled: true },
+                [Validators.required],
+            ],
+            fullName: [
+                { value: this.account.fullName, disabled: true },
+                [Validators.required],
+            ],
+            email: [
+                { value: this.account.email, disabled: true },
+                [Validators.required],
+            ],
+            position: [
+                { value: this.account.position, disabled: true },
+                [Validators.required],
+            ],
+            status: [
+                { value: this.account.status, disabled: true },
+                [Validators.required],
+            ],
+            createdDate: [
+                { value: formatedDate, disabled: true },
+                [Validators.required],
+            ],
         });
+    }
+
+    onAccountStatusChange(event: any) {
+        this.updateAccountForm.get('status').setValue(event.value);
     }
 
     onFileSelected(event: Event): void {
@@ -74,30 +97,41 @@ export class AccountDetailComponent implements OnInit {
             reader.readAsDataURL(file);
         }
     }
-
     updateAccount() {
-        if (this.updateAccountForm.valid) {
-            const formData = new FormData();
-            for (const key in this.updateAccountForm.controls) {
-                if (this.updateAccountForm.controls.hasOwnProperty(key)) {
-                    formData.append(
-                        key,
-                        this.updateAccountForm.controls[key].value
-                    );
-                }
-            }
-            if (this.selectedFile) {
-                formData.append('thumbnail', this.selectedFile);
-            }
-            this._accountService
-                .updateAccount(this.account.id, formData)
-                .subscribe({
-                    next: (account) => {
-                        if (account) {
-                            this.matDialogRef.close('success');
-                        }
-                    },
-                });
-        }
+        this._accountService
+            .updateAccount(this.account.id, this.updateAccountForm.value)
+            .subscribe({
+                next: (result) => {
+                    this.matDialogRef.close('success');
+                },
+                error: (err) => {
+                    this.matDialogRef.close('error');
+                },
+            });
     }
+    // updateAccount() {
+    //     if (this.updateAccountForm.valid) {
+    //         const formData = new FormData();
+    //         for (const key in this.updateAccountForm.controls) {
+    //             if (this.updateAccountForm.controls.hasOwnProperty(key)) {
+    //                 formData.append(
+    //                     key,
+    //                     this.updateAccountForm.controls[key].value
+    //                 );
+    //             }
+    //         }
+    //         if (this.selectedFile) {
+    //             formData.append('thumbnail', this.selectedFile);
+    //         }
+    //         this._accountService
+    //             .updateAccount(this.account.id, formData)
+    //             .subscribe({
+    //                 next: (account) => {
+    //                     if (account) {
+    //                         this.matDialogRef.close('success');
+    //                     }
+    //                 },
+    //             });
+    //     }
+    // }
 }

@@ -3,7 +3,7 @@
     <div
         class="flex h-16 flex-0 items-center justify-between bg-primary pl-6 pr-3 text-on-primary sm:pl-8 sm:pr-5"
     >
-        <div class="text-lg font-medium">Create</div>
+        <div class="text-lg font-medium">{{ department.name }}</div>
         <button mat-icon-button (click)="matDialogRef.close()" [tabIndex]="-1">
             <mat-icon
                 class="text-current"
@@ -12,23 +12,33 @@
         </button>
     </div>
     <div class="font-poppins overflow-y-scroll p-8 dark:bg-gray-800">
-        <ng-container *ngIf="createMaterialForm">
-            <form [formGroup]="createMaterialForm">
+        <ng-container *ngIf="updateDepartmentForm">
+            <form [formGroup]="updateDepartmentForm">
                 <div class="flex gap-4">
                     <mat-form-field class="w-full">
-                        <mat-label>Marterial Name</mat-label>
+                        <mat-label>Name</mat-label>
                         <input
                             matInput
-                            placeholder="Marterial Name"
+                            placeholder="Name"
                             [formControlName]="'name'"
                         />
                     </mat-form-field>
+                </div>
+                <div class="flex gap-4">
                     <mat-form-field class="w-full">
-                        <mat-label>Marterial Code</mat-label>
+                        <mat-label>Consumption Unit</mat-label>
                         <input
                             matInput
-                            placeholder="Marterial Code"
-                            [formControlName]="'code'"
+                            placeholder="Consumption Unit"
+                            [formControlName]="'consumptionUnit'"
+                        />
+                    </mat-form-field>
+                    <mat-form-field class="w-full">
+                        <mat-label>Size Width Unit</mat-label>
+                        <input
+                            matInput
+                            placeholder="Size Width Unit"
+                            [formControlName]="'sizeWidthUnit'"
                         />
                     </mat-form-field>
                 </div>
@@ -52,24 +62,6 @@
                 </div>
                 <div class="flex gap-4">
                     <mat-form-field class="w-full">
-                        <mat-label>Consumption Unit</mat-label>
-                        <input
-                            matInput
-                            placeholder="Consumption Unit"
-                            [formControlName]="'consumptionUnit'"
-                        />
-                    </mat-form-field>
-                    <mat-form-field class="w-full">
-                        <mat-label>Size Width Unit</mat-label>
-                        <input
-                            matInput
-                            placeholder="Size Width Unit"
-                            [formControlName]="'sizeWidthUnit'"
-                        />
-                    </mat-form-field>
-                </div>
-                <div>
-                    <mat-form-field class="w-full">
                         <mat-label>Description</mat-label>
                         <input
                             matInput
@@ -80,13 +72,13 @@
                 </div>
                 <div class="mt-4 flex justify-end">
                     <button
-                        (click)="createMaterial()"
+                        (click)="updateDepartment()"
                         mat-raised-button
                         color="primary"
                         class="flex min-w-fit gap-2"
                     >
                         <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
-                        <span> Create </span>
+                        <span> Update </span>
                     </button>
                 </div>
             </form>

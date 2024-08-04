@@ -40,16 +40,15 @@ import {
     switchMap,
     takeUntil,
 } from 'rxjs';
-import { DepartmentService } from '../department/department.service';
-import { AccountService } from './account.service';
-import { CreateAccountComponent } from './create/create-account.component';
-import { AccountDetailComponent } from './detail/account-detail.component';
+// import { CreateDepartmentComponent } from './create/create-department.component';
+import { DepartmentService } from './department.service';
+import { DepartmentDetailComponent } from './detail/department-detail.component';
 
 @Component({
-    selector: 'account',
+    selector: 'department',
     standalone: true,
-    templateUrl: './account.component.html',
-    styleUrls: ['./account.component.css'],
+    templateUrl: './department.component.html',
+    styleUrls: ['./department.component.css'],
     encapsulation: ViewEncapsulation.None,
     imports: [
         CommonModule,
@@ -67,7 +66,7 @@ import { AccountDetailComponent } from './detail/account-detail.component';
         MatCheckboxModule,
     ],
 })
-export class AccountComponent implements OnInit, AfterViewInit {
+export class DepartmentComponent implements OnInit, AfterViewInit {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
     @ViewChildren('inputField') inputFields: QueryList<ElementRef>;
@@ -75,7 +74,7 @@ export class AccountComponent implements OnInit, AfterViewInit {
     searchInputControl: UntypedFormControl = new UntypedFormControl();
     filterForm: UntypedFormGroup;
 
-    accounts$: Observable<Account[]>;
+    departments$: Observable<Department[]>;
     pagination: Pagination;
     isLoading: boolean = false;
     flashMessage: 'success' | 'error' | null = null;
@@ -86,7 +85,6 @@ export class AccountComponent implements OnInit, AfterViewInit {
      * Constructor
      */
     constructor(
-        private _accountService: AccountService,
         private _departmentService: DepartmentService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: UntypedFormBuilder,
@@ -94,18 +92,15 @@ export class AccountComponent implements OnInit, AfterViewInit {
     ) {}
 
     ngOnInit(): void {
-        // Get the accounts
-        this.getAccounts();
+        // Get the departments
+        this.getDepartments();
 
         // Get the pagination
-        this._accountService.pagination$
+        this._departmentService.pagination$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((pagination: Pagination) => {
                 // Update the pagination
                 this.pagination = pagination;
-
-                console.log(this.pagination);
-
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
@@ -158,8 +153,8 @@ export class AccountComponent implements OnInit, AfterViewInit {
         }
     }
 
-    private getAccounts() {
-        this.accounts$ = this._accountService.accounts$;
+    private getDepartments() {
+        this.departments$ = this._departmentService.departments$;
     }
 
     private setPaginationFilter(pageIndex: number, pageSize: number) {
@@ -198,8 +193,8 @@ export class AccountComponent implements OnInit, AfterViewInit {
                 debounceTime(500),
                 switchMap((filter) => {
                     this.isLoading = true;
-                    this._accountService
-                        .getAccounts(filter)
+                    this._departmentService
+                        .getDepartments(filter)
                         .subscribe((result) => {
                             if (result.data.length == 0) {
                                 this.showFlashMessage(
@@ -232,50 +227,43 @@ export class AccountComponent implements OnInit, AfterViewInit {
         }, time);
     }
 
-    openCreateAccountDialog() {
-        this._departmentService.getDepartments().subscribe((result) => {
-            this._dialog
-                .open(CreateAccountComponent, {
-                    width: '720px',
-                })
-                .afterClosed()
-                .subscribe((result) => {
-                    if (result === 'success') {
-                        this.showFlashMessage(
-                            'success',
-                            'Create account successful',
-                            3000
-                        );
-                    }
-                    if (result === 'error') {
-                        this.showFlashMessage(
-                            'error',
-                            'Create account failed',
-                            3000
-                        );
-                    }
-                });
-        });
-    }
+    // openCreateDepartmentDialog() {
+    //     this._dialog
+    //         .open(CreateDepartmentComponent, {
+    //             width: '720px',
+    //         })
+    //         .afterClosed()
+    //         .subscribe((result) => {
+    //             if (result === 'success') {
+    //                 this.showFlashMessage(
+    //                     'success',
+    //                     'Create department successful',
+    //                     3000
+    //                 );
+    //             }
+    //         });
+    // }
 
-    openAccountDetailDialog(id: string) {
-        this._accountService.getAccountById(id).subscribe((account) => {
-            if (account) {
-                this._dialog
-                    .open(AccountDetailComponent, {
-                        width: '720px',
-                    })
-                    .afterClosed()
-                    .subscribe((result) => {
-                        if (result === 'success') {
-                            this.showFlashMessage(
-                                'success',
-                                'Update account successful',
-                                3000
-                            );
-                        }
-                    });
-            }
-        });
+    openDepartmentDetailDialog(id: string) {
+        this._departmentService
+            .getDepartmentById(id)
+            .subscribe((department) => {
+                if (department) {
+                    this._dialog
+                        .open(DepartmentDetailComponent, {
+                            width: '720px',
+                        })
+                        .afterClosed()
+                        .subscribe((result) => {
+                            if (result === 'success') {
+                                this.showFlashMessage(
+                                    'success',
+                                    'Update department successful',
+                                    3000
+                                );
+                            }
+                        });
+                }
+            });
     }
 }
