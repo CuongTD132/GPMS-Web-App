@@ -4,11 +4,11 @@ import { Pagination } from 'app/types/pagination.type';
 import { BehaviorSubject, Observable, map, switchMap, take, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class MaterialService {
-    private _material: BehaviorSubject<Material | null> = new BehaviorSubject(
+export class CategoryService {
+    private _category: BehaviorSubject<Category | null> = new BehaviorSubject(
         null
     );
-    private _materials: BehaviorSubject<Material[] | null> =
+    private _categories: BehaviorSubject<Category[] | null> =
         new BehaviorSubject(null);
     private _pagination: BehaviorSubject<Pagination | null> =
         new BehaviorSubject(null);
@@ -16,17 +16,17 @@ export class MaterialService {
     constructor(private _httpClient: HttpClient) {}
 
     /**
-     * Getter for material
+     * Getter for category
      */
-    get material$(): Observable<Material> {
-        return this._material.asObservable();
+    get category$(): Observable<Category> {
+        return this._category.asObservable();
     }
 
     /**
-     * Getter for materials
+     * Getter for categories
      */
-    get materials$(): Observable<Material[]> {
-        return this._materials.asObservable();
+    get categories$(): Observable<Category[]> {
+        return this._categories.asObservable();
     }
 
     /**
@@ -36,36 +36,36 @@ export class MaterialService {
         return this._pagination.asObservable();
     }
 
-    getMaterials(
+    getCategories(
         filter: any = {}
-    ): Observable<{ pagination: Pagination; data: Material[] }> {
+    ): Observable<{ pagination: Pagination; data: Category[] }> {
         return this._httpClient
             .post<{
                 pagination: Pagination;
-                data: Material[];
-            }>('/api/v1/materials/filter', filter)
+                data: Category[];
+            }>('/api/v1/categories/filter', filter)
             .pipe(
                 tap((response) => {
                     this._pagination.next(response.pagination);
-                    this._materials.next(response.data);
+                    this._categories.next(response.data);
                 })
             );
     }
 
     /**
-     * Get material by id
+     * Get category by id
      */
-    getMaterialById(id: string): Observable<Material> {
-        return this.materials$.pipe(
+    getCategoryById(id: string): Observable<Category> {
+        return this.categories$.pipe(
             take(1),
             switchMap(() =>
-                this._httpClient.get<Material>('/api/v1/materials/' + id).pipe(
-                    map((material) => {
-                        // Set value for current material
-                        this._material.next(material);
+                this._httpClient.get<Category>('/api/v1/categories/' + id).pipe(
+                    map((category) => {
+                        // Set value for current category
+                        this._category.next(category);
 
                         // Return the new contact
-                        return material;
+                        return category;
                     })
                 )
             )
@@ -73,73 +73,75 @@ export class MaterialService {
     }
 
     /**
-     * Create material
+     * Create category
      */
-    createMaterial(data) {
-        return this.materials$.pipe(
+    createCategory(data) {
+        return this.categories$.pipe(
             take(1),
-            switchMap((materials) =>
-                this._httpClient.post<Material>('/api/v1/materials', data).pipe(
-                    map((newMaterial) => {
-                        // Update material list with current page size
-                        this._materials.next(
-                            [newMaterial, ...materials].slice(
-                                0,
-                                this._pagination.value.pageSize
-                            )
-                        );
-
-                        return newMaterial;
-                    })
-                )
-            )
-        );
-    }
-
-    /**
-     * Update material
-     */
-    updateMaterial(id: string, data) {
-        return this.materials$.pipe(
-            take(1),
-            switchMap((materials) =>
+            switchMap((categories) =>
                 this._httpClient
-                    .put<Material>('/api/v1/materials/' + id, data)
+                    .post<Category>('/api/v1/categories', data)
                     .pipe(
-                        map((updatedMaterial) => {
-                            // Find and replace updated material
-                            const index = materials.findIndex(
-                                (item) => item.id === id
+                        map((newCategory) => {
+                            // Update category list with current page size
+                            this._categories.next(
+                                [newCategory, ...categories].slice(
+                                    0,
+                                    this._pagination.value.pageSize
+                                )
                             );
-                            materials[index] = updatedMaterial;
-                            this._materials.next(materials);
 
-                            // Update material
-                            this._material.next(updatedMaterial);
-
-                            return updatedMaterial;
+                            return newCategory;
                         })
                     )
             )
         );
     }
 
-    deleteMaterial(id: string): Observable<boolean> {
-        return this.materials$.pipe(
+    /**
+     * Update category
+     */
+    updateCategory(id: string, data) {
+        return this.categories$.pipe(
             take(1),
-            switchMap((materials) =>
-                this._httpClient.delete('/api/materials/' + id).pipe(
+            switchMap((categories) =>
+                this._httpClient
+                    .put<Category>('/api/v1/categories/' + id, data)
+                    .pipe(
+                        map((updatedCategory) => {
+                            // Find and replace updated category
+                            const index = categories.findIndex(
+                                (item) => item.id === id
+                            );
+                            categories[index] = updatedCategory;
+                            this._categories.next(categories);
+
+                            // Update category
+                            this._category.next(updatedCategory);
+
+                            return updatedCategory;
+                        })
+                    )
+            )
+        );
+    }
+
+    deleteCategory(id: string): Observable<boolean> {
+        return this.categories$.pipe(
+            take(1),
+            switchMap((categories) =>
+                this._httpClient.delete('/api/categories/' + id).pipe(
                     map((isDeleted: boolean) => {
                         // Find the index of the deleted product
-                        const index = materials.findIndex(
+                        const index = categories.findIndex(
                             (item) => item.id === id
                         );
 
                         // Delete the product
-                        materials.splice(index, 1);
+                        categories.splice(index, 1);
 
-                        // Update the materials
-                        this._materials.next(materials);
+                        // Update the categories
+                        this._categories.next(categories);
 
                         // Return the deleted status
                         return isDeleted;

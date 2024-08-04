@@ -12,22 +12,22 @@
         </button>
     </div>
     <div class="font-poppins overflow-y-scroll p-8 dark:bg-gray-800">
-        <ng-container *ngIf="createMaterialForm">
-            <form [formGroup]="createMaterialForm">
+        <ng-container *ngIf="createProductForm">
+            <form [formGroup]="createProductForm">
                 <div class="flex gap-4">
                     <mat-form-field class="w-full">
-                        <mat-label>Material Name</mat-label>
+                        <mat-label>Product Name</mat-label>
                         <input
                             matInput
-                            placeholder="Material Name"
+                            placeholder="Product Name"
                             [formControlName]="'name'"
                         />
                     </mat-form-field>
                     <mat-form-field class="w-full">
-                        <mat-label>Material Code</mat-label>
+                        <mat-label>Product Code</mat-label>
                         <input
                             matInput
-                            placeholder="Material Code"
+                            placeholder="Product Code"
                             [formControlName]="'code'"
                         />
                     </mat-form-field>
@@ -80,7 +80,7 @@
                 </div>
                 <div class="mt-4 flex justify-end">
                     <button
-                        (click)="createMaterial()"
+                        (click)="createProduct()"
                         mat-raised-button
                         color="primary"
                         class="flex min-w-fit gap-2"

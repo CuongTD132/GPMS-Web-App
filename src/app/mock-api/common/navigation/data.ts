@@ -23,6 +23,27 @@ export const defaultNavigation: FuseNavigationItem[] = [
         icon: 'heroicons_outline:server-stack',
         link: '/departments',
     },
+    {
+        id: 'categories',
+        title: 'Categories',
+        type: 'basic',
+        icon: 'heroicons_outline:inbox-stack',
+        link: '/categories',
+    },
+    {
+        id: 'products',
+        title: 'Products',
+        type: 'basic',
+        icon: 'heroicons_outline:cube',
+        link: '/products',
+    },
+    {
+        id: 'Production Plans',
+        title: 'production-plans',
+        type: 'basic',
+        icon: 'heroicons_outline:rectangle-stack',
+        link: '/production-plans',
+    },
 ];
 export const compactNavigation: FuseNavigationItem[] = [
     {
@@ -45,6 +66,27 @@ export const compactNavigation: FuseNavigationItem[] = [
         type: 'basic',
         icon: 'heroicons_outline:server-stack',
         link: '/departments',
+    },
+    {
+        id: 'categories',
+        title: 'Categories',
+        type: 'basic',
+        icon: 'heroicons_outline:inbox-stack',
+        link: '/categories',
+    },
+    {
+        id: 'products',
+        title: 'Products',
+        type: 'basic',
+        icon: 'heroicons_outline:cube',
+        link: '/products',
+    },
+    {
+        id: 'production-plans',
+        title: 'Production Plans',
+        type: 'basic',
+        icon: 'heroicons_outline:rectangle-stack',
+        link: '/production-plans',
     },
 ];
 export const futuristicNavigation: FuseNavigationItem[] = [
@@ -69,6 +111,27 @@ export const futuristicNavigation: FuseNavigationItem[] = [
         icon: 'heroicons_outline:server-stack',
         link: '/departments',
     },
+    {
+        id: 'categories',
+        title: 'Categories',
+        type: 'basic',
+        icon: 'heroicons_outline:inbox-stack',
+        link: '/categories',
+    },
+    {
+        id: 'products',
+        title: 'Products',
+        type: 'basic',
+        icon: 'heroicons_outline:cube',
+        link: '/products',
+    },
+    {
+        id: 'production-plans',
+        title: 'Production Plans',
+        type: 'basic',
+        icon: 'heroicons_outline:rectangle-stack',
+        link: '/production-plans',
+    },
 ];
 export const horizontalNavigation: FuseNavigationItem[] = [
     {
@@ -91,5 +154,26 @@ export const horizontalNavigation: FuseNavigationItem[] = [
         type: 'basic',
         icon: 'heroicons_outline:server-stack',
         link: '/departments',
+    },
+    {
+        id: 'categories',
+        title: 'Categories',
+        type: 'basic',
+        icon: 'heroicons_outline:inbox-stack',
+        link: '/categories',
+    },
+    {
+        id: 'products',
+        title: 'Products',
+        type: 'basic',
+        icon: 'heroicons_outline:cube',
+        link: '/products',
+    },
+    {
+        id: 'production-plans',
+        title: 'Production Plans',
+        type: 'basic',
+        icon: 'heroicons_outline:rectangle-stack',
+        link: '/production-plans',
     },
 ];

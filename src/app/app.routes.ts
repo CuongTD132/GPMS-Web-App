@@ -128,6 +128,23 @@ export const appRoutes: Route[] = [
                 loadChildren: () =>
                     import('app/modules/admin/department/department.routes'),
             },
+            {
+                path: 'categories',
+                loadChildren: () =>
+                    import('app/modules/admin/category/category.routes'),
+            },
+            {
+                path: 'products',
+                loadChildren: () =>
+                    import('app/modules/admin/product/product.routes'),
+            },
+            {
+                path: 'production-plans',
+                loadChildren: () =>
+                    import(
+                        'app/modules/admin/production-plan/production-plan.routes'
+                    ),
+            },
         ],
     },
 ];
