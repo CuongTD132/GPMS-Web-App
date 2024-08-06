@@ -1,0 +1,168 @@
+<div class="-m-6 flex max-h-[calc(100vh-128px)] flex-auto flex-col">
+    <!-- Header -->
+    <div
+        class="flex h-16 flex-0 items-center justify-between bg-primary pl-6 pr-3 text-on-primary sm:pl-8 sm:pr-5"
+    >
+        <div class="text-lg font-medium">Specification Detail</div>
+        <button mat-icon-button (click)="matDialogRef.close()" [tabIndex]="-1">
+            <mat-icon
+                class="text-current"
+                [svgIcon]="'heroicons_outline:x-mark'"
+            ></mat-icon>
+        </button>
+    </div>
+    <div
+        class="font-poppins bg-card space-y-10 rounded-lg p-8 dark:bg-gray-800"
+    >
+        <div class="grid grid-cols-12">
+            <div class="col-span-4 flex flex-col gap-4">
+                <div class="specification-name">
+                    {{ specification.productName }}
+                </div>
+                <div class="specification-color">
+                    {{ specification.color }} Color
+                </div>
+                <div class="specification-size">
+                    {{ specification.size }} Size
+                </div>
+                <div class="specification-inventoryQuantity">
+                    {{ specification.inventoryQuantity }} Inventory
+                </div>
+            </div>
+            <div class="col-span-8 flex flex-col gap-4">
+                <div class="measurement-detail flex flex-col gap-2">
+                    <span>MEASUREMENT</span>
+                    <div class="grid">
+                        <div
+                            class="measurement-detail-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                        >
+                            <div class="hidden sm:block">Name</div>
+                            <div class="hidden sm:block">Measure</div>
+                        </div>
+                        <div
+                            class="measurement-detail-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                        >
+                            <ng-container
+                                *ngFor="let item of specification.measurements"
+                            >
+                                <div class="hidden sm:block">
+                                    {{ item.name }}
+                                </div>
+                                <div class="hidden sm:block">
+                                    {{ item.measure }} {{ item.unit }}
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bill-of-material flex flex-col gap-2">
+            <span>BILL OF MATERIALS</span>
+            <div class="grid">
+                <div
+                    class="bill-of-material-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                >
+                    <div class="hidden sm:block">Size Width</div>
+                    <div class="hidden sm:block">Consumption</div>
+                    <div class="hidden sm:block">Description</div>
+                    <div class="hidden sm:block">Material Name</div>
+                    <div class="hidden sm:block">Material Code</div>
+                    <div class="hidden sm:block">Material Consumption Unit</div>
+                    <div class="hidden sm:block">Material Size Width Unit</div>
+                    <div class="hidden sm:block">Material Color</div>
+                    <div class="hidden sm:block">Material Color Code</div>
+                    <div class="hidden sm:block">Material Description</div>
+                </div>
+                <div
+                    class="bill-of-material-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                >
+                    <ng-container
+                        *ngFor="let item of specification.billOfMaterials"
+                    >
+                        <div class="hidden sm:block">
+                            {{ item.sizeWidth }}
+                        </div>
+                        <div class="hidden sm:block">
+                            {{ item.consumption }}
+                        </div>
+                        <div class="hidden sm:block">
+                            {{ item.description }}
+                        </div>
+                        <div class="hidden sm:block">
+                            {{ item.material.name }}
+                        </div>
+                        <div class="hidden sm:block">
+                            {{ item.material.code }}
+                        </div>
+                        <div class="hidden sm:block">
+                            {{ item.material.consumptionUnit }}
+                        </div>
+                        <div class="hidden sm:block">
+                            {{ item.material.sizeWidthUnit }}
+                        </div>
+                        <div class="hidden sm:block">
+                            {{ item.material.colorName }}
+                        </div>
+                        <div class="hidden sm:block">
+                            {{ item.material.colorCode }}
+                        </div>
+                        <div class="hidden sm:block">
+                            {{ item.material.description }}
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        <div class="quality-standard flex flex-col gap-2">
+            <span>QUALITY STANDARD</span>
+            <div class="grid">
+                <div
+                    class="quality-standard-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                >
+                    <div class="hidden sm:block">Thump</div>
+                    <div class="hidden sm:block">Name</div>
+                    <div class="hidden sm:block">Description</div>
+                </div>
+                <div
+                    class="quality-standard-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                >
+                    <ng-container
+                        *ngFor="let item of specifications.qualityStandards"
+                    >
+                        <div class="flex items-center">
+                            <div
+                                class="relative mr-6 flex h-12 w-12 flex-0 items-center justify-center overflow-hidden rounded border"
+                            >
+                                <img
+                                    class="w-8"
+                                    *ngIf="
+                                        item.imageURL &&
+                                        item.imageURL.length > 0
+                                    "
+                                    [alt]="'Product image'"
+                                    [src]="item.imageURL[0]"
+                                />
+                                <div
+                                    class="flex h-full w-full items-center justify-center text-center text-xs font-semibold uppercase leading-none"
+                                    *ngIf="
+                                        !item.imageURL ||
+                                        !item.imageURL.length > 0
+                                    "
+                                >
+                                    NO THUMB
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hidden sm:block">
+                            {{ item.name }}
+                        </div>
+                        <div class="hidden sm:block">
+                            {{ item.description }}
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

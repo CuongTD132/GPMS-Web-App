@@ -1,6 +1,7 @@
 import { inject } from '@angular/core';
-import { Routes } from '@angular/router';
+import { ActivatedRoute, Routes } from '@angular/router';
 import { ProductComponent } from 'app/modules/admin/product/product.component';
+import { ProductDetailComponent } from './detail/product-detail.component';
 import { ProductService } from './product.service';
 
 export default [
@@ -9,6 +10,14 @@ export default [
         component: ProductComponent,
         resolve: {
             product: () => inject(ProductService).getProducts(),
+        },
+    },
+    {
+        path: ':id',
+        component: ProductDetailComponent,
+        resolve: {
+            product: (route: ActivatedRoute) =>
+                inject(ProductService).getProductById(route.params['id']),
         },
     },
 ] as Routes;

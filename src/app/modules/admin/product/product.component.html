@@ -59,8 +59,6 @@
                 <!-- Header -->
                 <div
                     class="product-grid text-secondary sticky top-0 z-10 grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
-                    matSort
-                    matSortDisableClear
                 >
                     <div class="hidden sm:block">Action</div>
                     <div class="hidden sm:block">Thumb</div>
@@ -82,11 +80,7 @@
                             <!-- Id -->
                             <div class="hidden sm:block">
                                 <div class="flex gap-3">
-                                    <span
-                                        (click)="
-                                            openProductDetailDialog(product.id)
-                                        "
-                                    >
+                                    <span [routerLink]="[product.id]">
                                         <mat-icon
                                             class="cursor-pointer text-blue-500 icon-size-5"
                                             [svgIcon]="
@@ -112,13 +106,19 @@
                                 >
                                     <img
                                         class="w-8"
-                                        *ngIf="product.imageURL"
+                                        *ngIf="
+                                            product.imageURLs &&
+                                            product.imageURLs.length > 0
+                                        "
                                         [alt]="'Product image'"
-                                        [src]="product.imageURL"
+                                        [src]="product.imageURLs[0]"
                                     />
                                     <div
                                         class="flex h-full w-full items-center justify-center text-center text-xs font-semibold uppercase leading-none"
-                                        *ngIf="!product.imageURL"
+                                        *ngIf="
+                                            !product.imageURLs ||
+                                            !product.imageURLs.length > 0
+                                        "
                                     >
                                         NO THUMB
                                     </div>
@@ -134,11 +134,11 @@
                             </div>
 
                             <div class="hidden sm:block">
-                                {{ product.sizes }}
+                                {{ getFormattedSizesAndColors(product.sizes) }}
                             </div>
 
                             <div class="hidden sm:block">
-                                {{ product.colors }}
+                                {{ getFormattedSizesAndColors(product.colors) }}
                             </div>
 
                             <div class="hidden sm:block">

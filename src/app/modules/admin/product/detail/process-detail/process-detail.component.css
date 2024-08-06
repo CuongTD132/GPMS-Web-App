@@ -1,0 +1,7 @@
+.process-detail-grid {
+    grid-template-columns: 120px 240px;
+}
+
+.production-process-step-grid {
+    grid-template-columns: 120px 120px 120px 120px 120px 120px 120px 120px 120px 120px;
+}

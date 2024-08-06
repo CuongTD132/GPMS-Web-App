@@ -59,14 +59,18 @@ export class CreateAccountComponent implements OnInit {
     }
 
     initAccountForm() {
+        let departmentId: string;
+        this.departments$.subscribe((departments) => {
+            departmentId = departments[0].id;
+        });
         this.createAccountForm = this._formBuilder.group({
             code: [null, [Validators.required]],
             email: [null, [Validators.required, Validators.email]],
             password: [null, [Validators.required]],
             personalInfo: this._formBuilder.group({
                 fullName: [null, [Validators.required]],
-                position: [null, [Validators.required]],
-                departmentId: [null, [Validators.required]],
+                position: [2, [Validators.required]],
+                departmentId: [departmentId, [Validators.required]],
             }),
         });
     }
@@ -111,7 +115,7 @@ export class CreateAccountComponent implements OnInit {
                     this.matDialogRef.close('success');
                 },
                 error: (err) => {
-                    this.matDialogRef.close('error');
+                    // this.matDialogRef.close('error');
                 },
                 // complete: () => console.log('There are no more action happen.')
             });

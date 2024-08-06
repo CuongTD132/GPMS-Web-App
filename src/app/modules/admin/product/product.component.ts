@@ -27,6 +27,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import { RouterModule } from '@angular/router';
 import { FuseAlertComponent } from '@fuse/components/alert';
 import { Pagination } from 'app/types/pagination.type';
 import {
@@ -64,6 +65,7 @@ import { ProductService } from './product.service';
         MatOptionModule,
         FuseAlertComponent,
         MatCheckboxModule,
+        RouterModule,
     ],
 })
 export class ProductComponent implements OnInit, AfterViewInit {
@@ -110,6 +112,15 @@ export class ProductComponent implements OnInit, AfterViewInit {
         this.subcribeFilterForm();
     }
 
+    /**
+     * Format sizes and colors
+     */
+    getFormattedSizesAndColors(datas: string[]): string {
+        return datas.join(', ');
+    }
+    /**
+     * Format date
+     */
     getFormattedDate(date: string): string {
         const parsedDate = this.dateAdapter.parse(
             date,

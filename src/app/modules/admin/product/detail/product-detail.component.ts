@@ -8,18 +8,22 @@ import {
     Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { ProductService } from '../product.service';
+import { ProcessDetailComponent } from './process-detail/process-detail.component';
+import { SpecificationDetailComponent } from './specification-detail/specification-detail.component';
 
 @Component({
     selector: 'product-detail',
     standalone: true,
     templateUrl: './product-detail.component.html',
+    styleUrls: ['./product-detail.component.css'],
     imports: [
         CommonModule,
         MatButtonModule,
@@ -30,6 +34,7 @@ import { ProductService } from '../product.service';
         MatInputModule,
         MatDatepickerModule,
         MatSelectModule,
+        MatChipsModule,
     ],
 })
 export class ProductDetailComponent implements OnInit {
@@ -40,9 +45,9 @@ export class ProductDetailComponent implements OnInit {
     updateProductForm: UntypedFormGroup;
 
     constructor(
-        public matDialogRef: MatDialogRef<ProductDetailComponent>,
         private _formBuilder: UntypedFormBuilder,
-        private _productService: ProductService
+        private _productService: ProductService,
+        private _dialog: MatDialog
     ) {}
 
     ngOnInit(): void {
@@ -80,19 +85,7 @@ export class ProductDetailComponent implements OnInit {
         }
     }
 
-    updateProduct() {
-        this._productService
-            .updateProduct(this.product.id, this.updateProductForm.value)
-            .subscribe({
-                next: (result) => {
-                    this.matDialogRef.close('success');
-                },
-                error: (err) => {
-                    this.matDialogRef.close('error');
-                },
-                // complete: () => console.log('There are no more action happen.')
-            });
-    }
+    updateProduct() {}
     // updateProduct() {
     //     if (this.updateProductForm.valid) {
     //         const formData = new FormData();
@@ -118,4 +111,24 @@ export class ProductDetailComponent implements OnInit {
     //             });
     //     }
     // }
+
+    openSpecificationDetailDialog(specification: Specification) {
+        this._dialog
+            .open(SpecificationDetailComponent, {
+                width: '680px',
+                data: specification,
+            })
+            .afterClosed()
+            .subscribe();
+    }
+
+    openProcessDetailDialog(process: Process) {
+        this._dialog
+            .open(ProcessDetailComponent, {
+                width: '680px',
+                data: process,
+            })
+            .afterClosed()
+            .subscribe();
+    }
 }

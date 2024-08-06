@@ -6,12 +6,10 @@ import { Subject } from 'rxjs';
     providedIn: 'root',
 })
 export class ErrorService {
-
     private errorSubject = new Subject<string>();
+    private errorSubjects = new Subject<string[]>();
 
-    constructor(
-        private _fuseConfirmationService: FuseConfirmationService
-    ) { }
+    constructor(private _fuseConfirmationService: FuseConfirmationService) {}
 
     error$ = this.errorSubject.asObservable();
 
@@ -22,9 +20,9 @@ export class ErrorService {
             message: message,
             actions: {
                 cancel: {
-                    show: false
-                }
-            }
+                    show: false,
+                },
+            },
         });
     }
 
@@ -38,12 +36,31 @@ export class ErrorService {
             },
             actions: {
                 confirm: {
-                    color: 'primary'
+                    color: 'primary',
                 },
                 cancel: {
-                    show: false
-                }
-            }
+                    show: false,
+                },
+            },
+        });
+    }
+
+    showBadRequestError(message: string[]) {
+        this.errorSubjects.next(message);
+        this._fuseConfirmationService.open({
+            title: 'Error',
+            message: message.toString(),
+            icon: {
+                color: 'error',
+            },
+            actions: {
+                confirm: {
+                    color: 'warn',
+                },
+                cancel: {
+                    show: false,
+                },
+            },
         });
     }
 }
