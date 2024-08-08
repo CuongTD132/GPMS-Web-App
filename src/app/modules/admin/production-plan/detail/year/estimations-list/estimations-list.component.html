@@ -1,0 +1,50 @@
+<div class="-m-6 flex max-h-[calc(100vh-128px)] flex-auto flex-col">
+    <!-- Header -->
+    <div
+        class="flex h-16 flex-0 items-center justify-between bg-primary pl-6 pr-3 text-on-primary sm:pl-8 sm:pr-5"
+    >
+        <div class="text-lg font-medium">Production Estimations List</div>
+        <button mat-icon-button (click)="matDialogRef.close()" [tabIndex]="-1">
+            <mat-icon
+                class="text-current"
+                [svgIcon]="'heroicons_outline:x-mark'"
+            ></mat-icon>
+        </button>
+    </div>
+    <div
+        class="font-poppins bg-card space-y-10 overflow-y-scroll p-8 dark:bg-gray-800"
+    >
+        <div class="grid grid-cols-12">
+            <div class="flex flex-col gap-4">
+                <div class="estimations-list flex flex-col gap-2">
+                    <div class="grid">
+                        <div
+                            class="estimations-list-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                        >
+                            <div class="hidden sm:block">Quantity</div>
+                            <div class="hidden sm:block">Overtime Quantity</div>
+                            <div class="hidden sm:block">Month</div>
+                        </div>
+                        <ng-container
+                            *ngFor="let item of productionEstimations"
+                        >
+                            <div
+                                class="estimations-list-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                            >
+                                <div class="hidden sm:block">
+                                    {{ item.quantity }}
+                                </div>
+                                <div class="hidden sm:block">
+                                    {{ item.overtimeQuantity }}
+                                </div>
+                                <div class="hidden sm:block">
+                                    {{ item.month }}
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

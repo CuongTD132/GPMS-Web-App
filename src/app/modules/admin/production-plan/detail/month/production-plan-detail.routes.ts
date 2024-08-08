@@ -1,10 +1,9 @@
 import { inject } from '@angular/core';
 import { ActivatedRoute, Routes } from '@angular/router';
 import { ProductionPlanComponent } from 'app/modules/admin/production-plan/production-plan.component';
-import { ProductionPlanBatchDetailComponent } from './detail/batch/production-plan-detail.component';
-import { ProductionPlanMonthDetailComponent } from './detail/month/production-plan-detail.component';
-import { ProductionPlanYearDetailComponent } from './detail/year/production-plan-detail.component';
-import { ProductionPlanService } from './production-plan.service';
+import { ProductionPlanService } from '../../production-plan.service';
+import { ProductionPlanBatchDetailComponent } from '../batch/production-plan-detail.component';
+import { ProductionPlanMonthDetailComponent } from './production-plan-detail.component';
 
 export default [
     {
@@ -16,17 +15,7 @@ export default [
         },
     },
     {
-        path: 'years/:id',
-        component: ProductionPlanYearDetailComponent,
-        resolve: {
-            productionPlan: (route: ActivatedRoute) =>
-                inject(ProductionPlanService).getProductionPlanById(
-                    route.params['id']
-                ),
-        },
-    },
-    {
-        path: 'months/:id',
+        path: ':id',
         component: ProductionPlanMonthDetailComponent,
         resolve: {
             productionPlan: (route: ActivatedRoute) =>
@@ -36,7 +25,7 @@ export default [
         },
     },
     {
-        path: 'batchs/:id',
+        path: 'childs/:id',
         component: ProductionPlanBatchDetailComponent,
         resolve: {
             productionPlan: (route: ActivatedRoute) =>

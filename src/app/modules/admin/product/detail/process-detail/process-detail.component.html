@@ -25,77 +25,76 @@
                 <div class="specification-size">
                     Order Number: {{ process.orderNumber }}
                 </div>
-                <div class="specification-inventoryQuantity">
-                    {{ process.description }}
+                <div
+                    class="specification-inventoryQuantity"
+                    *ngIf="process.description"
+                >
+                    Description: {{ process.description }}
                 </div>
             </div>
-            <div class="col-span-8 flex flex-col gap-4">
-                <div class="measurement-detail flex flex-col gap-2">
-                    <span>STEPS</span>
-                    <div class="grid">
-                        <div
-                            class="measurement-detail-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
-                        >
-                            <div class="hidden sm:block">Name</div>
-                            <div class="hidden sm:block">Code</div>
-                            <div class="hidden sm:block">Order Number</div>
-                            <div class="hidden sm:block">Standard Time</div>
-                            <div class="hidden sm:block">Output Per Hour</div>
-                            <div class="hidden sm:block">Description</div>
-                            <div class="hidden sm:block">
-                                Step Input/Output Detail
-                            </div>
+        </div>
+        <div class="flex flex-col gap-4">
+            <div class="measurement-detail flex flex-col gap-2">
+                <span>STEPS</span>
+                <div class="grid">
+                    <div
+                        class="production-process-step-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                    >
+                        <div class="hidden sm:block">Name</div>
+                        <div class="hidden sm:block">Code</div>
+                        <div class="hidden sm:block">Order Number</div>
+                        <div class="hidden sm:block">Standard Time</div>
+                        <div class="hidden sm:block">Output Per Hour</div>
+                        <div class="hidden sm:block">Description</div>
+                        <div class="hidden sm:block">
+                            Step Input/Output Detail
                         </div>
-                        <div
-                            class="measurement-detail-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                    </div>
+                    <div
+                        class="production-process-step-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                    >
+                        <ng-container
+                            *ngFor="let item of process.productionProcessSteps"
                         >
+                            <div class="hidden sm:block">
+                                {{ item.name }}
+                            </div>
+                            <div class="hidden sm:block">
+                                {{ item.code }}
+                            </div>
+                            <div class="hidden sm:block">
+                                {{ item.orderNumber }}
+                            </div>
+                            <div class="hidden sm:block">
+                                {{ item.standardTime }}
+                            </div>
+                            <div class="hidden sm:block">
+                                {{ item.outputPerHour }}
+                            </div>
+                            <div class="hidden sm:block">
+                                {{ item.description }}
+                            </div>
                             <ng-container
                                 *ngFor="
-                                    let item of process.productionProcessSteps
+                                    let item of item.productionProcessStepIOs
                                 "
                             >
                                 <div class="hidden sm:block">
-                                    {{ item.name }}
-                                </div>
-                                <div class="hidden sm:block">
-                                    {{ item.code }}
-                                </div>
-                                <div class="hidden sm:block">
-                                    {{ item.orderNumber }}
-                                </div>
-                                <div class="hidden sm:block">
-                                    {{ item.standardTime }}
-                                </div>
-                                <div class="hidden sm:block">
-                                    {{ item.outputPerHour }}
-                                </div>
-                                <div class="hidden sm:block">
-                                    {{ item.description }}
-                                </div>
-                                <ng-container
-                                    *ngFor="
-                                        let item of item.productionProcessStepIOs
-                                    "
-                                >
-                                    <div class="hidden sm:block">
-                                        <span
-                                            (click)="
-                                                openInputOutputDetailDialog(
-                                                    item
-                                                )
+                                    <span
+                                        (click)="
+                                            openInputOutputDetailDialog(item)
+                                        "
+                                    >
+                                        <mat-icon
+                                            class="cursor-pointer text-blue-500 icon-size-5"
+                                            [svgIcon]="
+                                                'heroicons_outline:pencil-square'
                                             "
-                                        >
-                                            <mat-icon
-                                                class="cursor-pointer text-blue-500 icon-size-5"
-                                                [svgIcon]="
-                                                    'heroicons_outline:pencil-square'
-                                                "
-                                            ></mat-icon>
-                                        </span>
-                                    </div>
-                                </ng-container>
+                                        ></mat-icon>
+                                    </span>
+                                </div>
                             </ng-container>
-                        </div>
+                        </ng-container>
                     </div>
                 </div>
             </div>

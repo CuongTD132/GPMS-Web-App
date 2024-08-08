@@ -27,6 +27,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import { RouterModule } from '@angular/router';
 import { FuseAlertComponent } from '@fuse/components/alert';
 import { Pagination } from 'app/types/pagination.type';
 import {
@@ -41,7 +42,7 @@ import {
     takeUntil,
 } from 'rxjs';
 import { CreateProductionPlanComponent } from './create/create-production-plan.component';
-import { ProductionPlanDetailComponent } from './detail/production-plan-detail.component';
+import { ProductionPlanYearDetailComponent } from './detail/year/production-plan-detail.component';
 import { ProductionPlanService } from './production-plan.service';
 
 @Component({
@@ -64,6 +65,7 @@ import { ProductionPlanService } from './production-plan.service';
         MatOptionModule,
         FuseAlertComponent,
         MatCheckboxModule,
+        RouterModule,
     ],
 })
 export class ProductionPlanComponent implements OnInit, AfterViewInit {
@@ -257,7 +259,7 @@ export class ProductionPlanComponent implements OnInit, AfterViewInit {
             .subscribe((productionPlan) => {
                 if (productionPlan) {
                     this._dialog
-                        .open(ProductionPlanDetailComponent, {
+                        .open(ProductionPlanYearDetailComponent, {
                             width: '720px',
                         })
                         .afterClosed()

@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import {
     MAT_DIALOG_DATA,
@@ -5,12 +6,14 @@ import {
     MatDialogRef,
 } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { ProcessStepIoDetailComponent } from './process-step-io-detail/process-step-io-detail.component';
 
 @Component({
     selector: 'process-detail',
     templateUrl: 'process-detail.component.html',
+    styleUrls: ['process-detail.component.css'],
     standalone: true,
-    imports: [MatIconModule],
+    imports: [MatIconModule, CommonModule],
 })
 export class ProcessDetailComponent implements OnInit {
     process: Process;
@@ -24,11 +27,11 @@ export class ProcessDetailComponent implements OnInit {
         this.process = this.data;
     }
 
-    openInputOutputDetailDialog(process: Process) {
+    openInputOutputDetailDialog(processStepIO: ProductionProcessStepIOs) {
         this._dialog
-            .open(ProcessDetailComponent, {
-                width: '680px',
-                data: process,
+            .open(ProcessStepIoDetailComponent, {
+                width: '860px',
+                data: processStepIO,
             })
             .afterClosed()
             .subscribe();

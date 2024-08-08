@@ -1,0 +1,229 @@
+<div
+    class="-my-6 flex max-h-[calc(100vh-128px)] flex-auto flex-col overflow-y-scroll p-8"
+>
+    <div
+        class="font-poppins bg-card mx-8 my-6 space-y-10 rounded-lg p-8 dark:bg-gray-800"
+    >
+        <div class="grid w-full grid-cols-12">
+            <div class="col-span-3 flex flex-col gap-4">
+                <div class="flex space-x-1">
+                    <div class="productionPlan-name">
+                        {{ productionPlan.name | uppercase }}
+                    </div>
+                    <div
+                        class="productionPlan-parentName"
+                        *ngIf="productionPlan.parentProductionPlan"
+                    >
+                        of
+                        {{
+                            productionPlan.parentProductionPlan.name | uppercase
+                        }}
+                    </div>
+                </div>
+                <div class="productionPlan-code">
+                    Production Plan Code - {{ productionPlan.code | uppercase }}
+                </div>
+                <div class="productionPlan-type">
+                    Type: {{ productionPlan.type | uppercase }}
+                </div>
+
+                <div class="productionPlan-createdDate">
+                    Created Date:
+                    {{ getFormattedDate(productionPlan.createdDate) }}
+                </div>
+                <div class="productionPlan-expectedStartingDate">
+                    Expected Starting Date:
+                    {{ getFormattedDate(productionPlan.expectedStartingDate) }}
+                </div>
+                <div
+                    class="productionPlan-actualStartingDate"
+                    *ngIf="productionPlan.actualStartingDate"
+                >
+                    Actual Starting Date:
+                    {{ getFormattedDate(productionPlan.actualStartingDate) }}
+                </div>
+                <div
+                    class="productionPlan-completionDate"
+                    *ngIf="productionPlan.completionDate"
+                >
+                    Completion Date:
+                    {{ getFormattedDate(productionPlan.completionDate) }}
+                </div>
+                <div class="productionPlan-dueDate">
+                    Due Date: {{ getFormattedDate(productionPlan.dueDate) }}
+                </div>
+
+                <div class="productionPlan-status">
+                    Current Status: {{ productionPlan.status }}
+                </div>
+                <div class="productionPlan-creatorName">
+                    Creator: {{ productionPlan.creatorName }}
+                </div>
+                <div
+                    class="productionPlan-reviewerName"
+                    *ngIf="productionPlan.reviewerName"
+                >
+                    Reviewer: {{ productionPlan.reviewerName }}
+                </div>
+                <div
+                    class="productionPlan-description"
+                    *ngIf="productionPlan.description"
+                >
+                    Description: {{ productionPlan.description }}
+                </div>
+            </div>
+            <div class="col-span-9">
+                <div class="grid">
+                    <div class="production-plan-detail flex flex-col gap-2">
+                        <span>PRODUCTION REQUIREMENTS</span>
+                        <div class="grid">
+                            <div
+                                class="production-plan-detail-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                            >
+                                <div class="hidden sm:block">Product Code</div>
+                                <div class="hidden sm:block">Product Name</div>
+                                <div class="hidden sm:block">Product Size</div>
+                                <div class="hidden sm:block">Product Color</div>
+                                <div class="hidden sm:block">
+                                    Product Quantity
+                                </div>
+                                <div class="hidden sm:block">
+                                    Product Quantity In Inventory
+                                </div>
+                                <div class="hidden sm:block">
+                                    Estimations List
+                                </div>
+                            </div>
+                            <div
+                                class="production-plan-detail-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                            >
+                                <ng-container
+                                    *ngFor="
+                                        let item of productionPlan.productionRequirements
+                                    "
+                                >
+                                    <div class="hidden sm:block">
+                                        {{
+                                            item.productSpecification
+                                                .productCode
+                                        }}
+                                    </div>
+                                    <div class="hidden sm:block">
+                                        {{
+                                            item.productSpecification
+                                                .productName
+                                        }}
+                                    </div>
+                                    <div class="hidden sm:block">
+                                        {{ item.productSpecification.size }}
+                                    </div>
+                                    <div class="hidden sm:block">
+                                        {{ item.productSpecification.color }}
+                                    </div>
+                                    <div class="hidden sm:block">
+                                        {{
+                                            item.productSpecification
+                                                .inventoryQuantity
+                                        }}
+                                    </div>
+                                    <div class="hidden sm:block">
+                                        {{ item.quantity }}
+                                    </div>
+                                    <div class="hidden sm:block">
+                                        <span
+                                            (click)="
+                                                openProductionEstimationsDialog(
+                                                    item.productionEstimations
+                                                )
+                                            "
+                                        >
+                                            <mat-icon
+                                                class="cursor-pointer text-blue-500 icon-size-5"
+                                                [svgIcon]="
+                                                    'heroicons_outline:pencil-square'
+                                                "
+                                            ></mat-icon>
+                                        </span>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ng-container
+            *ngIf="
+                productionPlan.childProductionPlans &&
+                productionPlan.childProductionPlans.length > 0
+            "
+        >
+            <div class="grid w-full">
+                <div class="production-plans flex flex-col gap-2">
+                    <span>LIST MONTH PRODUCTION PLANS</span>
+
+                    <div class="grid">
+                        <div
+                            class="production-plans-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                        >
+                            <div class="hidden sm:block">Code</div>
+                            <div class="hidden sm:block">Name</div>
+                            <div class="hidden sm:block">
+                                Expected Starting Date
+                            </div>
+                            <div class="hidden sm:block">
+                                Actual Starting Date
+                            </div>
+                            <div class="hidden sm:block">Due Date</div>
+                            <div class="hidden sm:block">Status</div>
+                            <div class="hidden sm:block">Detail</div>
+                        </div>
+                        <div
+                            class="production-plans-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                        >
+                            <ng-container
+                                *ngFor="
+                                    let item of productionPlan.childProductionPlans
+                                "
+                            >
+                                <div class="hidden sm:block">
+                                    {{ item.code }}
+                                </div>
+                                <div class="hidden sm:block">
+                                    {{ item.name }}
+                                </div>
+                                <div class="hidden sm:block">
+                                    {{ item.expectedStartingDate | date }}
+                                </div>
+                                <div class="hidden sm:block">
+                                    {{ item.actualStartingDate | date }}
+                                </div>
+                                <div class="hidden sm:block">
+                                    {{ item.dueDate | date }}
+                                </div>
+                                <div class="hidden sm:block">
+                                    {{ item.status }}
+                                </div>
+                                <div class="hidden sm:block">
+                                    <span
+                                        [routerLink]="[
+                                            '../../months/',
+                                            item.id,
+                                        ]"
+                                    >
+                                        <mat-icon
+                                            class="cursor-pointer text-blue-500 icon-size-5"
+                                            [svgIcon]="
+                                                'heroicons_outline:pencil-square'
+                                            "
+                                        ></mat-icon>
+                                    </span>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>

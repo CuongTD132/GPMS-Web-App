@@ -115,7 +115,7 @@ export class ProductDetailComponent implements OnInit {
     openSpecificationDetailDialog(specification: Specification) {
         this._dialog
             .open(SpecificationDetailComponent, {
-                width: '680px',
+                width: '1080px',
                 data: specification,
             })
             .afterClosed()
@@ -125,7 +125,7 @@ export class ProductDetailComponent implements OnInit {
     openProcessDetailDialog(process: Process) {
         this._dialog
             .open(ProcessDetailComponent, {
-                width: '680px',
+                width: '900px',
                 data: process,
             })
             .afterClosed()

@@ -1,11 +1,11 @@
 .measurement-detail-grid {
-    grid-template-columns: 120px 240px;
+    grid-template-columns: 240px auto;
 }
 
 .bill-of-material-grid {
-    grid-template-columns: 120px 120px 120px 120px 120px 120px 120px 120px 120px 120px;
+    grid-template-columns: 72px 72px 120px 72px auto 120px 120px 120px;
 }
 
 .quality-standard-grid {
-    grid-template-columns: auto 120px 120px;
+    grid-template-columns: 240px 240px auto;
 }
