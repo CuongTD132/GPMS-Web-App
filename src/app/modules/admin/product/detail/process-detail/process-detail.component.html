@@ -74,26 +74,22 @@
                             <div class="hidden sm:block">
                                 {{ item.description }}
                             </div>
-                            <ng-container
-                                *ngFor="
-                                    let item of item.productionProcessStepIOs
-                                "
-                            >
-                                <div class="hidden sm:block">
-                                    <span
-                                        (click)="
-                                            openInputOutputDetailDialog(item)
+                            <div class="hidden sm:block">
+                                <span
+                                    (click)="
+                                        openInputOutputDetailDialog(
+                                            item.productionProcessStepIOs
+                                        )
+                                    "
+                                >
+                                    <mat-icon
+                                        class="cursor-pointer text-blue-500 icon-size-5"
+                                        [svgIcon]="
+                                            'heroicons_outline:pencil-square'
                                         "
-                                    >
-                                        <mat-icon
-                                            class="cursor-pointer text-blue-500 icon-size-5"
-                                            [svgIcon]="
-                                                'heroicons_outline:pencil-square'
-                                            "
-                                        ></mat-icon>
-                                    </span>
-                                </div>
-                            </ng-container>
+                                    ></mat-icon>
+                                </span>
+                            </div>
                         </ng-container>
                     </div>
                 </div>

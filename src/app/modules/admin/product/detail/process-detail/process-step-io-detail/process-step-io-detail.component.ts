@@ -1,10 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
-import {
-    MAT_DIALOG_DATA,
-    MatDialog,
-    MatDialogRef,
-} from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -15,15 +11,14 @@ import { MatIconModule } from '@angular/material/icon';
     imports: [MatIconModule, CommonModule],
 })
 export class ProcessStepIoDetailComponent implements OnInit {
-    processStepIO: ProductionProcessStepIOs;
+    processStepIOs: ProductionProcessStepIOs[];
     constructor(
         public matDialogRef: MatDialogRef<ProcessStepIoDetailComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: ProductionProcessStepIOs,
-        private _dialog: MatDialog
+        @Inject(MAT_DIALOG_DATA) public data: ProductionProcessStepIOs[]
     ) {}
 
     ngOnInit() {
-        this.processStepIO = this.data;
-        console.log(this.processStepIO);
+        this.processStepIOs = this.data;
+        console.log(this.processStepIOs);
     }
 }
