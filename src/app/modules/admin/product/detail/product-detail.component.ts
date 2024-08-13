@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import {
     FormsModule,
     ReactiveFormsModule,
@@ -15,6 +15,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { CreateYearProductionPlanComponent } from '../../production-plan/create/year/create-production-plan.component';
 import { ProductService } from '../product.service';
 import { ProcessDetailComponent } from './process-detail/process-detail.component';
 import { SpecificationDetailComponent } from './specification-detail/specification-detail.component';
@@ -43,11 +44,13 @@ export class ProductDetailComponent implements OnInit {
     selectedFile: File;
     uploadMessage: string;
     updateProductForm: UntypedFormGroup;
-
+    flashMessage: 'success' | 'error' | null = null;
+    message: string = null;
     constructor(
         private _formBuilder: UntypedFormBuilder,
         private _productService: ProductService,
-        private _dialog: MatDialog
+        private _dialog: MatDialog,
+        private _changeDetectorRef: ChangeDetectorRef
     ) {}
 
     ngOnInit(): void {
@@ -61,56 +64,43 @@ export class ProductDetailComponent implements OnInit {
         this.updateProductForm = this._formBuilder.group({
             name: [this.product.name, [Validators.required]],
             code: [this.product.code, [Validators.required]],
-            // consumptionUnit: [
-            //     this.product.consumptionUnit,
-            //     [Validators.required],
-            // ],
-            // sizeWidthUnit: [this.product.sizeWidthUnit, [Validators.required]],
-            // colorCode: [this.product.colorCode, [Validators.required]],
-            // colorName: [this.product.colorName, [Validators.required]],
-            // description: [this.product.description],
         });
     }
 
-    onFileSelected(event: Event): void {
-        const fileInput = event.target as HTMLInputElement;
-        if (fileInput.files && fileInput.files[0]) {
-            const file = fileInput.files[0];
-            this.selectedFile = file;
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                this.previewUrl = e.target?.result;
-            };
-            reader.readAsDataURL(file);
-        }
+    private showFlashMessage(
+        type: 'success' | 'error',
+        message: string,
+        time: number
+    ): void {
+        this.flashMessage = type;
+        this.message = message;
+        this._changeDetectorRef.markForCheck();
+        setTimeout(() => {
+            this.flashMessage = this.message = null;
+            this._changeDetectorRef.markForCheck();
+        }, time);
+    }
+
+    openCreateYearProductionPlanDialog() {
+        this._dialog
+            .open(CreateYearProductionPlanComponent, {
+                data: this.product.specifications,
+                width: '720px',
+                height: '720px',
+            })
+            .afterClosed()
+            .subscribe((result) => {
+                if (result === 'success') {
+                    this.showFlashMessage(
+                        'success',
+                        'Create year production plan successful',
+                        3000
+                    );
+                }
+            });
     }
 
     updateProduct() {}
-    // updateProduct() {
-    //     if (this.updateProductForm.valid) {
-    //         const formData = new FormData();
-    //         for (const key in this.updateProductForm.controls) {
-    //             if (this.updateProductForm.controls.hasOwnProperty(key)) {
-    //                 formData.append(
-    //                     key,
-    //                     this.updateProductForm.controls[key].value
-    //                 );
-    //             }
-    //         }
-    //         if (this.selectedFile) {
-    //             formData.append('thumbnail', this.selectedFile);
-    //         }
-    //         this._productService
-    //             .updateProduct(this.product.id, formData)
-    //             .subscribe({
-    //                 next: (product) => {
-    //                     if (product) {
-    //                         this.matDialogRef.close('success');
-    //                     }
-    //                 },
-    //             });
-    //     }
-    // }
 
     openSpecificationDetailDialog(specification: Specification) {
         this._dialog

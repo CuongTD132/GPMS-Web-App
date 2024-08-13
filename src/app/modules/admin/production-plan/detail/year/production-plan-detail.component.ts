@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import {
     FormsModule,
     ReactiveFormsModule,
@@ -19,9 +19,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { RouterModule } from '@angular/router';
 import { ProductionPlanService } from '../../production-plan.service';
 import { EstimationsListComponent } from './estimations-list/estimations-list.component';
+import { MonthsListComponent } from './months-list/months-list.component';
 
 @Component({
-    selector: 'production-plan-detail',
+    selector: 'year-production-plan-detail',
     standalone: true,
     templateUrl: './production-plan-detail.component.html',
     styleUrls: ['./production-plan-detail.component.css'],
@@ -45,12 +46,14 @@ export class ProductionPlanYearDetailComponent implements OnInit {
     selectedFile: File;
     uploadMessage: string;
     updateProductionPlanForm: UntypedFormGroup;
-
+    flashMessage: 'success' | 'error' | null = null;
+    message: string = null;
     constructor(
         private _formBuilder: UntypedFormBuilder,
         private _productionPlanService: ProductionPlanService,
         private _dialog: MatDialog,
-        private dateAdapter: DateAdapter<Date>
+        private dateAdapter: DateAdapter<Date>,
+        private _changeDetectorRef: ChangeDetectorRef
     ) {}
 
     ngOnInit(): void {
@@ -87,5 +90,44 @@ export class ProductionPlanYearDetailComponent implements OnInit {
             })
             .afterClosed()
             .subscribe();
+    }
+
+    private showFlashMessage(
+        type: 'success' | 'error',
+        message: string,
+        time: number
+    ): void {
+        this.flashMessage = type;
+        this.message = message;
+        this._changeDetectorRef.markForCheck();
+        setTimeout(() => {
+            this.flashMessage = this.message = null;
+            this._changeDetectorRef.markForCheck();
+        }, time);
+    }
+
+    openCreateMonthProductionPlanDialog(id: string) {
+        this._productionPlanService
+            .getMonthsInYearPlan(id)
+            .subscribe((month) => {
+                if (month) {
+                    this._dialog
+                        .open(MonthsListComponent, {
+                            data: id,
+                            width: '480px',
+                            height: '720px',
+                        })
+                        .afterClosed()
+                        .subscribe((result) => {
+                            if (result === 'success') {
+                                this.showFlashMessage(
+                                    'success',
+                                    'Create year production plan successful',
+                                    3000
+                                );
+                            }
+                        });
+                }
+            });
     }
 }

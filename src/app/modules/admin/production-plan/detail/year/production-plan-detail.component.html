@@ -73,9 +73,9 @@
                 </div>
             </div>
             <div class="col-span-9">
-                <div class="grid">
+                <div cla ss="grid">
                     <div class="production-plan-detail flex flex-col gap-2">
-                        <span>PRODUCTION REQUIREMENTS</span>
+                        <span>LIST PRODUCTION REQUIREMENTS</span>
                         <div class="grid">
                             <div
                                 class="production-plan-detail-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
@@ -84,12 +84,7 @@
                                 <div class="hidden sm:block">Product Name</div>
                                 <div class="hidden sm:block">Product Size</div>
                                 <div class="hidden sm:block">Product Color</div>
-                                <div class="hidden sm:block">
-                                    Product Quantity
-                                </div>
-                                <div class="hidden sm:block">
-                                    Product Quantity In Inventory
-                                </div>
+                                <div class="hidden sm:block">Required</div>
                                 <div class="hidden sm:block">
                                     Estimations List
                                 </div>
@@ -121,12 +116,6 @@
                                         {{ item.productSpecification.color }}
                                     </div>
                                     <div class="hidden sm:block">
-                                        {{
-                                            item.productSpecification
-                                                .inventoryQuantity
-                                        }}
-                                    </div>
-                                    <div class="hidden sm:block">
                                         {{ item.quantity }}
                                     </div>
                                     <div class="hidden sm:block">
@@ -149,6 +138,24 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div
+                    *ngIf="productionPlan.status === 'Approved'"
+                    class="flex shrink-0 items-center justify-end gap-3 pt-4 sm:ml-4 sm:mt-0"
+                >
+                    <button
+                        (click)="
+                            openCreateMonthProductionPlanDialog(
+                                productionPlan.id
+                            )
+                        "
+                        mat-raised-button
+                        class="flex min-w-fit gap-2"
+                        color="primary"
+                    >
+                        <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
+                        <span> Create Month Production Plans </span>
+                    </button>
                 </div>
             </div>
         </div>

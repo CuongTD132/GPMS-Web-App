@@ -9,6 +9,8 @@ export class ProductionPlanService {
         new BehaviorSubject(null);
     private _productionPlans: BehaviorSubject<ProductionPlan[] | null> =
         new BehaviorSubject(null);
+    private _months: BehaviorSubject<MonthAndSpecs[] | null> =
+        new BehaviorSubject(null);
     private _pagination: BehaviorSubject<Pagination | null> =
         new BehaviorSubject(null);
 
@@ -29,6 +31,13 @@ export class ProductionPlanService {
     }
 
     /**
+     * Getter for getMonthsInYearPlan
+     */
+    get months$(): Observable<MonthAndSpecs[]> {
+        return this._months.asObservable();
+    }
+
+    /**
      * Getter for pagination
      */
     get pagination$(): Observable<Pagination> {
@@ -42,7 +51,7 @@ export class ProductionPlanService {
             .post<{
                 pagination: Pagination;
                 data: ProductionPlan[];
-            }>('/api/v1/production-plans/filter', filter)
+            }>('/api/v1/production-plans/filter/year', filter)
             .pipe(
                 tap((response) => {
                     this._pagination.next(response.pagination);
@@ -73,15 +82,61 @@ export class ProductionPlanService {
         );
     }
 
+    getMonthsInYearPlan(id: string): Observable<MonthAndSpecs[]> {
+        return this.months$.pipe(
+            take(1),
+            switchMap(() =>
+                this._httpClient
+                    .post<
+                        MonthAndSpecs[]
+                    >('/api/v1/production-plans/' + id + '/create-month-plan/months', null)
+                    .pipe(
+                        tap((response) => {
+                            this._months.next(response);
+                        })
+                    )
+            )
+        );
+    }
+
     /**
      * Create productionPlan
      */
-    createProductionPlan(data) {
+    createYearProductionPlan(data) {
         return this.productionPlans$.pipe(
             take(1),
             switchMap((productionPlans) =>
                 this._httpClient
-                    .post<ProductionPlan>('/api/v1/production-plans', data)
+                    .post<ProductionPlan>(
+                        '/api/v1/production-plans/annual',
+                        data
+                    )
+                    .pipe(
+                        map((newProductionPlan) => {
+                            // Update productionPlan list with current page size
+                            this._productionPlans.next(
+                                [newProductionPlan, ...productionPlans].slice(
+                                    0,
+                                    this._pagination.value.pageSize
+                                )
+                            );
+
+                            return newProductionPlan;
+                        })
+                    )
+            )
+        );
+    }
+
+    createChildProductionPlan(data) {
+        return this.productionPlans$.pipe(
+            take(1),
+            switchMap((productionPlans) =>
+                this._httpClient
+                    .post<ProductionPlan>(
+                        '/api/v1/production-plans/child',
+                        data
+                    )
                     .pipe(
                         map((newProductionPlan) => {
                             // Update productionPlan list with current page size

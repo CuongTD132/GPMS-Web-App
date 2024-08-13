@@ -75,7 +75,7 @@
             <div class="col-span-9">
                 <div class="grid">
                     <div class="production-plan-detail flex flex-col gap-2">
-                        <span>PRODUCTION REQUIREMENTS</span>
+                        <span>LIST PRODUCTION REQUIREMENTS</span>
                         <div class="grid">
                             <div
                                 class="production-plan-detail-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
@@ -85,10 +85,7 @@
                                 <div class="hidden sm:block">Product Size</div>
                                 <div class="hidden sm:block">Product Color</div>
                                 <div class="hidden sm:block">
-                                    Product Quantity
-                                </div>
-                                <div class="hidden sm:block">
-                                    Product Quantity In Inventory
+                                    Required
                                 </div>
                                 <div class="hidden sm:block">
                                     Estimations List
@@ -119,12 +116,6 @@
                                     </div>
                                     <div class="hidden sm:block">
                                         {{ item.productSpecification.color }}
-                                    </div>
-                                    <div class="hidden sm:block">
-                                        {{
-                                            item.productSpecification
-                                                .inventoryQuantity
-                                        }}
                                     </div>
                                     <div class="hidden sm:block">
                                         {{ item.quantity }}

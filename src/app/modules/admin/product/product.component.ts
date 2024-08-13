@@ -161,6 +161,8 @@ export class ProductComponent implements OnInit, AfterViewInit {
                             this._paginator.pageIndex,
                             this._paginator.pageSize
                         );
+                        console.log('pagination');
+
                         this.isLoading = true;
                         return of(true);
                     }),

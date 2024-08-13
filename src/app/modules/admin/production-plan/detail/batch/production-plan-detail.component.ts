@@ -21,7 +21,7 @@ import { ProductionPlanService } from '../../production-plan.service';
 import { EstimationsListComponent } from './estimations-list/estimations-list.component';
 
 @Component({
-    selector: 'production-plan-detail',
+    selector: '  batch-production-plan-detail',
     standalone: true,
     templateUrl: './production-plan-detail.component.html',
     styleUrls: ['./production-plan-detail.component.css'],

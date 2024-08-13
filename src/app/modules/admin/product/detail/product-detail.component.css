@@ -1,5 +1,5 @@
 .semi-finished-product-grid {
-    grid-template-columns: 120px auto 120px;
+    grid-template-columns: auto auto 90px;
 }
 
 .product-specifications-grid {
@@ -7,5 +7,5 @@
 }
 
 .product-processes-grid {
-    grid-template-columns: 120px auto 120px 96px;
+    grid-template-columns: auto auto 120px 96px;
 }

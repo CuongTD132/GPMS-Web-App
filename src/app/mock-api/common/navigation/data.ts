@@ -39,7 +39,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
     },
     {
         id: 'Production Plans',
-        title: 'production-plans',
+        title: 'Production Plans',
         type: 'basic',
         icon: 'heroicons_outline:rectangle-stack',
         link: '/production-plans',

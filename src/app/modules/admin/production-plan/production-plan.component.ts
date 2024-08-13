@@ -41,7 +41,7 @@ import {
     switchMap,
     takeUntil,
 } from 'rxjs';
-import { CreateProductionPlanComponent } from './create/create-production-plan.component';
+import { CreateYearProductionPlanComponent } from './create/year/create-production-plan.component';
 import { ProductionPlanYearDetailComponent } from './detail/year/production-plan-detail.component';
 import { ProductionPlanService } from './production-plan.service';
 
@@ -238,7 +238,7 @@ export class ProductionPlanComponent implements OnInit, AfterViewInit {
 
     openCreateProductionPlanDialog() {
         this._dialog
-            .open(CreateProductionPlanComponent, {
+            .open(CreateYearProductionPlanComponent, {
                 width: '720px',
             })
             .afterClosed()

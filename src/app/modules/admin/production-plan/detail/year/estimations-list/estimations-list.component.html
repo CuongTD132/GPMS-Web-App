@@ -21,9 +21,9 @@
                         <div
                             class="estimations-list-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
                         >
+                            <div class="hidden sm:block">Month</div>
                             <div class="hidden sm:block">Quantity</div>
                             <div class="hidden sm:block">Overtime Quantity</div>
-                            <div class="hidden sm:block">Month</div>
                         </div>
                         <ng-container
                             *ngFor="let item of productionEstimations"
@@ -32,13 +32,13 @@
                                 class="estimations-list-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
                             >
                                 <div class="hidden sm:block">
+                                    <b>{{ item.month }}</b>
+                                </div>
+                                <div class="hidden sm:block">
                                     {{ item.quantity }}
                                 </div>
                                 <div class="hidden sm:block">
                                     {{ item.overtimeQuantity }}
-                                </div>
-                                <div class="hidden sm:block">
-                                    {{ item.month }}
                                 </div>
                             </div>
                         </ng-container>

@@ -8,7 +8,7 @@ import {
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-    selector: 'estimations-list.',
+    selector: 'month-sestimations-list.',
     templateUrl: 'estimations-list.component.html',
     styleUrls: ['estimations-list.component.css'],
     standalone: true,

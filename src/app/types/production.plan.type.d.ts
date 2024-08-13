@@ -45,3 +45,13 @@ type ProductionSeries = {
     currentProcess: string;
     status: string;
 };
+
+type MonthAndSpecs = {
+    month: string;
+    requirements: {
+        specificationId: string;
+        quantity: number;
+        size: string;
+        color: string;
+    }[];
+};

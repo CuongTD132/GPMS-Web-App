@@ -3,7 +3,7 @@
 }
 
 .bill-of-material-grid {
-    grid-template-columns: 72px 72px 120px 72px auto 120px 120px 120px;
+    grid-template-columns: 90px 120px 120px 120px auto 120px 120px 90px;
 }
 
 .quality-standard-grid {

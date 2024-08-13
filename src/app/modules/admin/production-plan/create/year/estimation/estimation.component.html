@@ -1,0 +1,162 @@
+<div class="-m-6 flex max-h-[calc(100vh-128px)] flex-auto flex-col">
+    <!-- Header -->
+    <div
+        class="flex h-16 flex-0 items-center justify-between bg-primary pl-6 pr-3 text-on-primary sm:pl-8 sm:pr-5"
+    >
+        <div class="text-lg font-medium">
+            Add Month Productions Estimations For {{ estimation.productName }}
+        </div>
+        <button mat-icon-button (click)="matDialogRef.close()" [tabIndex]="-1">
+            <mat-icon
+                class="text-current"
+                [svgIcon]="'heroicons_outline:x-mark'"
+            ></mat-icon>
+        </button>
+    </div>
+    <div
+        class="font-poppins bg-card space-y-10 overflow-y-scroll p-8 dark:bg-gray-800"
+    >
+        <div class="grid grid-cols-12">
+            <div class="col-span-4 flex flex-col gap-4">
+                <div class="hidden sm:block">
+                    Total Required Quantity: {{ totalQuantity }}
+                </div>
+            </div>
+            <div
+                *ngIf="totalQuantity > 0"
+                class="col-span-9 flex flex-col gap-4 pt-4"
+            >
+                <div>LIST ADDED ESTIMATIONS</div>
+                <div class="estimation flex flex-col gap-2">
+                    <div class="grid">
+                        <div
+                            class="estimation-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                        >
+                            <div class="hidden sm:block">Month</div>
+                            <div class="hidden sm:block">Required Quantity</div>
+                            <div class="hidden sm:block">
+                                Required Overtime Quantity
+                            </div>
+                        </div>
+                        <ng-container *ngFor="let item of estimations">
+                            <div
+                                class="estimation-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                            >
+                                <div>{{ item.month }}</div>
+                                <div>{{ item.quantity }}</div>
+                                <div>{{ item.overTimeQuantity }}</div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col">
+            <ng-container *ngIf="addProductionEstimationForm">
+                <form [formGroup]="addProductionEstimationForm">
+                    <div class="estimation flex flex-col gap-2">
+                        <div class="grid">
+                            <div
+                                class="estimation-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                            >
+                                <div class="hidden sm:block">Month</div>
+                                <div class="hidden sm:block">
+                                    Required Quantity
+                                </div>
+                                <div class="hidden sm:block">
+                                    Required Overtime Quantity
+                                </div>
+                            </div>
+                            <div
+                                class="estimation-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                            >
+                                <mat-form-field>
+                                    <mat-select [formControlName]="'month'">
+                                        <mat-option value="none"
+                                            >Select month</mat-option
+                                        >
+                                        <mat-option value="January"
+                                            >January</mat-option
+                                        >
+                                        <mat-option value="February"
+                                            >February</mat-option
+                                        >
+                                        <mat-option value="March"
+                                            >March</mat-option
+                                        >
+                                        <mat-option value="April"
+                                            >April</mat-option
+                                        >
+                                        <mat-option value="May">May</mat-option>
+                                        <mat-option value="June"
+                                            >June</mat-option
+                                        >
+                                        <mat-option value="July"
+                                            >July</mat-option
+                                        >
+                                        <mat-option value="August"
+                                            >August</mat-option
+                                        >
+                                        <mat-option value="September"
+                                            >September</mat-option
+                                        >
+                                        <mat-option value="October"
+                                            >October</mat-option
+                                        >
+                                        <mat-option value="November"
+                                            >November</mat-option
+                                        >
+                                        <mat-option value="December"
+                                            >December</mat-option
+                                        >
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field class="w-full">
+                                    <input
+                                        matInput
+                                        type="number"
+                                        min="0"
+                                        [formControlName]="'quantity'"
+                                    /> </mat-form-field
+                                ><mat-form-field class="w-full">
+                                    <input
+                                        matInput
+                                        type="number"
+                                        min="0"
+                                        [formControlName]="'overTimeQuantity'"
+                                    />
+                                </mat-form-field>
+                                <div class="justify-end pb-4">
+                                    <button
+                                        (click)="addValueToEstimationArray()"
+                                        mat-raised-button
+                                        class="flex min-w-fit gap-2"
+                                        color="primary"
+                                    >
+                                        <mat-icon
+                                            svgIcon="heroicons_outline:inbox"
+                                        ></mat-icon>
+                                        <span> Add Month + </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex justify-end">
+                        <button
+                            (click)="onProductionEstimationSubmit()"
+                            mat-raised-button
+                            color="primary"
+                            class="flex min-w-fit gap-2"
+                        >
+                            <mat-icon
+                                svgIcon="heroicons_outline:inbox"
+                            ></mat-icon>
+                            <span> Submit Estimations</span>
+                        </button>
+                    </div>
+                </form>
+            </ng-container>
+        </div>
+    </div>
+</div>

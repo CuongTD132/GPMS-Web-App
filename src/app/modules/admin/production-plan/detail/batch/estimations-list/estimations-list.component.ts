@@ -9,7 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { SeriesListComponent } from './series-list/series-list.component';
 
 @Component({
-    selector: 'estimations-list.',
+    selector: 'batch-estimations-list.',
     templateUrl: 'estimations-list.component.html',
     styleUrls: ['estimations-list.component.css'],
     standalone: true,
