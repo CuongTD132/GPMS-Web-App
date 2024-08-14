@@ -5,7 +5,6 @@ import {
     ReactiveFormsModule,
     UntypedFormBuilder,
     UntypedFormGroup,
-    Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
@@ -15,6 +14,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { RouterModule } from '@angular/router';
 import { ProductionPlanService } from '../../production-plan.service';
@@ -38,6 +38,7 @@ import { MonthsListComponent } from './months-list/months-list.component';
         MatSelectModule,
         MatChipsModule,
         RouterModule,
+        MatMenuModule,
     ],
 })
 export class ProductionPlanYearDetailComponent implements OnInit {
@@ -60,16 +61,8 @@ export class ProductionPlanYearDetailComponent implements OnInit {
         this._productionPlanService.productionPlan$.subscribe(
             (productionPlan) => {
                 this.productionPlan = productionPlan;
-                this.initProductionPlanForm();
             }
         );
-    }
-
-    initProductionPlanForm() {
-        this.updateProductionPlanForm = this._formBuilder.group({
-            name: [this.productionPlan.name, [Validators.required]],
-            code: [this.productionPlan.code, [Validators.required]],
-        });
     }
 
     getFormattedDate(date: string): string {
@@ -128,6 +121,30 @@ export class ProductionPlanYearDetailComponent implements OnInit {
                             }
                         });
                 }
+            });
+    }
+
+    approveProductionPlan(id: string) {
+        this._productionPlanService
+            .approveProductionPlan(id)
+            .subscribe((response) => {
+                this._productionPlanService
+                    .getProductionPlanById(this.productionPlan.id)
+                    .subscribe((productionPlan) => {
+                        this.productionPlan = productionPlan;
+                    });
+            });
+    }
+
+    declineProductionPlan(id: string) {
+        this._productionPlanService
+            .declineProductionPlan(id)
+            .subscribe((response) => {
+                this._productionPlanService
+                    .getProductionPlanById(this.productionPlan.id)
+                    .subscribe((productionPlan) => {
+                        this.productionPlan = productionPlan;
+                    });
             });
     }
 }

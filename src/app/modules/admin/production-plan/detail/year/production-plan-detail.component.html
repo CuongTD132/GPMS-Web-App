@@ -178,12 +178,9 @@
                             <div class="hidden sm:block">
                                 Expected Starting Date
                             </div>
-                            <div class="hidden sm:block">
-                                Actual Starting Date
-                            </div>
                             <div class="hidden sm:block">Due Date</div>
                             <div class="hidden sm:block">Status</div>
-                            <div class="hidden sm:block">Detail</div>
+                            <div class="hidden sm:block">Action</div>
                         </div>
                         <div
                             class="production-plans-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
@@ -196,14 +193,14 @@
                                 <div class="hidden sm:block">
                                     {{ item.code }}
                                 </div>
-                                <div class="hidden sm:block">
+                                <button
+                                    [routerLink]="['../../months/', item.id]"
+                                    class="hidden sm:block"
+                                >
                                     {{ item.name }}
-                                </div>
+                                </button>
                                 <div class="hidden sm:block">
                                     {{ item.expectedStartingDate | date }}
-                                </div>
-                                <div class="hidden sm:block">
-                                    {{ item.actualStartingDate | date }}
                                 </div>
                                 <div class="hidden sm:block">
                                     {{ item.dueDate | date }}
@@ -224,6 +221,46 @@
                                                 'heroicons_outline:pencil-square'
                                             "
                                         ></mat-icon>
+                                    </span>
+                                    <span
+                                        *ngIf="item.status === 'Pending'"
+                                        mat-button
+                                        [matMenuTriggerFor]="menu"
+                                    >
+                                        <mat-icon
+                                            class="cursor-pointer text-blue-500 icon-size-5"
+                                            svgIcon="heroicons_outline:ellipsis-horizontal-circle"
+                                        ></mat-icon>
+                                        <mat-menu #menu="matMenu">
+                                            <button
+                                                (click)="
+                                                    approveProductionPlan(
+                                                        item.id
+                                                    )
+                                                "
+                                                mat-menu-item
+                                            >
+                                                Approve
+                                                <mat-icon
+                                                    class="cursor-pointer text-blue-500 icon-size-5"
+                                                    svgIcon="heroicons_outline:check-circle"
+                                                ></mat-icon>
+                                            </button>
+                                            <button
+                                                (click)="
+                                                    declineProductionPlan(
+                                                        item.id
+                                                    )
+                                                "
+                                                mat-menu-item
+                                            >
+                                                Decline
+                                                <mat-icon
+                                                    class="cursor-pointer text-blue-500 icon-size-5"
+                                                    svgIcon="heroicons_outline:no-symbol"
+                                                ></mat-icon>
+                                            </button>
+                                        </mat-menu>
                                     </span>
                                 </div>
                             </ng-container>

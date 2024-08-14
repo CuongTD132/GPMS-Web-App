@@ -11,6 +11,8 @@ export class ProductionPlanService {
         new BehaviorSubject(null);
     private _months: BehaviorSubject<MonthAndSpecs[] | null> =
         new BehaviorSubject(null);
+    private _productionPlanPatch: BehaviorSubject<ProductionPlanPatch | null> =
+        new BehaviorSubject(null);
     private _pagination: BehaviorSubject<Pagination | null> =
         new BehaviorSubject(null);
 
@@ -35,6 +37,13 @@ export class ProductionPlanService {
      */
     get months$(): Observable<MonthAndSpecs[]> {
         return this._months.asObservable();
+    }
+
+    /**
+     * Getter for getMonthsInYearPlan
+     */
+    get productionPlanPatch$(): Observable<ProductionPlanPatch> {
+        return this._productionPlanPatch.asObservable();
     }
 
     /**
@@ -113,7 +122,6 @@ export class ProductionPlanService {
                     )
                     .pipe(
                         map((newProductionPlan) => {
-                            // Update productionPlan list with current page size
                             this._productionPlans.next(
                                 [newProductionPlan, ...productionPlans].slice(
                                     0,
@@ -139,7 +147,6 @@ export class ProductionPlanService {
                     )
                     .pipe(
                         map((newProductionPlan) => {
-                            // Update productionPlan list with current page size
                             this._productionPlans.next(
                                 [newProductionPlan, ...productionPlans].slice(
                                     0,
@@ -148,6 +155,69 @@ export class ProductionPlanService {
                             );
 
                             return newProductionPlan;
+                        })
+                    )
+            )
+        );
+    }
+
+    /**
+     * Approve productionPlan
+     */
+    approveProductionPlan(id: string) {
+        return this.productionPlanPatch$.pipe(
+            take(1),
+            switchMap(() =>
+                this._httpClient
+                    .patch<ProductionPlanPatch>(
+                        '/api/v1/production-plans/' + id + '/approve',
+                        null
+                    )
+                    .pipe(
+                        tap((response) => {
+                            this._productionPlanPatch.next(response);
+                        })
+                    )
+            )
+        );
+    }
+
+    /**
+     * Start productionPlan
+     */
+    startProductionPlan(id: string) {
+        return this.productionPlanPatch$.pipe(
+            take(1),
+            switchMap(() =>
+                this._httpClient
+                    .patch<ProductionPlanPatch>(
+                        '/api/v1/production-plans/' + id + '/start',
+                        null
+                    )
+                    .pipe(
+                        tap((response) => {
+                            this._productionPlanPatch.next(response);
+                        })
+                    )
+            )
+        );
+    }
+
+    /**
+     * Decline productionPlan
+     */
+    declineProductionPlan(id: string) {
+        return this.productionPlanPatch$.pipe(
+            take(1),
+            switchMap(() =>
+                this._httpClient
+                    .patch<ProductionPlanPatch>(
+                        '/api/v1/production-plans/' + id + '/decline',
+                        null
+                    )
+                    .pipe(
+                        tap((response) => {
+                            this._productionPlanPatch.next(response);
                         })
                     )
             )

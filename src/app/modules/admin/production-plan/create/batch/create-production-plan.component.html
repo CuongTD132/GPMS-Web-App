@@ -1,0 +1,132 @@
+<div class="-m-6 flex max-h-[calc(100vh-128px)] flex-auto flex-col">
+    <!-- Header -->
+    <div
+        class="flex h-16 flex-0 items-center justify-between bg-primary pl-6 pr-3 text-on-primary sm:pl-8 sm:pr-5"
+    >
+        <div class="text-lg font-medium">Create month production plan</div>
+        <button mat-icon-button (click)="matDialogRef.close()" [tabIndex]="-1">
+            <mat-icon
+                class="text-current"
+                [svgIcon]="'heroicons_outline:x-mark'"
+            ></mat-icon>
+        </button>
+    </div>
+    <div class="font-poppins overflow-y-scroll p-8 dark:bg-gray-800">
+        <ng-container *ngIf="createProductionPlanForm">
+            <form [formGroup]="createProductionPlanForm">
+                <div class="general-infor">
+                    <h1 class="pb-4 text-2xl"><b>General Info:</b></h1>
+                    <div class="flex gap-4">
+                        <mat-form-field class="w-full">
+                            <mat-label>Name</mat-label>
+                            <input
+                                matInput
+                                placeholder="Production Plan Name"
+                                [formControlName]="'name'"
+                            />
+                        </mat-form-field>
+                        <mat-form-field class="w-full">
+                            <mat-label>Code</mat-label>
+                            <input
+                                matInput
+                                placeholder="Production Plan Code"
+                                [formControlName]="'code'"
+                            />
+                        </mat-form-field>
+                    </div>
+                    <div class="flex gap-4">
+                        <mat-form-field class="w-3/5">
+                            <mat-label>Enter a date range</mat-label>
+                            <mat-date-range-input [rangePicker]="picker">
+                                <input
+                                    matStartDate
+                                    placeholder="Start date"
+                                    [formControlName]="'expectedStartingDate'"
+                                    [placeholder]="'MM/DD/YYYY'"
+                                />
+                                <input
+                                    matEndDate
+                                    placeholder="End date"
+                                    [formControlName]="'dueDate'"
+                                    [placeholder]="'MM/DD/YYYY'"
+                                />
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle
+                                matIconSuffix
+                                [for]="picker"
+                            ></mat-datepicker-toggle>
+                            <mat-date-range-picker
+                                #picker
+                            ></mat-date-range-picker>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <mat-form-field class="w-full">
+                            <mat-label>Description</mat-label>
+                            <textarea
+                                matInput
+                                placeholder="Description"
+                                [formControlName]="'description'"
+                            ></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="requirements">
+                    <h1 class="pb-4 text-2xl"><b>Requirements:</b></h1>
+                    <div class="grid">
+                        <div
+                            class="requirements-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                        >
+                            <div class="hidden sm:block">Size</div>
+                            <div class="hidden sm:block">Color</div>
+                            <div class="hidden sm:block">Required Quantity</div>
+                            <div class="hidden sm:block">
+                                Month Productions Estimations
+                            </div>
+                        </div>
+                        <div
+                            class="requirements-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                        >
+                            <ng-container *ngFor="let item of data.item">
+                                <div class="hidden sm:block">
+                                    {{ item.size }}
+                                </div>
+                                <div class="hidden sm:block">
+                                    {{ item.color }}
+                                </div>
+                                <div class="hidden sm:block">
+                                    {{ item.quantity }}
+                                </div>
+
+                                <div class="hidden sm:block">
+                                    <button
+                                        (click)="add(item)"
+                                        mat-raised-button
+                                        class="flex min-w-fit gap-2"
+                                        color="primary"
+                                    >
+                                        <mat-icon
+                                            svgIcon="heroicons_outline:inbox"
+                                        ></mat-icon>
+                                        <span> Add + </span>
+                                    </button>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 flex justify-end">
+                    <button
+                        (click)="createProductionPlan()"
+                        mat-raised-button
+                        color="primary"
+                        class="flex min-w-fit gap-2"
+                    >
+                        <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
+                        <span> Create </span>
+                    </button>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+</div>

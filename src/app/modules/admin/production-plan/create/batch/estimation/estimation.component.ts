@@ -14,7 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 @Component({
-    selector: 'batch-estimations',
+    selector: 'day-estimations',
     templateUrl: 'estimation.component.html',
     styleUrls: ['estimation.component.css'],
     standalone: true,
@@ -39,7 +39,7 @@ export class EstimationComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA) public data: any,
         private _formBuilder: UntypedFormBuilder
     ) {}
-    batchNumber: number = 1;
+
     ngOnInit() {
         this.estimation = this.data;
         this.initProductionEstimationForm();
@@ -58,12 +58,14 @@ export class EstimationComponent implements OnInit {
                 this.addProductionEstimationForm.value;
             this.estimations.push(estimation);
             this.addProductionEstimationForm.reset();
-            this.batchNumber = this.batchNumber + 1;
+            console.log(estimation);
             this.totalQuantity += estimation.quantity;
         }
     }
 
     onProductionEstimationSubmit() {
+        console.log(this.data);
+
         if (this.totalQuantity === this.estimation.quantity) {
             const productionRequirement: any = {
                 productionSpecificationId: this.data.specificationId,

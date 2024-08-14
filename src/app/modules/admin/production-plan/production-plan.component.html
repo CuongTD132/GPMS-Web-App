@@ -88,62 +88,16 @@
                             <!-- Id -->
                             <div class="hidden sm:block">
                                 <div class="flex gap-3">
-                                    <ng-container
-                                        *ngIf="productionPlan.type === 'Year'"
+                                    <span
+                                        [routerLink]="[
+                                            'years/',
+                                            productionPlan.id,
+                                        ]"
                                     >
-                                        <span
-                                            [routerLink]="[
-                                                'years/',
-                                                productionPlan.id,
-                                            ]"
-                                        >
-                                            <mat-icon
-                                                class="cursor-pointer text-blue-500 icon-size-5"
-                                                [svgIcon]="
-                                                    'heroicons_outline:pencil-square'
-                                                "
-                                            ></mat-icon>
-                                        </span>
-                                    </ng-container>
-                                    <ng-container
-                                        *ngIf="productionPlan.type === 'Month'"
-                                    >
-                                        <span
-                                            [routerLink]="[
-                                                'months/',
-                                                productionPlan.id,
-                                            ]"
-                                        >
-                                            <mat-icon
-                                                class="cursor-pointer text-blue-500 icon-size-5"
-                                                [svgIcon]="
-                                                    'heroicons_outline:pencil-square'
-                                                "
-                                            ></mat-icon>
-                                        </span>
-                                    </ng-container>
-                                    <ng-container
-                                        *ngIf="productionPlan.type === 'Batch'"
-                                    >
-                                        <span
-                                            [routerLink]="[
-                                                'batchs/',
-                                                productionPlan.id,
-                                            ]"
-                                        >
-                                            <mat-icon
-                                                class="cursor-pointer text-blue-500 icon-size-5"
-                                                [svgIcon]="
-                                                    'heroicons_outline:pencil-square'
-                                                "
-                                            ></mat-icon>
-                                        </span>
-                                    </ng-container>
-                                    <span>
                                         <mat-icon
-                                            class="cursor-pointer text-red-500 icon-size-5"
+                                            class="cursor-pointer text-blue-500 icon-size-5"
                                             [svgIcon]="
-                                                'heroicons_outline:trash'
+                                                'heroicons_outline:pencil-square'
                                             "
                                         ></mat-icon>
                                     </span>

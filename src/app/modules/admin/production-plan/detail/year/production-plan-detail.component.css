@@ -1,7 +1,7 @@
 .production-plan-detail-grid {
-    grid-template-columns: 96px auto 96px 96px 96px 120px;
+    grid-template-columns: auto auto 96px 96px 96px 120px;
 }
 
 .production-plans-grid {
-    grid-template-columns: 160px auto 120px 120px 120px 120px 96px;
+    grid-template-columns: auto auto 120px 120px 120px 96px;
 }

@@ -14,7 +14,7 @@
                         class="productionPlan-parentName"
                         *ngIf="productionPlan.parentProductionPlan"
                     >
-                        of
+                        OF
                         {{
                             productionPlan.parentProductionPlan.name | uppercase
                         }}
@@ -84,9 +84,7 @@
                                 <div class="hidden sm:block">Product Name</div>
                                 <div class="hidden sm:block">Product Size</div>
                                 <div class="hidden sm:block">Product Color</div>
-                                <div class="hidden sm:block">
-                                    Required
-                                </div>
+                                <div class="hidden sm:block">Required</div>
                                 <div class="hidden sm:block">
                                     Estimations List
                                 </div>
@@ -208,6 +206,45 @@
                                                 'heroicons_outline:pencil-square'
                                             "
                                         ></mat-icon>
+                                    </span>
+                                    <span mat-button [matMenuTriggerFor]="menu">
+                                        <mat-icon
+                                            class="cursor-pointer text-blue-500 icon-size-5"
+                                            svgIcon="heroicons_outline:ellipsis-horizontal-circle"
+                                        ></mat-icon>
+                                        <mat-menu #menu="matMenu">
+                                            <button
+                                                *ngIf="
+                                                    item.status === 'Pending'
+                                                "
+                                                mat-menu-item
+                                            >
+                                                Approve
+                                                <mat-icon
+                                                    class="cursor-pointer text-blue-500 icon-size-5"
+                                                    svgIcon="heroicons_outline:check-circle"
+                                                ></mat-icon>
+                                            </button>
+                                            <button mat-menu-item>
+                                                Start
+                                                <mat-icon
+                                                    class="cursor-pointer text-blue-500 icon-size-5"
+                                                    svgIcon="heroicons_outline:play-circle"
+                                                ></mat-icon>
+                                            </button>
+                                            <button
+                                                *ngIf="
+                                                    item.status === 'Pending'
+                                                "
+                                                mat-menu-item
+                                            >
+                                                Decline
+                                                <mat-icon
+                                                    class="cursor-pointer text-blue-500 icon-size-5"
+                                                    svgIcon="heroicons_outline:no-symbol"
+                                                ></mat-icon>
+                                            </button>
+                                        </mat-menu>
                                     </span>
                                 </div>
                             </ng-container>
