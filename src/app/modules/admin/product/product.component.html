@@ -91,13 +91,41 @@
                                         ></mat-icon>
                                     </span>
 
-                                    <span>
+                                    <span
+                                        *ngIf="product.status === 'Pending'"
+                                        mat-button
+                                        [matMenuTriggerFor]="menu"
+                                    >
                                         <mat-icon
-                                            class="cursor-pointer text-red-500 icon-size-5"
-                                            [svgIcon]="
-                                                'heroicons_outline:trash'
-                                            "
+                                            class="cursor-pointer text-blue-500 icon-size-5"
+                                            svgIcon="heroicons_outline:ellipsis-horizontal-circle"
                                         ></mat-icon>
+                                        <mat-menu #menu="matMenu">
+                                            <button
+                                                (click)="
+                                                    approveProduct(product.id)
+                                                "
+                                                mat-menu-item
+                                            >
+                                                Approve
+                                                <mat-icon
+                                                    class="cursor-pointer text-blue-500 icon-size-5"
+                                                    svgIcon="heroicons_outline:check-circle"
+                                                ></mat-icon>
+                                            </button>
+                                            <button
+                                                (click)="
+                                                    declineProduct(product.id)
+                                                "
+                                                mat-menu-item
+                                            >
+                                                Decline
+                                                <mat-icon
+                                                    class="cursor-pointer text-blue-500 icon-size-5"
+                                                    svgIcon="heroicons_outline:no-symbol"
+                                                ></mat-icon>
+                                            </button>
+                                        </mat-menu>
                                     </span>
                                 </div>
                             </div>

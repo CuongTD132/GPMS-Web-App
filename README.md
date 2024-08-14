@@ -1,6 +1,6 @@
 # Production:
 
-https://gpms-web-app.vercel.app
+http://dev-our.com
 
 ## Development server
 

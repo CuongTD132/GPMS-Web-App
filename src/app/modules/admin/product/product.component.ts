@@ -24,6 +24,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -66,6 +67,7 @@ import { ProductService } from './product.service';
         FuseAlertComponent,
         MatCheckboxModule,
         RouterModule,
+        MatMenuModule,
     ],
 })
 export class ProductComponent implements OnInit, AfterViewInit {
@@ -283,6 +285,18 @@ export class ProductComponent implements OnInit, AfterViewInit {
                         }
                     });
             }
+        });
+    }
+
+    approveProduct(id: string) {
+        this._productService.approveProduct(id).subscribe((response) => {
+            this._productService.getProducts().subscribe();
+        });
+    }
+
+    declineProduct(id: string) {
+        this._productService.declineProduct(id).subscribe((response) => {
+            this._productService.getProducts().subscribe();
         });
     }
 }

@@ -11,7 +11,7 @@ export class ProductionPlanService {
         new BehaviorSubject(null);
     private _months: BehaviorSubject<MonthAndSpecs[] | null> =
         new BehaviorSubject(null);
-    private _productionPlanPatch: BehaviorSubject<ProductionPlanPatch | null> =
+    private _productionPlanPatch: BehaviorSubject<Patch | null> =
         new BehaviorSubject(null);
     private _pagination: BehaviorSubject<Pagination | null> =
         new BehaviorSubject(null);
@@ -42,7 +42,7 @@ export class ProductionPlanService {
     /**
      * Getter for getMonthsInYearPlan
      */
-    get productionPlanPatch$(): Observable<ProductionPlanPatch> {
+    get productionPlanPatch$(): Observable<Patch> {
         return this._productionPlanPatch.asObservable();
     }
 
@@ -169,7 +169,7 @@ export class ProductionPlanService {
             take(1),
             switchMap(() =>
                 this._httpClient
-                    .patch<ProductionPlanPatch>(
+                    .patch<Patch>(
                         '/api/v1/production-plans/' + id + '/approve',
                         null
                     )
@@ -190,7 +190,7 @@ export class ProductionPlanService {
             take(1),
             switchMap(() =>
                 this._httpClient
-                    .patch<ProductionPlanPatch>(
+                    .patch<Patch>(
                         '/api/v1/production-plans/' + id + '/start',
                         null
                     )
@@ -211,7 +211,7 @@ export class ProductionPlanService {
             take(1),
             switchMap(() =>
                 this._httpClient
-                    .patch<ProductionPlanPatch>(
+                    .patch<Patch>(
                         '/api/v1/production-plans/' + id + '/decline',
                         null
                     )

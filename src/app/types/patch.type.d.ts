@@ -1,4 +1,4 @@
-type ProductionPlanPatch = {
+type Patch = {
     statusCode: number;
     message: string;
 };

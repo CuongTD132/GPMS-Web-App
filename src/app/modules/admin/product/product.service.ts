@@ -13,7 +13,9 @@ export class ProductService {
     );
     private _pagination: BehaviorSubject<Pagination | null> =
         new BehaviorSubject(null);
-
+    private _productPatch: BehaviorSubject<Patch | null> = new BehaviorSubject(
+        null
+    );
     constructor(private _httpClient: HttpClient) {}
 
     /**
@@ -21,6 +23,13 @@ export class ProductService {
      */
     get product$(): Observable<Product> {
         return this._product.asObservable();
+    }
+
+    /**
+     * Getter for getMonthsInYearPlan
+     */
+    get productPatch$(): Observable<Patch> {
+        return this._productPatch.asObservable();
     }
 
     /**
@@ -97,6 +106,35 @@ export class ProductService {
         );
     }
 
+    approveProduct(id: string) {
+        return this.productPatch$.pipe(
+            take(1),
+            switchMap(() =>
+                this._httpClient
+                    .patch<Patch>('/api/v1/products/' + id + '/approve', null)
+                    .pipe(
+                        tap((response) => {
+                            this._productPatch.next(response);
+                        })
+                    )
+            )
+        );
+    }
+
+    declineProduct(id: string) {
+        return this.productPatch$.pipe(
+            take(1),
+            switchMap(() =>
+                this._httpClient
+                    .patch<Patch>('/api/v1/products/' + id + '/decline', null)
+                    .pipe(
+                        tap((response) => {
+                            this._productPatch.next(response);
+                        })
+                    )
+            )
+        );
+    }
     /**
      * Update product
      */
