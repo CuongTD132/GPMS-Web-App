@@ -3,9 +3,7 @@
     <div
         class="flex h-16 flex-0 items-center justify-between bg-primary pl-6 pr-3 text-on-primary sm:pl-8 sm:pr-5"
     >
-        <div class="text-lg font-medium">
-            Add Day Productions Estimations For {{ estimation.productName }}
-        </div>
+        <div class="text-lg font-medium">Add Production Series</div>
         <button mat-icon-button (click)="matDialogRef.close()" [tabIndex]="-1">
             <mat-icon
                 class="text-current"
@@ -16,32 +14,25 @@
     <div
         class="font-poppins bg-card space-y-6 overflow-y-scroll p-8 dark:bg-gray-800"
     >
-        <ng-container *ngIf="addProductionEstimationForm">
-            <form [formGroup]="addProductionEstimationForm">
-                <div class="estimation flex flex-col gap-2">
+        <ng-container *ngIf="addSeriesForm">
+            <form [formGroup]="addSeriesForm">
+                <div class="series flex flex-col gap-2">
                     <div class="grid">
                         <div
-                            class="estimation-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                            class="series-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
                         >
-                            <div class="hidden sm:block">Day Number</div>
-                            <div class="hidden sm:block">
-                                Required Quantity
-                            </div>
-                            <div class="hidden sm:block">
-                                Required Overtime Quantity
-                            </div>
-                            <div class="hidden sm:block">
-                            </div>
+                            <div class="hidden sm:block">Code</div>
+                            <div class="hidden sm:block">Required Quantity</div>
+                            <div class="hidden sm:block"></div>
                         </div>
                         <div
-                            class="estimation-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                            class="series-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
                         >
                             <mat-form-field class="w-full">
                                 <input
                                     matInput
-                                    type="number"
-                                    min="0"
-                                    [formControlName]="'dayNumber'"
+                                    type="text"
+                                    [formControlName]="'code'"
                                 />
                             </mat-form-field>
                             <mat-form-field class="w-full">
@@ -49,29 +40,18 @@
                                     matInput
                                     type="number"
                                     min="0"
-                                    max="{{ estimation.quantity }}"
                                     [formControlName]="'quantity'"
-                                /></mat-form-field
-                            >
-                            <mat-form-field class="w-full">
-                                <input
-                                    matInput
-                                    type="number"
-                                    min="0"
-                                    [formControlName]="'overTimeQuantity'"
-                                />
-                            </mat-form-field>
+                            /></mat-form-field>
                             <button
-                                (click)="addValueToEstimationArray()"
-                                [disabled]="this.totalQuantity === this.estimation.quantity"
+                                (click)="addValueToSeriesArray()"
                                 mat-raised-button
-                                class="flex min-w-fit gap-2 mb-4"
+                                class="mb-4 flex min-w-fit gap-2"
                                 color="primary"
                             >
                                 <mat-icon
                                     svgIcon="heroicons_outline:inbox"
                                 ></mat-icon>
-                                <span> Add Day + </span>
+                                <span> Add Series + </span>
                             </button>
                         </div>
                     </div>
@@ -79,9 +59,6 @@
             </form>
         </ng-container>
         <div class="gap-4">
-            <div class="hidden sm:block">
-                Total Required Quantity: {{ estimation.quantity }}
-            </div>
             <div class="hidden sm:block">
                 Total Added Required Quantity: {{ totalQuantity }}
             </div>
@@ -91,41 +68,22 @@
                 *ngIf="totalQuantity > 0"
                 class="col-span-12 flex flex-col gap-4"
             >
-                <div>LIST ADDED ESTIMATIONS</div>
-                <div class="estimation flex flex-col gap-2">
+                <div>LIST ADDED SERIES</div>
+                <div class="series flex flex-col gap-2">
                     <div class="grid">
                         <div
-                            class="estimation-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                            class="series-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
                         >
-                            <div class="hidden sm:block">Day Number</div>
+                            <div class="hidden sm:block">Code</div>
                             <div class="hidden sm:block">Required Quantity</div>
-                            <div class="hidden sm:block">
-                                Required Overtime Quantity
-                            </div>
-                            <div class="hidden sm:block">Add Series</div>
-
                         </div>
                         <div class="max-h-30 overflow-y-scroll">
-                            <ng-container
-                                *ngFor="let item of estimations; let i = index"
-                            >
+                            <ng-container *ngFor="let item of seriess">
                                 <div
-                                    class="estimation-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                    class="series-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
                                 >
-                                    <div>{{ item.dayNumber }}</div>
+                                    <div>{{ item.code }}</div>
                                     <div>{{ item.quantity }}</div>
-                                    <div>{{ item.overTimeQuantity }}</div>
-                                    <button
-                                        (click)="openSeriesDialog()"
-                                        mat-raised-button
-                                        class="flex min-w-fit gap-2 mb-4"
-                                        color="primary"
-                                    >
-                                        <mat-icon
-                                            svgIcon="heroicons_outline:inbox"
-                                        ></mat-icon>
-                                        <span> Add Series + </span>
-                                    </button>
                                 </div>
                             </ng-container>
                         </div>
@@ -133,20 +91,16 @@
                 </div>
             </div>
         </div>
-        <div class=" flex flex-col
-                                ">
+        <div class="flex flex-col">
             <div class="mt-4 flex justify-end">
                 <button
-                    (click)="onProductionEstimationSubmit()"
-                    [disabled]="this.totalQuantity !== this.estimation.quantity"
+                    (click)="onProductionSeriesSubmit()"
                     mat-raised-button
                     color="primary"
                     class="flex min-w-fit gap-2"
                 >
-                    <mat-icon
-                        svgIcon="heroicons_outline:inbox"
-                    ></mat-icon>
-                    <span> Submit Estimations</span>
+                    <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
+                    <span>Submit Series</span>
                 </button>
             </div>
         </div>

@@ -40,7 +40,7 @@ type ProductionEstimation = {
 type ProductionSeries = {
     id: string;
     code: string;
-    quantity: string;
+    quantity: number;
     faultyQuantity: number;
     currentProcess: string;
     status: string;
@@ -52,14 +52,19 @@ type MonthAndSpecs = {
 };
 
 type BatchAndSpecs = {
-    batch: number
+    batch: number;
     requirements: Reqs[];
-}
+};
 
 type Reqs = {
-        productName: string;
-        specificationId: string;
-        quantity: number;
-        size: string;
-        color: string;
+    productName: string;
+    specificationId: string;
+    quantity: number;
+    size: string;
+    color: string;
+};
+
+type Series = {
+    code: string;
+    quantity: number;
 };

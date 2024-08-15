@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
     FormsModule,
     ReactiveFormsModule,
@@ -7,15 +7,16 @@ import {
     UntypedFormGroup,
     Validators,
 } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
 import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 
 @Component({
-    selector: 'day-estimations',
+    selector: 'series',
     templateUrl: 'series.component.html',
     styleUrls: ['series.component.css'],
     standalone: true,
@@ -26,62 +27,48 @@ import { MatSelectModule } from '@angular/material/select';
         FormsModule,
         ReactiveFormsModule,
         MatInputModule,
+        MatFormFieldModule,
         MatSelectModule,
     ],
 })
 export class SeriesComponent implements OnInit {
-    estimations: any[] = [];
-    estimation: any;
-    addProductionEstimationForm: UntypedFormGroup;
+    seriess: Series[] = [];
+    series: Series;
+    addSeriesForm: UntypedFormGroup;
     totalQuantity: number = 0;
-
     constructor(
         public matDialogRef: MatDialogRef<SeriesComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: any,
-        private _formBuilder: UntypedFormBuilder,
-    ) {
-    }
+        private _formBuilder: UntypedFormBuilder
+    ) {}
 
     ngOnInit() {
-        this.estimation = this.data;
-        this.initProductionEstimationForm();
+        this.initProductionSeriesForm();
+        console.log(this.addSeriesForm.value);
     }
 
-    initProductionEstimationForm() {
-        this.addProductionEstimationForm = this._formBuilder.group({
-            quantity: [null, Validators.required],
-            overTimeQuantity: [null, Validators.required],
-            dayNumber: [1, Validators.required],
-            productionSeries: [[]],
+    initProductionSeriesForm() {
+        this.addSeriesForm = this._formBuilder.group({
+            code: [null, Validators.required],
+            quantity: [0, Validators.required],
         });
     }
 
-    addValueToEstimationArray() {
-        if (this.addProductionEstimationForm.valid) {
-            const estimation: ProductionEstimation =
-                this.addProductionEstimationForm.value;
-            this.estimations.push(estimation);
-            this.addProductionEstimationForm.reset();
-            console.log(estimation);
-            this.totalQuantity += estimation.quantity;
+    addValueToSeriesArray() {
+        if (this.addSeriesForm.valid) {
+            const series: ProductionSeries = this.addSeriesForm.value;
+            this.seriess.push(series);
+            this.addSeriesForm.reset();
+            console.log(this.seriess);
+            this.totalQuantity += series.quantity;
         }
     }
 
-    onProductionEstimationSubmit() {
-        console.log(this.data);
+    onProductionSeriesSubmit() {
+        const productionSeries: Series[] = this.seriess;
 
-        if (this.totalQuantity === this.estimation.quantity) {
-            const productionRequirement: any = {
-                productionSpecificationId: this.data.specificationId,
-                quantity: this.totalQuantity,
-                productionEstimations: this.estimations,
-            };
-            this.matDialogRef.close({
-                status: 'success',
-                data: productionRequirement,
-            });
-        }
+        this.matDialogRef.close({
+            status: 'success',
+            data: productionSeries,
+        });
     }
-
-
 }

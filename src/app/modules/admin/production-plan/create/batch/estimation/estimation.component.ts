@@ -7,12 +7,17 @@ import {
     UntypedFormGroup,
     Validators,
 } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {
+    MAT_DIALOG_DATA,
+    MatDialog,
+    MatDialogRef,
+} from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { SeriesComponent } from './series/series.component';
 
 @Component({
     selector: 'day-estimations',
@@ -34,14 +39,13 @@ export class EstimationComponent implements OnInit {
     estimation: any;
     addProductionEstimationForm: UntypedFormGroup;
     totalQuantity: number = 0;
-    series: any[] = [];
+    series: Series[] = [];
     constructor(
         public matDialogRef: MatDialogRef<EstimationComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
         private _formBuilder: UntypedFormBuilder,
-        private _dialog: MatDialog,
-    ) {
-    }
+        private _dialog: MatDialog
+    ) {}
 
     ngOnInit() {
         this.estimation = this.data;
@@ -86,17 +90,16 @@ export class EstimationComponent implements OnInit {
 
     openSeriesDialog() {
         this._dialog
-            .open(EstimationComponent, {
+            .open(SeriesComponent, {
                 width: '720px',
             })
             .afterClosed()
             .subscribe((result) => {
-                console.log(result);
                 if (result.status == 'success') {
                     this.series.push(result.data);
                     this.addProductionEstimationForm.controls[
-                        'productionRequirements'
-                        ].setValue(this.series);
+                        'productionSeries'
+                    ].setValue(this.series);
                     console.log(this.addProductionEstimationForm.value);
                 }
             });
