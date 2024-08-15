@@ -14,20 +14,80 @@
         </button>
     </div>
     <div
-        class="font-poppins bg-card space-y-10 overflow-y-scroll p-8 dark:bg-gray-800"
+        class="font-poppins bg-card space-y-6 overflow-y-scroll p-8 dark:bg-gray-800"
     >
-        <div class="grid grid-cols-12">
-            <div class="col-span-3 flex flex-col gap-4">
-                <div class="hidden sm:block">
-                    Total Required Quantity: {{ estimation.quantity }}
+        <ng-container *ngIf="addProductionEstimationForm">
+            <form [formGroup]="addProductionEstimationForm">
+                <div class="estimation flex flex-col gap-2">
+                    <div class="grid">
+                        <div
+                            class="estimation-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                        >
+                            <div class="hidden sm:block">Batch Number</div>
+                            <div class="hidden sm:block">
+                                Required Quantity
+                            </div>
+                            <div class="hidden sm:block">
+                                Required Overtime Quantity
+                            </div>
+                            <div class="hidden sm:block">
+                            </div>
+                        </div>
+                        <div
+                            class="estimation-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                        >
+                            <mat-form-field class="w-full">
+                                <input
+                                    matInput
+                                    type="number"
+                                    min="0"
+                                    [formControlName]="'batch'"
+                                />
+                            </mat-form-field>
+                            <mat-form-field class="w-full">
+                                <input
+                                    matInput
+                                    type="number"
+                                    min="0"
+                                    [formControlName]="'quantity'"
+                                /></mat-form-field
+                            >
+                            <mat-form-field class="w-full">
+                                <input
+                                    matInput
+                                    type="number"
+                                    min="0"
+                                    [formControlName]="'overTimeQuantity'"
+                                />
+                            </mat-form-field>
+                            <button
+                                (click)="addValueToEstimationArray()"
+                                mat-raised-button
+                                class="flex min-w-fit gap-2 mb-4"
+                                color="primary"
+                            >
+                                <mat-icon
+                                    svgIcon="heroicons_outline:inbox"
+                                ></mat-icon>
+                                <span> Add Batch + </span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <div class="hidden sm:block">
-                    Total Current Required Quantity: {{ totalQuantity }}
-                </div>
+            </form>
+        </ng-container>
+        <div class="gap-4">
+            <div class="hidden sm:block">
+                Total Required Quantity: {{ estimation.quantity }}
             </div>
+            <div class="hidden sm:block">
+                Total Added Required Quantity: {{ totalQuantity }}
+            </div>
+        </div>
+        <div class="grid grid-cols-12">
             <div
                 *ngIf="totalQuantity > 0"
-                class="col-span-9 flex flex-col gap-4 pt-4"
+                class="col-span-12 flex flex-col gap-4"
             >
                 <div>LIST ADDED ESTIMATIONS</div>
                 <div class="estimation flex flex-col gap-2">
@@ -35,95 +95,45 @@
                         <div
                             class="estimation-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
                         >
-                            <div class="hidden sm:block">No.</div>
+                            <div class="hidden sm:block">Batch Number</div>
                             <div class="hidden sm:block">Required Quantity</div>
                             <div class="hidden sm:block">
                                 Required Overtime Quantity
                             </div>
                         </div>
+                        <div class="max-h-30 overflow-y-scroll">
                         <ng-container
                             *ngFor="let item of estimations; let i = index"
                         >
                             <div
                                 class="estimation-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
                             >
-                                <div>{{ i + 1 }}</div>
+                                <div>{{ item.batch }}</div>
                                 <div>{{ item.quantity }}</div>
                                 <div>{{ item.overTimeQuantity }}</div>
                             </div>
                         </ng-container>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="flex flex-col">
-            <ng-container *ngIf="addProductionEstimationForm">
-                <form [formGroup]="addProductionEstimationForm">
-                    <div class="estimation flex flex-col gap-2">
-                        <div class="grid">
-                            <div
-                                class="estimation-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
-                            >
-                                <div class="hidden sm:block">No.</div>
-                                <div class="hidden sm:block">
-                                    Required Quantity
-                                </div>
-                                <div class="hidden sm:block">
-                                    Required Overtime Quantity
-                                </div>
-                            </div>
-                            <div
-                                class="estimation-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
-                            >
-                                <div class="w-full">
-                                    {{ batchNumber }}
-                                </div>
-                                <mat-form-field class="w-full">
-                                    <input
-                                        matInput
-                                        type="number"
-                                        min="0"
-                                        [formControlName]="'quantity'"
-                                    /> </mat-form-field
-                                ><mat-form-field class="w-full">
-                                    <input
-                                        matInput
-                                        type="number"
-                                        min="0"
-                                        [formControlName]="'overTimeQuantity'"
-                                    />
-                                </mat-form-field>
-                                <div class="justify-end pb-4">
-                                    <button
-                                        (click)="addValueToEstimationArray()"
-                                        mat-raised-button
-                                        class="flex min-w-fit gap-2"
-                                        color="primary"
-                                    >
-                                        <mat-icon
-                                            svgIcon="heroicons_outline:inbox"
-                                        ></mat-icon>
-                                        <span> Add Batch + </span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-4 flex justify-end">
-                        <button
-                            (click)="onProductionEstimationSubmit()"
-                            mat-raised-button
-                            color="primary"
-                            class="flex min-w-fit gap-2"
-                        >
-                            <mat-icon
-                                svgIcon="heroicons_outline:inbox"
-                            ></mat-icon>
-                            <span> Submit Estimations</span>
-                        </button>
-                    </div>
-                </form>
-            </ng-container>
+        <div class=" flex flex-col
+                                ">
+            <div class="mt-4 flex justify-end">
+                <button
+                    (click)="onProductionEstimationSubmit()"
+                    [disabled]="this.totalQuantity !== this.estimation.quantity"
+                    mat-raised-button
+                    color="primary"
+                    class="flex min-w-fit gap-2"
+                >
+                    <mat-icon
+                        svgIcon="heroicons_outline:inbox"
+                    ></mat-icon>
+                    <span> Submit Estimations</span>
+                </button>
+            </div>
         </div>
     </div>
 </div>

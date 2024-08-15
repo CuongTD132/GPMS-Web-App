@@ -45,7 +45,6 @@
                         <div class="hidden sm:block">Order Number</div>
                         <div class="hidden sm:block">Standard Time</div>
                         <div class="hidden sm:block">Output Per Hour</div>
-                        <div class="hidden sm:block">Description</div>
                         <div class="hidden sm:block">
                             Step Input/Output Detail
                         </div>
@@ -53,9 +52,7 @@
                     <div
                         class="production-process-step-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
                     >
-                        <ng-container
-                            *ngFor="let item of process.productionProcessSteps"
-                        >
+                        <ng-container *ngFor="let item of process.steps">
                             <div class="hidden sm:block">
                                 {{ item.name }}
                             </div>
@@ -70,9 +67,6 @@
                             </div>
                             <div class="hidden sm:block">
                                 {{ item.outputPerHour }}
-                            </div>
-                            <div class="hidden sm:block">
-                                {{ item.description }}
                             </div>
                             <div class="hidden sm:block">
                                 <span

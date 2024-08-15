@@ -1,11 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import {
     FormsModule,
     ReactiveFormsModule,
-    UntypedFormBuilder,
     UntypedFormGroup,
-    Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
@@ -19,6 +17,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { RouterModule } from '@angular/router';
 import { ProductionPlanService } from '../../production-plan.service';
+import { BatchsListComponent } from './batchs-list/batchs-list.component';
 import { EstimationsListComponent } from './estimations-list/estimations-list.component';
 
 @Component({
@@ -47,28 +46,21 @@ export class ProductionPlanMonthDetailComponent implements OnInit {
     selectedFile: File;
     uploadMessage: string;
     updateProductionPlanForm: UntypedFormGroup;
-
+    flashMessage: 'success' | 'error' | null = null;
+    message: string = null;
     constructor(
-        private _formBuilder: UntypedFormBuilder,
         private _productionPlanService: ProductionPlanService,
         private _dialog: MatDialog,
-        private dateAdapter: DateAdapter<Date>
+        private dateAdapter: DateAdapter<Date>,
+        private _changeDetectorRef: ChangeDetectorRef
     ) {}
 
     ngOnInit(): void {
         this._productionPlanService.productionPlan$.subscribe(
             (productionPlan) => {
                 this.productionPlan = productionPlan;
-                this.initProductionPlanForm();
             }
         );
-    }
-
-    initProductionPlanForm() {
-        this.updateProductionPlanForm = this._formBuilder.group({
-            name: [this.productionPlan.name, [Validators.required]],
-            code: [this.productionPlan.code, [Validators.required]],
-        });
     }
 
     getFormattedDate(date: string): string {
@@ -89,5 +81,44 @@ export class ProductionPlanMonthDetailComponent implements OnInit {
             })
             .afterClosed()
             .subscribe();
+    }
+
+    private showFlashMessage(
+        type: 'success' | 'error',
+        message: string,
+        time: number
+    ): void {
+        this.flashMessage = type;
+        this.message = message;
+        this._changeDetectorRef.markForCheck();
+        setTimeout(() => {
+            this.flashMessage = this.message = null;
+            this._changeDetectorRef.markForCheck();
+        }, time);
+    }
+
+    openCreateBatchProductionPlanDialog(id: string) {
+        this._productionPlanService
+            .getBatchsInMonthPlan(id)
+            .subscribe((batch) => {
+                if (batch) {
+                    this._dialog
+                        .open(BatchsListComponent, {
+                            data: id,
+                            width: '480px',
+                            height: '720px',
+                        })
+                        .afterClosed()
+                        .subscribe((result) => {
+                            if (result === 'success') {
+                                this.showFlashMessage(
+                                    'success',
+                                    'Create month production plan successful',
+                                    3000
+                                );
+                            }
+                        });
+                }
+            });
     }
 }

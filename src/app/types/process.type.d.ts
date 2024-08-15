@@ -4,7 +4,7 @@ type Process = {
     name: string;
     orderNumber: number;
     description?: string;
-    productionProcessSteps: ProductionProcessSteps[];
+    steps: ProductionProcessSteps[];
 };
 
 type ProductionProcessSteps = {

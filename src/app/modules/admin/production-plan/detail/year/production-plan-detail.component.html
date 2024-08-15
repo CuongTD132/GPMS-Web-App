@@ -73,7 +73,7 @@
                 </div>
             </div>
             <div class="col-span-9">
-                <div cla ss="grid">
+                <div class="grid">
                     <div class="production-plan-detail flex flex-col gap-2">
                         <span>LIST PRODUCTION REQUIREMENTS</span>
                         <div class="grid">
@@ -144,6 +144,7 @@
                     class="flex shrink-0 items-center justify-end gap-3 pt-4 sm:ml-4 sm:mt-0"
                 >
                     <button
+                        *ngIf="productionPlan.status !== 'InProgress'"
                         (click)="
                             openCreateMonthProductionPlanDialog(
                                 productionPlan.id
@@ -224,7 +225,6 @@
                                     </span>
                                     <span
                                         *ngIf="item.status === 'Pending'"
-                                        mat-button
                                         [matMenuTriggerFor]="menu"
                                     >
                                         <mat-icon

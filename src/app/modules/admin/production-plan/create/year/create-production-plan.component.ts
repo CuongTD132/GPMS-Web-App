@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import {
     FormsModule,
     ReactiveFormsModule,
@@ -45,8 +45,6 @@ export class CreateYearProductionPlanComponent implements OnInit {
     uploadMessage: string;
     createProductionPlanForm: UntypedFormGroup;
     addProductionRequirementForm: UntypedFormGroup;
-    addProductionEstimationForm: UntypedFormGroup;
-    currentDay: string;
     productionRequirements: any[] = [];
     flashMessage: 'success' | 'error' | null = null;
     message: string = null;
@@ -54,7 +52,6 @@ export class CreateYearProductionPlanComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA)
         public data: Specification[],
         private _dialog: MatDialog,
-        private _changeDetectorRef: ChangeDetectorRef,
         public matDialogRef: MatDialogRef<CreateYearProductionPlanComponent>,
         private _formBuilder: UntypedFormBuilder,
         private _productionPlanService: ProductionPlanService
@@ -65,18 +62,18 @@ export class CreateYearProductionPlanComponent implements OnInit {
         this.initProductionPlanForm();
         this.initProductionRequirementForm();
     }
-    logForm() {
-        console.log(this.createProductionPlanForm.value);
-    }
     initProductionPlanForm() {
         this.createProductionPlanForm = this._formBuilder.group({
-            name: ['Kế hoạch sản xuất áo Men Shirt', [Validators.required]],
-            code: ['PRO-PLAN00', [Validators.required]],
-            expectedStartingDate: ['2024-08-09', [Validators.required]],
-            dueDate: ['2024-12-30', [Validators.required]],
+            name: [
+                'Kế hoạch sản xuất áo ENCORE JEANS V6017',
+                [Validators.required],
+            ],
+            code: ['YEAR-PLAN00', [Validators.required]],
+            expectedStartingDate: ['2024-09-01', [Validators.required]],
+            dueDate: ['2024-11-30', [Validators.required]],
             type: ['Year', [Validators.required]],
             description: [
-                'Lên kế hoạch sản xuất áo Men Shirt từ 08-10-2024 đến 12-30-2024',
+                'Lên kế hoạch sản xuất ENCORE JEANS V6017 từ 2024-09-01 đến 2024-11-30',
                 [Validators.required],
             ],
             productionRequirements: [[], [Validators.required]],
@@ -96,20 +93,13 @@ export class CreateYearProductionPlanComponent implements OnInit {
             this._productionPlanService
                 .createYearProductionPlan(this.createProductionPlanForm.value)
                 .subscribe({
-                    next: (result) => {
+                    next: () => {
                         this.matDialogRef.close('success');
                     },
                     // error: (err) => {},
                 });
         }
     }
-
-    toggleSelection(event: any, id: string) {
-        console.log(id);
-
-        console.log(event.checked);
-    }
-
     add(item: Specification) {
         this._dialog
             .open(EstimationComponent, {

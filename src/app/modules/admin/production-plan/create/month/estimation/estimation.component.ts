@@ -49,6 +49,7 @@ export class EstimationComponent implements OnInit {
         this.addProductionEstimationForm = this._formBuilder.group({
             quantity: [null, Validators.required],
             overTimeQuantity: [null, Validators.required],
+            batch: [1, Validators.required],
         });
     }
 
@@ -64,7 +65,6 @@ export class EstimationComponent implements OnInit {
     }
 
     onProductionEstimationSubmit() {
-        if (this.totalQuantity === this.estimation.quantity) {
             const productionRequirement: any = {
                 productionSpecificationId: this.data.specificationId,
                 quantity: this.totalQuantity,
@@ -74,6 +74,5 @@ export class EstimationComponent implements OnInit {
                 status: 'success',
                 data: productionRequirement,
             });
-        }
     }
 }

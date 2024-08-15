@@ -11,6 +11,8 @@ export class ProductionPlanService {
         new BehaviorSubject(null);
     private _months: BehaviorSubject<MonthAndSpecs[] | null> =
         new BehaviorSubject(null);
+    private _batchs: BehaviorSubject<BatchAndSpecs[] | null> =
+        new BehaviorSubject(null);
     private _productionPlanPatch: BehaviorSubject<Patch | null> =
         new BehaviorSubject(null);
     private _pagination: BehaviorSubject<Pagination | null> =
@@ -37,6 +39,13 @@ export class ProductionPlanService {
      */
     get months$(): Observable<MonthAndSpecs[]> {
         return this._months.asObservable();
+    }
+
+    /**
+     * Getter for getBatchsInMonthPlan
+     */
+    get batch$(): Observable<BatchAndSpecs[]> {
+        return this._batchs.asObservable();
     }
 
     /**
@@ -91,6 +100,9 @@ export class ProductionPlanService {
         );
     }
 
+    /**
+     * Get all month and specifications for create month plan by id
+     */
     getMonthsInYearPlan(id: string): Observable<MonthAndSpecs[]> {
         return this.months$.pipe(
             take(1),
@@ -102,6 +114,26 @@ export class ProductionPlanService {
                     .pipe(
                         tap((response) => {
                             this._months.next(response);
+                        })
+                    )
+            )
+        );
+    }
+
+    /**
+     * Get all batch and specifications for create month plan by id
+     */
+    getBatchsInMonthPlan(id: string): Observable<BatchAndSpecs[]> {
+        return this.months$.pipe(
+            take(1),
+            switchMap(() =>
+                this._httpClient
+                    .post<
+                        BatchAndSpecs[]
+                    >('/api/v1/production-plans/' + id + '/create-month-plan/batchs', null)
+                    .pipe(
+                        tap((response) => {
+                            this._batchs.next(response);
                         })
                     )
             )
@@ -220,59 +252,6 @@ export class ProductionPlanService {
                             this._productionPlanPatch.next(response);
                         })
                     )
-            )
-        );
-    }
-
-    /**
-     * Update productionPlan
-     */
-    updateProductionPlan(id: string, data) {
-        return this.productionPlans$.pipe(
-            take(1),
-            switchMap((productionPlans) =>
-                this._httpClient
-                    .put<ProductionPlan>('/api/v1/production-plans/' + id, data)
-                    .pipe(
-                        map((updatedProductionPlan) => {
-                            // Find and replace updated productionPlan
-                            const index = productionPlans.findIndex(
-                                (item) => item.id === id
-                            );
-                            productionPlans[index] = updatedProductionPlan;
-                            this._productionPlans.next(productionPlans);
-
-                            // Update productionPlan
-                            this._productionPlan.next(updatedProductionPlan);
-
-                            return updatedProductionPlan;
-                        })
-                    )
-            )
-        );
-    }
-
-    deleteProductionPlan(id: string): Observable<boolean> {
-        return this.productionPlans$.pipe(
-            take(1),
-            switchMap((productionPlans) =>
-                this._httpClient.delete('/api/production-plans/' + id).pipe(
-                    map((isDeleted: boolean) => {
-                        // Find the index of the deleted product
-                        const index = productionPlans.findIndex(
-                            (item) => item.id === id
-                        );
-
-                        // Delete the product
-                        productionPlans.splice(index, 1);
-
-                        // Update the productionPlans
-                        this._productionPlans.next(productionPlans);
-
-                        // Return the deleted status
-                        return isDeleted;
-                    })
-                )
             )
         );
     }

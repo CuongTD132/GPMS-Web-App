@@ -44,6 +44,7 @@ import {
 import { CreateYearProductionPlanComponent } from './create/year/create-production-plan.component';
 import { ProductionPlanYearDetailComponent } from './detail/year/production-plan-detail.component';
 import { ProductionPlanService } from './production-plan.service';
+import { MatProgressBar } from '@angular/material/progress-bar';
 
 @Component({
     selector: 'productionPlan',
@@ -66,6 +67,7 @@ import { ProductionPlanService } from './production-plan.service';
         FuseAlertComponent,
         MatCheckboxModule,
         RouterModule,
+        MatProgressBar,
     ],
 })
 export class ProductionPlanComponent implements OnInit, AfterViewInit {

@@ -46,7 +46,6 @@ export class CreateMonthProductionPlanComponent implements OnInit {
     createProductionPlanForm: UntypedFormGroup;
     addProductionRequirementForm: UntypedFormGroup;
     addProductionEstimationForm: UntypedFormGroup;
-    currentDay: string;
     productionRequirements: any[] = [];
     flashMessage: 'success' | 'error' | null = null;
     message: string = null;
@@ -60,28 +59,23 @@ export class CreateMonthProductionPlanComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.data;
-        console.log(this.data.item);
         this.initProductionPlanForm();
         this.initProductionRequirementForm();
         this.initProductionEstimationForm();
-    }
-    logForm() {
-        console.log(this.createProductionPlanForm.value);
     }
     initProductionPlanForm() {
         this.createProductionPlanForm = this._formBuilder.group({
             parentProductionPlanId: this.data.parentId,
             name: [
-                'Kế hoạch sản xuất áo Men Shirt trong tháng 8',
+                'Kế hoạch sản xuất ENCORE JEANS V6017 trong tháng 9',
                 [Validators.required],
             ],
-            code: ['MONTH-PRO-PLAN001', [Validators.required]],
-            expectedStartingDate: ['2024-08-13', [Validators.required]],
-            dueDate: ['2024-08-31', [Validators.required]],
+            code: ['MONTH-PLAN001', [Validators.required]],
+            expectedStartingDate: ['2024-09-01', [Validators.required]],
+            dueDate: ['2024-09-30', [Validators.required]],
             type: ['Month', [Validators.required]],
             description: [
-                'Lên kế hoạch sản xuất áo Men Shirt từ 08-13-2024 đến 08-31-2024',
+                'Lên kế hoạch sản xuất áo ENCORE JEANS V6017 từ 2024-09-01 đến 2024-09-30',
                 [Validators.required],
             ],
             productionRequirements: [[], [Validators.required]],
@@ -119,15 +113,7 @@ export class CreateMonthProductionPlanComponent implements OnInit {
                 });
         }
     }
-
-    toggleSelection(event: any, id: string) {
-        console.log(id);
-
-        console.log(event.checked);
-    }
-
     add(item: Specification) {
-        const data = { item, quantity: this.data.item };
         this._dialog
             .open(EstimationComponent, {
                 data: item,

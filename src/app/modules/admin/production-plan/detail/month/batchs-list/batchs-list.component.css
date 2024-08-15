@@ -1,5 +1,5 @@
 .requirements-grid {
-    grid-template-columns: auto 50px 50px 160px;
+    grid-template-columns: 50px 50px auto;
 }
 
 .estimation-grid {

@@ -139,6 +139,25 @@
                         </div>
                     </div>
                 </div>
+                <div
+                    *ngIf="productionPlan.status === 'Approved'"
+                    class="flex shrink-0 items-center justify-end gap-3 pt-4 sm:ml-4 sm:mt-0"
+                >
+                    <button
+                        *ngIf="productionPlan.status !== 'InProgress'"
+                        (click)="
+                            openCreateBatchProductionPlanDialog(
+                                productionPlan.id
+                            )
+                        "
+                        mat-raised-button
+                        class="flex min-w-fit gap-2"
+                        color="primary"
+                    >
+                        <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
+                        <span> Create Batch Production Plans </span>
+                    </button>
+                </div>
             </div>
         </div>
         <ng-container

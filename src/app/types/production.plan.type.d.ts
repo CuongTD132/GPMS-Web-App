@@ -48,10 +48,18 @@ type ProductionSeries = {
 
 type MonthAndSpecs = {
     month: string;
-    requirements: {
+    requirements: Reqs[];
+};
+
+type BatchAndSpecs = {
+    batch: number
+    requirements: Reqs[];
+}
+
+type Reqs = {
+        productName: string;
         specificationId: string;
         quantity: number;
         size: string;
         color: string;
-    }[];
 };

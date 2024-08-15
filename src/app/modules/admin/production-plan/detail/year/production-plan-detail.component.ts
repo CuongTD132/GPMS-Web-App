@@ -3,7 +3,6 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import {
     FormsModule,
     ReactiveFormsModule,
-    UntypedFormBuilder,
     UntypedFormGroup,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -50,7 +49,6 @@ export class ProductionPlanYearDetailComponent implements OnInit {
     flashMessage: 'success' | 'error' | null = null;
     message: string = null;
     constructor(
-        private _formBuilder: UntypedFormBuilder,
         private _productionPlanService: ProductionPlanService,
         private _dialog: MatDialog,
         private dateAdapter: DateAdapter<Date>,

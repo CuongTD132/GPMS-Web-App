@@ -11,5 +11,5 @@ type Product = {
     status: string;
     semiFinishedProducts: SemiFinishedProduct[];
     specifications: Specification[];
-    processes: Process[];
+    productionProcesses: Process[];
 };

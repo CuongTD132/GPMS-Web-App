@@ -19,10 +19,10 @@ import { Observable } from 'rxjs';
 import { CreateMonthProductionPlanComponent } from '../../../create/month/create-production-plan.component';
 import { ProductionPlanService } from '../../../production-plan.service';
 @Component({
-    selector: 'months-list',
+    selector: 'batchs-list',
     standalone: true,
-    templateUrl: './months-list.component.html',
-    styleUrls: ['./months-list.component.css'],
+    templateUrl: './batchs-list.component.html',
+    styleUrls: ['./batchs-list.component.css'],
     imports: [
         CommonModule,
         MatButtonModule,
@@ -38,8 +38,8 @@ import { ProductionPlanService } from '../../../production-plan.service';
         CustomPipeModule,
     ],
 })
-export class MonthsListComponent implements OnInit {
-    monthsLists$: Observable<MonthAndSpecs[]>;
+export class BatchsListComponent implements OnInit {
+    batchsLists$: Observable<BatchAndSpecs[]>;
     previewUrl: string | ArrayBuffer;
     selectedFile: File;
     uploadMessage: string;
@@ -50,7 +50,7 @@ export class MonthsListComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA)
         public data: string,
         private _dialog: MatDialog,
-        public matDialogRef: MatDialogRef<MonthsListComponent>,
+        public matDialogRef: MatDialogRef<BatchsListComponent>,
         private _productionPlanService: ProductionPlanService
     ) {}
 
@@ -60,7 +60,7 @@ export class MonthsListComponent implements OnInit {
     }
 
     private getProductionPlans() {
-        this.monthsLists$ = this._productionPlanService.months$;
+        this.batchsLists$ = this._productionPlanService.batch$;
     }
 
     add(item: Reqs[]) {
