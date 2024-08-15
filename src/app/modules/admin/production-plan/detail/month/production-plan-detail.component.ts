@@ -113,7 +113,7 @@ export class ProductionPlanMonthDetailComponent implements OnInit {
                             if (result === 'success') {
                                 this.showFlashMessage(
                                     'success',
-                                    'Create month production plan successful',
+                                    'Create batch production plan successful',
                                     3000
                                 );
                             }

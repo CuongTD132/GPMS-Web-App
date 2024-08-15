@@ -39,14 +39,12 @@ import { EstimationComponent } from './estimation/estimation.component';
         MatCheckboxModule,
     ],
 })
-export class CreateMonthProductionPlanComponent implements OnInit {
+export class CreateBatchProductionPlanComponent implements OnInit {
     previewUrl: string | ArrayBuffer;
     selectedFile: File;
     uploadMessage: string;
     createProductionPlanForm: UntypedFormGroup;
     addProductionRequirementForm: UntypedFormGroup;
-    addProductionEstimationForm: UntypedFormGroup;
-    currentDay: string;
     productionRequirements: any[] = [];
     flashMessage: 'success' | 'error' | null = null;
     message: string = null;
@@ -54,34 +52,28 @@ export class CreateMonthProductionPlanComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA)
         public data: any,
         private _dialog: MatDialog,
-        public matDialogRef: MatDialogRef<CreateMonthProductionPlanComponent>,
+        public matDialogRef: MatDialogRef<CreateBatchProductionPlanComponent>,
         private _formBuilder: UntypedFormBuilder,
         private _productionPlanService: ProductionPlanService
     ) {}
 
     ngOnInit(): void {
-        this.data;
-        console.log(this.data.item);
         this.initProductionPlanForm();
         this.initProductionRequirementForm();
-        this.initProductionEstimationForm();
-    }
-    logForm() {
-        console.log(this.createProductionPlanForm.value);
     }
     initProductionPlanForm() {
         this.createProductionPlanForm = this._formBuilder.group({
             parentProductionPlanId: this.data.parentId,
             name: [
-                'Kế hoạch sản xuất áo Men Shirt batch số 1',
+                'Kế hoạch sản xuất ENCORE JEANS V6017 batch số 1',
                 [Validators.required],
             ],
-            code: ['BATCH-PRO-PLAN001', [Validators.required]],
-            expectedStartingDate: ['2024-08-13', [Validators.required]],
-            dueDate: ['2024-08-31', [Validators.required]],
-            type: ['Month', [Validators.required]],
+            code: ['BATCH-PLAN00', [Validators.required]],
+            expectedStartingDate: ['2024-09-01', [Validators.required]],
+            dueDate: ['2024-09-07', [Validators.required]],
+            type: ['Batch', [Validators.required]],
             description: [
-                'Lên kế hoạch sản xuất áo Men Shirt từ 08-13-2024 đến 08-31-2024',
+                'Lên kế hoạch sản xuất áo Men Shirt từ 2024-09-01 đến 2024-09-07',
                 [Validators.required],
             ],
             productionRequirements: [[], [Validators.required]],
@@ -96,12 +88,6 @@ export class CreateMonthProductionPlanComponent implements OnInit {
         });
     }
 
-    initProductionEstimationForm() {
-        this.addProductionEstimationForm = this._formBuilder.group({
-            quantity: [200, Validators.required],
-            overTimeQuantity: [250, Validators.required],
-        });
-    }
 
     createProductionPlan() {
         console.log(this.createProductionPlanForm);
@@ -119,15 +105,7 @@ export class CreateMonthProductionPlanComponent implements OnInit {
                 });
         }
     }
-
-    toggleSelection(event: any, id: string) {
-        console.log(id);
-
-        console.log(event.checked);
-    }
-
-    add(item: Specification) {
-        const data = { item, quantity: this.data.item };
+    add(item: Reqs[]) {
         this._dialog
             .open(EstimationComponent, {
                 data: item,

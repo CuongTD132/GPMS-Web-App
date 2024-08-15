@@ -7,7 +7,7 @@ import {
     UntypedFormGroup,
     Validators,
 } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
 import { MatButtonModule } from '@angular/material/button';
@@ -16,8 +16,8 @@ import { MatSelectModule } from '@angular/material/select';
 
 @Component({
     selector: 'day-estimations',
-    templateUrl: 'estimation.component.html',
-    styleUrls: ['estimation.component.css'],
+    templateUrl: 'series.component.html',
+    styleUrls: ['series.component.css'],
     standalone: true,
     imports: [
         CommonModule,
@@ -29,17 +29,16 @@ import { MatSelectModule } from '@angular/material/select';
         MatSelectModule,
     ],
 })
-export class EstimationComponent implements OnInit {
+export class SeriesComponent implements OnInit {
     estimations: any[] = [];
     estimation: any;
     addProductionEstimationForm: UntypedFormGroup;
     totalQuantity: number = 0;
-    series: any[] = [];
+
     constructor(
-        public matDialogRef: MatDialogRef<EstimationComponent>,
+        public matDialogRef: MatDialogRef<SeriesComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
         private _formBuilder: UntypedFormBuilder,
-        private _dialog: MatDialog,
     ) {
     }
 
@@ -84,21 +83,5 @@ export class EstimationComponent implements OnInit {
         }
     }
 
-    openSeriesDialog() {
-        this._dialog
-            .open(EstimationComponent, {
-                width: '720px',
-            })
-            .afterClosed()
-            .subscribe((result) => {
-                console.log(result);
-                if (result.status == 'success') {
-                    this.series.push(result.data);
-                    this.addProductionEstimationForm.controls[
-                        'productionRequirements'
-                        ].setValue(this.series);
-                    console.log(this.addProductionEstimationForm.value);
-                }
-            });
-    }
+
 }

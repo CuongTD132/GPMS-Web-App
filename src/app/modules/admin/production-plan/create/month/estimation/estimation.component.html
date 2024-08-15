@@ -49,6 +49,7 @@
                                     matInput
                                     type="number"
                                     min="0"
+                                    max="{{ estimation.quantity }}"
                                     [formControlName]="'quantity'"
                                 /></mat-form-field
                             >
@@ -62,6 +63,7 @@
                             </mat-form-field>
                             <button
                                 (click)="addValueToEstimationArray()"
+                                [disabled]="this.totalQuantity === this.estimation.quantity"
                                 mat-raised-button
                                 class="flex min-w-fit gap-2 mb-4"
                                 color="primary"

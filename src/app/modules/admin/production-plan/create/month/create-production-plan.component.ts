@@ -70,7 +70,7 @@ export class CreateMonthProductionPlanComponent implements OnInit {
                 'Kế hoạch sản xuất ENCORE JEANS V6017 trong tháng 9',
                 [Validators.required],
             ],
-            code: ['MONTH-PLAN001', [Validators.required]],
+            code: ['MONTH-PLAN00', [Validators.required]],
             expectedStartingDate: ['2024-09-01', [Validators.required]],
             dueDate: ['2024-09-30', [Validators.required]],
             type: ['Month', [Validators.required]],
@@ -104,9 +104,8 @@ export class CreateMonthProductionPlanComponent implements OnInit {
             this._productionPlanService
                 .createChildProductionPlan(this.createProductionPlanForm.value)
                 .subscribe({
-                    next: (result: any) => {
-                        console.log(result);
-
+                    next: () => {
+                        this._productionPlanService.getProductionPlanById(this.data.parentId).subscribe()
                         this.matDialogRef.close('success');
                     },
                     // error: (err) => {},

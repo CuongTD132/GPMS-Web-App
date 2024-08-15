@@ -18,6 +18,7 @@ import { CustomPipeModule } from '@fuse/pipes/pipe.module';
 import { Observable } from 'rxjs';
 import { CreateMonthProductionPlanComponent } from '../../../create/month/create-production-plan.component';
 import { ProductionPlanService } from '../../../production-plan.service';
+import { CreateBatchProductionPlanComponent } from '../../../create/batch/create-production-plan.component';
 @Component({
     selector: 'batchs-list',
     standalone: true,
@@ -66,7 +67,7 @@ export class BatchsListComponent implements OnInit {
     add(item: Reqs[]) {
         const data = { item, parentId: this.parentId };
         this._dialog
-            .open(CreateMonthProductionPlanComponent, {
+            .open(CreateBatchProductionPlanComponent, {
                 data: data,
                 width: '720px',
             })
