@@ -35,11 +35,11 @@ import { SeriesComponent } from './series/series.component';
     ],
 })
 export class EstimationComponent implements OnInit {
-    estimations: any[] = [];
+    estimations: BatchReqs[] = [];
+    addedEstimations: BatchReqs[] = [];
     estimation: any;
     addProductionEstimationForm: UntypedFormGroup;
     totalQuantity: number = 0;
-    series: Series[] = [];
     constructor(
         public matDialogRef: MatDialogRef<EstimationComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -57,15 +57,15 @@ export class EstimationComponent implements OnInit {
             quantity: [null, Validators.required],
             overTimeQuantity: [null, Validators.required],
             dayNumber: [1, Validators.required],
-            productionSeries: [[]],
+            productionSeries: [],
         });
     }
 
     addValueToEstimationArray() {
         if (this.addProductionEstimationForm.valid) {
-            const estimation: ProductionEstimation =
+            const estimation: BatchReqs =
                 this.addProductionEstimationForm.value;
-            this.estimations.push(estimation);
+            this.addedEstimations.push(estimation);
             this.addProductionEstimationForm.reset();
             console.log(estimation);
             this.totalQuantity += estimation.quantity;
@@ -73,14 +73,14 @@ export class EstimationComponent implements OnInit {
     }
 
     onProductionEstimationSubmit() {
-        console.log(this.data);
-
         if (this.totalQuantity === this.estimation.quantity) {
             const productionRequirement: any = {
                 productionSpecificationId: this.data.specificationId,
                 quantity: this.totalQuantity,
                 productionEstimations: this.estimations,
             };
+            console.log(productionRequirement);
+
             this.matDialogRef.close({
                 status: 'success',
                 data: productionRequirement,
@@ -88,18 +88,19 @@ export class EstimationComponent implements OnInit {
         }
     }
 
-    openSeriesDialog() {
+    openSeriesDialog(item: BatchReqs) {
         this._dialog
             .open(SeriesComponent, {
                 width: '720px',
+                data: item,
             })
             .afterClosed()
             .subscribe((result) => {
                 if (result.status == 'success') {
-                    this.series.push(result.data);
-                    this.addProductionEstimationForm.controls[
-                        'productionSeries'
-                    ].setValue(this.series);
+                    this.estimations.push(result.data);
+                    console.log(this.estimations);
+
+                    this.addProductionEstimationForm.setValue(this.estimations);
                     console.log(this.addProductionEstimationForm.value);
                 }
             });

@@ -64,6 +64,13 @@ type Reqs = {
     color: string;
 };
 
+type BatchReqs = {
+    quantity: number;
+    overTimeQuantity: number;
+    dayNumber: number;
+    productionSeries: Series[];
+};
+
 type Series = {
     code: string;
     quantity: number;

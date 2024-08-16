@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import {
     FormsModule,
     ReactiveFormsModule,
@@ -7,7 +7,7 @@ import {
     UntypedFormGroup,
     Validators,
 } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
 import { MatButtonModule } from '@angular/material/button';
@@ -36,14 +36,16 @@ export class SeriesComponent implements OnInit {
     series: Series;
     addSeriesForm: UntypedFormGroup;
     totalQuantity: number = 0;
+    requiredQuantity: number;
     constructor(
+        @Inject(MAT_DIALOG_DATA) public data: BatchReqs,
         public matDialogRef: MatDialogRef<SeriesComponent>,
         private _formBuilder: UntypedFormBuilder
     ) {}
 
     ngOnInit() {
         this.initProductionSeriesForm();
-        console.log(this.addSeriesForm.value);
+        this.requiredQuantity = this.data.quantity;
     }
 
     initProductionSeriesForm() {
@@ -55,20 +57,25 @@ export class SeriesComponent implements OnInit {
 
     addValueToSeriesArray() {
         if (this.addSeriesForm.valid) {
-            const series: ProductionSeries = this.addSeriesForm.value;
+            const series: Series = this.addSeriesForm.value;
             this.seriess.push(series);
             this.addSeriesForm.reset();
-            console.log(this.seriess);
             this.totalQuantity += series.quantity;
         }
     }
 
     onProductionSeriesSubmit() {
-        const productionSeries: Series[] = this.seriess;
+        const productionRequirement: BatchReqs = {
+            dayNumber: this.data.dayNumber,
+            quantity: this.data.quantity,
+            overTimeQuantity: this.data.overTimeQuantity,
+            productionSeries: this.seriess,
+        };
+        console.log(productionRequirement);
 
         this.matDialogRef.close({
             status: 'success',
-            data: productionSeries,
+            data: productionRequirement,
         });
     }
 }

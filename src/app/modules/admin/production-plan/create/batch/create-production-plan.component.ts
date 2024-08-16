@@ -73,7 +73,7 @@ export class CreateBatchProductionPlanComponent implements OnInit {
             dueDate: ['2024-09-07', [Validators.required]],
             type: ['Batch', [Validators.required]],
             description: [
-                'Lên kế hoạch sản xuất áo Men Shirt từ 2024-09-01 đến 2024-09-07',
+                'Lên kế hoạch sản xuất ENCORE JEANS V6017 từ 2024-09-01 đến 2024-09-07',
                 [Validators.required],
             ],
             productionRequirements: [[], [Validators.required]],
@@ -87,7 +87,6 @@ export class CreateBatchProductionPlanComponent implements OnInit {
             productionEstimations: [[], [Validators.required]],
         });
     }
-
 
     createProductionPlan() {
         console.log(this.createProductionPlanForm);
@@ -113,7 +112,6 @@ export class CreateBatchProductionPlanComponent implements OnInit {
             })
             .afterClosed()
             .subscribe((result) => {
-                console.log(result);
                 if (result.status == 'success') {
                     this.productionRequirements.push(result.data);
                     this.createProductionPlanForm.controls[
