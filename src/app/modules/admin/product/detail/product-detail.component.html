@@ -1,119 +1,132 @@
-<div
-    class="-my-6 flex max-h-[calc(100vh-128px)] flex-auto flex-col overflow-y-scroll p-8"
->
+<ng-container *ngIf="product">
     <div
-        class="font-poppins bg-card mx-8 my-6 space-y-1 rounded-lg p-8 dark:bg-gray-800"
+        class="-my-6 flex max-h-[calc(100vh-128px)] flex-auto flex-col overflow-y-scroll p-8"
     >
         <div
-            *ngIf="product.status === 'Approved'"
-            class="mt-6 flex shrink-0 items-center justify-end gap-3 sm:ml-4 sm:mt-0"
+            class="font-poppins bg-card mx-8 my-6 space-y-1 rounded-lg p-8 dark:bg-gray-800"
         >
-            <button
-                (click)="openCreateYearProductionPlanDialog()"
-                mat-raised-button
-                class="flex min-w-fit gap-2"
-                color="primary"
+            <div
+                *ngIf="product.status === 'Approved'"
+                class="mt-6 flex shrink-0 items-center justify-end gap-3 sm:ml-4 sm:mt-0"
             >
-                <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
-                <span> Create Year Production Plan </span>
-            </button>
-        </div>
-        <div class="grid w-full grid-cols-12">
-            <div class="col-span-4 flex">
-                <div
-                    class="relative mr-6 flex h-72 w-72 flex-0 items-center justify-center overflow-hidden rounded border"
+                <button
+                    (click)="openCreateYearProductionPlanDialog()"
+                    mat-raised-button
+                    class="flex min-w-fit gap-2"
+                    color="primary"
                 >
-                    <img
-                        class="w-8"
-                        *ngIf="
-                            product.imageURLs && product.imageURLs.length > 0
-                        "
-                        [alt]="'Product image'"
-                        [src]="product.imageURLs[0]"
-                    />
-                    <div
-                        class="flex h-full w-full items-center justify-center text-center text-xs font-semibold uppercase leading-none"
-                        *ngIf="
-                            !product.imageURLs ||
-                            !(product.imageURLs.length > 0)
-                        "
-                    >
-                        NO THUMB
-                    </div>
-                </div>
+                    <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
+                    <span> Create Year Production Plan </span>
+                </button>
             </div>
-            <div class="col-span-8 flex flex-col gap-4">
-                <div class="product-name">
-                    {{ product.name | uppercase }}
-                </div>
-                <div class="product-code">
-                    Product Code - {{ product.code | uppercase }}
-                </div>
-                <div class="product-description">
-                    {{ product.description }}
-                </div>
-                <div class="grid grid-cols-12">
-                    <div class="col-span-4 flex flex-col gap-4">
-                        <div class="size">
-                            <span>SIZES</span>
-                            <mat-chip-set aria-label="Dog selection">
-                                <mat-chip *ngFor="let item of product.sizes">
-                                    {{ item }}
-                                </mat-chip>
-                            </mat-chip-set>
-                        </div>
-                        <div class="color">
-                            <span>COLORS</span>
-                            <mat-chip-set aria-label="Dog selection">
-                                <mat-chip *ngFor="let item of product.colors">
-                                    {{ item }}
-                                </mat-chip>
-                            </mat-chip-set>
-                        </div>
-                        <div class="category">
-                            <span>CATEGORY</span>
-                            <mat-chip-set aria-label="Dog selection">
-                                <mat-chip>
-                                    {{ product.category.name }}
-                                </mat-chip>
-                            </mat-chip-set>
+            <div class="grid w-full grid-cols-12 space-x-5 pb-10">
+                <div class="col-span-4 flex">
+                    <div
+                        class="relative mr-6 flex h-72 w-72 flex-0 items-center justify-center overflow-hidden rounded border"
+                    >
+                        <img
+                            class="w-8"
+                            *ngIf="
+                                product.imageURLs &&
+                                product.imageURLs.length > 0
+                            "
+                            [alt]="'Product image'"
+                            [src]="product.imageURLs[0]"
+                        />
+                        <div
+                            class="flex h-full w-full items-center justify-center text-center text-xs font-semibold uppercase leading-none"
+                            *ngIf="
+                                !product.imageURLs ||
+                                !(product.imageURLs.length > 0)
+                            "
+                        >
+                            NO THUMB
                         </div>
                     </div>
-                    <div class="col-span-8">
-                        <div class="semi-finished-products flex flex-col gap-2">
-                            <span>SEMI FINISHED PRODUCTS</span>
-                            <div class="grid">
-                                <div
-                                    class="semi-finished-product-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
-                                >
-                                    <div class="hidden sm:block">Code</div>
-                                    <div class="hidden sm:block">Name</div>
-                                    <div class="hidden sm:block">Quantity</div>
-                                </div>
-                                <div
-                                    class="semi-finished-product-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
-                                >
-                                    <ng-container
-                                        *ngFor="
-                                            let item of product.semiFinishedProducts
-                                        "
+                </div>
+                <div class="col-span-8 flex flex-col gap-4">
+                    <div class="product-name">
+                        {{ product.name | uppercase }}
+                    </div>
+                    <div class="product-code">
+                        Product Code - {{ product.code | uppercase }}
+                    </div>
+                    <div class="product-description">
+                        {{ product.description }}
+                    </div>
+                    <div class="grid grid-cols-12">
+                        <div class="col-span-4 flex flex-col gap-4">
+                            <div class="size">
+                                <span>SIZES</span>
+                                <mat-chip-set aria-label="Dog selection">
+                                    <mat-chip
+                                        *ngFor="let item of product.sizes"
                                     >
+                                        {{ item }}
+                                    </mat-chip>
+                                </mat-chip-set>
+                            </div>
+                            <div class="color">
+                                <span>COLORS</span>
+                                <mat-chip-set aria-label="Dog selection">
+                                    <mat-chip
+                                        *ngFor="let item of product.colors"
+                                    >
+                                        {{ item }}
+                                    </mat-chip>
+                                </mat-chip-set>
+                            </div>
+                            <div class="category">
+                                <span>CATEGORY</span>
+                                <mat-chip-set aria-label="Dog selection">
+                                    <mat-chip>
+                                        {{ product.category.name }}
+                                    </mat-chip>
+                                </mat-chip-set>
+                            </div>
+                        </div>
+                        <div class="col-span-8">
+                            <div
+                                class="semi-finished-products flex flex-col gap-2"
+                            >
+                                <span>SEMI FINISHED PRODUCTS</span>
+                                <div class="grid">
+                                    <div
+                                        class="semi-finished-product-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                                    >
+                                        <div class="hidden sm:block">Code</div>
+                                        <div class="hidden sm:block">Name</div>
                                         <div class="hidden sm:block">
-                                            {{ item.code }}
+                                            Quantity
                                         </div>
-                                        <div class="hidden sm:block">
-                                            {{ item.name }}
-                                        </div>
-                                        <div class="hidden sm:block">
-                                            {{ item.quantity }}
-                                        </div>
-                                    </ng-container>
+                                    </div>
+                                    <div
+                                        class="semi-finished-product-grid grid max-h-50 items-center gap-4 overflow-y-scroll border-b px-6 py-3 md:px-8"
+                                    >
+                                        <ng-container
+                                            *ngFor="let item of semies"
+                                        >
+                                            <div class="hidden sm:block">
+                                                {{ item.code }}
+                                            </div>
+                                            <div class="hidden sm:block">
+                                                {{ item.name }}
+                                            </div>
+                                            <div class="hidden sm:block">
+                                                {{ item.quantity }}
+                                            </div>
+                                        </ng-container>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="semi-finished-products flex flex-col gap-2">
+            </div>
+            <div class="grid w-full grid-cols-12">
+                <div
+                    class="semi-finished-products col-span-4 flex flex-col gap-2"
+                >
                     <span>SPECIFICATIONS</span>
                     <div class="grid">
                         <div
@@ -127,7 +140,7 @@
                             <div class="hidden sm:block">Detail</div>
                         </div>
                         <div
-                            class="product-specifications-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                            class="product-specifications-grid grid max-h-50 items-center gap-4 overflow-y-scroll border-b px-6 py-3 md:px-8"
                         >
                             <ng-container
                                 *ngFor="let item of product.specifications"
@@ -144,7 +157,9 @@
                                 <div class="hidden sm:block">
                                     <span
                                         (click)="
-                                            openSpecificationDetailDialog(item)
+                                            openSpecificationDetailDialog(
+                                                item.id
+                                            )
                                         "
                                     >
                                         <mat-icon
@@ -159,11 +174,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="product-processes flex flex-col gap-2">
+                <div class="col-span-1"></div>
+                <div class="product-processes col-span-7 flex flex-col gap-2">
                     <span>PROCESSES</span>
                     <div class="grid">
                         <div
-                            class="product-processes-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                            class="product-processes-grid text-secondary grid max-h-50 gap-4 overflow-y-scroll bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
                         >
                             <div class="hidden sm:block">Code</div>
                             <div class="hidden sm:block">Name</div>
@@ -171,7 +187,7 @@
                             <div class="hidden sm:block">Detail</div>
                         </div>
                         <div
-                            class="product-processes-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                            class="product-processes-grid grid max-h-50 items-center gap-4 overflow-y-scroll border-b px-6 py-3 md:px-8"
                         >
                             <ng-container
                                 *ngFor="let item of product.productionProcesses"
@@ -204,4 +220,4 @@
             </div>
         </div>
     </div>
-</div>
+</ng-container>

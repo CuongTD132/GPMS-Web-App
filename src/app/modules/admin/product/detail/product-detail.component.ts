@@ -3,9 +3,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import {
     FormsModule,
     ReactiveFormsModule,
-    UntypedFormBuilder,
     UntypedFormGroup,
-    Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
@@ -16,6 +14,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { CreateYearProductionPlanComponent } from '../../production-plan/create/year/create-production-plan.component';
+import { SemiService } from '../../semi/semi.service';
+import { SpecificationService } from '../../specification/specification.service';
 import { ProductService } from '../product.service';
 import { ProcessDetailComponent } from './process-detail/process-detail.component';
 import { SpecificationDetailComponent } from './specification-detail/specification-detail.component';
@@ -40,6 +40,7 @@ import { SpecificationDetailComponent } from './specification-detail/specificati
 })
 export class ProductDetailComponent implements OnInit {
     product: Product;
+    semies: SemiFinishedProduct[];
     previewUrl: string | ArrayBuffer;
     selectedFile: File;
     uploadMessage: string;
@@ -47,8 +48,9 @@ export class ProductDetailComponent implements OnInit {
     flashMessage: 'success' | 'error' | null = null;
     message: string = null;
     constructor(
-        private _formBuilder: UntypedFormBuilder,
         private _productService: ProductService,
+        private _specificationsService: SpecificationService,
+        private _semiService: SemiService,
         private _dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef
     ) {}
@@ -56,15 +58,11 @@ export class ProductDetailComponent implements OnInit {
     ngOnInit(): void {
         this._productService.product$.subscribe((product) => {
             this.product = product;
-            this.initProductForm();
+            this._semiService.getSemies(this.product.id).subscribe((semi) => {
+                this.semies = semi.data;
+            });
         });
-    }
-
-    initProductForm() {
-        this.updateProductForm = this._formBuilder.group({
-            name: [this.product.name, [Validators.required]],
-            code: [this.product.code, [Validators.required]],
-        });
+        // console.log(this.semies$);
     }
 
     private showFlashMessage(
@@ -100,16 +98,20 @@ export class ProductDetailComponent implements OnInit {
             });
     }
 
-    updateProduct() {}
-
-    openSpecificationDetailDialog(specification: Specification) {
-        this._dialog
-            .open(SpecificationDetailComponent, {
-                width: '1080px',
-                data: specification,
-            })
-            .afterClosed()
-            .subscribe();
+    openSpecificationDetailDialog(id: string) {
+        this._specificationsService
+            .getSpecificationById(id)
+            .subscribe((specification) => {
+                if (specification) {
+                    this._dialog
+                        .open(SpecificationDetailComponent, {
+                            width: '1080px',
+                            data: specification,
+                        })
+                        .afterClosed()
+                        .subscribe();
+                }
+            });
     }
 
     openProcessDetailDialog(process: Process) {

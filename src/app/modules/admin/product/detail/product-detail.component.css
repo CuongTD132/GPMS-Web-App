@@ -3,9 +3,9 @@
 }
 
 .product-specifications-grid {
-    grid-template-columns: 120px auto 120px 96px;
+    grid-template-columns: 50px auto 120px 50px;
 }
 
 .product-processes-grid {
-    grid-template-columns: auto auto 120px 96px;
+    grid-template-columns: auto auto 100px 50px;
 }

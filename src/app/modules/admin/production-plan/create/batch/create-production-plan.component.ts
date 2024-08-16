@@ -89,8 +89,6 @@ export class CreateBatchProductionPlanComponent implements OnInit {
     }
 
     createProductionPlan() {
-        console.log(this.createProductionPlanForm);
-
         if (this.createProductionPlanForm.valid) {
             this._productionPlanService
                 .createChildProductionPlan(this.createProductionPlanForm.value)
@@ -100,7 +98,6 @@ export class CreateBatchProductionPlanComponent implements OnInit {
 
                         this.matDialogRef.close('success');
                     },
-                    // error: (err) => {},
                 });
         }
     }

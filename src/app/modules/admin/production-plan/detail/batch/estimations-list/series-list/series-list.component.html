@@ -37,17 +37,11 @@
                                 <div class="hidden sm:block">
                                     {{ item.quantity }}
                                 </div>
-                                <div
-                                    class="hidden sm:block"
-                                    *ngIf="item.faultyQuantity"
-                                >
-                                    {{ item.faultyQuantity }}
+                                <div class="hidden sm:block">
+                                    {{ item.faultyQuantity || 0 }}
                                 </div>
-                                <div
-                                    class="hidden sm:block"
-                                    *ngIf="item.currentProcess"
-                                >
-                                    {{ item.currentProcess || 'Not Started' }}
+                                <div class="hidden sm:block">
+                                    {{ item.currentProcess || 'Not Start' }}
                                 </div>
                                 <div class="hidden sm:block">
                                     {{ item.status }}

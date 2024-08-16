@@ -121,4 +121,40 @@ export class ProductionPlanMonthDetailComponent implements OnInit {
                 }
             });
     }
+
+    approveProductionPlan(id: string) {
+        this._productionPlanService
+            .approveProductionPlan(id)
+            .subscribe((response) => {
+                this._productionPlanService
+                    .getProductionPlanById(this.productionPlan.id)
+                    .subscribe((productionPlan) => {
+                        this.productionPlan = productionPlan;
+                    });
+            });
+    }
+
+    startProductionPlan(id: string) {
+        this._productionPlanService
+            .startProductionPlan(id)
+            .subscribe((response) => {
+                this._productionPlanService
+                    .getProductionPlanById(this.productionPlan.id)
+                    .subscribe((productionPlan) => {
+                        this.productionPlan = productionPlan;
+                    });
+            });
+    }
+
+    declineProductionPlan(id: string) {
+        this._productionPlanService
+            .declineProductionPlan(id)
+            .subscribe((response) => {
+                this._productionPlanService
+                    .getProductionPlanById(this.productionPlan.id)
+                    .subscribe((productionPlan) => {
+                        this.productionPlan = productionPlan;
+                    });
+            });
+    }
 }

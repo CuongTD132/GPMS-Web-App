@@ -78,21 +78,19 @@
                         <span>LIST PRODUCTION REQUIREMENTS</span>
                         <div class="grid">
                             <div
-                                class="production-plan-detail-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                                class="production-plan-detail-grid text-secondary grid max-h-50 gap-4 overflow-y-scroll bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
                             >
                                 <div class="hidden sm:block">Product Code</div>
                                 <div class="hidden sm:block">Product Name</div>
                                 <div class="hidden sm:block">Product Size</div>
                                 <div class="hidden sm:block">Product Color</div>
-                                <div class="hidden sm:block">
-                                    Required
-                                </div>
+                                <div class="hidden sm:block">Required</div>
                                 <div class="hidden sm:block">
                                     Estimations List
                                 </div>
                             </div>
                             <div
-                                class="production-plan-detail-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                class="production-plan-detail-grid grid max-h-100 items-center gap-4 overflow-y-scroll border-b px-6 py-3 md:px-8"
                             >
                                 <ng-container
                                     *ngFor="
@@ -143,78 +141,5 @@
                 </div>
             </div>
         </div>
-        <ng-container
-            *ngIf="
-                productionPlan.childProductionPlans &&
-                productionPlan.childProductionPlans.length > 0
-            "
-        >
-            <div class="grid w-full">
-                <div class="production-plans flex flex-col gap-2">
-                    <ng-container *ngIf="productionPlan.type === 'Year'"
-                        ><span>LIST MONTH PRODUCTION PLANS</span></ng-container
-                    >
-                    <ng-container *ngIf="productionPlan.type === 'Month'"
-                        ><span>LIST BATCH PRODUCTION PLANS</span></ng-container
-                    >
-
-                    <div class="grid">
-                        <div
-                            class="production-plans-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
-                        >
-                            <div class="hidden sm:block">Code</div>
-                            <div class="hidden sm:block">Name</div>
-                            <div class="hidden sm:block">
-                                Expected Starting Date
-                            </div>
-                            <div class="hidden sm:block">
-                                Actual Starting Date
-                            </div>
-                            <div class="hidden sm:block">Due Date</div>
-                            <div class="hidden sm:block">Status</div>
-                            <div class="hidden sm:block">Detail</div>
-                        </div>
-                        <div
-                            class="production-plans-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
-                        >
-                            <ng-container
-                                *ngFor="
-                                    let item of productionPlan.childProductionPlans
-                                "
-                            >
-                                <div class="hidden sm:block">
-                                    {{ item.code }}
-                                </div>
-                                <div class="hidden sm:block">
-                                    {{ item.name }}
-                                </div>
-                                <div class="hidden sm:block">
-                                    {{ item.expectedStartingDate | date }}
-                                </div>
-                                <div class="hidden sm:block">
-                                    {{ item.actualStartingDate | date }}
-                                </div>
-                                <div class="hidden sm:block">
-                                    {{ item.dueDate | date }}
-                                </div>
-                                <div class="hidden sm:block">
-                                    {{ item.status }}
-                                </div>
-                                <div class="hidden sm:block">
-                                    <span [routerLink]="[item.id]">
-                                        <mat-icon
-                                            class="cursor-pointer text-blue-500 icon-size-5"
-                                            [svgIcon]="
-                                                'heroicons_outline:pencil-square'
-                                            "
-                                        ></mat-icon>
-                                    </span>
-                                </div>
-                            </ng-container>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </ng-container>
     </div>
 </div>

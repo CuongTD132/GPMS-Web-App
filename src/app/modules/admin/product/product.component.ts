@@ -43,7 +43,6 @@ import {
     takeUntil,
 } from 'rxjs';
 import { CreateProductComponent } from './create/create-product.component';
-import { ProductDetailComponent } from './detail/product-detail.component';
 import { ProductService } from './product.service';
 
 @Component({
@@ -265,27 +264,6 @@ export class ProductComponent implements OnInit, AfterViewInit {
                     );
                 }
             });
-    }
-
-    openProductDetailDialog(id: string) {
-        this._productService.getProductById(id).subscribe((product) => {
-            if (product) {
-                this._dialog
-                    .open(ProductDetailComponent, {
-                        width: '720px',
-                    })
-                    .afterClosed()
-                    .subscribe((result) => {
-                        if (result === 'success') {
-                            this.showFlashMessage(
-                                'success',
-                                'Update product successful',
-                                3000
-                            );
-                        }
-                    });
-            }
-        });
     }
 
     approveProduct(id: string) {

@@ -40,7 +40,7 @@
                             <div class="hidden sm:block">Measure</div>
                         </div>
                         <div
-                            class="measurement-detail-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                            class="measurement-detail-grid grid max-h-50 items-center gap-4 overflow-y-scroll border-b px-6 py-3 md:px-8"
                         >
                             <ng-container
                                 *ngFor="let item of specification.measurements"
@@ -57,7 +57,10 @@
                 </div>
             </div>
         </div>
-        <div class="bill-of-material flex flex-col gap-2">
+        <div
+            *ngIf="specification.billOfMaterials.length > 0"
+            class="bill-of-material flex flex-col gap-2"
+        >
             <span>BILL OF MATERIALS</span>
             <div class="grid">
                 <div
@@ -73,7 +76,7 @@
                     <div class="hidden sm:block">Color Code</div>
                 </div>
                 <div
-                    class="bill-of-material-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                    class="bill-of-material-grid grid max-h-50 items-center gap-4 overflow-y-scroll border-b px-6 py-3 md:px-8"
                 >
                     <ng-container
                         *ngFor="let item of specification.billOfMaterials"
@@ -106,7 +109,10 @@
                 </div>
             </div>
         </div>
-        <div class="quality-standard flex flex-col gap-2">
+        <div
+            *ngIf="specification.qualityStandards.length > 0"
+            class="quality-standard flex flex-col gap-2"
+        >
             <span>QUALITY STANDARD</span>
             <div class="grid">
                 <div
@@ -117,7 +123,7 @@
                     <div class="hidden sm:block">Description</div>
                 </div>
                 <div
-                    class="quality-standard-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                    class="quality-standard-grid grid max-h-50 items-center gap-4 overflow-y-scroll border-b px-6 py-3 md:px-8"
                 >
                     <ng-container
                         *ngFor="let item of specification.qualityStandards"

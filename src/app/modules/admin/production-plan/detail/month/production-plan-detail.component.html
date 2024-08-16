@@ -90,7 +90,7 @@
                                 </div>
                             </div>
                             <div
-                                class="production-plan-detail-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                class="production-plan-detail-grid grid max-h-50 items-center gap-4 overflow-y-scroll border-b px-6 py-3 md:px-8"
                             >
                                 <ng-container
                                     *ngFor="
@@ -140,7 +140,6 @@
                     </div>
                 </div>
                 <div
-                    *ngIf="productionPlan.status === 'Approved'"
                     class="flex shrink-0 items-center justify-end gap-3 pt-4 sm:ml-4 sm:mt-0"
                 >
                     <button
@@ -179,15 +178,12 @@
                             <div class="hidden sm:block">
                                 Expected Starting Date
                             </div>
-                            <div class="hidden sm:block">
-                                Actual Starting Date
-                            </div>
                             <div class="hidden sm:block">Due Date</div>
                             <div class="hidden sm:block">Status</div>
                             <div class="hidden sm:block">Detail</div>
                         </div>
                         <div
-                            class="production-plans-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                            class="production-plans-grid grid max-h-50 items-center gap-4 overflow-y-scroll border-b px-6 py-3 md:px-8"
                         >
                             <ng-container
                                 *ngFor="
@@ -202,9 +198,6 @@
                                 </div>
                                 <div class="hidden sm:block">
                                     {{ item.expectedStartingDate | date }}
-                                </div>
-                                <div class="hidden sm:block">
-                                    {{ item.actualStartingDate | date }}
                                 </div>
                                 <div class="hidden sm:block">
                                     {{ item.dueDate | date }}
@@ -226,13 +219,25 @@
                                             "
                                         ></mat-icon>
                                     </span>
-                                    <span mat-button [matMenuTriggerFor]="menu">
+                                    <span
+                                        mat-button
+                                        *ngIf="
+                                            item.status === 'Pending' ||
+                                            item.status === 'Approved'
+                                        "
+                                        [matMenuTriggerFor]="menu"
+                                    >
                                         <mat-icon
                                             class="cursor-pointer text-blue-500 icon-size-5"
                                             svgIcon="heroicons_outline:ellipsis-horizontal-circle"
                                         ></mat-icon>
                                         <mat-menu #menu="matMenu">
                                             <button
+                                                (click)="
+                                                    approveProductionPlan(
+                                                        item.id
+                                                    )
+                                                "
                                                 *ngIf="
                                                     item.status === 'Pending'
                                                 "
@@ -244,7 +249,15 @@
                                                     svgIcon="heroicons_outline:check-circle"
                                                 ></mat-icon>
                                             </button>
-                                            <button mat-menu-item>
+                                            <button
+                                                (click)="
+                                                    startProductionPlan(item.id)
+                                                "
+                                                *ngIf="
+                                                    item.status !== 'Pending'
+                                                "
+                                                mat-menu-item
+                                            >
                                                 Start
                                                 <mat-icon
                                                     class="cursor-pointer text-blue-500 icon-size-5"
@@ -252,6 +265,11 @@
                                                 ></mat-icon>
                                             </button>
                                             <button
+                                                (click)="
+                                                    declineProductionPlan(
+                                                        item.id
+                                                    )
+                                                "
                                                 *ngIf="
                                                     item.status === 'Pending'
                                                 "
