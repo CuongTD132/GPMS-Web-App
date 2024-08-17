@@ -82,8 +82,6 @@ export class ProductComponent implements OnInit, AfterViewInit {
     isLoading: boolean = false;
     flashMessage: 'success' | 'error' | null = null;
     message: string = null;
-    formattedCreatedDate: string;
-
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     /**
      * Constructor

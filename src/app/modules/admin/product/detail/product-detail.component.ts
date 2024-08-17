@@ -13,6 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { ProcessService } from '../../process/process.service';
 import { CreateYearProductionPlanComponent } from '../../production-plan/create/year/create-production-plan.component';
 import { SemiService } from '../../semi/semi.service';
 import { SpecificationService } from '../../specification/specification.service';
@@ -50,6 +51,7 @@ export class ProductDetailComponent implements OnInit {
     constructor(
         private _productService: ProductService,
         private _specificationsService: SpecificationService,
+        private _processService: ProcessService,
         private _semiService: SemiService,
         private _dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef
@@ -114,13 +116,17 @@ export class ProductDetailComponent implements OnInit {
             });
     }
 
-    openProcessDetailDialog(process: Process) {
-        this._dialog
-            .open(ProcessDetailComponent, {
-                width: '900px',
-                data: process,
-            })
-            .afterClosed()
-            .subscribe();
+    openProcessDetailDialog(id: string) {
+        this._processService.getProcessById(id).subscribe((process) => {
+            if (process) {
+                this._dialog
+                    .open(ProcessDetailComponent, {
+                        width: '900px',
+                        data: process,
+                    })
+                    .afterClosed()
+                    .subscribe();
+            }
+        });
     }
 }

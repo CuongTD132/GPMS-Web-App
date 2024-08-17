@@ -203,7 +203,9 @@
                                 </div>
                                 <div class="hidden sm:block">
                                     <span
-                                        (click)="openProcessDetailDialog(item)"
+                                        (click)="
+                                            openProcessDetailDialog(item.id)
+                                        "
                                     >
                                         <mat-icon
                                             class="cursor-pointer text-blue-500 icon-size-5"

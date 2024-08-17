@@ -14,23 +14,18 @@
     <div
         class="font-poppins bg-card space-y-10 overflow-y-scroll p-8 dark:bg-gray-800"
     >
-        <div class="grid grid-cols-12">
-            <div class="col-span-4 flex flex-col gap-4">
-                <div class="specification-name">
-                    {{ process.name }}
-                </div>
-                <div class="specification-color">
-                    Process Code - {{ process.code }}
-                </div>
-                <div class="specification-size">
-                    Order Number: {{ process.orderNumber }}
-                </div>
-                <div
-                    class="specification-inventoryQuantity"
-                    *ngIf="process.description"
-                >
-                    Description: {{ process.description }}
-                </div>
+        <div class="flex flex-col gap-4">
+            <div class="specification-name">
+                Process: {{ process.name }} - {{ process.code }}
+            </div>
+            <div class="specification-size">
+                Order Number: {{ process.orderNumber }}
+            </div>
+            <div
+                class="specification-inventoryQuantity"
+                *ngIf="process.description"
+            >
+                Description: {{ process.description }}
             </div>
         </div>
         <div class="flex flex-col gap-4">
@@ -45,9 +40,7 @@
                         <div class="hidden sm:block">Order Number</div>
                         <div class="hidden sm:block">Standard Time</div>
                         <div class="hidden sm:block">Output Per Hour</div>
-                        <div class="hidden sm:block">
-                            Step Input/Output Detail
-                        </div>
+                        <div class="hidden sm:block">Detail</div>
                     </div>
                     <div
                         class="production-process-step-grid grid max-h-50 items-center gap-4 overflow-y-scroll border-b px-6 py-3 md:px-8"
@@ -69,13 +62,7 @@
                                 {{ item.outputPerHour }}
                             </div>
                             <div class="hidden sm:block">
-                                <span
-                                    (click)="
-                                        openInputOutputDetailDialog(
-                                            item.productionProcessStepIOs
-                                        )
-                                    "
-                                >
+                                <span (click)="openStepDetailDialog(item.id)">
                                     <mat-icon
                                         class="cursor-pointer text-blue-500 icon-size-5"
                                         [svgIcon]="

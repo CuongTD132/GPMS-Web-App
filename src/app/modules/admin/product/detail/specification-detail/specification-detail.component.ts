@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { SpecificationService } from 'app/modules/admin/specification/specification.service';
 
@@ -15,7 +15,6 @@ export class SpecificationDetailComponent implements OnInit {
     specification: Specification;
     constructor(
         public matDialogRef: MatDialogRef<SpecificationDetailComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: Specification,
         private _specificationService: SpecificationService
     ) {}
 
@@ -23,6 +22,5 @@ export class SpecificationDetailComponent implements OnInit {
         this._specificationService.specification$.subscribe((specification) => {
             this.specification = specification;
         });
-        console.log(this.specification);
     }
 }

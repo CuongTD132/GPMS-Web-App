@@ -4,10 +4,10 @@ type Process = {
     name: string;
     orderNumber: number;
     description?: string;
-    steps: ProductionProcessSteps[];
+    steps: Step[];
 };
 
-type ProductionProcessSteps = {
+type Step = {
     id: string;
     code: string;
     name: string;
@@ -15,10 +15,10 @@ type ProductionProcessSteps = {
     standardTime: number;
     outputPerHour: number;
     description?: string;
-    productionProcessStepIOs: ProductionProcessStepIOs[];
+    productionProcessStepIOs: StepIO[];
 };
 
-type ProductionProcessStepIOs = {
+type StepIO = {
     id: string;
     quantity?: number;
     consumption?: number;
@@ -28,4 +28,6 @@ type ProductionProcessStepIOs = {
     semiFinishedProductName?: string;
     materialCode?: string;
     materialName?: string;
+    productName?: string;
+    productCode?: string;
 };

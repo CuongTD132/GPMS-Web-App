@@ -3,5 +3,5 @@
 }
 
 .production-process-step-grid {
-    grid-template-columns: auto auto 96px 96px 96px 120px;
+    grid-template-columns: auto auto 96px 96px 96px 50px;
 }

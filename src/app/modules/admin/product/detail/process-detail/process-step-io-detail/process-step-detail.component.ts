@@ -1,24 +1,24 @@
 import { CommonModule } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
+import { MatIconButton } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-    selector: 'process-step-io-detail',
-    templateUrl: 'process-step-io-detail.component.html',
-    styleUrls: ['process-step-io-detail.component.css'],
+    selector: 'process-step-detail',
+    templateUrl: 'process-step-detail.component.html',
+    styleUrls: ['process-step-detail.component.css'],
     standalone: true,
-    imports: [MatIconModule, CommonModule],
+    imports: [MatIconModule, CommonModule, MatIconButton],
 })
 export class ProcessStepIoDetailComponent implements OnInit {
-    processStepIOs: ProductionProcessStepIOs[];
+    step: Step;
     constructor(
         public matDialogRef: MatDialogRef<ProcessStepIoDetailComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: ProductionProcessStepIOs[]
+        @Inject(MAT_DIALOG_DATA) public data: Step
     ) {}
 
     ngOnInit() {
-        this.processStepIOs = this.data;
-        console.log(this.processStepIOs);
+        this.step = this.data;
     }
 }

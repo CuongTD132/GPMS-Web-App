@@ -1,12 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
-import {
-    MAT_DIALOG_DATA,
-    MatDialog,
-    MatDialogRef,
-} from '@angular/material/dialog';
+import { Component, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { ProcessStepIoDetailComponent } from './process-step-io-detail/process-step-io-detail.component';
+import { ProcessService } from 'app/modules/admin/process/process.service';
+import { StepService } from 'app/modules/admin/step/step.service';
+import { ProcessStepIoDetailComponent } from './process-step-io-detail/process-step-detail.component';
 
 @Component({
     selector: 'process-detail',
@@ -19,21 +17,28 @@ export class ProcessDetailComponent implements OnInit {
     process: Process;
     constructor(
         public matDialogRef: MatDialogRef<ProcessDetailComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: Process,
-        private _dialog: MatDialog
+        private _dialog: MatDialog,
+        private _processService: ProcessService,
+        private _stepService: StepService
     ) {}
 
     ngOnInit() {
-        this.process = this.data;
+        this._processService.process$.subscribe((process) => {
+            this.process = process;
+        });
     }
 
-    openInputOutputDetailDialog(processStepIO: ProductionProcessStepIOs) {
-        this._dialog
-            .open(ProcessStepIoDetailComponent, {
-                width: '860px',
-                data: processStepIO,
-            })
-            .afterClosed()
-            .subscribe();
+    openStepDetailDialog(id: string) {
+        this._stepService.getStepById(id).subscribe((step) => {
+            if (step) {
+                this._dialog
+                    .open(ProcessStepIoDetailComponent, {
+                        width: '860px',
+                        data: step,
+                    })
+                    .afterClosed()
+                    .subscribe();
+            }
+        });
     }
 }
