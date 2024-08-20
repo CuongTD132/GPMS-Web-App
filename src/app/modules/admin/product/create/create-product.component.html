@@ -3,7 +3,7 @@
     <div
         class="flex h-16 flex-0 items-center justify-between bg-primary pl-6 pr-3 text-on-primary sm:pl-8 sm:pr-5"
     >
-        <div class="text-lg font-medium">Create</div>
+        <div class="text-lg font-medium">Create Product</div>
         <button mat-icon-button (click)="matDialogRef.close()" [tabIndex]="-1">
             <mat-icon
                 class="text-current"
@@ -34,50 +34,329 @@
                 </div>
                 <div class="flex gap-4">
                     <mat-form-field class="w-full">
-                        <mat-label>Color Name</mat-label>
+                        <mat-label>Product Sizes</mat-label>
                         <input
                             matInput
-                            placeholder="Color Name"
-                            [formControlName]="'colorName'"
+                            placeholder="List Sizes"
+                            [formControlName]="'sizes'"
                         />
                     </mat-form-field>
                     <mat-form-field class="w-full">
-                        <mat-label>Color Code</mat-label>
+                        <mat-label>Product Colors</mat-label>
                         <input
                             matInput
-                            placeholder="Color Code"
-                            [formControlName]="'colorCode'"
+                            placeholder="List Colors"
+                            [formControlName]="'colors'"
                         />
                     </mat-form-field>
                 </div>
                 <div class="flex gap-4">
-                    <mat-form-field class="w-full">
-                        <mat-label>Consumption Unit</mat-label>
-                        <input
-                            matInput
-                            placeholder="Consumption Unit"
-                            [formControlName]="'consumptionUnit'"
-                        />
-                    </mat-form-field>
-                    <mat-form-field class="w-full">
-                        <mat-label>Size Width Unit</mat-label>
-                        <input
-                            matInput
-                            placeholder="Size Width Unit"
-                            [formControlName]="'sizeWidthUnit'"
-                        />
+                    <mat-form-field class="w-1/3">
+                        <mat-label>Category</mat-label>
+                        <mat-select [formControlName]="'categoryId'">
+                            <mat-option value="none"
+                                >Select Category
+                            </mat-option>
+                            <ng-container *ngFor="let item of data">
+                                <mat-option value="{{ item.id }}">{{
+                                    item.name
+                                }}</mat-option>
+                            </ng-container>
+                        </mat-select>
                     </mat-form-field>
                 </div>
                 <div>
                     <mat-form-field class="w-full">
                         <mat-label>Description</mat-label>
-                        <input
+                        <textarea
                             matInput
                             placeholder="Description"
                             [formControlName]="'description'"
-                        />
+                        ></textarea>
                     </mat-form-field>
                 </div>
+                <ng-container *ngIf="semiFinishedProductForm">
+                    <form
+                        [formGroup]="semiFinishedProductForm"
+                        class="flex flex-col gap-4"
+                    >
+                        <mat-label>Semi Finished Product</mat-label>
+                        <div class="semiFinishedProducts flex flex-col gap-2">
+                            <div class="grid">
+                                <div
+                                    class="semiFinishedProducts-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                                >
+                                    <div class="hidden sm:block">Name</div>
+                                    <div class="hidden sm:block">Code</div>
+                                    <div class="hidden sm:block">Quantity</div>
+                                    <div class="hidden sm:block">
+                                        Description
+                                    </div>
+                                </div>
+                                <div class="max-h-30 overflow-y-scroll">
+                                    <ng-container
+                                        *ngFor="
+                                            let item of semiFinishedProducts
+                                        "
+                                    >
+                                        <div
+                                            class="semiFinishedProducts-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                        >
+                                            <div>{{ item.name }}</div>
+                                            <div>{{ item.code }}</div>
+                                            <div>{{ item.quantity }}</div>
+                                            <div>
+                                                {{
+                                                    item.description ||
+                                                        'No Description'
+                                                }}
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                                <div
+                                    class="semiFinishedProducts-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                >
+                                    <mat-form-field class="w-full">
+                                        <input
+                                            matInput
+                                            type="text"
+                                            placeholder="Name"
+                                            [formControlName]="'name'"
+                                    /></mat-form-field>
+                                    <mat-form-field class="w-full">
+                                        <input
+                                            matInput
+                                            type="text"
+                                            placeholder="Code"
+                                            [formControlName]="'code'"
+                                    /></mat-form-field>
+                                    <mat-form-field class="w-full">
+                                        <input
+                                            matInput
+                                            type="number"
+                                            min="0"
+                                            placeholder="Quantity"
+                                            [formControlName]="'quantity'"
+                                    /></mat-form-field>
+                                    <mat-form-field class="w-full">
+                                        <input
+                                            matInput
+                                            placeholder="Description"
+                                            [formControlName]="'description'"
+                                        />
+                                    </mat-form-field>
+                                </div>
+                                <div class="mt-4 flex justify-end">
+                                    <button
+                                        (click)="
+                                            addValueToSemiFinishedProductArray()
+                                        "
+                                        mat-raised-button
+                                        class="flex min-w-fit gap-2"
+                                        color="primary"
+                                    >
+                                        <mat-icon
+                                            svgIcon="heroicons_outline:inbox"
+                                        ></mat-icon>
+                                        <span> Add Semi+ </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </ng-container>
+                <ng-container *ngIf="specificationForm">
+                    <form
+                        [formGroup]="specificationForm"
+                        class="mt-10 flex flex-col gap-4"
+                    >
+                        <div class="">Specifications</div>
+                        <div class="specifications flex flex-col gap-2">
+                            <div class="grid">
+                                <div
+                                    class="specifications-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                                >
+                                    <div class="hidden sm:block">Size</div>
+                                    <div class="hidden sm:block">Color</div>
+                                    <div class="hidden sm:block">
+                                        Measurements
+                                    </div>
+                                    <div class="hidden sm:block">
+                                        Bill Of Materials
+                                    </div>
+                                    <div class="hidden sm:block">
+                                        Quality Standards
+                                    </div>
+                                </div>
+                                <!--                                <ng-container-->
+                                <!--                                    *ngFor="let item of semiFinishedProducts"-->
+                                <!--                                >-->
+                                <!--                                    <div-->
+                                <!--                                        class="specifications-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"-->
+                                <!--                                    >-->
+                                <!--                                        <div>{{ item.size }}</div>-->
+                                <!--                                        <div>{{ item.color }}</div>-->
+                                <!--                                    </div>-->
+                                <!--                                </ng-container>-->
+                                <div
+                                    class="specifications-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                >
+                                    <mat-form-field class="w-full">
+                                        <input
+                                            matInput
+                                            type="text"
+                                            placeholder="Size"
+                                            [formControlName]="'size'"
+                                    /></mat-form-field>
+                                    <mat-form-field class="w-full">
+                                        <input
+                                            matInput
+                                            type="text"
+                                            placeholder="Color"
+                                            [formControlName]="'color'"
+                                    /></mat-form-field>
+                                    <button
+                                        (click)="openMeasurementsDialog()"
+                                        mat-raised-button
+                                        class="flex w-2/3 gap-2"
+                                        color="primary"
+                                    >
+                                        <span> Add + </span></button
+                                    ><button
+                                        (click)="openBomsDialog()"
+                                        mat-raised-button
+                                        class="flex w-2/3 gap-2"
+                                        color="primary"
+                                    >
+                                        <span> Add + </span></button
+                                    ><button
+                                        (click)="openQualityStandardsDialog()"
+                                        mat-raised-button
+                                        class="flex w-2/3 gap-2"
+                                        color="primary"
+                                    >
+                                        <span> Add + </span>
+                                    </button>
+                                </div>
+                                <div class="mt-4 flex justify-end">
+                                    <button
+                                        (click)="addValueToSpecificationArray()"
+                                        mat-raised-button
+                                        class="flex min-w-fit gap-2"
+                                        color="primary"
+                                    >
+                                        <mat-icon
+                                            svgIcon="heroicons_outline:inbox"
+                                        ></mat-icon>
+                                        <span> Add Specification+ </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </ng-container>
+                <ng-container *ngIf="processForm">
+                    <form
+                        [formGroup]="processForm"
+                        class="mt-10 flex flex-col gap-4"
+                    >
+                        <div class="">Processes</div>
+                        <div class="processes flex flex-col gap-2">
+                            <div class="grid">
+                                <div
+                                    class="processes-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                                >
+                                    <div class="hidden sm:block">Name</div>
+                                    <div class="hidden sm:block">Code</div>
+                                    <div class="hidden sm:block">
+                                        Order Number
+                                    </div>
+                                    <div class="hidden sm:block">
+                                        Description
+                                    </div>
+                                    <div class="hidden sm:block">Steps</div>
+                                </div>
+                                <ng-container *ngFor="let item of processes">
+                                    <div
+                                        class="processes-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                    >
+                                        <div>{{ item.name }}</div>
+                                        <div>{{ item.code }}</div>
+                                        <div>{{ item.orderNumber }}</div>
+                                        <div>
+                                            {{
+                                                item.description ||
+                                                    'No Description'
+                                            }}
+                                        </div>
+                                        <button
+                                            (click)="openStepsDialog()"
+                                            mat-raised-button
+                                            class="flex w-2/3 gap-2"
+                                            color="primary"
+                                        >
+                                            <span> Add + </span>
+                                        </button>
+                                    </div>
+                                </ng-container>
+                                <div
+                                    class="processes-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                >
+                                    <mat-form-field class="w-full">
+                                        <input
+                                            matInput
+                                            type="text"
+                                            placeholder="Name"
+                                            [formControlName]="'name'"
+                                    /></mat-form-field>
+                                    <mat-form-field class="w-full">
+                                        <input
+                                            matInput
+                                            type="text"
+                                            placeholder="Code"
+                                            [formControlName]="'code'"
+                                    /></mat-form-field>
+                                    <mat-form-field class="w-full">
+                                        <input
+                                            matInput
+                                            type="number"
+                                            placeholder="Order Number"
+                                            [formControlName]="'orderNumber'"
+                                    /></mat-form-field>
+                                    <mat-form-field class="w-full">
+                                        <input
+                                            matInput
+                                            type="text"
+                                            placeholder="Description"
+                                            [formControlName]="'description'"
+                                    /></mat-form-field>
+                                    <button
+                                        (click)="openStepsDialog()"
+                                        mat-raised-button
+                                        class="flex w-2/3 gap-2"
+                                        color="primary"
+                                    >
+                                        <span> Add + </span>
+                                    </button>
+                                </div>
+                                <div class="mt-4 flex justify-end">
+                                    <button
+                                        (click)="addValueToProcessArray()"
+                                        mat-raised-button
+                                        class="flex min-w-fit gap-2"
+                                        color="primary"
+                                    >
+                                        <mat-icon
+                                            svgIcon="heroicons_outline:inbox"
+                                        ></mat-icon>
+                                        <span> Add Process+ </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </ng-container>
                 <div class="mt-4 flex justify-end">
                     <button
                         (click)="createProduct()"

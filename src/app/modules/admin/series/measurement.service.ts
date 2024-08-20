@@ -4,10 +4,8 @@ import { Pagination } from 'app/types/pagination.type';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class ProductionProcessStepIOService {
-    private _productionProcessStepIO: BehaviorSubject<StepIO | null> =
-        new BehaviorSubject(null);
-    private _productionProcessStepIOs: BehaviorSubject<StepIO[] | null> =
+export class MeasurementService {
+    private _measurements: BehaviorSubject<Measurement[] | null> =
         new BehaviorSubject(null);
     private _pagination: BehaviorSubject<Pagination | null> =
         new BehaviorSubject(null);
@@ -15,17 +13,10 @@ export class ProductionProcessStepIOService {
     constructor(private _httpClient: HttpClient) {}
 
     /**
-     * Getter for productionProcessStepIO
+     * Getter for Measurements
      */
-    get productionProcessStepIO$(): Observable<StepIO> {
-        return this._productionProcessStepIO.asObservable();
-    }
-
-    /**
-     * Getter for productionProcessStepIOs
-     */
-    get productionProcessStepIOs$(): Observable<StepIO[]> {
-        return this._productionProcessStepIOs.asObservable();
+    get measurements$(): Observable<Measurement[]> {
+        return this._measurements.asObservable();
     }
     /**
      * Getter for pagination
@@ -34,15 +25,15 @@ export class ProductionProcessStepIOService {
         return this._pagination.asObservable();
     }
 
-    getProductionProcessStepIOs(
+    getMeasurements(
         id: string,
         filter: any = {}
-    ): Observable<{ pagination: Pagination; data: StepIO[] }> {
+    ): Observable<{ pagination: Pagination; data: Measurement[] }> {
         return this._httpClient
             .post<{
                 pagination: Pagination;
-                data: StepIO[];
-            }>('/api/v1/steps/' + id + '/step-input-outputs/filter', {
+                data: Measurement[];
+            }>('/api/v1/specifications/' + id + '/measurements/filter', {
                 pagination: {
                     pageSize: 999,
                 },
@@ -50,7 +41,7 @@ export class ProductionProcessStepIOService {
             .pipe(
                 tap((response) => {
                     this._pagination.next(response.pagination);
-                    this._productionProcessStepIOs.next(response.data);
+                    this._measurements.next(response.data);
                 })
             );
     }

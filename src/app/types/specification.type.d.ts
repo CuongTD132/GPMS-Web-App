@@ -6,11 +6,11 @@ type Specification = {
     productCode: string;
     productName: string;
     measurements: Measurement[];
-    billOfMaterials: BillOfMaterials[];
+    billOfMaterials: BillOfMaterial[];
     qualityStandards: QualityStandards[];
 };
 
-type BillOfMaterials = {
+type BillOfMaterial = {
     id: string;
     sizeWidth: number;
     consumption: number;
@@ -18,9 +18,26 @@ type BillOfMaterials = {
     material: Material;
 };
 
+type NewBillOfMaterial = {
+    materialId: string;
+    sizeWidth: number;
+    consumption: number;
+    description?: string;
+};
+
 type QualityStandards = {
     id: string;
+    materialName: string;
+    materialId: string;
     name: string;
     description?: string;
     imageURL?: string[];
+};
+
+type NewSpecification = {
+    size: string;
+    color: string;
+    measurements: Measurement[];
+    billOfMaterial: BillOfMaterial[];
+    qualityStandards: QualityStandards[];
 };

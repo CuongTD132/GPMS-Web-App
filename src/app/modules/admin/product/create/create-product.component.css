@@ -1,0 +1,11 @@
+.semiFinishedProducts-grid {
+    grid-template-columns: 196px 196px 120px auto;
+}
+
+.specifications-grid {
+    grid-template-columns: 120px 196px auto auto auto;
+}
+
+.processes-grid {
+    grid-template-columns: 120px 250px 100px auto 50px;
+}

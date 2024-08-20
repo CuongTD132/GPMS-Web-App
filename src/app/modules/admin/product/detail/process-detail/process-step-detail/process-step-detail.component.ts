@@ -12,10 +12,10 @@ import { MatIconModule } from '@angular/material/icon';
     imports: [MatIconModule, CommonModule, MatIconButton],
 })
 export class ProcessStepIoDetailComponent implements OnInit {
-    step: Step;
+    step: StepDetail;
     constructor(
         public matDialogRef: MatDialogRef<ProcessStepIoDetailComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: Step
+        @Inject(MAT_DIALOG_DATA) public data: StepDetail
     ) {}
 
     ngOnInit() {

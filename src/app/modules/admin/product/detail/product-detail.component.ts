@@ -112,6 +112,9 @@ export class ProductDetailComponent implements OnInit {
                         })
                         .afterClosed()
                         .subscribe();
+                } else {
+                    // Handle undefined case (optional: show error message, etc.)
+                    return undefined;
                 }
             });
     }

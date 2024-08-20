@@ -1,4 +1,4 @@
-interface Material {
+type Material = {
     id: string;
     name: string;
     code: string;
@@ -7,4 +7,4 @@ interface Material {
     colorCode: string;
     colorName: string;
     description?: string;
-}
+};

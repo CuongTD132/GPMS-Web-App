@@ -120,30 +120,4 @@ export class CreateAccountComponent implements OnInit {
                 // complete: () => console.log('There are no more action happen.')
             });
     }
-
-    createAccounts() {
-        this.logForm();
-        return;
-        if (this.createAccountForm.valid) {
-            const formData = new FormData();
-            for (const key in this.createAccountForm.controls) {
-                if (this.createAccountForm.controls.hasOwnProperty(key)) {
-                    formData.append(
-                        key,
-                        this.createAccountForm.controls[key].value
-                    );
-                }
-            }
-            if (this.selectedFile) {
-                formData.append('thumbnail', this.selectedFile);
-            }
-            this._accountService.createAccount(formData).subscribe({
-                next: (account) => {
-                    if (account) {
-                        this.matDialogRef.close('success');
-                    }
-                },
-            });
-        }
-    }
 }

@@ -42,6 +42,7 @@ import {
     switchMap,
     takeUntil,
 } from 'rxjs';
+import { CategoryService } from '../category/category.service';
 import { CreateProductComponent } from './create/create-product.component';
 import { ProductService } from './product.service';
 
@@ -82,6 +83,7 @@ export class ProductComponent implements OnInit, AfterViewInit {
     isLoading: boolean = false;
     flashMessage: 'success' | 'error' | null = null;
     message: string = null;
+    categories: Category[];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     /**
      * Constructor
@@ -91,7 +93,8 @@ export class ProductComponent implements OnInit, AfterViewInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: UntypedFormBuilder,
         private _dialog: MatDialog,
-        private dateAdapter: DateAdapter<Date>
+        private dateAdapter: DateAdapter<Date>,
+        private _categoryService: CategoryService
     ) {}
 
     ngOnInit(): void {
@@ -106,7 +109,9 @@ export class ProductComponent implements OnInit, AfterViewInit {
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
-
+        this._categoryService
+            .getCategories()
+            .subscribe((category) => (this.categories = category.data));
         this.initFilterForm();
         this.subcribeFilterForm();
     }
@@ -248,20 +253,24 @@ export class ProductComponent implements OnInit, AfterViewInit {
     }
 
     openCreateProductDialog() {
-        this._dialog
-            .open(CreateProductComponent, {
-                width: '720px',
-            })
-            .afterClosed()
-            .subscribe((result) => {
-                if (result === 'success') {
-                    this.showFlashMessage(
-                        'success',
-                        'Create product successful',
-                        3000
-                    );
-                }
-            });
+        const categories = this.categories;
+        if (categories) {
+            this._dialog
+                .open(CreateProductComponent, {
+                    width: '1080px',
+                    data: categories,
+                })
+                .afterClosed()
+                .subscribe((result) => {
+                    if (result === 'success') {
+                        this.showFlashMessage(
+                            'success',
+                            'Create product successful',
+                            3000
+                        );
+                    }
+                });
+        }
     }
 
     approveProduct(id: string) {

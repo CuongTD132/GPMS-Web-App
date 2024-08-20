@@ -31,7 +31,7 @@ export class EstimationsListComponent implements OnInit {
     openSeriesListDialog(seriesList: ProductionSeries[]) {
         this._dialog
             .open(SeriesListComponent, {
-                width: '780px',
+                width: '900px',
                 data: seriesList,
             })
             .afterClosed()

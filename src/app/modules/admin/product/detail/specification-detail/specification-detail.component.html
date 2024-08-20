@@ -17,7 +17,8 @@
         <div class="grid grid-cols-12">
             <div class="col-span-4 flex flex-col gap-4">
                 <div class="specification-name">
-                    {{ specification.productName }}
+                    {{ specification.productName }} -
+                    {{ specification.productCode }}
                 </div>
                 <div class="specification-color">
                     Color {{ specification.color }}
@@ -26,7 +27,7 @@
                     Size {{ specification.size }}
                 </div>
                 <div class="specification-inventoryQuantity">
-                    {{ specification.inventoryQuantity }} Inventory
+                    Inventory {{ specification.inventoryQuantity }}
                 </div>
             </div>
             <div class="col-span-8 flex flex-col gap-4">
@@ -46,7 +47,7 @@
                                 *ngFor="let item of specification.measurements"
                             >
                                 <div class="hidden sm:block">
-                                    {{ item.name }}:
+                                    {{ item.name }}
                                 </div>
                                 <div class="hidden sm:block">
                                     {{ item.measure }} {{ item.unit }}
@@ -66,14 +67,12 @@
                 <div
                     class="bill-of-material-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
                 >
-                    <div class="hidden sm:block">Size Width</div>
-                    <div class="hidden sm:block">Consumption</div>
                     <div class="hidden sm:block">Name</div>
                     <div class="hidden sm:block">Code</div>
-                    <div class="hidden sm:block">Consumption Unit</div>
-                    <div class="hidden sm:block">Size Width Unit</div>
                     <div class="hidden sm:block">Color</div>
                     <div class="hidden sm:block">Color Code</div>
+                    <div class="hidden sm:block">Size Width</div>
+                    <div class="hidden sm:block">Consumption</div>
                 </div>
                 <div
                     class="bill-of-material-grid grid max-h-50 items-center gap-4 overflow-y-scroll border-b px-6 py-3 md:px-8"
@@ -82,28 +81,24 @@
                         *ngFor="let item of specification.billOfMaterials"
                     >
                         <div class="hidden sm:block">
-                            {{ item.sizeWidth }}
-                        </div>
-                        <div class="hidden sm:block">
-                            {{ item.consumption }}
-                        </div>
-                        <div class="hidden sm:block">
                             {{ item.material.name }}
                         </div>
                         <div class="hidden sm:block">
                             {{ item.material.code }}
                         </div>
                         <div class="hidden sm:block">
-                            {{ item.material.consumptionUnit }}
-                        </div>
-                        <div class="hidden sm:block">
-                            {{ item.material.sizeWidthUnit }}
-                        </div>
-                        <div class="hidden sm:block">
                             {{ item.material.colorName }}
                         </div>
                         <div class="hidden sm:block">
                             {{ item.material.colorCode }}
+                        </div>
+                        <div class="hidden sm:block">
+                            {{ item.sizeWidth }}
+                            {{ item.material.sizeWidthUnit }}
+                        </div>
+                        <div class="hidden sm:block">
+                            {{ item.consumption }}
+                            {{ item.material.consumptionUnit }}
                         </div>
                     </ng-container>
                 </div>
@@ -156,7 +151,7 @@
                             {{ item.name }}
                         </div>
                         <div class="hidden sm:block">
-                            {{ item.description }}
+                            {{ item.description || 'No Description' }}
                         </div>
                     </ng-container>
                 </div>

@@ -15,15 +15,22 @@
         class="font-poppins bg-card space-y-10 overflow-y-scroll p-8 dark:bg-gray-800"
     >
         <div class="flex flex-col gap-4">
-            <div>Step: {{ step.name }} - {{ step.code }}</div>
+            <div>Step {{ step.name }}</div>
+            <div>Step Code {{ step.code }}</div>
             <div class="specification-size">
                 Order Number: {{ step.orderNumber }}
             </div>
             <div *ngIf="step.description">
-                Description: {{ process.description }}
+                Description: {{ step.description }}
             </div>
         </div>
-        <div class="grid grid-cols-12">
+        <div
+            class="grid grid-cols-12"
+            *ngIf="
+                step.semiFinishedProducts &&
+                step.semiFinishedProducts.length > 0
+            "
+        >
             <div class="flex flex-col">Semi Finished Products List</div>
             <div class="flex flex-col gap-4">
                 <div class="semi-step-detail flex flex-col gap-2">
@@ -43,12 +50,9 @@
                         </div>
                         <div class="max-h-50 overflow-y-scroll">
                             <ng-container
-                                *ngFor="
-                                    let item of step.productionProcessStepIOs
-                                "
+                                *ngFor="let item of step.semiFinishedProducts"
                             >
                                 <div
-                                    *ngIf="item.semiFinishedProductCode"
                                     class="semi-step-detail-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
                                 >
                                     <div class="hidden sm:block">
@@ -64,22 +68,16 @@
                                         {{ item.quantity }}
                                     </div>
                                 </div>
-                                <!-- <div
-                                    *ngIf="
-                                        !item.semiFinishedProductName &&
-                                        !item.semiFinishedProductCode
-                                    "
-                                    class="semi-step-detail-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
-                                >
-                                    No data
-                                </div> -->
                             </ng-container>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="grid grid-cols-12">
+        <div
+            class="grid grid-cols-12"
+            *ngIf="step.materials && step.materials.length > 0"
+        >
             <div class="hidden sm:block">Materials List</div>
             <div class="flex flex-col gap-4">
                 <div class="material-step-detail flex flex-col gap-2">
@@ -93,11 +91,8 @@
 
                             <div class="hidden sm:block">Consumption</div>
                         </div>
-                        <ng-container
-                            *ngFor="let item of step.productionProcessStepIOs"
-                        >
+                        <ng-container *ngFor="let item of step.materials">
                             <div
-                                *ngIf="item.materialCode || item.materialName"
                                 class="material-step-detail-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
                             >
                                 <div class="hidden sm:block">
@@ -113,21 +108,15 @@
                                     {{ item.consumption }}
                                 </div>
                             </div>
-                            <!-- <div
-                                *ngIf="!item.materialCode"
-                                class="material-step-detail-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
-                            >
-                                <div class="hidden sm:block">No data</div>
-                                <div class="hidden sm:block">No data</div>
-                                <div class="hidden sm:block">No data</div>
-                                <div class="hidden sm:block">No data</div>
-                            </div> -->
                         </ng-container>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="grid grid-cols-12">
+        <div
+            class="grid grid-cols-12"
+            *ngIf="step.products && step.products.length > 0"
+        >
             <div class="hidden sm:block">Product Lists</div>
             <div class="flex flex-col gap-4">
                 <div class="product-step-detail flex flex-col gap-2">
@@ -141,11 +130,8 @@
 
                             <div class="hidden sm:block">Quantity</div>
                         </div>
-                        <ng-container
-                            *ngFor="let item of step.productionProcessStepIOs"
-                        >
+                        <ng-container *ngFor="let item of step.products">
                             <div
-                                *ngIf="item.productName"
                                 class="product-step-detail-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
                             >
                                 <div class="hidden sm:block">
@@ -161,12 +147,6 @@
                                     {{ item.quantity }}
                                 </div>
                             </div>
-                            <!-- <div
-                                *ngIf="!item.productName && !item.productCode"
-                                class="product-step-detail-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
-                            >
-                                No data
-                            </div> -->
                         </ng-container>
                     </div>
                 </div>

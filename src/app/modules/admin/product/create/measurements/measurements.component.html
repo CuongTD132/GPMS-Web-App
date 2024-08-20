@@ -1,0 +1,94 @@
+<div class="-m-6 flex max-h-[calc(100vh-128px)] flex-auto flex-col">
+    <!-- Header -->
+    <div
+        class="flex h-16 flex-0 items-center justify-between bg-primary pl-6 pr-3 text-on-primary sm:pl-8 sm:pr-5"
+    >
+        <div class="text-lg font-medium">Add Measurements</div>
+        <button mat-icon-button (click)="matDialogRef.close()" [tabIndex]="-1">
+            <mat-icon
+                class="text-current"
+                [svgIcon]="'heroicons_outline:x-mark'"
+            ></mat-icon>
+        </button>
+    </div>
+    <div class="font-poppins overflow-y-scroll p-8 dark:bg-gray-800">
+        <ng-container *ngIf="measurementForm">
+            <form [formGroup]="measurementForm" class="flex flex-col gap-4">
+                <div class="measurements flex flex-col gap-2">
+                    <div class="grid">
+                        <div
+                            class="measurements-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                        >
+                            <div class="hidden sm:block">Name</div>
+                            <div class="hidden sm:block">Measure</div>
+                            <div class="hidden sm:block">Unit</div>
+                        </div>
+                        <div class="max-h-30 overflow-y-scroll">
+                            <ng-container *ngFor="let item of measurements">
+                                <div
+                                    class="measurements-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                >
+                                    <div>{{ item.name }}</div>
+                                    <div>{{ item.measure }}</div>
+                                    <div>{{ item.unit }}</div>
+                                </div>
+                            </ng-container>
+                        </div>
+                        <div
+                            class="measurements-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                        >
+                            <mat-form-field class="w-full">
+                                <input
+                                    matInput
+                                    type="text"
+                                    placeholder="Name"
+                                    [formControlName]="'name'"
+                            /></mat-form-field>
+                            <mat-form-field class="w-full">
+                                <input
+                                    matInput
+                                    min="0"
+                                    type="number"
+                                    placeholder="Measure"
+                                    [formControlName]="'measure'"
+                            /></mat-form-field>
+                            <mat-form-field class="w-full">
+                                <input
+                                    matInput
+                                    type="text"
+                                    placeholder="Unit"
+                                    [formControlName]="'unit'"
+                            /></mat-form-field>
+                        </div>
+                        <div class="mt-4 flex justify-end">
+                            <button
+                                (click)="addValueToMeasurementArray()"
+                                mat-raised-button
+                                class="flex min-w-fit gap-2"
+                                color="primary"
+                            >
+                                <mat-icon
+                                    svgIcon="heroicons_outline:inbox"
+                                ></mat-icon>
+                                <span> Add Measurement+ </span>
+                            </button>
+                        </div>
+                        <div class="mt-4 flex justify-end">
+                            <button
+                                (click)="submit()"
+                                mat-raised-button
+                                color="primary"
+                                class="flex min-w-fit gap-2"
+                            >
+                                <mat-icon
+                                    svgIcon="heroicons_outline:inbox"
+                                ></mat-icon>
+                                <span> Submit </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+</div>

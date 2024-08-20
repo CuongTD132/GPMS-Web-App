@@ -1,5 +1,6 @@
 type QualityStandard = {
     id: string;
     name: string;
-    imageURL: string[];
+    images: string[];
+    description?: string;
 };

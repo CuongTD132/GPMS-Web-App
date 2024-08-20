@@ -63,19 +63,6 @@ export class CreateCategoryComponent implements OnInit {
         });
     }
 
-    onFileSelected(event: Event): void {
-        const fileInput = event.target as HTMLInputElement;
-        if (fileInput.files && fileInput.files[0]) {
-            const file = fileInput.files[0];
-            this.selectedFile = file;
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                this.previewUrl = e.target?.result;
-            };
-            reader.readAsDataURL(file);
-        }
-    }
-
     createCategory() {
         this._categoryService
             .createCategory(this.createCategoryForm.value)
@@ -88,27 +75,4 @@ export class CreateCategoryComponent implements OnInit {
                 },
             });
     }
-    // createCategory() {
-    //     if (this.createCategoryForm.valid) {
-    //         const formData = new FormData();
-    //         for (const key in this.createCategoryForm.controls) {
-    //             if (this.createCategoryForm.controls.hasOwnProperty(key)) {
-    //                 formData.append(
-    //                     key,
-    //                     this.createCategoryForm.controls[key].value
-    //                 );
-    //             }
-    //         }
-    //         if (this.selectedFile) {
-    //             formData.append('thumbnail', this.selectedFile);
-    //         }
-    //         this._categoryService.createCategory(formData).subscribe({
-    //             next: (category) => {
-    //                 if (category) {
-    //                     this.matDialogRef.close('success');
-    //                 }
-    //             },
-    //         });
-    //     }
-    // }
 }
