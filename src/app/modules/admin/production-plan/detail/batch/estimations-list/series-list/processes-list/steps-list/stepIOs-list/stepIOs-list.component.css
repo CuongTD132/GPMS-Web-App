@@ -1,0 +1,3 @@
+.stepIOs-list-grid {
+    grid-template-columns: auto 120px 120px 200px 120px;
+}

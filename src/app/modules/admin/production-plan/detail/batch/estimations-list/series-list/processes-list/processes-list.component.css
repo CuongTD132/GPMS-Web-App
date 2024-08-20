@@ -1,0 +1,3 @@
+.process-list-grid {
+    grid-template-columns: auto 200px 100px 120px 100px;
+}

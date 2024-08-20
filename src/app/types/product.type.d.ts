@@ -71,3 +71,25 @@ type Steps = {
     description: string;
     stepIOs: StepIOs[];
 };
+
+type IORespone = {
+    product: Res;
+    semi: Res;
+    material: Res;
+};
+
+type Res = {
+    inputs: GeneralIO[];
+    outputs: GeneralIO[];
+};
+type GeneralIO = {
+    name: string;
+    code: string;
+    id: string;
+    quantity: number;
+    consumption: number;
+    isProduct: boolean;
+    type: number;
+    totalQuantity: number;
+    totalConsumption: number;
+};

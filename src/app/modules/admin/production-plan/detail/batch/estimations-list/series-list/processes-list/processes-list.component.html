@@ -3,7 +3,7 @@
     <div
         class="flex h-16 flex-0 items-center justify-between bg-primary pl-6 pr-3 text-on-primary sm:pl-8 sm:pr-5"
     >
-        <div class="text-lg font-medium">Series List</div>
+        <div class="text-lg font-medium">Processes List</div>
         <button mat-icon-button (click)="matDialogRef.close()" [tabIndex]="-1">
             <mat-icon
                 class="text-current"
@@ -11,49 +11,43 @@
             ></mat-icon>
         </button>
     </div>
-    <div
-        class="font-poppins bg-card space-y-10 overflow-y-scroll p-8 dark:bg-gray-800"
-    >
+    <div class="font-poppins bg-card space-y-10 p-8 dark:bg-gray-800">
         <div class="flex flex-col gap-4">
-            <div class="series-list flex flex-col gap-2">
+            <div class="process-list flex flex-col gap-2">
                 <div class="grid">
                     <div
-                        class="series-list-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                        class="process-list-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
                     >
-                        <div class="hidden sm:block">Series Code</div>
-                        <div class="hidden sm:block">Quantity</div>
-                        <div class="hidden sm:block">Faulty Quantity</div>
-                        <div class="hidden sm:block">Current Process</div>
-                        <div class="hidden sm:block">Current Status</div>
-                        <div class="hidden sm:block">Production Result</div>
+                        <div class="hidden sm:block">Process Code</div>
+                        <div class="hidden sm:block">Process Name</div>
+                        <div class="hidden sm:block">Order Number</div>
+                        <div class="hidden sm:block">Description</div>
+                        <div class="hidden sm:block">Steps List</div>
                     </div>
                     <div class="max-h-100 overflow-y-scroll">
-                        <ng-container *ngFor="let item of seriesList">
+                        <ng-container *ngFor="let item of processList">
                             <div
-                                class="series-list-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                class="process-list-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
                             >
                                 <div class="hidden sm:block">
                                     {{ item.code }}
                                 </div>
                                 <div class="hidden sm:block">
-                                    {{ item.quantity }}
+                                    {{ item.name }}
                                 </div>
                                 <div class="hidden sm:block">
-                                    {{ item.faultyQuantity || 0 }}
+                                    {{ item.orderNumber }}
                                 </div>
                                 <div class="hidden sm:block">
-                                    {{ item.currentProcess || 'Not Start' }}
-                                </div>
-                                <div class="hidden sm:block">
-                                    {{ item.status }}
+                                    {{ item.description || 'No Description' }}
                                 </div>
                                 <button
-                                    (click)="openProcessListDialog(item.id)"
+                                    (click)="openStepListDialog(item.id)"
                                     mat-raised-button
                                     class="flex min-w-fit gap-2"
                                     color="primary"
                                 >
-                                    <span> Fill Result+ </span>
+                                    <span> View </span>
                                 </button>
                             </div>
                         </ng-container>

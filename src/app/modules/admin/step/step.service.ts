@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, map, switchMap, take } from 'rxjs';
+import { Pagination } from 'app/types/pagination.type';
+import { BehaviorSubject, Observable, map, switchMap, take, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class StepService {
@@ -8,6 +9,10 @@ export class StepService {
         null
     );
     private _steps: BehaviorSubject<Step[] | null> = new BehaviorSubject(null);
+
+    private _pagination: BehaviorSubject<Pagination | null> =
+        new BehaviorSubject(null);
+
     constructor(private _httpClient: HttpClient) {}
     /**
      * Getter for steps
@@ -34,5 +39,26 @@ export class StepService {
                 )
             )
         );
+    }
+
+    getStepListByProcessId(
+        id: string,
+        filter: any = {}
+    ): Observable<{ pagination: Pagination; data: Step[] }> {
+        return this._httpClient
+            .post<{
+                pagination: Pagination;
+                data: Step[];
+            }>('/api/v1/processes/' + id + '/steps/filter', {
+                pagination: {
+                    pageSize: 999,
+                },
+            })
+            .pipe(
+                tap((response) => {
+                    this._pagination.next(response.pagination);
+                    this._steps.next(response.data);
+                })
+            );
     }
 }

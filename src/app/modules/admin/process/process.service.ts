@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, map, switchMap, take } from 'rxjs';
+import { BehaviorSubject, Observable, map, switchMap, take, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ProcessService {
@@ -10,6 +10,7 @@ export class ProcessService {
     private _processes: BehaviorSubject<Process[] | null> = new BehaviorSubject(
         null
     );
+
     constructor(private _httpClient: HttpClient) {}
     /**
      * Getter for processes
@@ -34,6 +35,25 @@ export class ProcessService {
                         return process;
                     })
                 )
+            )
+        );
+    }
+
+    getProcessListBySeriesId(id: string): Observable<Process[]> {
+        return this.processes$.pipe(
+            take(1),
+            switchMap(() =>
+                this._httpClient
+                    .post<Process[]>('/api/v1/series/' + id + '/processes', {
+                        pagination: {
+                            pageSize: 999,
+                        },
+                    })
+                    .pipe(
+                        tap((response) => {
+                            this._processes.next(response);
+                        })
+                    )
             )
         );
     }

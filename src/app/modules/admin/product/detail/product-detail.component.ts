@@ -60,8 +60,8 @@ export class ProductDetailComponent implements OnInit {
     ngOnInit(): void {
         this._productService.product$.subscribe((product) => {
             this.product = product;
-            this._semiService.getSemies(this.product.id).subscribe((semi) => {
-                this.semies = semi.data;
+            this._semiService.getSemies(this.product.id).subscribe((semies) => {
+                this.semies = semies.data;
             });
         });
         // console.log(this.semies$);
