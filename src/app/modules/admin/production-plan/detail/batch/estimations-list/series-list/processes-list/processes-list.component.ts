@@ -21,22 +21,30 @@ export class ProcessListComponent implements OnInit {
     processList: Process[];
     constructor(
         public matDialogRef: MatDialogRef<ProcessListComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: Process[],
+        @Inject(MAT_DIALOG_DATA)
+        public data: {
+            seriesId: string;
+            processesList: Process[];
+        },
         private _stepService: StepService,
         private _dialog: MatDialog
     ) {}
 
     ngOnInit() {
-        this.processList = this.data;
+        this.processList = this.data.processesList;
         console.log(this.processList);
     }
 
     openStepListDialog(id: string) {
         this._stepService.getStepListByProcessId(id).subscribe((steps) => {
+            const data = {
+                seriesId: this.data.seriesId,
+                stepsList: steps.data,
+            };
             this._dialog
                 .open(StepsListComponent, {
                     width: '900px',
-                    data: steps.data,
+                    data: data,
                 })
                 .afterClosed()
                 .subscribe();

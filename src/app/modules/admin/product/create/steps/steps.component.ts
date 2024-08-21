@@ -112,7 +112,7 @@ export class StepsComponent implements OnInit {
 
             this._dialog
                 .open(StepIOsComponent, {
-                    width: '480px',
+                    width: '600px',
                     data: data,
                 })
                 .afterClosed()

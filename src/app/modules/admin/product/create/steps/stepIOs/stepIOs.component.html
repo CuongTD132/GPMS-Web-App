@@ -12,21 +12,24 @@
         </button>
     </div>
 
-    <div class="font-poppins overflow-y-scroll p-8 dark:bg-gray-800">
+    <div class="font-poppins gap-4 overflow-y-scroll p-8 dark:bg-gray-800">
         <div class="space-y-2 pb-10">
-            <span>Select category:</span>
-            <div class="justify-content-between flex space-x-10">
-                <div *ngFor="let category of categories">
-                    <input
-                        type="radio"
-                        [value]="category"
-                        [(ngModel)]="selectedCategory"
-                    />
-                    <label>{{ category }}</label>
+            <mat-radio-group
+                aria-label="Select an option"
+                [(ngModel)]="category"
+            >
+                <mat-label>Select category:</mat-label>
+
+                <div class="justify-content-between flex space-x-10">
+                    <ng-container *ngFor="let category of categories">
+                        <mat-radio-button [value]="category">
+                            {{ category }}
+                        </mat-radio-button>
+                    </ng-container>
                 </div>
-            </div>
+            </mat-radio-group>
         </div>
-        <div *ngIf="selectedCategory === 'Material'" class="grid">
+        <div *ngIf="category === 'Material'" class="grid">
             <ng-container *ngIf="matForm">
                 <form [formGroup]="matForm" class="flex flex-col gap-4">
                     <div class="steps flex flex-col gap-2">
@@ -89,7 +92,7 @@
                 </form>
             </ng-container>
         </div>
-        <div *ngIf="selectedCategory === 'Product'" class="grid">
+        <div *ngIf="category === 'Product'" class="grid">
             <ng-container *ngIf="proForm">
                 <form [formGroup]="proForm" class="flex flex-col gap-4">
                     <div class="steps flex flex-col gap-2">
@@ -133,7 +136,7 @@
                 </form>
             </ng-container>
         </div>
-        <div *ngIf="selectedCategory === 'Semi'" class="grid">
+        <div *ngIf="category === 'Semi'" class="grid">
             <ng-container *ngIf="semiForm">
                 <form [formGroup]="semiForm" class="flex flex-col gap-4">
                     <div class="steps flex flex-col gap-2">
@@ -194,23 +197,81 @@
                 </form>
             </ng-container>
         </div>
-        <div>
-            <span>List Added Steps Input/Output</span>
-            <div class="max-h-50 overflow-y-scroll">
-                <ng-container *ngFor="let item of stepIOs">
+        <ng-container *ngIf="stepIOs.length > 0">
+            <span class="py-5">List Added Steps Input/Output</span>
+            <ng-container *ngIf="addedMaterialList.length > 0">
+                <div class="mt-10 max-h-50 overflow-y-scroll">
+                    <span class="mt-10">Materials</span>
                     <div
                         class="steps-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
                     >
-                        <div>
-                            {{ getMaterialName(item.materialId) }}
-                        </div>
-                        <div>{{ item.quantity }}</div>
+                        <span>Material Name</span>
+                        <span>Type</span>
+                        <span>Consumption</span>
                     </div>
-                </ng-container>
-            </div>
-        </div>
+                    <ng-container *ngFor="let item of addedMaterialList">
+                        <div
+                            class="steps-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                        >
+                            <div>
+                                {{ getMaterialName(item.materialId) }}
+                            </div>
+                            <div>{{ item.type }}</div>
+                            <div>{{ item.consumption }}</div>
+                        </div>
+                    </ng-container>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="addedProductList.length > 0">
+                <div class="mt-10 max-h-50 overflow-y-scroll">
+                    <span>Product</span>
+                    <div
+                        class="steps-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                    >
+                        <span>Type</span>
+                        <span>Quantity</span>
+                    </div>
+                    <ng-container *ngFor="let item of addedProductList">
+                        <div
+                            class="steps-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                        >
+                            <div>
+                                {{ item.type }}
+                            </div>
+                            <div>{{ item.quantity }}</div>
+                        </div>
+                    </ng-container>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="addedSemiList.length > 0">
+                <div class="mt-10 max-h-50 overflow-y-scroll">
+                    <span>Semi Finished Product</span>
+                    <div
+                        class="steps-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                    >
+                        <span>Semi Finished Product Name</span>
+                        <span>Type</span>
+                        <span>Quantity</span>
+                    </div>
+                    <ng-container *ngFor="let item of addedSemiList">
+                        <div
+                            class="steps-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                        >
+                            <div>
+                                {{ item.semiFinishedProductCode }}
+                            </div>
+                            <div>{{ item.type }}</div>
+                            <div>{{ item.quantity }}</div>
+                        </div>
+                    </ng-container>
+                </div>
+            </ng-container>
+        </ng-container>
         <div class="mt-4 flex justify-end">
             <button
+                [disabled]="stepIOs.length === 0"
                 (click)="submit()"
                 mat-raised-button
                 color="primary"

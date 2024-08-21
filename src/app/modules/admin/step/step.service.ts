@@ -9,6 +9,9 @@ export class StepService {
         null
     );
     private _steps: BehaviorSubject<Step[] | null> = new BehaviorSubject(null);
+    private _stepIOs: BehaviorSubject<IORespone | null> = new BehaviorSubject(
+        null
+    );
 
     private _pagination: BehaviorSubject<Pagination | null> =
         new BehaviorSubject(null);
@@ -60,5 +63,40 @@ export class StepService {
                     this._steps.next(response.data);
                 })
             );
+    }
+
+    getStepIOListByStepId(
+        id: string,
+        seriesId: string
+    ): Observable<{ pagination: Pagination; data: IORespone }> {
+        return this._httpClient
+            .post<{
+                pagination: Pagination;
+                data: IORespone;
+            }>(
+                '/api/v1/steps/' +
+                    id +
+                    '/series/' +
+                    seriesId +
+                    '/step-input-outputs/step-results/filter',
+                {
+                    pagination: {
+                        pageSize: 999,
+                    },
+                }
+            )
+            .pipe(
+                tap((response) => {
+                    this._pagination.next(response.pagination);
+                    this._stepIOs.next(response.data);
+                })
+            );
+    }
+
+    createStepResult(id: string, data) {
+        return this._httpClient.post<IORespone>(
+            '/api/v1/series/' + id + '/production-process-step-results',
+            data
+        );
     }
 }

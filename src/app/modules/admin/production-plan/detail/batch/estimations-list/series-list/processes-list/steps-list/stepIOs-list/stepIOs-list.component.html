@@ -11,281 +11,425 @@
             ></mat-icon>
         </button>
     </div>
-    <div class="font-poppins bg-card space-y-30 p-8 dark:bg-gray-800">
-        <div class="flex flex-col gap-4">
-            <div class="stepIOs-list flex flex-col gap-2 space-y-10">
-                <div class="grid gap-4">
-                    <span>Material Inputs List</span>
-                    <div
-                        class="stepIOs-list-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+    <div class="font-poppins bg-card space-y-20 p-8 dark:bg-gray-800">
+        <ng-container *ngIf="stepIOsList.materials">
+            <div class="flex flex-col gap-4">
+                <div class="stepIOs-list flex flex-col gap-2 space-y-10">
+                    <ng-container
+                        *ngIf="
+                            stepIOsList.materials.inputs &&
+                            stepIOsList.materials.inputs.length > 0
+                        "
                     >
-                        <div class="hidden sm:block">Name</div>
-                        <div class="hidden sm:block">Code</div>
-                        <div class="hidden sm:block">Require Consumption</div>
-                        <div class="hidden sm:block">
-                            Total Required Consumption
-                        </div>
-                        <div class="hidden sm:block">Production Result</div>
-                    </div>
-                    <div class="max-h-100 overflow-y-scroll">
-                        <ng-container
-                            *ngFor="let item of stepIOsList.material.inputs"
-                        >
+                        <div class="grid gap-4">
+                            <span>Material Inputs List</span>
                             <div
-                                class="stepIOs-list-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                class="stepIOs-list-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
                             >
+                                <div class="hidden sm:block">Name</div>
+                                <div class="hidden sm:block">Code</div>
                                 <div class="hidden sm:block">
-                                    {{ item.name }}
+                                    Require Consumption
                                 </div>
                                 <div class="hidden sm:block">
-                                    {{ item.code }}
+                                    Total Required Consumption
                                 </div>
                                 <div class="hidden sm:block">
-                                    {{ item.consumption }}
+                                    Production Result
                                 </div>
-                                <div class="hidden sm:block">
-                                    {{ item.totalConsumption }}
-                                </div>
-                                <button
-                                    mat-raised-button
-                                    class="flex min-w-fit gap-2"
-                                    color="primary"
-                                >
-                                    <span> Enter Result </span>
-                                </button>
                             </div>
-                        </ng-container>
-                    </div>
-                </div>
-                <div class="grid gap-4">
-                    <span>Material Output List</span>
-                    <div
-                        class="stepIOs-list-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                            <div class="max-h-50 overflow-y-scroll">
+                                <ng-container
+                                    *ngFor="
+                                        let item of stepIOsList.materials.inputs
+                                    "
+                                >
+                                    <div
+                                        class="stepIOs-list-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                    >
+                                        <div class="hidden sm:block">
+                                            {{ item.name }}
+                                        </div>
+                                        <div class="hidden sm:block">
+                                            {{ item.code }}
+                                        </div>
+                                        <div class="hidden sm:block">
+                                            {{ item.consumption }}
+                                        </div>
+                                        <div class="hidden sm:block">
+                                            {{ item.totalConsumption }}
+                                        </div>
+                                        <button
+                                            (click)="
+                                                openConsumptionIOResultsDialog(
+                                                    item.id
+                                                )
+                                            "
+                                            mat-raised-button
+                                            class="flex min-w-fit gap-2"
+                                            color="primary"
+                                        >
+                                            <span> Enter Result </span>
+                                        </button>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container
+                        *ngIf="
+                            stepIOsList.materials.outputs &&
+                            stepIOsList.materials.outputs.length > 0
+                        "
                     >
-                        <div class="hidden sm:block">Name</div>
-                        <div class="hidden sm:block">Code</div>
+                        <div class="grid gap-4">
+                            <span>Material Output List</span>
+                            <div
+                                class="stepIOs-list-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                            >
+                                <div class="hidden sm:block">Name</div>
+                                <div class="hidden sm:block">Code</div>
 
-                        <div class="hidden sm:block">Require Consumption</div>
-                        <div class="hidden sm:block">
-                            Total Required Consumption
-                        </div>
-                        <div class="hidden sm:block">Production Result</div>
-                    </div>
-                    <div class="max-h-100 overflow-y-scroll">
-                        <ng-container
-                            *ngFor="let item of stepIOsList.material.outputs"
-                        >
-                            <div
-                                class="stepIOs-list-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
-                            >
                                 <div class="hidden sm:block">
-                                    {{ item.name }}
+                                    Require Consumption
                                 </div>
                                 <div class="hidden sm:block">
-                                    {{ item.code }}
+                                    Total Required Consumption
                                 </div>
                                 <div class="hidden sm:block">
-                                    {{ item.consumption }}
+                                    Production Result
                                 </div>
-                                <div class="hidden sm:block">
-                                    {{ item.totalConsumption }}
-                                </div>
-                                <button
-                                    mat-raised-button
-                                    class="flex min-w-fit gap-2"
-                                    color="primary"
-                                >
-                                    <span> Enter Result </span>
-                                </button>
                             </div>
-                        </ng-container>
-                    </div>
+                            <div class="max-h-50 overflow-y-scroll">
+                                <ng-container
+                                    *ngFor="
+                                        let item of stepIOsList.materials
+                                            .outputs
+                                    "
+                                >
+                                    <div
+                                        class="stepIOs-list-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                    >
+                                        <div class="hidden sm:block">
+                                            {{ item.name }}
+                                        </div>
+                                        <div class="hidden sm:block">
+                                            {{ item.code }}
+                                        </div>
+                                        <div class="hidden sm:block">
+                                            {{ item.consumption }}
+                                        </div>
+                                        <div class="hidden sm:block">
+                                            {{ item.totalConsumption }}
+                                        </div>
+                                        <button
+                                            (click)="
+                                                openConsumptionIOResultsDialog(
+                                                    item.id
+                                                )
+                                            "
+                                            mat-raised-button
+                                            class="flex min-w-fit gap-2"
+                                            color="primary"
+                                        >
+                                            <span> Enter Result </span>
+                                        </button>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </ng-container>
                 </div>
             </div>
-        </div>
+        </ng-container>
 
-        <div class="flex flex-col gap-4">
-            <div class="stepIOs-list flex flex-col gap-2 space-y-10">
-                <div class="grid gap-4">
-                    <span>Semi Finished Product Inputs List</span>
-                    <div
-                        class="stepIOs-list-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+        <ng-container *ngIf="stepIOsList.semiFinishProducts">
+            <div class="flex flex-col gap-4">
+                <div class="stepIOs-list flex flex-col gap-2 space-y-10">
+                    <ng-container
+                        *ngIf="
+                            stepIOsList.semiFinishProducts.inputs &&
+                            stepIOsList.semiFinishProducts.inputs.length > 0
+                        "
                     >
-                        <div class="hidden sm:block">Name</div>
-                        <div class="hidden sm:block">Code</div>
-                        <div class="hidden sm:block">Require Quantity</div>
-                        <div class="hidden sm:block">
-                            Total Required Quantity
-                        </div>
-                        <div class="hidden sm:block">Production Result</div>
-                    </div>
-                    <div class="max-h-100 overflow-y-scroll">
-                        <ng-container
-                            *ngFor="let item of stepIOsList.semi.inputs"
-                        >
+                        <div class="grid gap-4">
+                            <span>Semi Finished Product Inputs List</span>
                             <div
-                                class="stepIOs-list-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                class="stepIOs-list-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
                             >
+                                <div class="hidden sm:block">Name</div>
+                                <div class="hidden sm:block">Code</div>
                                 <div class="hidden sm:block">
-                                    {{ item.name }}
+                                    Require Quantity
                                 </div>
                                 <div class="hidden sm:block">
-                                    {{ item.code }}
+                                    Total Required Quantity
                                 </div>
                                 <div class="hidden sm:block">
-                                    {{ item.quantity }}
+                                    Production Result
                                 </div>
-                                <div class="hidden sm:block">
-                                    {{ item.totalQuantity }}
-                                </div>
-                                <button
-                                    mat-raised-button
-                                    class="flex min-w-fit gap-2"
-                                    color="primary"
-                                >
-                                    <span> Enter Result </span>
-                                </button>
                             </div>
-                        </ng-container>
-                    </div>
-                </div>
-                <div class="grid gap-4">
-                    <span>Semi Finished Product Output List</span>
-                    <div
-                        class="stepIOs-list-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                            <div class="max-h-50 overflow-y-scroll">
+                                <ng-container
+                                    *ngFor="
+                                        let item of stepIOsList
+                                            .semiFinishProducts.inputs
+                                    "
+                                >
+                                    <div
+                                        class="stepIOs-list-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                    >
+                                        <div class="hidden sm:block">
+                                            {{ item.name }}
+                                        </div>
+                                        <div class="hidden sm:block">
+                                            {{ item.code }}
+                                        </div>
+                                        <div class="hidden sm:block">
+                                            {{ item.quantity }}
+                                        </div>
+                                        <div class="hidden sm:block">
+                                            {{ item.totalQuantity }}
+                                        </div>
+                                        <button
+                                            (click)="
+                                                openQuantityIOResultsDialog(
+                                                    item.id
+                                                )
+                                            "
+                                            mat-raised-button
+                                            class="flex min-w-fit gap-2"
+                                            color="primary"
+                                        >
+                                            <span> Enter Result </span>
+                                        </button>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container
+                        *ngIf="
+                            stepIOsList.semiFinishProducts.outputs &&
+                            stepIOsList.semiFinishProducts.outputs.length > 0
+                        "
                     >
-                        <div class="hidden sm:block">Name</div>
-                        <div class="hidden sm:block">Code</div>
+                        <div class="grid gap-4">
+                            <span>Semi Finished Product Output List</span>
+                            <div
+                                class="stepIOs-list-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                            >
+                                <div class="hidden sm:block">Name</div>
+                                <div class="hidden sm:block">Code</div>
 
-                        <div class="hidden sm:block">Require Quantity</div>
-                        <div class="hidden sm:block">
-                            Total Required Quantity
-                        </div>
-                        <div class="hidden sm:block">Production Result</div>
-                    </div>
-                    <div class="max-h-100 overflow-y-scroll">
-                        <ng-container
-                            *ngFor="let item of stepIOsList.semi.outputs"
-                        >
-                            <div
-                                class="stepIOs-list-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
-                            >
                                 <div class="hidden sm:block">
-                                    {{ item.name }}
+                                    Require Quantity
                                 </div>
                                 <div class="hidden sm:block">
-                                    {{ item.code }}
+                                    Total Required Quantity
                                 </div>
                                 <div class="hidden sm:block">
-                                    {{ item.quantity }}
+                                    Production Result
                                 </div>
-                                <div class="hidden sm:block">
-                                    {{ item.totalQuantity }}
-                                </div>
-                                <button
-                                    mat-raised-button
-                                    class="flex min-w-fit gap-2"
-                                    color="primary"
-                                >
-                                    <span> Enter Result </span>
-                                </button>
                             </div>
-                        </ng-container>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="flex flex-col gap-4">
-            <div class="stepIOs-list flex flex-col gap-2 space-y-10">
-                <div class="grid gap-4">
-                    <span>Product Inputs List</span>
-                    <div
-                        class="stepIOs-list-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
-                    >
-                        <div class="hidden sm:block">Name</div>
-                        <div class="hidden sm:block">Code</div>
-                        <div class="hidden sm:block">Require Quantity</div>
-                        <div class="hidden sm:block">
-                            Total Required Quantity
-                        </div>
-                        <div class="hidden sm:block">Production Result</div>
-                    </div>
-                    <div class="max-h-100 overflow-y-scroll">
-                        <ng-container
-                            *ngFor="let item of stepIOsList.product.inputs"
-                        >
-                            <div
-                                class="stepIOs-list-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
-                            >
-                                <div class="hidden sm:block">
-                                    {{ item.name }}
-                                </div>
-                                <div class="hidden sm:block">
-                                    {{ item.code }}
-                                </div>
-                                <div class="hidden sm:block">
-                                    {{ item.quantity }}
-                                </div>
-                                <div class="hidden sm:block">
-                                    {{ item.totalQuantity }}
-                                </div>
-                                <button
-                                    mat-raised-button
-                                    class="flex min-w-fit gap-2"
-                                    color="primary"
+                            <div class="max-h-50 overflow-y-scroll">
+                                <ng-container
+                                    *ngFor="
+                                        let item of stepIOsList
+                                            .semiFinishProducts.outputs
+                                    "
                                 >
-                                    <span> Enter Result </span>
-                                </button>
+                                    <div
+                                        class="stepIOs-list-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                    >
+                                        <div class="hidden sm:block">
+                                            {{ item.name }}
+                                        </div>
+                                        <div class="hidden sm:block">
+                                            {{ item.code }}
+                                        </div>
+                                        <div class="hidden sm:block">
+                                            {{ item.quantity }}
+                                        </div>
+                                        <div class="hidden sm:block">
+                                            {{ item.totalQuantity }}
+                                        </div>
+                                        <button
+                                            (click)="
+                                                openQuantityIOResultsDialog(
+                                                    item.id
+                                                )
+                                            "
+                                            mat-raised-button
+                                            class="flex min-w-fit gap-2"
+                                            color="primary"
+                                        >
+                                            <span> Enter Result </span>
+                                        </button>
+                                    </div>
+                                </ng-container>
                             </div>
-                        </ng-container>
-                    </div>
-                </div>
-                <div class="grid gap-4">
-                    <span>Product Output List</span>
-                    <div
-                        class="stepIOs-list-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
-                    >
-                        <div class="hidden sm:block">Name</div>
-                        <div class="hidden sm:block">Code</div>
-
-                        <div class="hidden sm:block">Require Quantity</div>
-                        <div class="hidden sm:block">
-                            Total Required Quantity
                         </div>
-                        <div class="hidden sm:block">Production Result</div>
-                    </div>
-                    <div class="max-h-100 overflow-y-scroll">
-                        <ng-container
-                            *ngFor="let item of stepIOsList.product.outputs"
-                        >
-                            <div
-                                class="stepIOs-list-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
-                            >
-                                <div class="hidden sm:block">
-                                    {{ item.name }}
-                                </div>
-                                <div class="hidden sm:block">
-                                    {{ item.code }}
-                                </div>
-                                <div class="hidden sm:block">
-                                    {{ item.quantity }}
-                                </div>
-                                <div class="hidden sm:block">
-                                    {{ item.totalQuantity }}
-                                </div>
-                                <button
-                                    mat-raised-button
-                                    class="flex min-w-fit gap-2"
-                                    color="primary"
-                                >
-                                    <span> Enter Result </span>
-                                </button>
-                            </div>
-                        </ng-container>
-                    </div>
+                    </ng-container>
                 </div>
             </div>
-        </div>
+        </ng-container>
+
+        <ng-container *ngIf="stepIOsList.products">
+            <div class="flex flex-col gap-4">
+                <div class="stepIOs-list flex flex-col gap-2 space-y-10">
+                    <ng-container
+                        *ngIf="
+                            stepIOsList.products.inputs &&
+                            stepIOsList.products.inputs.length > 0
+                        "
+                    >
+                        <div class="grid gap-4">
+                            <span>Product Inputs List</span>
+                            <div
+                                class="stepIOs-list-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                            >
+                                <div class="hidden sm:block">Name</div>
+                                <div class="hidden sm:block">Code</div>
+                                <div class="hidden sm:block">
+                                    Require Quantity
+                                </div>
+                                <div class="hidden sm:block">
+                                    Total Required Quantity
+                                </div>
+                                <div class="hidden sm:block">
+                                    Production Result
+                                </div>
+                            </div>
+                            <div class="max-h-50 overflow-y-scroll">
+                                <ng-container
+                                    *ngFor="
+                                        let item of stepIOsList.products.inputs
+                                    "
+                                >
+                                    <div
+                                        class="stepIOs-list-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                    >
+                                        <div class="hidden sm:block">
+                                            {{ item.name }}
+                                        </div>
+                                        <div class="hidden sm:block">
+                                            {{ item.code }}
+                                        </div>
+                                        <div class="hidden sm:block">
+                                            {{ item.quantity }}
+                                        </div>
+                                        <div class="hidden sm:block">
+                                            {{ item.totalQuantity }}
+                                        </div>
+                                        <button
+                                            (click)="
+                                                openQuantityIOResultsDialog(
+                                                    item.id
+                                                )
+                                            "
+                                            mat-raised-button
+                                            class="flex min-w-fit gap-2"
+                                            color="primary"
+                                        >
+                                            <span> Enter Result </span>
+                                        </button>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container
+                        *ngIf="
+                            stepIOsList.products.outputs &&
+                            stepIOsList.products.outputs.length > 0
+                        "
+                    >
+                        <div class="grid gap-4">
+                            <span>Product Output List</span>
+                            <div
+                                class="stepIOs-list-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                            >
+                                <div class="hidden sm:block">Name</div>
+                                <div class="hidden sm:block">Code</div>
+
+                                <div class="hidden sm:block">
+                                    Require Quantity
+                                </div>
+                                <div class="hidden sm:block">
+                                    Total Required Quantity
+                                </div>
+                                <div class="hidden sm:block">
+                                    Production Result
+                                </div>
+                            </div>
+                            <div class="max-h-50 overflow-y-scroll">
+                                <ng-container
+                                    *ngFor="
+                                        let item of stepIOsList.products.outputs
+                                    "
+                                >
+                                    <div
+                                        class="stepIOs-list-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                    >
+                                        <div class="hidden sm:block">
+                                            {{ item.name }}
+                                        </div>
+                                        <div class="hidden sm:block">
+                                            {{ item.code }}
+                                        </div>
+                                        <div class="hidden sm:block">
+                                            {{ item.quantity }}
+                                        </div>
+                                        <div class="hidden sm:block">
+                                            {{ item.totalQuantity }}
+                                        </div>
+                                        <button
+                                            (click)="
+                                                openQuantityIOResultsDialog(
+                                                    item.id
+                                                )
+                                            "
+                                            mat-raised-button
+                                            class="flex min-w-fit gap-2"
+                                            color="primary"
+                                        >
+                                            <span> Enter Result </span>
+                                        </button>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="createStepResultForm">
+            <form [formGroup]="createStepResultForm">
+                <div>
+                    <mat-form-field class="w-full">
+                        <mat-label>Note</mat-label>
+                        <textarea
+                            matInput
+                            placeholder="Note"
+                            [formControlName]="'description'"
+                        ></textarea>
+                    </mat-form-field>
+                </div>
+                <div class="mt-4 flex justify-end">
+                    <button
+                        [disabled]="totalIO !== inputOutputResults.length"
+                        (click)="submit()"
+                        mat-raised-button
+                        color="primary"
+                        class="flex min-w-fit gap-2"
+                    >
+                        <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
+                        <span> Done </span>
+                    </button>
+                </div>
+            </form>
+        </ng-container>
     </div>
 </div>

@@ -13,14 +13,9 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MaterialService } from 'app/modules/admin/material/material.service';
-
-enum Category {
-    Material = 'Material',
-    Product = 'Product',
-    Semi = 'Semi',
-}
 
 enum Type {
     Input = 'Input',
@@ -42,17 +37,20 @@ enum Type {
         MatInputModule,
         MatDatepickerModule,
         MatSelectModule,
+        MatRadioModule,
     ],
 })
 export class StepIOsComponent implements OnInit {
-    category: Category = Category.Material;
-    categories = Object.values(Category);
+    category: string = 'Material';
+    categories: string[] = ['Material', 'Product', 'Semi'];
     type: Type = Type.Input;
     types = Object.values(Type);
-    selectedCategory: Category = Category.Material;
     semiList: SemiFinishedProduct[] = this.data.semiBomsList.semi;
     materialList: Material[] = [];
     stepIOForm: UntypedFormGroup;
+    addedSemiList: any[] = [];
+    addedMaterialList: any[] = [];
+    addedProductList: any[] = [];
     matForm: UntypedFormGroup;
     proForm: UntypedFormGroup;
     semiForm: UntypedFormGroup;
@@ -136,6 +134,7 @@ export class StepIOsComponent implements OnInit {
         ) {
             const stepIO: StepIOs = this.semiForm.value;
             this.stepIOs.push(stepIO);
+            this.addedSemiList.push(stepIO);
             this.semiForm.reset();
             this.initSemiForm();
         }
@@ -146,6 +145,7 @@ export class StepIOsComponent implements OnInit {
         if (this.proForm.valid) {
             const stepIO: StepIOs = this.proForm.value;
             this.stepIOs.push(stepIO);
+            this.addedProductList.push(stepIO);
             this.proForm.reset();
             this.initProForm();
         }
@@ -159,6 +159,7 @@ export class StepIOsComponent implements OnInit {
         ) {
             const stepIO: StepIOs = this.matForm.value;
             this.stepIOs.push(stepIO);
+            this.addedMaterialList.push(stepIO);
             this.matForm.reset();
             this.initMatForm();
         }

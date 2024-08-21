@@ -38,11 +38,14 @@ export class SeriesListComponent implements OnInit {
             .subscribe((processes) => {
                 this.processesList = processes;
                 console.log(this.processesList);
-
+                const data = {
+                    seriesId: id,
+                    processesList: this.processesList,
+                };
                 this._dialog
                     .open(ProcessListComponent, {
                         width: '900px',
-                        data: this.processesList,
+                        data: data,
                     })
                     .afterClosed()
                     .subscribe();

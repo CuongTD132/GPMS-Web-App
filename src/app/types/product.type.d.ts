@@ -73,9 +73,9 @@ type Steps = {
 };
 
 type IORespone = {
-    product: Res;
-    semi: Res;
-    material: Res;
+    products: Res;
+    semiFinishProducts: Res;
+    materials: Res;
 };
 
 type Res = {
@@ -92,4 +92,10 @@ type GeneralIO = {
     type: number;
     totalQuantity: number;
     totalConsumption: number;
+};
+
+type InputOutputResult = {
+    stepInputOutputId: string;
+    consumption: number;
+    quantity: number;
 };

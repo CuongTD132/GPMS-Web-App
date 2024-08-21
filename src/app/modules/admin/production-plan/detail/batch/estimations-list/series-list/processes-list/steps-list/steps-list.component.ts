@@ -8,7 +8,6 @@ import {
 } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { StepService } from 'app/modules/admin/step/step.service';
-import { data } from './stepIOs-list/data';
 import { StepIOsListComponent } from './stepIOs-list/stepIOs-lists.component';
 @Component({
     selector: 'steps-list',
@@ -21,25 +20,36 @@ export class StepsListComponent implements OnInit {
     stepsList: Step[];
     constructor(
         public matDialogRef: MatDialogRef<StepsListComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: Step[],
+        @Inject(MAT_DIALOG_DATA)
+        public data: {
+            seriesId: string;
+            stepsList: Step[];
+        },
         private _stepService: StepService,
         private _dialog: MatDialog
     ) {}
 
     ngOnInit() {
-        this.stepsList = this.data;
+        this.stepsList = this.data.stepsList;
         console.log(this.stepsList);
     }
 
-    openStepListDialog(id: string) {
-        // this._stepService.getStepListByProcessId(id).subscribe((steps) => {
-        this._dialog
-            .open(StepIOsListComponent, {
-                width: '900px',
-                data: data,
-            })
-            .afterClosed()
-            .subscribe();
-        // });
+    openStepIOListDialog(id: string) {
+        this._stepService
+            .getStepIOListByStepId(id, this.data.seriesId)
+            .subscribe((stepIOs) => {
+                const data = {
+                    seriesId: this.data.seriesId,
+                    stepIOsList: stepIOs.data,
+                    stepId: id,
+                };
+                this._dialog
+                    .open(StepIOsListComponent, {
+                        width: '900px',
+                        data: data,
+                    })
+                    .afterClosed()
+                    .subscribe();
+            });
     }
 }
