@@ -14,9 +14,8 @@ import { SpecificationService } from 'app/modules/admin/specification/specificat
 export class SpecificationDetailComponent implements OnInit {
     specification: Specification;
     constructor(
-        public matDialogRef: MatDialogRef<SpecificationDetailComponent>,
         private _specificationService: SpecificationService
-    ) {}
+    ) { }
 
     ngOnInit() {
         this._specificationService.specification$.subscribe((specification) => {

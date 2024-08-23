@@ -1,27 +1,28 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-    name: 'colorStatus',
+    name: 'color',
 })
-export class ColorStatusPipe implements PipeTransform {
+export class ColorPipe implements PipeTransform {
     transform(value: string): string {
+        value = value.toLocaleLowerCase();
         switch (value) {
-            case 'Red':
-                return 'text-red-500';
-            case 'Orange':
-                return 'text-orange-500';
-            case 'Yellow':
-                return 'text-yellow-500';
-            case 'Green':
-                return 'text-green-500';
-            case 'Blue':
-                return 'text-blue-500';
-            case 'Gray':
-                return 'text-gray-500';
-            case 'Pink':
-                return 'text-pink-500';
-            case 'Purple':
-                return 'text-purple-500';
+            case 'đỏ':
+                return 'bg-red-300';
+            case 'cam':
+                return 'bg-orange-300';
+            case 'vàng':
+                return 'bg-yellow-300';
+            case 'lục':
+                return 'bg-green-300';
+            case 'xanh':
+                return 'bg-blue-300';
+            case 'xám':
+                return 'bg-gray-300';
+            case 'hồng':
+                return 'bg-pink-300';
+            case 'tím':
+                return 'bg-purple-300';
             default:
                 return ''; // Default class if no match
         }

@@ -20,6 +20,10 @@ import { SpecificationService } from '../../specification/specification.service'
 import { ProductService } from '../product.service';
 import { ProcessDetailComponent } from './process-detail/process-detail.component';
 import { SpecificationDetailComponent } from './specification-detail/specification-detail.component';
+import { CustomPipeModule } from '@fuse/pipes/pipe.module';
+import { MatTabsModule } from '@angular/material/tabs';
+import { RouterModule } from '@angular/router';
+
 
 @Component({
     selector: 'product-detail',
@@ -37,6 +41,9 @@ import { SpecificationDetailComponent } from './specification-detail/specificati
         MatDatepickerModule,
         MatSelectModule,
         MatChipsModule,
+        CustomPipeModule,
+        MatTabsModule,
+        RouterModule
     ],
 })
 export class ProductDetailComponent implements OnInit {
@@ -55,7 +62,7 @@ export class ProductDetailComponent implements OnInit {
         private _semiService: SemiService,
         private _dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         this._productService.product$.subscribe((product) => {

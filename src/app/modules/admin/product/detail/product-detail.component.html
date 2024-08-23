@@ -1,24 +1,51 @@
-<ng-container *ngIf="product">
+<div
+    class="bg-card flex min-w-0 flex-auto flex-col dark:bg-transparent sm:absolute sm:inset-0 sm:overflow-hidden"
+>
+    <!-- Header -->
     <div
-        class="-my-6 flex max-h-[calc(100vh-128px)] flex-auto flex-col overflow-y-scroll p-8"
+        class="relative flex flex-0 flex-col border-b px-6 py-4 sm:flex-row sm:items-center sm:justify-between md:px-8"
     >
+        <!-- Title -->
+        <div class="flex flex-col">
+            <div class="text-2xl font-extrabold tracking-tight">Product</div>
+        </div>
+        <!-- Actions -->
+        <div class="mt-6 flex shrink-0 items-center gap-3 sm:ml-4 sm:mt-0">
+            <!-- <button
+                mat-raised-button
+                color="accent"
+                (click)="clearCreateProductAttributeGroupForm()"
+            >
+                <mat-icon svgIcon="heroicons_outline:no-symbol"></mat-icon>
+            </button>
+            <button
+                mat-raised-button
+                color="primary"
+                [disabled]="!createProductAttributeGroupForm.valid"
+                (click)="onCreateProductAttributeGroupButtonClicked()"
+            >
+                <mat-icon svgIcon="heroicons_outline:plus-circle"></mat-icon>
+            </button> -->
+            <button
+                (click)="openCreateYearProductionPlanDialog()"
+                mat-raised-button
+                class="flex min-w-fit gap-2"
+                color="primary"
+            >
+                <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
+                <span> Create Year Production Plan </span>
+            </button>
+        </div>
+    </div>
+
+    <ng-container *ngIf="product">
         <div
             class="font-poppins bg-card mx-8 my-6 space-y-1 rounded-lg p-8 dark:bg-gray-800"
         >
             <div
                 *ngIf="product.status === 'Approved'"
                 class="mt-6 flex shrink-0 items-center justify-end gap-3 sm:ml-4 sm:mt-0"
-            >
-                <button
-                    (click)="openCreateYearProductionPlanDialog()"
-                    mat-raised-button
-                    class="flex min-w-fit gap-2"
-                    color="primary"
-                >
-                    <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
-                    <span> Create Year Production Plan </span>
-                </button>
-            </div>
+            ></div>
             <div class="grid w-full grid-cols-12 space-x-5 pb-10">
                 <div class="col-span-4 flex">
                     <div
@@ -44,22 +71,27 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-span-8 flex flex-col gap-4">
-                    <div class="product-name">
-                        {{ product.name | uppercase }}
-                    </div>
-                    <div class="product-code">
-                        Product Code - {{ product.code | uppercase }}
-                    </div>
-                    <div class="product-description">
-                        {{ product.description || 'No Description' }}
-                    </div>
-                    <div class="grid grid-cols-12">
-                        <div class="col-span-4 flex flex-col gap-4">
+                <div class="col-span-8 flex w-full flex-col gap-4">
+                    <div class="l flex justify-around gap-8">
+                        <div class="flex flex-col gap-2">
+                            <div class="product-name text-xl font-semibold">
+                                {{ product.name | uppercase }}
+                            </div>
+                            <div
+                                class="product-code font-semibold text-gray-700"
+                            >
+                                {{ product.code | uppercase }}
+                            </div>
+                            <div class="product-description italic">
+                                {{ product.description || 'No Description' }}
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-4">
                             <div class="size">
-                                <span>SIZES</span>
+                                <span class="font-semibold">SIZE</span>
                                 <mat-chip-set aria-label="Dog selection">
                                     <mat-chip
+                                        class="bg-blue-300"
                                         *ngFor="let item of product.sizes"
                                     >
                                         {{ item }}
@@ -67,17 +99,19 @@
                                 </mat-chip-set>
                             </div>
                             <div class="color">
-                                <span>COLORS</span>
+                                <span class="font-semibold">COLOR</span>
                                 <mat-chip-set aria-label="Dog selection">
-                                    <mat-chip
+                                    <ng-container
                                         *ngFor="let item of product.colors"
                                     >
-                                        {{ item }}
-                                    </mat-chip>
+                                        <mat-chip [class]="item | color">
+                                            {{ item | titlecase }}
+                                        </mat-chip>
+                                    </ng-container>
                                 </mat-chip-set>
                             </div>
                             <div class="category">
-                                <span>CATEGORY</span>
+                                <span class="font-semibold">CATEGORY</span>
                                 <mat-chip-set aria-label="Dog selection">
                                     <mat-chip>
                                         {{ product.category.name }}
@@ -85,49 +119,37 @@
                                 </mat-chip-set>
                             </div>
                         </div>
-                        <div class="col-span-8">
-                            <div
-                                class="semi-finished-products flex flex-col gap-2"
-                            >
-                                <span>SEMI FINISHED PRODUCTS</span>
-                                <div class="grid">
-                                    <div
-                                        class="semi-finished-product-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
-                                    >
-                                        <div class="hidden sm:block">Code</div>
-                                        <div class="hidden sm:block">Name</div>
-                                        <div class="hidden sm:block">
-                                            Quantity
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="semi-finished-product-grid grid max-h-50 items-center gap-4 overflow-y-scroll border-b px-6 py-3 md:px-8"
-                                    >
-                                        <ng-container
-                                            *ngFor="let item of semies"
-                                        >
-                                            <div class="hidden sm:block">
-                                                {{ item.code }}
-                                            </div>
-                                            <div class="hidden sm:block">
-                                                {{ item.name }}
-                                            </div>
-                                            <div class="hidden sm:block">
-                                                {{ item.quantity }}
-                                            </div>
-                                        </ng-container>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
-            <div class="grid w-full grid-cols-12">
-                <div
-                    class="semi-finished-products col-span-4 flex flex-col gap-2"
-                >
-                    <span>SPECIFICATIONS</span>
+            <mat-tab-group>
+                <mat-tab [label]="'SEMI FINISHED PRODUCTS' | titlecase">
+                    <div class="grid">
+                        <div
+                            class="semi-finished-product-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                        >
+                            <div class="hidden sm:block">Code</div>
+                            <div class="hidden sm:block">Name</div>
+                            <div class="hidden sm:block">Quantity</div>
+                        </div>
+                        <div
+                            class="semi-finished-product-grid grid max-h-50 items-center gap-4 overflow-y-scroll border-b px-6 py-3 md:px-8"
+                        >
+                            <ng-container *ngFor="let item of semies">
+                                <div class="hidden sm:block">
+                                    {{ item.code }}
+                                </div>
+                                <div class="hidden sm:block">
+                                    {{ item.name }}
+                                </div>
+                                <div class="hidden sm:block">
+                                    {{ item.quantity }}
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </mat-tab>
+                <mat-tab [label]="'SPECIFICATIONS' | titlecase">
                     <div class="grid">
                         <div
                             class="product-specifications-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
@@ -155,12 +177,11 @@
                                     {{ item.inventoryQuantity }}
                                 </div>
                                 <div class="hidden sm:block">
-                                    <span
-                                        (click)="
-                                            openSpecificationDetailDialog(
-                                                item.id
-                                            )
-                                        "
+                                    <a
+                                        [routerLink]="[
+                                            '/specifications',
+                                            item.id,
+                                        ]"
                                     >
                                         <mat-icon
                                             class="cursor-pointer text-blue-500 icon-size-5"
@@ -168,15 +189,13 @@
                                                 'heroicons_outline:pencil-square'
                                             "
                                         ></mat-icon>
-                                    </span>
+                                    </a>
                                 </div>
                             </ng-container>
                         </div>
                     </div>
-                </div>
-                <div class="col-span-1"></div>
-                <div class="product-processes col-span-7 flex flex-col gap-2">
-                    <span>PROCESSES</span>
+                </mat-tab>
+                <mat-tab [label]="'PROCESSES' | titlecase">
                     <div class="grid">
                         <div
                             class="product-processes-grid text-secondary grid max-h-50 gap-4 overflow-y-scroll bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
@@ -218,8 +237,10 @@
                             </ng-container>
                         </div>
                     </div>
-                </div>
-            </div>
+                </mat-tab>
+            </mat-tab-group>
         </div>
-    </div>
-</ng-container>
+    </ng-container>
+</div>
+
+<router-outlet></router-outlet>

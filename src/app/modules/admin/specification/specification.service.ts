@@ -8,7 +8,7 @@ export class SpecificationService {
         new BehaviorSubject(null);
     private _specifications: BehaviorSubject<Specification[] | null> =
         new BehaviorSubject(null);
-    constructor(private _httpClient: HttpClient) {}
+    constructor(private _httpClient: HttpClient) { }
     /**
      * Getter for specifications
      */

@@ -1,10 +1,10 @@
 // color-status.module.ts
 import { NgModule } from '@angular/core';
-import { ColorStatusPipe } from './color/color.pipe';
+import { ColorPipe } from './color/color.pipe';
 
 @NgModule({
-    declarations: [ColorStatusPipe],
+    declarations: [ColorPipe],
     imports: [],
-    exports: [ColorStatusPipe],
+    exports: [ColorPipe],
 })
-export class CustomPipeModule {}
+export class CustomPipeModule { }

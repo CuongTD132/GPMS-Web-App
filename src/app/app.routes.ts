@@ -139,6 +139,11 @@ export const appRoutes: Route[] = [
                     import('app/modules/admin/product/product.routes'),
             },
             {
+                path: 'specifications',
+                loadChildren: () =>
+                    import('app/modules/admin/specification/specification.routes'),
+            },
+            {
                 path: 'production-plans',
                 loadChildren: () =>
                     import(
