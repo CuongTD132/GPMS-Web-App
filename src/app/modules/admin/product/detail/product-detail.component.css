@@ -15,11 +15,11 @@
 }
 
 .product-processes-steps-list-grid {
-    grid-template-columns: 100px auto 250px 100px 120px 200px;
+    grid-template-columns: 60px auto 250px 100px 100px 180px;
 }
 
 .product-processes-steps-item-grid {
-    grid-template-columns: 80px auto 250px 100px 120px 140px;
+    grid-template-columns: 30px auto 250px 100px 100px 120px;
 }
 
 .semi-step-detail-grid {
