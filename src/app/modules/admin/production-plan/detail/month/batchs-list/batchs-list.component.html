@@ -3,7 +3,7 @@
     <div
         class="flex h-16 flex-0 items-center justify-between bg-primary pl-6 pr-3 text-on-primary sm:pl-8 sm:pr-5"
     >
-        <div class="text-lg font-medium">Choose A Batch To Create </div>
+        <div class="text-lg font-medium">Choose A Batch To Create</div>
         <button mat-icon-button (click)="matDialogRef.close()" [tabIndex]="-1">
             <mat-icon
                 class="text-current"
@@ -41,8 +41,7 @@
                         </mat-chip-set>
                         <div class="pl-1 pt-[10px]">
                             -
-                            <span [class]="item.color | colorStatus">
-                                {{ item.color }} </span
+                            <span [class]="item.color"> {{ item.color }} </span
                             >: {{ item.quantity }} pc(s)
                         </div>
                     </div>

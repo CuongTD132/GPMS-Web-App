@@ -1,29 +1,25 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import {
-    FormsModule,
-    ReactiveFormsModule,
-    UntypedFormGroup,
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialog } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTabsModule } from '@angular/material/tabs';
+import { RouterModule } from '@angular/router';
+import { CustomPipeModule } from '@fuse/pipes/pipe.module';
 import { ProcessService } from '../../process/process.service';
 import { CreateYearProductionPlanComponent } from '../../production-plan/create/year/create-production-plan.component';
 import { SemiService } from '../../semi/semi.service';
 import { SpecificationService } from '../../specification/specification.service';
+import { StepService } from '../../step/step.service';
 import { ProductService } from '../product.service';
 import { ProcessDetailComponent } from './process-detail/process-detail.component';
-import { SpecificationDetailComponent } from './specification-detail/specification-detail.component';
-import { CustomPipeModule } from '@fuse/pipes/pipe.module';
-import { MatTabsModule } from '@angular/material/tabs';
-import { RouterModule } from '@angular/router';
-
 
 @Component({
     selector: 'product-detail',
@@ -43,16 +39,18 @@ import { RouterModule } from '@angular/router';
         MatChipsModule,
         CustomPipeModule,
         MatTabsModule,
-        RouterModule
+        RouterModule,
+        MatExpansionModule,
     ],
 })
 export class ProductDetailComponent implements OnInit {
+    stepsList: Step[] = [];
+    stepDetail: StepDetail;
     product: Product;
     semies: SemiFinishedProduct[];
     previewUrl: string | ArrayBuffer;
     selectedFile: File;
     uploadMessage: string;
-    updateProductForm: UntypedFormGroup;
     flashMessage: 'success' | 'error' | null = null;
     message: string = null;
     constructor(
@@ -61,8 +59,9 @@ export class ProductDetailComponent implements OnInit {
         private _processService: ProcessService,
         private _semiService: SemiService,
         private _dialog: MatDialog,
-        private _changeDetectorRef: ChangeDetectorRef
-    ) { }
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _stepService: StepService
+    ) {}
 
     ngOnInit(): void {
         this._productService.product$.subscribe((product) => {
@@ -107,24 +106,24 @@ export class ProductDetailComponent implements OnInit {
             });
     }
 
-    openSpecificationDetailDialog(id: string) {
-        this._specificationsService
-            .getSpecificationById(id)
-            .subscribe((specification) => {
-                if (specification) {
-                    this._dialog
-                        .open(SpecificationDetailComponent, {
-                            width: '1080px',
-                            data: specification,
-                        })
-                        .afterClosed()
-                        .subscribe();
-                } else {
-                    // Handle undefined case (optional: show error message, etc.)
-                    return undefined;
-                }
-            });
-    }
+    // openSpecificationDetailDialog(id: string) {
+    //     this._specificationsService
+    //         .getSpecificationById(id)
+    //         .subscribe((specification) => {
+    //             if (specification) {
+    //                 this._dialog
+    //                     .open(SpecificationDetailComponent, {
+    //                         width: '1080px',
+    //                         data: specification,
+    //                     })
+    //                     .afterClosed()
+    //                     .subscribe();
+    //             } else {
+    //                 // Handle undefined case (optional: show error message, etc.)
+    //                 return undefined;
+    //             }
+    //         });
+    // }
 
     openProcessDetailDialog(id: string) {
         this._processService.getProcessById(id).subscribe((process) => {
@@ -136,6 +135,23 @@ export class ProductDetailComponent implements OnInit {
                     })
                     .afterClosed()
                     .subscribe();
+            }
+        });
+    }
+
+    openProcessPanel(id: string) {
+        this._processService.getProcessById(id).subscribe((process) => {
+            if (process) {
+                this.stepsList = process.steps;
+            }
+        });
+    }
+
+    openStepDetailPanel(id: string) {
+        this._stepService.getStepById(id).subscribe((step) => {
+            if (step) {
+                this.stepDetail = step;
+                console.log(this.stepDetail);
             }
         });
     }

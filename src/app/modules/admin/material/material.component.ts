@@ -43,6 +43,7 @@ import {
 import { CreateMaterialComponent } from './create/create-material.component';
 import { MaterialDetailComponent } from './detail/material-detail.component';
 import { MaterialService } from './material.service';
+import { MatProgressBar } from '@angular/material/progress-bar';
 
 @Component({
     selector: 'material',
@@ -64,6 +65,7 @@ import { MaterialService } from './material.service';
         MatOptionModule,
         FuseAlertComponent,
         MatCheckboxModule,
+        MatProgressBar,
     ],
 })
 export class MaterialComponent implements OnInit, AfterViewInit {

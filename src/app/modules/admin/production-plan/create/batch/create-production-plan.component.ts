@@ -109,7 +109,7 @@ export class CreateBatchProductionPlanComponent implements OnInit {
             })
             .afterClosed()
             .subscribe((result) => {
-                if (result.status == 'success') {
+                if (result && result.status == 'success') {
                     this.productionRequirements.push(result.data);
                     this.createProductionPlanForm.controls[
                         'productionRequirements'

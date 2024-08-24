@@ -1,5 +1,5 @@
 <div
-    class="bg-card flex min-w-0 flex-auto flex-col dark:bg-transparent sm:absolute sm:inset-0 sm:overflow-hidden"
+    class="bg-card flex min-w-0 flex-auto flex-col overflow-y-scroll dark:bg-transparent sm:absolute sm:inset-0"
 >
     <!-- Header -->
     <div
@@ -10,22 +10,10 @@
             <div class="text-2xl font-extrabold tracking-tight">Product</div>
         </div>
         <!-- Actions -->
-        <div class="mt-6 flex shrink-0 items-center gap-3 sm:ml-4 sm:mt-0">
-            <!-- <button
-                mat-raised-button
-                color="accent"
-                (click)="clearCreateProductAttributeGroupForm()"
-            >
-                <mat-icon svgIcon="heroicons_outline:no-symbol"></mat-icon>
-            </button>
-            <button
-                mat-raised-button
-                color="primary"
-                [disabled]="!createProductAttributeGroupForm.valid"
-                (click)="onCreateProductAttributeGroupButtonClicked()"
-            >
-                <mat-icon svgIcon="heroicons_outline:plus-circle"></mat-icon>
-            </button> -->
+        <div
+            *ngIf="product.status === 'Approved'"
+            class="mt-6 flex shrink-0 items-center gap-3 sm:ml-4 sm:mt-0"
+        >
             <button
                 (click)="openCreateYearProductionPlanDialog()"
                 mat-raised-button
@@ -42,10 +30,6 @@
         <div
             class="font-poppins bg-card mx-8 my-6 space-y-1 rounded-lg p-8 dark:bg-gray-800"
         >
-            <div
-                *ngIf="product.status === 'Approved'"
-                class="mt-6 flex shrink-0 items-center justify-end gap-3 sm:ml-4 sm:mt-0"
-            ></div>
             <div class="grid w-full grid-cols-12 space-x-5 pb-10">
                 <div class="col-span-4 flex">
                     <div
@@ -61,18 +45,18 @@
                             [src]="product.imageURLs[0]"
                         />
                         <div
-                            class="flex h-full w-full items-center justify-center text-center text-xs font-semibold uppercase leading-none"
+                            class="flex h-full w-full items-center justify-center text-center text-xl font-semibold uppercase leading-none"
                             *ngIf="
                                 !product.imageURLs ||
                                 !(product.imageURLs.length > 0)
                             "
                         >
-                            NO THUMB
+                            No Image
                         </div>
                     </div>
                 </div>
                 <div class="col-span-8 flex w-full flex-col gap-4">
-                    <div class="l flex justify-around gap-8">
+                    <div class="flex justify-around gap-8">
                         <div class="flex flex-col gap-2">
                             <div class="product-name text-xl font-semibold">
                                 {{ product.name | uppercase }}
@@ -122,8 +106,11 @@
                     </div>
                 </div>
             </div>
-            <mat-tab-group>
-                <mat-tab [label]="'SEMI FINISHED PRODUCTS' | titlecase">
+            <mat-tab-group class="mx-auto w-5/6 rounded-xl bg-gray-100 pt-4">
+                <mat-tab
+                    class=""
+                    [label]="'SEMI FINISHED PRODUCTS' | titlecase"
+                >
                     <div class="grid">
                         <div
                             class="semi-finished-product-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
@@ -133,7 +120,7 @@
                             <div class="hidden sm:block">Quantity</div>
                         </div>
                         <div
-                            class="semi-finished-product-grid grid max-h-50 items-center gap-4 overflow-y-scroll border-b px-6 py-3 md:px-8"
+                            class="semi-finished-product-grid grid max-h-100 items-center gap-4 overflow-y-scroll border-b bg-white px-6 py-3 md:px-8"
                         >
                             <ng-container *ngFor="let item of semies">
                                 <div class="hidden sm:block">
@@ -154,6 +141,7 @@
                         <div
                             class="product-specifications-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
                         >
+                            <div class="hidden sm:block">Thump</div>
                             <div class="hidden sm:block">Size</div>
                             <div class="hidden sm:block">Color</div>
                             <div class="hidden sm:block">
@@ -162,11 +150,35 @@
                             <div class="hidden sm:block">Detail</div>
                         </div>
                         <div
-                            class="product-specifications-grid grid max-h-50 items-center gap-4 overflow-y-scroll border-b px-6 py-3 md:px-8"
+                            class="product-specifications-grid grid max-h-100 items-center gap-4 overflow-y-scroll border-b bg-white px-6 py-3 md:px-8"
                         >
                             <ng-container
                                 *ngFor="let item of product.specifications"
                             >
+                                <div class="flex items-center">
+                                    <div
+                                        class="relative mr-6 flex h-12 w-12 flex-0 items-center justify-center overflow-hidden rounded border"
+                                    >
+                                        <img
+                                            class="w-8"
+                                            *ngIf="
+                                                item.imageURLs &&
+                                                item.imageURLs.length > 0
+                                            "
+                                            [alt]="'Product image'"
+                                            [src]="item.imageURLs[0]"
+                                        />
+                                        <div
+                                            class="flex h-full w-full items-center justify-center text-center text-xs font-semibold uppercase leading-none"
+                                            *ngIf="
+                                                !item.imageURLs ||
+                                                !item.imageURLs.length > 0
+                                            "
+                                        >
+                                            NO THUMB
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="hidden sm:block">
                                     {{ item.size }}
                                 </div>
@@ -198,42 +210,455 @@
                 <mat-tab [label]="'PROCESSES' | titlecase">
                     <div class="grid">
                         <div
-                            class="product-processes-grid text-secondary grid max-h-50 gap-4 overflow-y-scroll bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                            class="product-processes-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
                         >
+                            <div class="hidden sm:block">Order No.</div>
                             <div class="hidden sm:block">Code</div>
                             <div class="hidden sm:block">Name</div>
-                            <div class="hidden sm:block">Order Number</div>
-                            <div class="hidden sm:block">Detail</div>
+                            <div class="hidden sm:block">Description</div>
                         </div>
-                        <div
-                            class="product-processes-grid grid max-h-50 items-center gap-4 overflow-y-scroll border-b px-6 py-3 md:px-8"
-                        >
+                        <div class="max-h-200 overflow-y-scroll">
                             <ng-container
                                 *ngFor="let item of product.productionProcesses"
                             >
-                                <div class="hidden sm:block">
-                                    {{ item.code }}
-                                </div>
-                                <div class="hidden sm:block">
-                                    {{ item.name }}
-                                </div>
-                                <div class="hidden sm:block">
-                                    {{ item.orderNumber }}
-                                </div>
-                                <div class="hidden sm:block">
-                                    <span
-                                        (click)="
-                                            openProcessDetailDialog(item.id)
-                                        "
+                                <mat-accordion>
+                                    <mat-expansion-panel
+                                        (opened)="openProcessPanel(item.id)"
                                     >
-                                        <mat-icon
-                                            class="cursor-pointer text-blue-500 icon-size-5"
-                                            [svgIcon]="
-                                                'heroicons_outline:pencil-square'
-                                            "
-                                        ></mat-icon>
-                                    </span>
-                                </div>
+                                        <mat-expansion-panel-header>
+                                            <mat-panel-description
+                                                class="product-processes-item-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                            >
+                                                <div class="hidden sm:block">
+                                                    {{ item.orderNumber }}
+                                                </div>
+                                                <div class="hidden sm:block">
+                                                    {{ item.code }}
+                                                </div>
+                                                <div class="hidden sm:block">
+                                                    {{ item.name }}
+                                                </div>
+                                                <div class="hidden sm:block">
+                                                    {{
+                                                        item.description ||
+                                                            'No Description'
+                                                    }}
+                                                </div>
+                                            </mat-panel-description>
+                                        </mat-expansion-panel-header>
+                                        <ng-container *ngIf="stepsList">
+                                            <div class="rounded-xl border">
+                                                <p
+                                                    class="mx-8 my-4 text-lg font-bold"
+                                                >
+                                                    Steps List
+                                                </p>
+                                                <div class="grid">
+                                                    <div
+                                                        class="product-processes-steps-list-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                                                    >
+                                                        <div
+                                                            class="hidden sm:block"
+                                                        >
+                                                            Order No.
+                                                        </div>
+
+                                                        <div
+                                                            class="hidden sm:block"
+                                                        >
+                                                            Name
+                                                        </div>
+                                                        <div
+                                                            class="hidden sm:block"
+                                                        >
+                                                            Code
+                                                        </div>
+                                                        <div
+                                                            class="hidden sm:block"
+                                                        >
+                                                            Standard Time
+                                                        </div>
+                                                        <div
+                                                            class="hidden sm:block"
+                                                        >
+                                                            Output Per Hour
+                                                        </div>
+                                                        <div
+                                                            class="hidden sm:block"
+                                                        >
+                                                            Description
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="max-h-100 overflow-y-scroll"
+                                                    >
+                                                        <ng-container
+                                                            *ngFor="
+                                                                let item of stepsList
+                                                            "
+                                                        >
+                                                            <mat-accordion>
+                                                                <mat-expansion-panel>
+                                                                    <mat-expansion-panel-header>
+                                                                        <mat-panel-description
+                                                                            class="product-processes-steps-item-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                                                            (click)="
+                                                                                openStepDetailPanel(
+                                                                                    item.id
+                                                                                )
+                                                                            "
+                                                                        >
+                                                                            <div
+                                                                                class="hidden sm:block"
+                                                                            >
+                                                                                {{
+                                                                                    item.orderNumber
+                                                                                }}
+                                                                            </div>
+                                                                            <div
+                                                                                class="hidden sm:block"
+                                                                            >
+                                                                                {{
+                                                                                    item.name
+                                                                                }}
+                                                                            </div>
+                                                                            <div
+                                                                                class="hidden sm:block"
+                                                                            >
+                                                                                {{
+                                                                                    item.code
+                                                                                }}
+                                                                            </div>
+                                                                            <div
+                                                                                class="hidden sm:block"
+                                                                            >
+                                                                                {{
+                                                                                    item.standardTime
+                                                                                }}
+                                                                            </div>
+                                                                            <div
+                                                                                class="hidden sm:block"
+                                                                            >
+                                                                                {{
+                                                                                    item.outputPerHour
+                                                                                }}
+                                                                            </div>
+                                                                            <div
+                                                                                class="hidden sm:block"
+                                                                            >
+                                                                                {{
+                                                                                    item.description ||
+                                                                                        'No Description'
+                                                                                }}
+                                                                            </div>
+                                                                        </mat-panel-description>
+                                                                    </mat-expansion-panel-header>
+                                                                    <ng-container
+                                                                        *ngIf="
+                                                                            stepDetail
+                                                                        "
+                                                                    >
+                                                                        <p
+                                                                            class="mx-8 my-4 text-lg font-bold"
+                                                                        >
+                                                                            Step
+                                                                            Detail
+                                                                        </p>
+                                                                        <mat-tab-group>
+                                                                            <ng-container
+                                                                                *ngIf="
+                                                                                    stepDetail.semiFinishedProducts &&
+                                                                                    stepDetail
+                                                                                        .semiFinishedProducts
+                                                                                        .length >
+                                                                                        0
+                                                                                "
+                                                                            >
+                                                                                <mat-tab
+                                                                                    [label]="
+                                                                                        'Semi Finished Products'
+                                                                                            | titlecase
+                                                                                    "
+                                                                                >
+                                                                                    <div
+                                                                                        class="flex flex-col gap-4"
+                                                                                    >
+                                                                                        <div
+                                                                                            class="semi-step-detail flex flex-col gap-2"
+                                                                                        >
+                                                                                            <div
+                                                                                                class="grid w-full"
+                                                                                            >
+                                                                                                <div
+                                                                                                    class="semi-step-detail-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                                                                                                >
+                                                                                                    <div
+                                                                                                        class="hidden sm:block"
+                                                                                                    >
+                                                                                                        Semi
+                                                                                                        Finished
+                                                                                                        Product
+                                                                                                        Name
+                                                                                                    </div>
+                                                                                                    <div
+                                                                                                        class="hidden sm:block"
+                                                                                                    >
+                                                                                                        Semi
+                                                                                                        Finished
+                                                                                                        Product
+                                                                                                        Code
+                                                                                                    </div>
+
+                                                                                                    <div
+                                                                                                        class="hidden sm:block"
+                                                                                                    >
+                                                                                                        Type
+                                                                                                    </div>
+                                                                                                    <div
+                                                                                                        class="hidden sm:block"
+                                                                                                    >
+                                                                                                        Quantity
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div
+                                                                                                    class="max-h-50 overflow-y-scroll"
+                                                                                                >
+                                                                                                    <ng-container
+                                                                                                        *ngFor="
+                                                                                                            let item of stepDetail.semiFinishedProducts
+                                                                                                        "
+                                                                                                    >
+                                                                                                        <div
+                                                                                                            class="semi-step-detail-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                                                                                        >
+                                                                                                            <div
+                                                                                                                class="hidden sm:block"
+                                                                                                            >
+                                                                                                                {{
+                                                                                                                    item.semiFinishedProductName
+                                                                                                                }}
+                                                                                                            </div>
+                                                                                                            <div
+                                                                                                                class="hidden sm:block"
+                                                                                                            >
+                                                                                                                {{
+                                                                                                                    item.semiFinishedProductCode
+                                                                                                                }}
+                                                                                                            </div>
+                                                                                                            <div
+                                                                                                                class="hidden sm:block"
+                                                                                                            >
+                                                                                                                {{
+                                                                                                                    item.type
+                                                                                                                }}
+                                                                                                            </div>
+                                                                                                            <div
+                                                                                                                class="hidden sm:block"
+                                                                                                            >
+                                                                                                                {{
+                                                                                                                    item.quantity
+                                                                                                                }}
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </ng-container>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </mat-tab>
+                                                                            </ng-container>
+                                                                            <ng-container
+                                                                                *ngIf="
+                                                                                    stepDetail.materials &&
+                                                                                    stepDetail
+                                                                                        .materials
+                                                                                        .length >
+                                                                                        0
+                                                                                "
+                                                                            >
+                                                                                <mat-tab
+                                                                                    label="Materials"
+                                                                                    ><div
+                                                                                        class="flex flex-col gap-4"
+                                                                                    >
+                                                                                        <div
+                                                                                            class="material-step-detail flex flex-col gap-2"
+                                                                                        >
+                                                                                            <div
+                                                                                                class="grid w-full"
+                                                                                            >
+                                                                                                <div
+                                                                                                    class="material-step-detail-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                                                                                                >
+                                                                                                    <div
+                                                                                                        class="hidden sm:block"
+                                                                                                    >
+                                                                                                        Material
+                                                                                                        Name
+                                                                                                    </div>
+                                                                                                    <div
+                                                                                                        class="hidden sm:block"
+                                                                                                    >
+                                                                                                        Material
+                                                                                                        Code
+                                                                                                    </div>
+                                                                                                    <div
+                                                                                                        class="hidden sm:block"
+                                                                                                    >
+                                                                                                        Type
+                                                                                                    </div>
+
+                                                                                                    <div
+                                                                                                        class="hidden sm:block"
+                                                                                                    >
+                                                                                                        Consumption
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <ng-container
+                                                                                                    *ngFor="
+                                                                                                        let item of stepDetail.materials
+                                                                                                    "
+                                                                                                >
+                                                                                                    <div
+                                                                                                        class="material-step-detail-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                                                                                    >
+                                                                                                        <div
+                                                                                                            class="hidden sm:block"
+                                                                                                        >
+                                                                                                            {{
+                                                                                                                item.materialName
+                                                                                                            }}
+                                                                                                        </div>
+                                                                                                        <div
+                                                                                                            class="hidden sm:block"
+                                                                                                        >
+                                                                                                            {{
+                                                                                                                item.materialCode
+                                                                                                            }}
+                                                                                                        </div>
+                                                                                                        <div
+                                                                                                            class="hidden sm:block"
+                                                                                                        >
+                                                                                                            {{
+                                                                                                                item.type
+                                                                                                            }}
+                                                                                                        </div>
+                                                                                                        <div
+                                                                                                            class="hidden sm:block"
+                                                                                                        >
+                                                                                                            {{
+                                                                                                                item.consumption
+                                                                                                            }}
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </ng-container>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </mat-tab>
+                                                                            </ng-container>
+                                                                            <ng-container
+                                                                                *ngIf="
+                                                                                    stepDetail.products &&
+                                                                                    stepDetail
+                                                                                        .products
+                                                                                        .length >
+                                                                                        0
+                                                                                "
+                                                                            >
+                                                                                <mat-tab
+                                                                                    label="Products"
+                                                                                >
+                                                                                    <div
+                                                                                        class="flex flex-col gap-4"
+                                                                                    >
+                                                                                        <div
+                                                                                            class="product-step-detail flex flex-col gap-2"
+                                                                                        >
+                                                                                            <div
+                                                                                                class="grid w-full"
+                                                                                            >
+                                                                                                <div
+                                                                                                    class="product-step-detail-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                                                                                                >
+                                                                                                    <div
+                                                                                                        class="hidden sm:block"
+                                                                                                    >
+                                                                                                        Product
+                                                                                                        Name
+                                                                                                    </div>
+                                                                                                    <div
+                                                                                                        class="hidden sm:block"
+                                                                                                    >
+                                                                                                        Product
+                                                                                                        Code
+                                                                                                    </div>
+                                                                                                    <div
+                                                                                                        class="hidden sm:block"
+                                                                                                    >
+                                                                                                        Type
+                                                                                                    </div>
+
+                                                                                                    <div
+                                                                                                        class="hidden sm:block"
+                                                                                                    >
+                                                                                                        Quantity
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <ng-container
+                                                                                                    *ngFor="
+                                                                                                        let item of stepDetail.products
+                                                                                                    "
+                                                                                                >
+                                                                                                    <div
+                                                                                                        class="product-step-detail-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                                                                                    >
+                                                                                                        <div
+                                                                                                            class="hidden sm:block"
+                                                                                                        >
+                                                                                                            {{
+                                                                                                                item.productName
+                                                                                                            }}
+                                                                                                        </div>
+                                                                                                        <div
+                                                                                                            class="hidden sm:block"
+                                                                                                        >
+                                                                                                            {{
+                                                                                                                item.productCode
+                                                                                                            }}
+                                                                                                        </div>
+                                                                                                        <div
+                                                                                                            class="hidden sm:block"
+                                                                                                        >
+                                                                                                            {{
+                                                                                                                item.type
+                                                                                                            }}
+                                                                                                        </div>
+                                                                                                        <div
+                                                                                                            class="hidden sm:block"
+                                                                                                        >
+                                                                                                            {{
+                                                                                                                item.quantity
+                                                                                                            }}
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </ng-container>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </mat-tab>
+                                                                            </ng-container>
+                                                                        </mat-tab-group>
+                                                                    </ng-container>
+                                                                </mat-expansion-panel>
+                                                            </mat-accordion>
+                                                        </ng-container>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                    </mat-expansion-panel>
+                                </mat-accordion>
                             </ng-container>
                         </div>
                     </div>

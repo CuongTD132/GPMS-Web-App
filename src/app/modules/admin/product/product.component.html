@@ -51,23 +51,21 @@
 
     <!-- Products list -->
     <div
-        appHorizontalScroll
         class="flex flex-auto flex-col overflow-scroll sm:mb-18"
     >
         <ng-container *ngIf="products$ | async as products">
             <div class="grid">
                 <!-- Header -->
                 <div
-                    matSort
-                    matSortDisableClear
+
                     class="product-grid text-secondary sticky top-0 z-10 grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
                 >
                     <div class="hidden sm:block">Action</div>
                     <div class="hidden sm:block">Thumb</div>
                     <div class="hidden sm:block">Code</div>
                     <div class="hidden sm:block">Name</div>
-                    <div class="hidden sm:block">Sizes</div>
-                    <div class="hidden sm:block">Colors</div>
+                    <div class="hidden sm:block">Sizes List</div>
+                    <div class="hidden sm:block">Colors List</div>
                     <div class="hidden sm:block">Created Date</div>
                     <div class="hidden sm:block">Status</div>
                 </div>
@@ -93,7 +91,6 @@
 
                                     <span
                                         *ngIf="product.status === 'Pending'"
-                                        mat-button
                                         [matMenuTriggerFor]="menu"
                                     >
                                         <mat-icon
@@ -163,11 +160,11 @@
                                 {{ product.name }}
                             </div>
 
-                            <div class="hidden sm:block">
+                            <div class="hidden sm:block" matTooltip="{{ getFormattedSizesAndColors(product.sizes) }}" >
                                 {{ getFormattedSizesAndColors(product.sizes) }}
                             </div>
 
-                            <div class="hidden sm:block">
+                            <div class="hidden sm:block" matTooltip="{{ getFormattedSizesAndColors(product.colors) }}">
                                 {{ getFormattedSizesAndColors(product.colors) }}
                             </div>
 

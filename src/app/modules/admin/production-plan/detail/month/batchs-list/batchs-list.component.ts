@@ -16,9 +16,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { CustomPipeModule } from '@fuse/pipes/pipe.module';
 import { Observable } from 'rxjs';
-import { CreateMonthProductionPlanComponent } from '../../../create/month/create-production-plan.component';
-import { ProductionPlanService } from '../../../production-plan.service';
 import { CreateBatchProductionPlanComponent } from '../../../create/batch/create-production-plan.component';
+import { ProductionPlanService } from '../../../production-plan.service';
 @Component({
     selector: 'batchs-list',
     standalone: true,
@@ -72,8 +71,6 @@ export class BatchsListComponent implements OnInit {
                 width: '720px',
             })
             .afterClosed()
-            .subscribe((result) => {
-                console.log(result);
-            });
+            .subscribe();
     }
 }

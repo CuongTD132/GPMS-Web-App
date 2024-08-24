@@ -14,7 +14,6 @@ import {
     FormsModule,
     ReactiveFormsModule,
     UntypedFormBuilder,
-    UntypedFormControl,
     UntypedFormGroup,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -45,6 +44,8 @@ import {
 import { CategoryService } from '../category/category.service';
 import { CreateProductComponent } from './create/create-product.component';
 import { ProductService } from './product.service';
+import { MatProgressBar } from '@angular/material/progress-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
     selector: 'product',
@@ -68,14 +69,14 @@ import { ProductService } from './product.service';
         MatCheckboxModule,
         RouterModule,
         MatMenuModule,
+        MatProgressBar,
+        MatTooltipModule
     ],
 })
 export class ProductComponent implements OnInit, AfterViewInit {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
     @ViewChildren('inputField') inputFields: QueryList<ElementRef>;
-
-    searchInputControl: UntypedFormControl = new UntypedFormControl();
     filterForm: UntypedFormGroup;
 
     products$: Observable<Product[]>;
@@ -147,7 +148,7 @@ export class ProductComponent implements OnInit, AfterViewInit {
             // Detect changes
             this._changeDetectorRef.detectChanges();
 
-            // If the invoices changes the sort order...
+            // If the invoices change the sort order...
             this._sort.sortChange
                 .pipe(takeUntil(this._unsubscribeAll))
                 .subscribe(() => {
@@ -274,13 +275,13 @@ export class ProductComponent implements OnInit, AfterViewInit {
     }
 
     approveProduct(id: string) {
-        this._productService.approveProduct(id).subscribe((response) => {
+        this._productService.approveProduct(id).subscribe(() => {
             this._productService.getProducts().subscribe();
         });
     }
 
     declineProduct(id: string) {
-        this._productService.declineProduct(id).subscribe((response) => {
+        this._productService.declineProduct(id).subscribe(() => {
             this._productService.getProducts().subscribe();
         });
     }

@@ -13,9 +13,9 @@ export class ColorPipe implements PipeTransform {
                 return 'bg-orange-300';
             case 'vàng':
                 return 'bg-yellow-300';
-            case 'lục':
+            case 'xanh lá':
                 return 'bg-green-300';
-            case 'xanh':
+            case 'xanh dương':
                 return 'bg-blue-300';
             case 'xám':
                 return 'bg-gray-300';
