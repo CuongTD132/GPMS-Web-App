@@ -1,35 +1,39 @@
 .semi-finished-product-grid {
-    grid-template-columns: auto 400px 200px;
+    grid-template-columns: auto 300px 100px;
 }
 
 .product-specifications-grid {
-    grid-template-columns: 100px 200px auto 200px 50px;
+    grid-template-columns: 100px 100px 90px 210px;
+}
+
+.product-specifications-item-grid {
+    grid-template-columns: 100px 100px 100px 150px;
 }
 
 .product-processes-grid {
-    grid-template-columns: 100px auto 300px 300px;
+    grid-template-columns: 90px auto 300px 400px;
 }
 
 .product-processes-item-grid {
-    grid-template-columns: 80px auto 300px 240px;
+    grid-template-columns: 80px auto 315px 340px;
 }
 
 .product-processes-steps-list-grid {
-    grid-template-columns: 60px auto 250px 100px 100px 180px;
+    grid-template-columns: 60px auto 200px 100px 120px 340px;
 }
 
 .product-processes-steps-item-grid {
-    grid-template-columns: 30px auto 250px 100px 100px 120px;
+    grid-template-columns: 30px auto 200px 100px 120px 300px;
 }
 
-.semi-step-detail-grid {
-    grid-template-columns: auto 300px 200px 100px;
+.measurements-grid {
+    grid-template-columns: auto 200px;
 }
 
-.material-step-detail-grid {
-    grid-template-columns: auto 300px 50px 100px;
+.bill-of-material-grid {
+    grid-template-columns: auto 200px 100px 100px 100px 100px;
 }
 
-.product-step-detail-grid {
-    grid-template-columns: auto 300px 50px 100px;
+.quality-standard-grid {
+    grid-template-columns: 60px 240px auto;
 }

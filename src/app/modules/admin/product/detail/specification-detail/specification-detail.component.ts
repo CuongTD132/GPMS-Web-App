@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { SpecificationService } from 'app/modules/admin/specification/specification.service';
 
@@ -13,9 +12,7 @@ import { SpecificationService } from 'app/modules/admin/specification/specificat
 })
 export class SpecificationDetailComponent implements OnInit {
     specification: Specification;
-    constructor(
-        private _specificationService: SpecificationService
-    ) { }
+    constructor(private _specificationService: SpecificationService) {}
 
     ngOnInit() {
         this._specificationService.specification$.subscribe((specification) => {

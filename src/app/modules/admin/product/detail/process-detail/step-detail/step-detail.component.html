@@ -1,0 +1,169 @@
+<div
+    class="-m-6 flex max-h-[calc(100vh-128px)] flex-auto flex-col bg-transparent"
+>
+    <!-- Header -->
+    <div
+        class="flex h-16 flex-0 items-center justify-between border pl-6 pr-3 text-on-primary sm:pl-8 sm:pr-5"
+    >
+        <p class="text-lg font-bold">Step Detail</p>
+
+        <button mat-icon-button (click)="matDialogRef.close()" [tabIndex]="-1">
+            <mat-icon
+                class="text-current"
+                [svgIcon]="'heroicons_outline:x-mark'"
+            ></mat-icon>
+        </button>
+    </div>
+    <ng-container *ngIf="stepDetail">
+        <mat-tab-group class="mt-4">
+            <ng-container
+                *ngIf="
+                    stepDetail.semiFinishedProducts &&
+                    stepDetail.semiFinishedProducts.length > 0
+                "
+            >
+                <mat-tab [label]="'Semi Finished Products List' | titlecase">
+                    <div class="flex flex-col gap-4">
+                        <div class="semi-step-detail flex flex-col gap-2">
+                            <div class="grid w-full">
+                                <div
+                                    class="semi-step-detail-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                                >
+                                    <div class="hidden sm:block">
+                                        Semi Finished Product Name
+                                    </div>
+                                    <div class="hidden sm:block">
+                                        Semi Finished Product Code
+                                    </div>
+
+                                    <div class="hidden sm:block">Type</div>
+                                    <div class="hidden sm:block">Quantity</div>
+                                </div>
+                                <div class="max-h-50 overflow-y-scroll">
+                                    <ng-container
+                                        *ngFor="
+                                            let item of stepDetail.semiFinishedProducts
+                                        "
+                                    >
+                                        <div
+                                            class="semi-step-detail-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                        >
+                                            <div class="hidden sm:block">
+                                                {{
+                                                    item.semiFinishedProductName
+                                                }}
+                                            </div>
+                                            <div class="hidden sm:block">
+                                                {{
+                                                    item.semiFinishedProductCode
+                                                }}
+                                            </div>
+                                            <div class="hidden sm:block">
+                                                {{ item.type }}
+                                            </div>
+                                            <div class="hidden sm:block">
+                                                {{ item.quantity }}
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+            </ng-container>
+            <ng-container
+                *ngIf="stepDetail.materials && stepDetail.materials.length > 0"
+            >
+                <mat-tab label="Materials List"
+                    ><div class="flex flex-col gap-4">
+                        <div class="material-step-detail flex flex-col gap-2">
+                            <div class="grid w-full">
+                                <div
+                                    class="material-step-detail-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                                >
+                                    <div class="hidden sm:block">
+                                        Material Name
+                                    </div>
+                                    <div class="hidden sm:block">
+                                        Material Code
+                                    </div>
+                                    <div class="hidden sm:block">Type</div>
+
+                                    <div class="hidden sm:block">
+                                        Consumption
+                                    </div>
+                                </div>
+                                <ng-container
+                                    *ngFor="let item of stepDetail.materials"
+                                >
+                                    <div
+                                        class="material-step-detail-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                    >
+                                        <div class="hidden sm:block">
+                                            {{ item.materialName }}
+                                        </div>
+                                        <div class="hidden sm:block">
+                                            {{ item.materialCode }}
+                                        </div>
+                                        <div class="hidden sm:block">
+                                            {{ item.type }}
+                                        </div>
+                                        <div class="hidden sm:block">
+                                            {{ item.consumption }}
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+            </ng-container>
+            <ng-container
+                *ngIf="stepDetail.products && stepDetail.products.length > 0"
+            >
+                <mat-tab label="Products List">
+                    <div class="flex flex-col gap-4">
+                        <div class="product-step-detail flex flex-col gap-2">
+                            <div class="grid w-full">
+                                <div
+                                    class="product-step-detail-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                                >
+                                    <div class="hidden sm:block">
+                                        Product Name
+                                    </div>
+                                    <div class="hidden sm:block">
+                                        Product Code
+                                    </div>
+                                    <div class="hidden sm:block">Type</div>
+
+                                    <div class="hidden sm:block">Quantity</div>
+                                </div>
+                                <ng-container
+                                    *ngFor="let item of stepDetail.products"
+                                >
+                                    <div
+                                        class="product-step-detail-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                    >
+                                        <div class="hidden sm:block">
+                                            {{ item.productName }}
+                                        </div>
+                                        <div class="hidden sm:block">
+                                            {{ item.productCode }}
+                                        </div>
+                                        <div class="hidden sm:block">
+                                            {{ item.type }}
+                                        </div>
+                                        <div class="hidden sm:block">
+                                            {{ item.quantity }}
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+            </ng-container>
+        </mat-tab-group>
+    </ng-container>
+</div>

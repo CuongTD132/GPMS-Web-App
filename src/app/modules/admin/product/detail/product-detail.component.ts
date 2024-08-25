@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { CustomPipeModule } from '@fuse/pipes/pipe.module';
 import { ProcessService } from '../../process/process.service';
@@ -20,6 +21,7 @@ import { SpecificationService } from '../../specification/specification.service'
 import { StepService } from '../../step/step.service';
 import { ProductService } from '../product.service';
 import { ProcessDetailComponent } from './process-detail/process-detail.component';
+import { StepDetailComponent } from './process-detail/step-detail/step-detail.component';
 
 @Component({
     selector: 'product-detail',
@@ -41,11 +43,13 @@ import { ProcessDetailComponent } from './process-detail/process-detail.componen
         MatTabsModule,
         RouterModule,
         MatExpansionModule,
+        MatTooltipModule,
     ],
 })
 export class ProductDetailComponent implements OnInit {
     stepsList: Step[] = [];
     stepDetail: StepDetail;
+    specification: Specification;
     product: Product;
     semies: SemiFinishedProduct[];
     previewUrl: string | ArrayBuffer;
@@ -106,25 +110,6 @@ export class ProductDetailComponent implements OnInit {
             });
     }
 
-    // openSpecificationDetailDialog(id: string) {
-    //     this._specificationsService
-    //         .getSpecificationById(id)
-    //         .subscribe((specification) => {
-    //             if (specification) {
-    //                 this._dialog
-    //                     .open(SpecificationDetailComponent, {
-    //                         width: '1080px',
-    //                         data: specification,
-    //                     })
-    //                     .afterClosed()
-    //                     .subscribe();
-    //             } else {
-    //                 // Handle undefined case (optional: show error message, etc.)
-    //                 return undefined;
-    //             }
-    //         });
-    // }
-
     openProcessDetailDialog(id: string) {
         this._processService.getProcessById(id).subscribe((process) => {
             if (process) {
@@ -147,11 +132,46 @@ export class ProductDetailComponent implements OnInit {
         });
     }
 
-    openStepDetailPanel(id: string) {
+    // openSpecificationDetailDialog(id: string) {
+    //     this._specificationsService
+    //         .getSpecificationById(id)
+    //         .subscribe((specification) => {
+    //             if (specification) {
+    //                 this._dialog
+    //                     .open(SpecificationDetailComponent, {
+    //                         width: '1080px',
+    //                         data: specification,
+    //                     })
+    //                     .afterClosed()
+    //                     .subscribe();
+    //             } else {
+    //                 // Handle undefined case (optional: show error message, etc.)
+    //                 return undefined;
+    //             }
+    //         });
+    // }
+
+    openSpecPanel(id: string) {
+        this._specificationsService
+            .getSpecificationById(id)
+            .subscribe((spec) => {
+                if (spec) {
+                    this.specification = spec;
+                    console.log(this.specification);
+                }
+            });
+    }
+
+    openStepDetailDialog(id: string) {
         this._stepService.getStepById(id).subscribe((step) => {
             if (step) {
-                this.stepDetail = step;
-                console.log(this.stepDetail);
+                this._dialog
+                    .open(StepDetailComponent, {
+                        width: '860px',
+                        data: step,
+                    })
+                    .afterClosed()
+                    .subscribe();
             }
         });
     }

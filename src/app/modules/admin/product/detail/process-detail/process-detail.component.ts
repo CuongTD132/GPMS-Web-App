@@ -4,7 +4,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { ProcessService } from 'app/modules/admin/process/process.service';
 import { StepService } from 'app/modules/admin/step/step.service';
-import { ProcessStepIoDetailComponent } from './process-step-detail/process-step-detail.component';
+import { StepDetailComponent } from './step-detail/step-detail.component';
 
 @Component({
     selector: 'process-detail',
@@ -32,7 +32,7 @@ export class ProcessDetailComponent implements OnInit {
         this._stepService.getStepById(id).subscribe((step) => {
             if (step) {
                 this._dialog
-                    .open(ProcessStepIoDetailComponent, {
+                    .open(StepDetailComponent, {
                         width: '860px',
                         data: step,
                     })

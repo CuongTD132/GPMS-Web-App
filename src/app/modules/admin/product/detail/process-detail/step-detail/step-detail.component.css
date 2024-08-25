@@ -1,0 +1,11 @@
+.semi-step-detail-grid {
+    grid-template-columns: auto 200px 80px 100px;
+}
+
+.material-step-detail-grid {
+    grid-template-columns: auto 300px 50px 100px;
+}
+
+.product-step-detail-grid {
+    grid-template-columns: auto 300px 50px 100px;
+}
