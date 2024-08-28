@@ -8,6 +8,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type: 'basic',
         icon: 'heroicons_outline:chart-pie',
         link: '/materials',
+        permissions: ['admin', 'staff'],
     },
     {
         id: 'accounts',

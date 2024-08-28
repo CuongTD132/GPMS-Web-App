@@ -1,5 +1,5 @@
 .semiFinishedProducts-grid {
-    grid-template-columns: 196px 196px 120px auto;
+    grid-template-columns: 196px 196px 120px auto 70px;
 }
 
 .specifications-grid {
@@ -8,4 +8,16 @@
 
 .processes-grid {
     grid-template-columns: 120px 250px 100px auto 50px;
+}
+
+.measurements-grid {
+    grid-template-columns: auto 150px 150px 50px;
+}
+
+.boms-grid {
+    grid-template-columns: 280px 150px 150px auto 50px;
+}
+
+.qualityStandards-grid {
+    grid-template-columns: 280px 200px auto 50px;
 }

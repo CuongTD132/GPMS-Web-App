@@ -3,11 +3,11 @@
 }
 
 .product-specifications-grid {
-    grid-template-columns: 100px 100px 90px 210px;
+    grid-template-columns: 100px 90px auto 210px;
 }
 
 .product-specifications-item-grid {
-    grid-template-columns: 100px 100px 100px 150px;
+    grid-template-columns: 100px 100px auto 150px;
 }
 
 .product-processes-grid {

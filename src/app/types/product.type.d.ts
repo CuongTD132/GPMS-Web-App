@@ -6,7 +6,7 @@ type Product = {
     imageURLs?: string[];
     sizes: string[];
     category: Category;
-    colors: string[];
+    colorCodes: string[];
     createdDate: string;
     status: string;
     semiFinishedProducts: SemiFinishedProduct[];
@@ -17,8 +17,6 @@ type Product = {
 type CreateProduct = {
     code: string;
     name: string;
-    sizes: string;
-    colors: string;
     description: string;
     categoryId: string;
     semiFinishedProducts: SemiFinishedProduct[];

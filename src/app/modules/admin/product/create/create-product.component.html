@@ -1,374 +1,651 @@
-<div class="-m-6 flex max-h-[calc(100vh-128px)] flex-auto flex-col">
+<div class="bg-card -m-6 flex max-h-[calc(100vh-128px)] flex-auto flex-col p-6">
     <!-- Header -->
-    <div
-        class="flex h-16 flex-0 items-center justify-between bg-primary pl-6 pr-3 text-on-primary sm:pl-8 sm:pr-5"
+    <!-- <div
+        class="relative flex flex-0 flex-col border-b px-6 py-8 sm:flex-row sm:items-center sm:justify-between md:px-8"
     >
-        <div class="text-lg font-medium">Create Product</div>
-        <button mat-icon-button (click)="matDialogRef.close()" [tabIndex]="-1">
-            <mat-icon
-                class="text-current"
-                [svgIcon]="'heroicons_outline:x-mark'"
-            ></mat-icon>
-        </button>
-    </div>
+        <div class="text-4xl font-extrabold tracking-tight">Create Product</div>
+    </div> -->
     <div class="font-poppins overflow-y-scroll p-8 dark:bg-gray-800">
-        <ng-container *ngIf="createProductForm">
-            <form [formGroup]="createProductForm">
-                <div class="flex gap-4">
-                    <mat-form-field class="w-full">
-                        <mat-label>Product Name</mat-label>
-                        <input
-                            matInput
-                            placeholder="Product Name"
-                            [formControlName]="'name'"
-                        />
-                    </mat-form-field>
-                    <mat-form-field class="w-full">
-                        <mat-label>Product Code</mat-label>
-                        <input
-                            matInput
-                            placeholder="Product Code"
-                            [formControlName]="'code'"
-                        />
-                    </mat-form-field>
-                </div>
-                <div class="flex gap-4">
-                    <mat-form-field class="w-full">
-                        <mat-label>Product Sizes</mat-label>
-                        <input
-                            matInput
-                            placeholder="List Sizes"
-                            [formControlName]="'sizes'"
-                        />
-                    </mat-form-field>
-                    <mat-form-field class="w-full">
-                        <mat-label>Product Colors</mat-label>
-                        <input
-                            matInput
-                            placeholder="List Colors"
-                            [formControlName]="'colors'"
-                        />
-                    </mat-form-field>
-                </div>
-                <div class="flex gap-4">
-                    <mat-form-field class="w-1/3">
-                        <mat-label>Category</mat-label>
-                        <mat-select [formControlName]="'categoryId'">
-                            <mat-option value="none"
-                                >Select Category
-                            </mat-option>
-                            <ng-container *ngFor="let item of data">
-                                <mat-option value="{{ item.id }}">{{
-                                    item.name
-                                }}</mat-option>
-                            </ng-container>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-                <div>
-                    <mat-form-field class="w-full">
-                        <mat-label>Description</mat-label>
-                        <textarea
-                            matInput
-                            placeholder="Description"
-                            [formControlName]="'description'"
-                        ></textarea>
-                    </mat-form-field>
-                </div>
-                <ng-container *ngIf="semiFinishedProductForm">
-                    <form
-                        [formGroup]="semiFinishedProductForm"
-                        class="flex flex-col gap-4"
+        <mat-stepper [linear]="false" #stepper>
+            <mat-step [editable]="false" [stepControl]="createProductForm">
+                <form [formGroup]="createProductForm">
+                    <ng-template matStepLabel
+                        >Fill out general information</ng-template
                     >
-                        <mat-label>Semi Finished Product</mat-label>
-                        <div class="semiFinishedProducts flex flex-col gap-2">
-                            <div class="grid">
-                                <div
-                                    class="semiFinishedProducts-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
-                                >
-                                    <div class="hidden sm:block">Name</div>
-                                    <div class="hidden sm:block">Code</div>
-                                    <div class="hidden sm:block">Quantity</div>
-                                    <div class="hidden sm:block">
-                                        Description
-                                    </div>
-                                </div>
-                                <div class="max-h-30 overflow-y-scroll">
-                                    <ng-container
-                                        *ngFor="
-                                            let item of semiFinishedProducts
-                                        "
-                                    >
-                                        <div
-                                            class="semiFinishedProducts-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
-                                        >
-                                            <div>{{ item.name }}</div>
-                                            <div>{{ item.code }}</div>
-                                            <div>{{ item.quantity }}</div>
-                                            <div>
-                                                {{
-                                                    item.description ||
-                                                        'No Description'
-                                                }}
-                                            </div>
-                                        </div>
-                                    </ng-container>
-                                </div>
-                                <div
-                                    class="semiFinishedProducts-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
-                                >
-                                    <mat-form-field class="w-full">
-                                        <input
-                                            matInput
-                                            type="text"
-                                            placeholder="Name"
-                                            [formControlName]="'name'"
-                                    /></mat-form-field>
-                                    <mat-form-field class="w-full">
-                                        <input
-                                            matInput
-                                            type="text"
-                                            placeholder="Code"
-                                            [formControlName]="'code'"
-                                    /></mat-form-field>
-                                    <mat-form-field class="w-full">
-                                        <input
-                                            matInput
-                                            type="number"
-                                            min="0"
-                                            placeholder="Quantity"
-                                            [formControlName]="'quantity'"
-                                    /></mat-form-field>
-                                    <mat-form-field class="w-full">
-                                        <input
-                                            matInput
-                                            placeholder="Description"
-                                            [formControlName]="'description'"
-                                        />
-                                    </mat-form-field>
-                                </div>
-                                <div class="mt-4 flex justify-end">
-                                    <button
-                                        (click)="
-                                            addValueToSemiFinishedProductArray()
-                                        "
-                                        mat-raised-button
-                                        class="flex min-w-fit gap-2"
-                                        color="primary"
-                                    >
-                                        <mat-icon
-                                            svgIcon="heroicons_outline:inbox"
-                                        ></mat-icon>
-                                        <span> Add Semi+ </span>
-                                    </button>
-                                </div>
+                    <div class="flex gap-4">
+                        <mat-form-field class="w-full">
+                            <mat-label>Product Name</mat-label>
+                            <input
+                                matInput
+                                placeholder="Product Name"
+                                [formControlName]="'name'"
+                            />
+                        </mat-form-field>
+                        <mat-form-field class="w-full">
+                            <mat-label>Product Code</mat-label>
+                            <input
+                                matInput
+                                placeholder="Product Code"
+                                [formControlName]="'code'"
+                            />
+                        </mat-form-field>
+                    </div>
+                    <div class="flex gap-4">
+                        <mat-form-field class="w-1/3">
+                            <mat-label>Category</mat-label>
+                            <mat-select [formControlName]="'categoryId'">
+                                <ng-container *ngFor="let item of categories">
+                                    <mat-option value="{{ item.id }}">{{
+                                        item.name
+                                    }}</mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <mat-form-field class="w-full">
+                            <mat-label>Description</mat-label>
+                            <textarea
+                                matInput
+                                placeholder="Description"
+                                [formControlName]="'description'"
+                            ></textarea>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <button
+                            mat-button
+                            matStepperNext
+                            class="text-blue-700"
+                            (click)="logGeneralForm()"
+                        >
+                            Next
+                        </button>
+                    </div>
+                </form>
+            </mat-step>
+
+            <mat-step
+                [editable]="false"
+                [stepControl]="semiListForm"
+                label="Add semi finished products list"
+            >
+                <form [formGroup]="semiListForm">
+                    <div
+                        class="semiFinishedProducts flex flex-col gap-2"
+                        formGroupName="semiFinishedProducts"
+                    >
+                        <div class="grid">
+                            <div
+                                class="semiFinishedProducts-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                            >
+                                <div class="hidden sm:block">Name</div>
+                                <div class="hidden sm:block">Code</div>
+                                <div class="hidden sm:block">Quantity</div>
+                                <div class="hidden sm:block">Description</div>
                             </div>
-                        </div>
-                    </form>
-                </ng-container>
-                <ng-container *ngIf="specificationForm">
-                    <form
-                        [formGroup]="specificationForm"
-                        class="mt-10 flex flex-col gap-4"
-                    >
-                        <div class="">Specifications</div>
-                        <div class="specifications flex flex-col gap-2">
-                            <div class="grid">
-                                <div
-                                    class="specifications-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                            <div class="max-h-80 overflow-y-scroll">
+                                <ng-container
+                                    *ngIf="
+                                        semiListForm.controls
+                                            .semiFinishedProducts !== null
+                                    "
                                 >
-                                    <div class="hidden sm:block">Size</div>
-                                    <div class="hidden sm:block">Color</div>
-                                    <div class="hidden sm:block">
-                                        Measurements
-                                    </div>
-                                    <div class="hidden sm:block">
-                                        Bill Of Materials
-                                    </div>
-                                    <div class="hidden sm:block">
-                                        Quality Standards
-                                    </div>
-                                </div>
-                                <!--                                <ng-container-->
-                                <!--                                    *ngFor="let item of semiFinishedProducts"-->
-                                <!--                                >-->
-                                <!--                                    <div-->
-                                <!--                                        class="specifications-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"-->
-                                <!--                                    >-->
-                                <!--                                        <div>{{ item.size }}</div>-->
-                                <!--                                        <div>{{ item.color }}</div>-->
-                                <!--                                    </div>-->
-                                <!--                                </ng-container>-->
-                                <div
-                                    class="specifications-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
-                                >
-                                    <mat-form-field class="w-full">
-                                        <input
-                                            matInput
-                                            type="text"
-                                            placeholder="Size"
-                                            [formControlName]="'size'"
-                                    /></mat-form-field>
-                                    <mat-form-field class="w-full">
-                                        <input
-                                            matInput
-                                            type="text"
-                                            placeholder="Color"
-                                            [formControlName]="'color'"
-                                    /></mat-form-field>
-                                    <button
-                                        (click)="openMeasurementsDialog()"
-                                        mat-raised-button
-                                        class="flex w-2/3 gap-2"
-                                        color="primary"
-                                    >
-                                        <span> Add + </span></button
-                                    ><button
-                                        (click)="openBomsDialog()"
-                                        mat-raised-button
-                                        class="flex w-2/3 gap-2"
-                                        color="primary"
-                                    >
-                                        <span> Add + </span></button
-                                    ><button
-                                        (click)="openQualityStandardsDialog()"
-                                        mat-raised-button
-                                        class="flex w-2/3 gap-2"
-                                        color="primary"
-                                    >
-                                        <span> Add + </span>
-                                    </button>
-                                </div>
-                                <div class="mt-4 flex justify-end">
-                                    <button
-                                        (click)="addValueToSpecificationArray()"
-                                        mat-raised-button
-                                        class="flex min-w-fit gap-2"
-                                        color="primary"
-                                    >
-                                        <mat-icon
-                                            svgIcon="heroicons_outline:inbox"
-                                        ></mat-icon>
-                                        <span> Add Specification+ </span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </ng-container>
-                <ng-container *ngIf="processForm">
-                    <form
-                        [formGroup]="processForm"
-                        class="mt-10 flex flex-col gap-4"
-                    >
-                        <div class="">Processes</div>
-                        <div class="processes flex flex-col gap-2">
-                            <div class="grid">
-                                <div
-                                    class="processes-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
-                                >
-                                    <div class="hidden sm:block">Name</div>
-                                    <div class="hidden sm:block">Code</div>
-                                    <div class="hidden sm:block">
-                                        Order Number
-                                    </div>
-                                    <div class="hidden sm:block">
-                                        Description
-                                    </div>
-                                    <div class="hidden sm:block">Steps</div>
-                                </div>
-                                <ng-container *ngFor="let item of processes">
                                     <div
-                                        class="processes-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                        *ngFor="
+                                            let item of semiListForm.controls
+                                                .semiFinishedProducts.controls;
+                                            let i = index
+                                        "
+                                        [formGroupName]="i"
+                                        class="semiFinishedProducts-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
                                     >
-                                        <div>{{ item.name }}</div>
-                                        <div>{{ item.code }}</div>
-                                        <div>{{ item.orderNumber }}</div>
-                                        <div>
-                                            {{
-                                                item.description ||
-                                                    'No Description'
-                                            }}
-                                        </div>
+                                        <mat-form-field class="w-full">
+                                            <input
+                                                matInput
+                                                type="text"
+                                                placeholder="Name"
+                                                [formControlName]="'name'"
+                                        /></mat-form-field>
+                                        <mat-form-field class="w-full">
+                                            <input
+                                                matInput
+                                                type="text"
+                                                placeholder="Code"
+                                                [formControlName]="'code'"
+                                        /></mat-form-field>
+                                        <mat-form-field class="w-full">
+                                            <input
+                                                matInput
+                                                type="number"
+                                                min="0"
+                                                placeholder="Quantity"
+                                                [formControlName]="'quantity'"
+                                        /></mat-form-field>
+                                        <mat-form-field class="w-full">
+                                            <input
+                                                matInput
+                                                placeholder="Description"
+                                                [formControlName]="
+                                                    'description'
+                                                "
+                                            />
+                                        </mat-form-field>
                                         <button
-                                            (click)="openStepsDialog()"
                                             mat-raised-button
-                                            class="flex w-2/3 gap-2"
-                                            color="primary"
+                                            class="mb-5"
+                                            color="warn"
+                                            (click)="deleteSemiRow(i)"
+                                            [disabled]="
+                                                semiListForm.controls
+                                                    .semiFinishedProducts.value
+                                                    .length === 1
+                                            "
                                         >
-                                            <span> Add + </span>
+                                            <span> Remove </span>
                                         </button>
                                     </div>
                                 </ng-container>
-                                <div
-                                    class="processes-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                            </div>
+                            <div class="mt-4 flex justify-end">
+                                <button
+                                    (click)="addNewSemiRow()"
+                                    [disabled]="semiListForm.invalid"
+                                    mat-raised-button
+                                    color="primary"
                                 >
-                                    <mat-form-field class="w-full">
-                                        <input
-                                            matInput
-                                            type="text"
-                                            placeholder="Name"
-                                            [formControlName]="'name'"
-                                    /></mat-form-field>
-                                    <mat-form-field class="w-full">
-                                        <input
-                                            matInput
-                                            type="text"
-                                            placeholder="Code"
-                                            [formControlName]="'code'"
-                                    /></mat-form-field>
-                                    <mat-form-field class="w-full">
-                                        <input
-                                            matInput
-                                            type="number"
-                                            placeholder="Order Number"
-                                            [formControlName]="'orderNumber'"
-                                    /></mat-form-field>
-                                    <mat-form-field class="w-full">
-                                        <input
-                                            matInput
-                                            type="text"
-                                            placeholder="Description"
-                                            [formControlName]="'description'"
-                                    /></mat-form-field>
-                                    <button
-                                        (click)="openStepsDialog()"
-                                        mat-raised-button
-                                        class="flex w-2/3 gap-2"
-                                        color="primary"
-                                    >
-                                        <span> Add + </span>
-                                    </button>
-                                </div>
-                                <div class="mt-4 flex justify-end">
-                                    <button
-                                        (click)="addValueToProcessArray()"
-                                        mat-raised-button
-                                        class="flex min-w-fit gap-2"
-                                        color="primary"
-                                    >
-                                        <mat-icon
-                                            svgIcon="heroicons_outline:inbox"
-                                        ></mat-icon>
-                                        <span> Add Process+ </span>
-                                    </button>
-                                </div>
+                                    <span> Add More+ </span>
+                                </button>
                             </div>
                         </div>
-                    </form>
-                </ng-container>
-                <div class="mt-4 flex justify-end">
-                    <button
-                        (click)="createProduct()"
-                        mat-raised-button
-                        color="primary"
-                        class="flex min-w-fit gap-2"
+                    </div>
+                    <div>
+                        <button
+                            (click)="logSemiForm()"
+                            mat-button
+                            matStepperNext
+                            class="text-blue-700"
+                        >
+                            Next
+                        </button>
+                    </div>
+                </form>
+            </mat-step>
+
+            <mat-step
+                [editable]="false"
+                [stepControl]="specificationForm"
+                label="Add specifications list"
+            >
+                <mat-stepper
+                    orientation="vertical"
+                    [linear]="true"
+                    #stepperSpec
+                >
+                    <mat-step
+                        [editable]="false"
+                        [stepControl]="sizeForm"
+                        label="Choose size"
                     >
-                        <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
-                        <span> Create </span>
+                        <form [formGroup]="sizeForm">
+                            <mat-form-field class="w-2/3">
+                                <mat-label>Size</mat-label>
+
+                                <input
+                                    matInput
+                                    type="text"
+                                    placeholder="Size"
+                                    [formControlName]="'sizeName'"
+                            /></mat-form-field>
+
+                            <div>
+                                <button
+                                    mat-button
+                                    matStepperNext
+                                    class="text-blue-700"
+                                    (click)="logSizeForm()"
+                                >
+                                    Next
+                                </button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step
+                        [editable]="false"
+                        [stepControl]="colorForm"
+                        label="Choose color"
+                    >
+                        <form [formGroup]="colorForm">
+                            <mat-form-field class="w-1/6">
+                                <mat-label>Color(HEX Only)</mat-label>
+                                <input
+                                    matInput
+                                    type="color"
+                                    [formControlName]="'colorCode'"
+                            /></mat-form-field>
+
+                            <div>
+                                <button
+                                    matStepperNext
+                                    class="text-blue-700"
+                                    (click)="logColorForm()"
+                                >
+                                    Next
+                                </button>
+                            </div>
+                        </form>
+                    </mat-step>
+
+                    <mat-step
+                        [editable]="false"
+                        [stepControl]="measurementsListForm"
+                        label="Add measurements list"
+                    >
+                        <form [formGroup]="measurementsListForm">
+                            <div
+                                class="measurements flex flex-col gap-2"
+                                formGroupName="measurements"
+                            >
+                                <div class="grid">
+                                    <div
+                                        class="measurements-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                                    >
+                                        <div class="hidden sm:block">Name</div>
+                                        <div class="hidden sm:block">
+                                            Measure
+                                        </div>
+                                        <div class="hidden sm:block">Unit</div>
+                                    </div>
+                                    <div class="max-h-80 overflow-y-scroll">
+                                        <ng-container
+                                            *ngIf="
+                                                measurementsListForm.controls
+                                                    .measurements !== null
+                                            "
+                                        >
+                                            <div
+                                                *ngFor="
+                                                    let item of measurementsListForm
+                                                        .controls.measurements
+                                                        .controls;
+                                                    let i = index
+                                                "
+                                                [formGroupName]="i"
+                                                class="measurements-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                            >
+                                                <mat-form-field class="w-full">
+                                                    <input
+                                                        matInput
+                                                        type="text"
+                                                        placeholder="Name"
+                                                        [formControlName]="
+                                                            'name'
+                                                        "
+                                                /></mat-form-field>
+                                                <mat-form-field class="w-full">
+                                                    <input
+                                                        matInput
+                                                        type="number"
+                                                        min="0"
+                                                        placeholder="Measure"
+                                                        [formControlName]="
+                                                            'measure'
+                                                        "
+                                                /></mat-form-field>
+                                                <mat-form-field class="w-full">
+                                                    <input
+                                                        matInput
+                                                        placeholder="Unit"
+                                                        [formControlName]="
+                                                            'unit'
+                                                        "
+                                                    />
+                                                </mat-form-field>
+                                                <button
+                                                    mat-raised-button
+                                                    class="mb-5"
+                                                    color="warn"
+                                                    (click)="deleteMesureRow(i)"
+                                                    [disabled]="
+                                                        measurementsListForm
+                                                            .controls
+                                                            .measurements.value
+                                                            .length === 1
+                                                    "
+                                                >
+                                                    <span> Remove </span>
+                                                </button>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                    <div class="mt-4 flex justify-end">
+                                        <button
+                                            (click)="addNewMesureRow()"
+                                            [disabled]="
+                                                measurementsListForm.invalid
+                                            "
+                                            mat-raised-button
+                                            color="primary"
+                                        >
+                                            <span> Add More+ </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <button
+                                    (click)="logMesureForm()"
+                                    mat-button
+                                    matStepperNext
+                                    class="text-blue-700"
+                                >
+                                    Next
+                                </button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step
+                        [editable]="false"
+                        [stepControl]="bomsListForm"
+                        label="Add bill of materials list"
+                    >
+                        <form [formGroup]="bomsListForm">
+                            <div
+                                class="boms flex flex-col gap-2"
+                                formGroupName="boMs"
+                            >
+                                <div class="grid">
+                                    <div
+                                        class="boms-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                                    >
+                                        <div class="hidden sm:block">
+                                            Material
+                                        </div>
+                                        <div class="hidden sm:block">
+                                            Size Width
+                                        </div>
+                                        <div class="hidden sm:block">
+                                            Consumption
+                                        </div>
+                                        <div class="hidden sm:block">
+                                            Description
+                                        </div>
+                                    </div>
+                                    <div class="max-h-80 overflow-y-scroll">
+                                        <ng-container
+                                            *ngIf="
+                                                bomsListForm.controls.boMs !==
+                                                null
+                                            "
+                                        >
+                                            <div
+                                                *ngFor="
+                                                    let item of bomsListForm
+                                                        .controls.boMs.controls;
+                                                    let i = index
+                                                "
+                                                [formGroupName]="i"
+                                                class="boms-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                            >
+                                                <div class="flex gap-4">
+                                                    <mat-form-field
+                                                        class="w-full"
+                                                    >
+                                                        <mat-select
+                                                            [formControlName]="
+                                                                'materialId'
+                                                            "
+                                                        >
+                                                            <ng-container
+                                                                *ngFor="
+                                                                    let item of materials
+                                                                "
+                                                            >
+                                                                <mat-option
+                                                                    value="{{
+                                                                        item.id
+                                                                    }}"
+                                                                    >{{
+                                                                        item.name
+                                                                    }}
+                                                                    -
+                                                                    {{
+                                                                        item.colorName
+                                                                    }}</mat-option
+                                                                >
+                                                            </ng-container>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </div>
+                                                <mat-form-field class="w-full">
+                                                    <input
+                                                        matInput
+                                                        min="0"
+                                                        type="number"
+                                                        placeholder="Size Width"
+                                                        [formControlName]="
+                                                            'sizeWidth'
+                                                        " /></mat-form-field
+                                                ><mat-form-field class="w-full">
+                                                    <input
+                                                        matInput
+                                                        min="0"
+                                                        type="number"
+                                                        placeholder="Consumption"
+                                                        [formControlName]="
+                                                            'consumption'
+                                                        "
+                                                /></mat-form-field>
+                                                <mat-form-field class="w-full">
+                                                    <input
+                                                        matInput
+                                                        type="text"
+                                                        placeholder="Description"
+                                                        [formControlName]="
+                                                            'description'
+                                                        "
+                                                /></mat-form-field>
+                                                <button
+                                                    mat-raised-button
+                                                    class="mb-5"
+                                                    color="warn"
+                                                    (click)="deleteBomRow(i)"
+                                                    [disabled]="
+                                                        bomsListForm.controls
+                                                            .boMs.value
+                                                            .length === 1
+                                                    "
+                                                >
+                                                    <span> Remove </span>
+                                                </button>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                    <div class="mt-4 flex justify-end">
+                                        <button
+                                            (click)="addNewBomRow()"
+                                            [disabled]="bomsListForm.invalid"
+                                            mat-raised-button
+                                            color="primary"
+                                        >
+                                            <span> Add More+ </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <button
+                                    (click)="logBomForm()"
+                                    mat-button
+                                    matStepperNext
+                                    class="text-blue-700"
+                                >
+                                    Next
+                                </button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step
+                        [editable]="false"
+                        [stepControl]="quaStandsListForm"
+                        label="Add quality standards list"
+                    >
+                        <form [formGroup]="quaStandsListForm">
+                            <div
+                                class="qualityStandards flex flex-col gap-2"
+                                formGroupName="qualityStandards"
+                            >
+                                <div class="grid">
+                                    <div
+                                        class="qualityStandards-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                                    >
+                                        <div class="hidden sm:block">
+                                            Material
+                                        </div>
+                                        <div class="hidden sm:block">
+                                            Quality standard name
+                                        </div>
+                                        <div class="hidden sm:block">
+                                            Description
+                                        </div>
+                                    </div>
+                                    <div class="max-h-80 overflow-y-scroll">
+                                        <ng-container
+                                            *ngIf="
+                                                quaStandsListForm.controls
+                                                    .qualityStandards !== null
+                                            "
+                                        >
+                                            <div
+                                                *ngFor="
+                                                    let item of quaStandsListForm
+                                                        .controls
+                                                        .qualityStandards
+                                                        .controls;
+                                                    let i = index
+                                                "
+                                                [formGroupName]="i"
+                                                class="qualityStandards-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                            >
+                                                <div class="flex gap-4">
+                                                    <mat-form-field
+                                                        class="w-full"
+                                                    >
+                                                        <mat-select
+                                                            [formControlName]="
+                                                                'materialId'
+                                                            "
+                                                        >
+                                                            <ng-container
+                                                                *ngFor="
+                                                                    let item of selectedMaterialsList
+                                                                "
+                                                            >
+                                                                <mat-option
+                                                                    value="{{
+                                                                        item.id
+                                                                    }}"
+                                                                    >{{
+                                                                        item.name
+                                                                    }}
+                                                                    -
+                                                                    {{
+                                                                        item.colorName
+                                                                    }}</mat-option
+                                                                >
+                                                            </ng-container>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </div>
+                                                <mat-form-field class="w-full">
+                                                    <input
+                                                        matInput
+                                                        type="text"
+                                                        placeholder="Quality standard name"
+                                                        [formControlName]="
+                                                            'name'
+                                                        "
+                                                /></mat-form-field>
+                                                <mat-form-field class="w-full">
+                                                    <input
+                                                        matInput
+                                                        type="text"
+                                                        placeholder="Description"
+                                                        [formControlName]="
+                                                            'description'
+                                                        "
+                                                /></mat-form-field>
+                                                <button
+                                                    mat-raised-button
+                                                    class="mb-5"
+                                                    color="warn"
+                                                    (click)="
+                                                        deleteQuaStandRow(i)
+                                                    "
+                                                    [disabled]="
+                                                        quaStandsListForm
+                                                            .controls
+                                                            .qualityStandards
+                                                            .value.length === 1
+                                                    "
+                                                >
+                                                    <span> Remove </span>
+                                                </button>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                    <div class="mt-4 flex justify-end">
+                                        <button
+                                            (click)="addNewQuaStandRow()"
+                                            [disabled]="
+                                                quaStandsListForm.invalid
+                                            "
+                                            mat-raised-button
+                                            color="primary"
+                                        >
+                                            <span> Add More+ </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <button
+                                    (click)="logQuaStandForm()"
+                                    mat-button
+                                    matStepperNext
+                                    class="text-blue-700"
+                                >
+                                    Next
+                                </button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step label="Done">
+                        <p>Add new specification?</p>
+                        <div>
+                            <button mat-button (click)="logReset()">Yes</button>
+                        </div>
+                    </mat-step>
+                </mat-stepper>
+                <div *ngIf="specificationForm.valid">
+                    <button
+                        (click)="logSpecListForm()"
+                        mat-button
+                        matStepperNext
+                        class="text-blue-700"
+                    >
+                        Next
                     </button>
                 </div>
-            </form>
-        </ng-container>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Done</ng-template>
+                <p>You are now done.</p>
+                <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button (click)="stepper.reset()">Reset</button>
+                </div>
+            </mat-step>
+        </mat-stepper>
     </div>
 </div>
