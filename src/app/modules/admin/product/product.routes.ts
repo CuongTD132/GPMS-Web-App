@@ -1,12 +1,13 @@
 import { inject } from '@angular/core';
 import { ActivatedRoute, Routes } from '@angular/router';
 import { ProductComponent } from 'app/modules/admin/product/product.component';
-import { ProductDetailComponent } from './detail/product-detail.component';
-import { ProductService } from './product.service';
-import { CreateProductComponent } from './create/create-product.component';
 import { CategoryService } from '../category/category.service';
-import { ProductHeaderComponent } from './header/product-header.component';
 import { MaterialService } from '../material/material.service';
+import { SizeService } from '../size/size.service';
+import { CreateProductComponent } from './create/create-product.component';
+import { ProductDetailComponent } from './detail/product-detail.component';
+import { ProductHeaderComponent } from './header/product-header.component';
+import { ProductService } from './product.service';
 
 export default [
     {
@@ -19,7 +20,7 @@ export default [
             {
                 path: '',
                 pathMatch: 'full',
-                redirectTo: ''
+                redirectTo: '',
             },
             {
                 path: '',
@@ -31,6 +32,7 @@ export default [
                 resolve: {
                     categories: () => inject(CategoryService).getCategories(),
                     materials: () => inject(MaterialService).getMaterials(),
+                    sizes: () => inject(SizeService).getSizesList(),
                 },
             },
             {
@@ -38,11 +40,11 @@ export default [
                 component: ProductDetailComponent,
                 resolve: {
                     product: (route: ActivatedRoute) =>
-                        inject(ProductService).getProductById(route.params['id']),
+                        inject(ProductService).getProductById(
+                            route.params['id']
+                        ),
                 },
             },
         ],
     },
-
-
 ] as Routes;

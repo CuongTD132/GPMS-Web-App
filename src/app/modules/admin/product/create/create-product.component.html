@@ -6,8 +6,11 @@
         <div class="text-4xl font-extrabold tracking-tight">Create Product</div>
     </div> -->
     <div class="font-poppins overflow-y-scroll p-8 dark:bg-gray-800">
-        <mat-stepper [linear]="false" #stepper>
-            <mat-step [editable]="false" [stepControl]="createProductForm">
+        <mat-stepper [linear]="true" #stepper>
+            <mat-step
+                [editable]="isEditGeneral"
+                [stepControl]="createProductForm"
+            >
                 <form [formGroup]="createProductForm">
                     <ng-template matStepLabel
                         >Fill out general information</ng-template
@@ -66,7 +69,7 @@
             </mat-step>
 
             <mat-step
-                [editable]="false"
+                [editable]="isEditGeneral"
                 [stepControl]="semiListForm"
                 label="Add semi finished products list"
             >
@@ -159,76 +162,93 @@
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <button
-                            (click)="logSemiForm()"
-                            mat-button
-                            matStepperNext
-                            class="text-blue-700"
-                        >
-                            Next
-                        </button>
-                    </div>
                 </form>
+                <div>
+                    <button mat-button matStepperPrevious>
+                        Back to fill out general information
+                    </button>
+                    <button
+                        (click)="logSemiListForm()"
+                        mat-button
+                        matStepperNext
+                        class="text-blue-700"
+                    >
+                        Next
+                    </button>
+                </div>
             </mat-step>
 
             <mat-step
-                [editable]="false"
-                [stepControl]="specificationForm"
+                [editable]="isEditGeneral"
+                [stepControl]="specificationsListForm"
                 label="Add specifications list"
             >
+                <!-- <div *ngIf="createProductForm.controls.specifications.value">
+                    <span class="p-4 text-xl font-bold"
+                        >Added
+                        {{
+                            createProductForm.controls.specifications.value
+                                .length
+                        }}
+                        specification(s) successfully!</span
+                    >
+                </div> -->
                 <mat-stepper
                     orientation="vertical"
                     [linear]="true"
                     #stepperSpec
                 >
                     <mat-step
-                        [editable]="false"
+                        [editable]="isEditSubSpec"
                         [stepControl]="sizeForm"
                         label="Choose size"
                     >
                         <form [formGroup]="sizeForm">
-                            <mat-form-field class="w-2/3">
+                            <mat-form-field class="w-1/6">
                                 <mat-label>Size</mat-label>
-
-                                <input
-                                    matInput
-                                    type="text"
-                                    placeholder="Size"
-                                    [formControlName]="'sizeName'"
-                            /></mat-form-field>
-
+                                <mat-select [formControlName]="'sizeName'">
+                                    <ng-container *ngFor="let item of sizes">
+                                        <mat-option value="{{ item }}">{{
+                                            item
+                                        }}</mat-option>
+                                    </ng-container>
+                                </mat-select>
+                            </mat-form-field>
                             <div>
                                 <button
                                     mat-button
                                     matStepperNext
                                     class="text-blue-700"
-                                    (click)="logSizeForm()"
                                 >
                                     Next
                                 </button>
                             </div>
                         </form>
                     </mat-step>
+
                     <mat-step
-                        [editable]="false"
+                        [editable]="isEditSubSpec"
                         [stepControl]="colorForm"
-                        label="Choose color"
+                        label="Choose size"
                     >
                         <form [formGroup]="colorForm">
-                            <mat-form-field class="w-1/6">
-                                <mat-label>Color(HEX Only)</mat-label>
+                            <mat-form-field class="w-1/12">
+                                <mat-label>Color</mat-label>
                                 <input
                                     matInput
                                     type="color"
+                                    [value]="
+                                        specificationForm.controls.colorCode
+                                    "
+                                    class="h-full rounded-2xl"
                                     [formControlName]="'colorCode'"
+                                    required
                             /></mat-form-field>
-
                             <div>
                                 <button
+                                    mat-button
                                     matStepperNext
                                     class="text-blue-700"
-                                    (click)="logColorForm()"
                                 >
                                     Next
                                 </button>
@@ -237,7 +257,7 @@
                     </mat-step>
 
                     <mat-step
-                        [editable]="false"
+                        [editable]="isEditSubSpec"
                         [stepControl]="measurementsListForm"
                         label="Add measurements list"
                     >
@@ -333,6 +353,9 @@
                                 </div>
                             </div>
                             <div>
+                                <button mat-button matStepperPrevious>
+                                    Back
+                                </button>
                                 <button
                                     (click)="logMesureForm()"
                                     mat-button
@@ -344,8 +367,9 @@
                             </div>
                         </form>
                     </mat-step>
+
                     <mat-step
-                        [editable]="false"
+                        [editable]="isEditSubSpec"
                         [stepControl]="bomsListForm"
                         label="Add bill of materials list"
                     >
@@ -474,6 +498,9 @@
                                 </div>
                             </div>
                             <div>
+                                <button mat-button matStepperPrevious>
+                                    Back
+                                </button>
                                 <button
                                     (click)="logBomForm()"
                                     mat-button
@@ -485,8 +512,9 @@
                             </div>
                         </form>
                     </mat-step>
+
                     <mat-step
-                        [editable]="false"
+                        [editable]="isEditSubSpec"
                         [stepControl]="quaStandsListForm"
                         label="Add quality standards list"
                     >
@@ -609,6 +637,9 @@
                                 </div>
                             </div>
                             <div>
+                                <button mat-button matStepperPrevious>
+                                    Back
+                                </button>
                                 <button
                                     (click)="logQuaStandForm()"
                                     mat-button
@@ -620,19 +651,615 @@
                             </div>
                         </form>
                     </mat-step>
+
                     <mat-step label="Done">
                         <p>Add new specification?</p>
                         <div>
-                            <button mat-button (click)="logReset()">Yes</button>
+                            <button
+                                class="text-yellow-700"
+                                mat-button
+                                (click)="specReset()"
+                            >
+                                Yes
+                            </button>
                         </div>
                     </mat-step>
                 </mat-stepper>
-                <div *ngIf="specificationForm.valid">
+
+                <div>
+                    <button mat-button matStepperPrevious>
+                        Back to add semi finished products list
+                    </button>
                     <button
-                        (click)="logSpecListForm()"
+                        *ngIf="specificationsListForm.valid"
                         mat-button
                         matStepperNext
                         class="text-blue-700"
+                    >
+                        Next
+                    </button>
+                </div>
+            </mat-step>
+
+            <mat-step
+                [editable]="isEditGeneral"
+                [stepControl]="processesListForm"
+                label="Add processes list"
+            >
+                <!-- <div
+                    *ngIf="
+                        processesListForm.controls.processes.value.length > 0
+                    "
+                >
+                    <span class="p-4 font-bold"
+                        >Added
+                        {{ processesListForm.controls.processes.value.length }}
+                        process(es) successfully!</span
+                    >
+                </div> -->
+                <mat-stepper
+                    orientation="vertical"
+                    [linear]="true"
+                    #stepperProcess
+                >
+                    <mat-step
+                        [editable]="isEditProcess"
+                        [stepControl]="processForm"
+                        label="Fill out process general information"
+                    >
+                        <form [formGroup]="processForm">
+                            <div class="flex gap-4">
+                                <mat-form-field class="w-full">
+                                    <mat-label>Process No</mat-label>
+                                    <input
+                                        matInput
+                                        type="number"
+                                        min="1"
+                                        placeholder="Process No"
+                                        [formControlName]="'orderNumber'"
+                                    />
+                                </mat-form-field>
+                                <mat-form-field class="w-full">
+                                    <mat-label>Process Name</mat-label>
+                                    <input
+                                        matInput
+                                        placeholder="Process Name"
+                                        [formControlName]="'name'"
+                                    />
+                                </mat-form-field>
+                                <mat-form-field class="w-full">
+                                    <mat-label>Process Code</mat-label>
+                                    <input
+                                        matInput
+                                        placeholder="Process Code"
+                                        [formControlName]="'code'"
+                                    />
+                                </mat-form-field>
+                            </div>
+                            <div>
+                                <mat-form-field class="w-full">
+                                    <mat-label>Description</mat-label>
+                                    <textarea
+                                        matInput
+                                        placeholder="Description"
+                                        [formControlName]="'description'"
+                                    ></textarea>
+                                </mat-form-field>
+                            </div>
+                            <div>
+                                <button
+                                    mat-button
+                                    matStepperNext
+                                    class="text-blue-700"
+                                >
+                                    Next
+                                </button>
+                            </div>
+                        </form>
+                    </mat-step>
+
+                    <mat-step
+                        [editable]="isEditProcess"
+                        [stepControl]="stepListForm"
+                        label="Add steps list"
+                    >
+                        <!-- <div
+                            *ngIf="stepListForm.controls.steps.value.length > 0"
+                        >
+                            <span class="p-4 font-bold"
+                                >Added
+                                {{ stepListForm.controls.steps.value.length }}
+                                step(s) successfully!</span
+                            >
+                        </div> -->
+                        <mat-stepper [linear]="true" #stepperStep>
+                            <mat-step
+                                [editable]="isEditStep"
+                                [stepControl]="stepForm"
+                                label="Fill out step general information"
+                            >
+                                <form [formGroup]="stepForm">
+                                    <div class="flex gap-4">
+                                        <mat-form-field class="w-full">
+                                            <mat-label>Step Name</mat-label>
+                                            <input
+                                                matInput
+                                                placeholder="Step Name"
+                                                [formControlName]="'name'"
+                                            />
+                                        </mat-form-field>
+                                        <mat-form-field class="w-full">
+                                            <mat-label>Step Code</mat-label>
+                                            <input
+                                                matInput
+                                                placeholder="Step Code"
+                                                [formControlName]="'code'"
+                                            />
+                                        </mat-form-field>
+                                        <mat-form-field class="w-full">
+                                            <mat-label>Step No</mat-label>
+                                            <input
+                                                matInput
+                                                type="number"
+                                                min="1"
+                                                placeholder="Step No"
+                                                [formControlName]="
+                                                    'orderNumber'
+                                                "
+                                            />
+                                        </mat-form-field>
+                                        <mat-form-field class="w-full">
+                                            <mat-label>Standard Time</mat-label>
+                                            <input
+                                                matInput
+                                                min="0"
+                                                type="number"
+                                                placeholder="second"
+                                                [formControlName]="
+                                                    'standardTime'
+                                                "
+                                        /></mat-form-field>
+                                        <mat-form-field class="w-full">
+                                            <mat-label
+                                                >Output Per Hour</mat-label
+                                            >
+                                            <input
+                                                matInput
+                                                min="0"
+                                                type="number"
+                                                placeholder="Output Per Hour"
+                                                [formControlName]="
+                                                    'outputPerHour'
+                                                "
+                                        /></mat-form-field>
+                                    </div>
+                                    <div>
+                                        <mat-form-field class="w-full">
+                                            <mat-label>Description</mat-label>
+                                            <textarea
+                                                matInput
+                                                placeholder="Description"
+                                                [formControlName]="
+                                                    'description'
+                                                "
+                                            ></textarea>
+                                        </mat-form-field>
+                                    </div>
+                                    <div>
+                                        <button
+                                            mat-button
+                                            matStepperNext
+                                            class="text-blue-700"
+                                            (click)="logStepForm()"
+                                        >
+                                            Next
+                                        </button>
+                                    </div>
+                                </form>
+                            </mat-step>
+                            <mat-step
+                                [editable]="isEditStep"
+                                [stepControl]="stepIOListForm"
+                                label="Add step input/outputs list"
+                            >
+                                <!-- <div
+                                    *ngIf="
+                                        stepIOListForm.controls.stepIOs.value
+                                            .length > 0
+                                    "
+                                >
+                                    <span class="p-4 text-xl font-bold"
+                                        >Added
+                                        {{
+                                            stepIOListForm.controls.stepIOs
+                                                .value.length
+                                        }}
+                                        step input/output(s) successfully!</span
+                                    >
+                                </div> -->
+                                <mat-stepper
+                                    orientation="vertical"
+                                    [linear]="isEditStepIO"
+                                    #stepperStepIO
+                                >
+                                    <mat-step
+                                        [editable]="isEditStepIO"
+                                        label="Select category"
+                                    >
+                                        <mat-radio-group
+                                            aria-label="Select an option"
+                                            [(ngModel)]="category"
+                                        >
+                                            <div
+                                                class="justify-content-between flex space-x-10"
+                                            >
+                                                <ng-container
+                                                    *ngFor="
+                                                        let category of categorys
+                                                    "
+                                                >
+                                                    <mat-radio-button
+                                                        [value]="category"
+                                                    >
+                                                        {{ category }}
+                                                    </mat-radio-button>
+                                                </ng-container>
+                                            </div>
+                                        </mat-radio-group>
+
+                                        <div>
+                                            <button
+                                                mat-button
+                                                matStepperNext
+                                                class="text-blue-700"
+                                                (click)="setCate()"
+                                            >
+                                                Next
+                                            </button>
+                                        </div>
+                                    </mat-step>
+
+                                    <mat-step
+                                        [editable]="isEditStepIO"
+                                        [stepControl]="matForm"
+                                        label="Fill out step input/outputs detail "
+                                        *ngIf="category === 'Material'"
+                                    >
+                                        <form [formGroup]="matForm">
+                                            <div class="flex gap-4">
+                                                <mat-form-field class="w-full">
+                                                    <mat-label
+                                                        >Material</mat-label
+                                                    >
+                                                    <mat-select
+                                                        [formControlName]="
+                                                            'materialId'
+                                                        "
+                                                    >
+                                                        <ng-container
+                                                            *ngFor="
+                                                                let item of selectedMaterialsList
+                                                            "
+                                                        >
+                                                            <mat-option
+                                                                value="{{
+                                                                    item.id
+                                                                }}"
+                                                                >{{ item.name }}
+                                                                -
+                                                                {{
+                                                                    item.colorName
+                                                                }}</mat-option
+                                                            >
+                                                        </ng-container>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                                <mat-form-field class="w-full">
+                                                    <mat-label
+                                                        >Select Type</mat-label
+                                                    >
+                                                    <mat-select
+                                                        [formControlName]="
+                                                            'type'
+                                                        "
+                                                    >
+                                                        <mat-option
+                                                            value="Input"
+                                                            >Input</mat-option
+                                                        >
+                                                        <mat-option
+                                                            value="Output"
+                                                            >Output</mat-option
+                                                        >
+                                                    </mat-select>
+                                                </mat-form-field>
+                                                <mat-form-field class="w-full">
+                                                    <mat-label
+                                                        >Consumtion</mat-label
+                                                    >
+
+                                                    <input
+                                                        matInput
+                                                        type="number"
+                                                        min="0"
+                                                        placeholder="Consumtion"
+                                                        [formControlName]="
+                                                            'consumption'
+                                                        "
+                                                /></mat-form-field>
+                                            </div>
+                                            <div>
+                                                <button
+                                                    mat-button
+                                                    matStepperPrevious
+                                                >
+                                                    Back
+                                                </button>
+                                                <button
+                                                    mat-button
+                                                    matStepperNext
+                                                    class="text-blue-700"
+                                                    (click)="logMatForm()"
+                                                >
+                                                    Next
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </mat-step>
+
+                                    <mat-step
+                                        [editable]="isEditStepIO"
+                                        [stepControl]="proForm"
+                                        label="Fill out step input/outputs detail "
+                                        *ngIf="category === 'Product'"
+                                    >
+                                        <form [formGroup]="proForm">
+                                            <div class="flex gap-4">
+                                                <mat-form-field class="w-full">
+                                                    <mat-label
+                                                        >Product Name</mat-label
+                                                    >
+
+                                                    <input
+                                                        matInput
+                                                        disabled
+                                                        [value]="
+                                                            createProductForm
+                                                                .controls.name
+                                                                .value
+                                                        "
+                                                /></mat-form-field>
+                                                <mat-form-field class="w-full">
+                                                    <mat-label
+                                                        >Product Code</mat-label
+                                                    >
+
+                                                    <input
+                                                        matInput
+                                                        disabled
+                                                        [value]="
+                                                            createProductForm
+                                                                .controls.code
+                                                                .value
+                                                        "
+                                                /></mat-form-field>
+                                                <mat-form-field class="w-full">
+                                                    <mat-label
+                                                        >Select Type</mat-label
+                                                    >
+                                                    <mat-select
+                                                        [formControlName]="
+                                                            'type'
+                                                        "
+                                                    >
+                                                        <mat-option
+                                                            value="Input"
+                                                            >Input</mat-option
+                                                        >
+                                                        <mat-option
+                                                            value="Output"
+                                                            >Output</mat-option
+                                                        >
+                                                    </mat-select>
+                                                </mat-form-field>
+                                                <mat-form-field class="w-full">
+                                                    <mat-label
+                                                        >Quantity</mat-label
+                                                    >
+
+                                                    <input
+                                                        matInput
+                                                        type="number"
+                                                        min="0"
+                                                        placeholder="Quantity"
+                                                        [formControlName]="
+                                                            'quantity'
+                                                        "
+                                                /></mat-form-field>
+                                            </div>
+                                            <div>
+                                                <button
+                                                    mat-button
+                                                    matStepperPrevious
+                                                >
+                                                    Back
+                                                </button>
+                                                <button
+                                                    mat-button
+                                                    matStepperNext
+                                                    class="text-blue-700"
+                                                    (click)="logProForm()"
+                                                >
+                                                    Next
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </mat-step>
+
+                                    <mat-step
+                                        [editable]="isEditStepIO"
+                                        [stepControl]="semiForm"
+                                        label="Fill out step input/outputs detail "
+                                        *ngIf="category === 'Semi'"
+                                    >
+                                        <form [formGroup]="semiForm">
+                                            <div class="flex gap-4">
+                                                <mat-form-field class="w-full">
+                                                    <mat-label
+                                                        >Semi Finished
+                                                        Product</mat-label
+                                                    >
+                                                    <mat-select
+                                                        [formControlName]="
+                                                            'semiFinishedProductCode'
+                                                        "
+                                                    >
+                                                        <ng-container
+                                                            *ngFor="
+                                                                let item of semiListForm
+                                                                    .controls
+                                                                    .semiFinishedProducts
+                                                                    .value
+                                                            "
+                                                        >
+                                                            <mat-option
+                                                                value="{{
+                                                                    item.code
+                                                                }}"
+                                                                >{{
+                                                                    item.name
+                                                                }}</mat-option
+                                                            >
+                                                        </ng-container>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                                <mat-form-field class="w-full">
+                                                    <mat-label
+                                                        >Select Type</mat-label
+                                                    >
+                                                    <mat-select
+                                                        [formControlName]="
+                                                            'type'
+                                                        "
+                                                    >
+                                                        <mat-option
+                                                            value="Input"
+                                                            >Input</mat-option
+                                                        >
+                                                        <mat-option
+                                                            value="Output"
+                                                            >Output</mat-option
+                                                        >
+                                                    </mat-select>
+                                                </mat-form-field>
+                                                <mat-form-field class="w-full">
+                                                    <mat-label
+                                                        >Quantity</mat-label
+                                                    >
+
+                                                    <input
+                                                        matInput
+                                                        type="number"
+                                                        min="0"
+                                                        placeholder="Quantity"
+                                                        [formControlName]="
+                                                            'quantity'
+                                                        "
+                                                /></mat-form-field>
+                                            </div>
+                                            <div>
+                                                <button
+                                                    mat-button
+                                                    matStepperPrevious
+                                                >
+                                                    Back
+                                                </button>
+                                                <button
+                                                    mat-button
+                                                    matStepperNext
+                                                    class="text-blue-700"
+                                                    (click)="logSemiForm()"
+                                                >
+                                                    Next
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </mat-step>
+
+                                    <mat-step label="Done">
+                                        <p>Add new step input/output?</p>
+                                        <div>
+                                            <button
+                                                mat-button
+                                                (click)="stepIOReset()"
+                                            >
+                                                Yes
+                                            </button>
+                                        </div>
+                                    </mat-step>
+                                </mat-stepper>
+
+                                <div>
+                                    <button mat-button matStepperPrevious>
+                                        Back to fill out step general
+                                        information
+                                    </button>
+                                    <button
+                                        mat-button
+                                        matStepperNext
+                                        class="text-blue-700"
+                                        (click)="setStep()"
+                                        *ngIf="stepIOListForm.valid"
+                                    >
+                                        Next
+                                    </button>
+                                </div>
+                            </mat-step>
+                            <mat-step label="Done">
+                                <p>Add new step?</p>
+                                <div>
+                                    <button mat-button (click)="stepReset()">
+                                        Yes
+                                    </button>
+                                </div>
+                            </mat-step>
+                        </mat-stepper>
+                        <div>
+                            <button mat-button matStepperPrevious>
+                                Back to fill out process general information
+                            </button>
+                            <button
+                                mat-button
+                                matStepperNext
+                                class="text-blue-700"
+                                (click)="logProcessForm()"
+                                *ngIf="stepListForm.valid"
+                            >
+                                Next
+                            </button>
+                        </div>
+                    </mat-step>
+
+                    <mat-step label="Done">
+                        <p>Add new process?</p>
+                        <div>
+                            <button mat-button (click)="processReset()">
+                                Yes
+                            </button>
+                        </div>
+                    </mat-step>
+                </mat-stepper>
+
+                <div>
+                    <button mat-button matStepperPrevious>
+                        Back to add specifications list
+                    </button>
+                    <button
+                        (click)="logProcessesListForm()"
+                        mat-button
+                        matStepperNext
+                        class="text-blue-700"
+                        *ngIf="processesListForm.valid"
                     >
                         Next
                     </button>
@@ -642,8 +1269,7 @@
                 <ng-template matStepLabel>Done</ng-template>
                 <p>You are now done.</p>
                 <div>
-                    <button mat-button matStepperPrevious>Back</button>
-                    <button mat-button (click)="stepper.reset()">Reset</button>
+                    <button mat-button (click)="createProduct()">Finish</button>
                 </div>
             </mat-step>
         </mat-stepper>
