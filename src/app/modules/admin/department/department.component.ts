@@ -41,8 +41,8 @@ import {
     takeUntil,
 } from 'rxjs';
 // import { CreateDepartmentComponent } from './create/create-department.component';
+import { MatTabsModule } from '@angular/material/tabs';
 import { DepartmentService } from './department.service';
-import { DepartmentDetailComponent } from './detail/department-detail.component';
 
 @Component({
     selector: 'department',
@@ -64,6 +64,7 @@ import { DepartmentDetailComponent } from './detail/department-detail.component'
         MatOptionModule,
         FuseAlertComponent,
         MatCheckboxModule,
+        MatTabsModule,
     ],
 })
 export class DepartmentComponent implements OnInit, AfterViewInit {
@@ -73,7 +74,7 @@ export class DepartmentComponent implements OnInit, AfterViewInit {
 
     searchInputControl: UntypedFormControl = new UntypedFormControl();
     filterForm: UntypedFormGroup;
-
+    departmentDetail: DepartmentDetail;
     departments$: Observable<Department[]>;
     pagination: Pagination;
     isLoading: boolean = false;
@@ -227,42 +228,36 @@ export class DepartmentComponent implements OnInit, AfterViewInit {
         }, time);
     }
 
-    // openCreateDepartmentDialog() {
-    //     this._dialog
-    //         .open(CreateDepartmentComponent, {
-    //             width: '720px',
-    //         })
-    //         .afterClosed()
-    //         .subscribe((result) => {
-    //             if (result === 'success') {
-    //                 this.showFlashMessage(
-    //                     'success',
-    //                     'Create department successful',
-    //                     3000
-    //                 );
-    //             }
-    //         });
-    // }
-
     openDepartmentDetailDialog(id: string) {
         this._departmentService
             .getDepartmentById(id)
             .subscribe((department) => {
                 if (department) {
-                    this._dialog
-                        .open(DepartmentDetailComponent, {
-                            width: '720px',
-                        })
-                        .afterClosed()
-                        .subscribe((result) => {
-                            if (result === 'success') {
-                                this.showFlashMessage(
-                                    'success',
-                                    'Update department successful',
-                                    3000
-                                );
-                            }
-                        });
+                    // this._dialog
+                    //     .open(DepartmentDetailComponent, {
+                    //         width: '720px',
+                    //     })
+                    //     .afterClosed()
+                    //     .subscribe((result) => {
+                    //         if (result === 'success') {
+                    //             this.showFlashMessage(
+                    //                 'success',
+                    //                 'Update department successful',
+                    //                 3000
+                    //             );
+                    //         }
+                    //     });
+                }
+            });
+    }
+
+    getDepartmentDetail(id: string) {
+        this._departmentService
+            .getDepartmentById(id)
+            .subscribe((departDetail) => {
+                if (departDetail) {
+                    this.departmentDetail = departDetail;
+                    console.log(this.departmentDetail);
                 }
             });
     }

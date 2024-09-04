@@ -141,13 +141,22 @@ export const appRoutes: Route[] = [
             {
                 path: 'specifications',
                 loadChildren: () =>
-                    import('app/modules/admin/specification/specification.routes'),
+                    import(
+                        'app/modules/admin/specification/specification.routes'
+                    ),
             },
             {
                 path: 'production-plans',
                 loadChildren: () =>
                     import(
                         'app/modules/admin/production-plan/production-plan.routes'
+                    ),
+            },
+            {
+                path: 'production-results',
+                loadChildren: () =>
+                    import(
+                        'app/modules/admin/production-results/production-results.routes'
                     ),
             },
         ],

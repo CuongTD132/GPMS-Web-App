@@ -6,7 +6,7 @@
         <div class="text-4xl font-extrabold tracking-tight">Create Product</div>
     </div> -->
     <div class="font-poppins overflow-y-scroll p-8 dark:bg-gray-800">
-        <mat-stepper [linear]="false" #stepper>
+        <mat-stepper [linear]="true" #stepper>
             <mat-step
                 [editable]="isEditGeneral"
                 [stepControl]="createProductForm"
@@ -388,9 +388,15 @@
                                         <div class="hidden sm:block">
                                             Size Width
                                         </div>
+                                        <!-- <div class="hidden sm:block">
+                                            Size Width Unit
+                                        </div> -->
                                         <div class="hidden sm:block">
                                             Consumption
                                         </div>
+                                        <!-- <div class="hidden sm:block">
+                                            Consumption Unit
+                                        </div> -->
                                         <div class="hidden sm:block">
                                             Description
                                         </div>

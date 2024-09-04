@@ -43,7 +43,6 @@ import {
 } from 'rxjs';
 import { CategoryService } from './category.service';
 import { CreateCategoryComponent } from './create/create-category.component';
-import { CategoryDetailComponent } from './detail/category-detail.component';
 
 @Component({
     selector: 'category',
@@ -243,26 +242,5 @@ export class CategoryComponent implements OnInit, AfterViewInit {
                     );
                 }
             });
-    }
-
-    openCategoryDetailDialog(id: string) {
-        this._categoryService.getCategoryById(id).subscribe((category) => {
-            if (category) {
-                this._dialog
-                    .open(CategoryDetailComponent, {
-                        width: '720px',
-                    })
-                    .afterClosed()
-                    .subscribe((result) => {
-                        if (result === 'success') {
-                            this.showFlashMessage(
-                                'success',
-                                'Update category successful',
-                                3000
-                            );
-                        }
-                    });
-            }
-        });
     }
 }

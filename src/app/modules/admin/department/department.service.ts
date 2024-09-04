@@ -82,79 +82,79 @@ export class DepartmentService {
     /**
      * Create department
      */
-    createDepartment(data) {
-        return this.departments$.pipe(
-            take(1),
-            switchMap((departments) =>
-                this._httpClient
-                    .post<Department>('/api/departments', data)
-                    .pipe(
-                        map((newDepartment) => {
-                            // Update department list with current page size
-                            this._departments.next(
-                                [newDepartment, ...departments].slice(
-                                    0,
-                                    this._pagination.value.pageSize
-                                )
-                            );
+    // createDepartment(data) {
+    //     return this.departments$.pipe(
+    //         take(1),
+    //         switchMap((departments) =>
+    //             this._httpClient
+    //                 .post<Department>('/api/departments', data)
+    //                 .pipe(
+    //                     map((newDepartment) => {
+    //                         // Update department list with current page size
+    //                         this._departments.next(
+    //                             [newDepartment, ...departments].slice(
+    //                                 0,
+    //                                 this._pagination.value.pageSize
+    //                             )
+    //                         );
 
-                            return newDepartment;
-                        })
-                    )
-            )
-        );
-    }
+    //                         return newDepartment;
+    //                     })
+    //                 )
+    //         )
+    //     );
+    // }
 
     /**
      * Update department
      */
-    updateDepartment(id: string, data) {
-        return this.departments$.pipe(
-            take(1),
-            switchMap((departments) =>
-                this._httpClient
-                    .put<Department>('/api/departments/' + id, data)
-                    .pipe(
-                        map((updatedDepartment) => {
-                            // Find and replace updated department
-                            const index = departments.findIndex(
-                                (item) => item.id === id
-                            );
-                            departments[index] = updatedDepartment;
-                            this._departments.next(departments);
+    // updateDepartment(id: string, data) {
+    //     return this.departments$.pipe(
+    //         take(1),
+    //         switchMap((departments) =>
+    //             this._httpClient
+    //                 .put<Department>('/api/departments/' + id, data)
+    //                 .pipe(
+    //                     map((updatedDepartment) => {
+    //                         // Find and replace updated department
+    //                         const index = departments.findIndex(
+    //                             (item) => item.id === id
+    //                         );
+    //                         departments[index] = updatedDepartment;
+    //                         this._departments.next(departments);
 
-                            // Update department
-                            this._department.next(updatedDepartment);
+    //                         // Update department
+    //                         this._department.next(updatedDepartment);
 
-                            return updatedDepartment;
-                        })
-                    )
-            )
-        );
-    }
+    //                         return updatedDepartment;
+    //                     })
+    //                 )
+    //         )
+    //     );
+    // }
 
-    deleteDepartment(id: string): Observable<boolean> {
-        return this.departments$.pipe(
-            take(1),
-            switchMap((departments) =>
-                this._httpClient.delete('/api/departments/' + id).pipe(
-                    map((isDeleted: boolean) => {
-                        // Find the index of the deleted product
-                        const index = departments.findIndex(
-                            (item) => item.id === id
-                        );
+    // deleteDepartment(id: string): Observable<boolean> {
+    //     return this.departments$.pipe(
+    //         take(1),
+    //         switchMap((departments) =>
+    //             this._httpClient.delete('/api/departments/' + id).pipe(
+    //                 map((isDeleted: boolean) => {
+    //                     // Find the index of the deleted product
+    //                     const index = departments.findIndex(
+    //                         (item) => item.id === id
+    //                     );
 
-                        // Delete the product
-                        departments.splice(index, 1);
+    //                     // Delete the product
+    //                     departments.splice(index, 1);
 
-                        // Update the departments
-                        this._departments.next(departments);
+    //                     // Update the departments
+    //                     this._departments.next(departments);
 
-                        // Return the deleted status
-                        return isDeleted;
-                    })
-                )
-            )
-        );
-    }
+    //                     // Return the deleted status
+    //                     return isDeleted;
+    //                 })
+    //             )
+    //         )
+    //     );
+    // }
 }

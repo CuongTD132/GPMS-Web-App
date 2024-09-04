@@ -25,6 +25,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressBar } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { RouterModule } from '@angular/router';
@@ -44,7 +45,6 @@ import {
 import { CreateYearProductionPlanComponent } from './create/year/create-production-plan.component';
 import { ProductionPlanYearDetailComponent } from './detail/year/production-plan-detail.component';
 import { ProductionPlanService } from './production-plan.service';
-import { MatProgressBar } from '@angular/material/progress-bar';
 
 @Component({
     selector: 'productionPlan',

@@ -45,6 +45,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
         icon: 'heroicons_outline:rectangle-stack',
         link: '/production-plans',
     },
+    {
+        id: 'Production Results',
+        title: 'Production Results',
+        type: 'basic',
+        icon: 'heroicons_outline:clipboard-document-list',
+        link: '/production-results',
+    },
 ];
 export const compactNavigation: FuseNavigationItem[] = [
     {
@@ -88,6 +95,13 @@ export const compactNavigation: FuseNavigationItem[] = [
         type: 'basic',
         icon: 'heroicons_outline:rectangle-stack',
         link: '/production-plans',
+    },
+    {
+        id: 'Production Results',
+        title: 'Production Results',
+        type: 'basic',
+        icon: 'heroicons_outline:clipboard-document-list',
+        link: '/production-results',
     },
 ];
 export const futuristicNavigation: FuseNavigationItem[] = [
@@ -133,6 +147,13 @@ export const futuristicNavigation: FuseNavigationItem[] = [
         icon: 'heroicons_outline:rectangle-stack',
         link: '/production-plans',
     },
+    {
+        id: 'Production Results',
+        title: 'Production Results',
+        type: 'basic',
+        icon: 'heroicons_outline:clipboard-document-list',
+        link: '/production-results',
+    },
 ];
 export const horizontalNavigation: FuseNavigationItem[] = [
     {
@@ -176,5 +197,12 @@ export const horizontalNavigation: FuseNavigationItem[] = [
         type: 'basic',
         icon: 'heroicons_outline:rectangle-stack',
         link: '/production-plans',
+    },
+    {
+        id: 'Production Results',
+        title: 'Production Results',
+        type: 'basic',
+        icon: 'heroicons_outline:clipboard-document-list',
+        link: '/production-results',
     },
 ];

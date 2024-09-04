@@ -18,6 +18,7 @@ import {
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
 import { DateAdapter, MatOptionModule } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -25,8 +26,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressBar } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { FuseAlertComponent } from '@fuse/components/alert';
 import { Pagination } from 'app/types/pagination.type';
@@ -41,11 +44,9 @@ import {
     switchMap,
     takeUntil,
 } from 'rxjs';
-import { MatProgressBar } from '@angular/material/progress-bar';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { ProductService } from '../product.service';
 import { CategoryService } from '../../category/category.service';
 import { CreateProductComponent } from '../create/create-product.component';
+import { ProductService } from '../product.service';
 
 @Component({
     selector: 'product-header',
@@ -70,6 +71,7 @@ import { CreateProductComponent } from '../create/create-product.component';
         MatMenuModule,
         MatProgressBar,
         MatTooltipModule,
+        MatChipsModule,
     ],
 })
 export class ProductHeaderComponent implements OnInit, AfterViewInit {

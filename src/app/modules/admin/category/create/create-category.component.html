@@ -3,7 +3,7 @@
     <div
         class="flex h-16 flex-0 items-center justify-between bg-primary pl-6 pr-3 text-on-primary sm:pl-8 sm:pr-5"
     >
-        <div class="text-lg font-medium">Create</div>
+        <div class="text-lg font-medium">Create Category</div>
         <button mat-icon-button (click)="matDialogRef.close()" [tabIndex]="-1">
             <mat-icon
                 class="text-current"
@@ -14,70 +14,14 @@
     <div class="font-poppins overflow-y-scroll p-8 dark:bg-gray-800">
         <ng-container *ngIf="createCategoryForm">
             <form [formGroup]="createCategoryForm">
-                <div class="flex gap-4">
-                    <mat-form-field class="w-full">
-                        <mat-label>Category Name</mat-label>
-                        <input
-                            matInput
-                            placeholder="Category Name"
-                            [formControlName]="'name'"
-                        />
-                    </mat-form-field>
-                    <mat-form-field class="w-full">
-                        <mat-label>Category Code</mat-label>
-                        <input
-                            matInput
-                            placeholder="Category Code"
-                            [formControlName]="'code'"
-                        />
-                    </mat-form-field>
-                </div>
-                <div class="flex gap-4">
-                    <mat-form-field class="w-full">
-                        <mat-label>Color Name</mat-label>
-                        <input
-                            matInput
-                            placeholder="Color Name"
-                            [formControlName]="'colorName'"
-                        />
-                    </mat-form-field>
-                    <mat-form-field class="w-full">
-                        <mat-label>Color Code</mat-label>
-                        <input
-                            matInput
-                            placeholder="Color Code"
-                            [formControlName]="'colorCode'"
-                        />
-                    </mat-form-field>
-                </div>
-                <div class="flex gap-4">
-                    <mat-form-field class="w-full">
-                        <mat-label>Consumption Unit</mat-label>
-                        <input
-                            matInput
-                            placeholder="Consumption Unit"
-                            [formControlName]="'consumptionUnit'"
-                        />
-                    </mat-form-field>
-                    <mat-form-field class="w-full">
-                        <mat-label>Size Width Unit</mat-label>
-                        <input
-                            matInput
-                            placeholder="Size Width Unit"
-                            [formControlName]="'sizeWidthUnit'"
-                        />
-                    </mat-form-field>
-                </div>
-                <div>
-                    <mat-form-field class="w-full">
-                        <mat-label>Description</mat-label>
-                        <input
-                            matInput
-                            placeholder="Description"
-                            [formControlName]="'description'"
-                        />
-                    </mat-form-field>
-                </div>
+                <mat-form-field class="w-full">
+                    <mat-label>Category Name</mat-label>
+                    <input
+                        matInput
+                        placeholder="Category Name"
+                        [formControlName]="'name'"
+                    />
+                </mat-form-field>
                 <div class="mt-4 flex justify-end">
                     <button
                         (click)="createCategory()"

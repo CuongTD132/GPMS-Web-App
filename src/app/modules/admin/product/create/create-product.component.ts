@@ -76,7 +76,6 @@ export class CreateProductComponent implements OnInit {
     matForm: FormGroup;
     proForm: FormGroup;
     semiForm: FormGroup;
-
     category: string = 'Material';
     categorys: string[] = ['Material', 'Product', 'Semi'];
     categories: Category[];
@@ -156,9 +155,6 @@ export class CreateProductComponent implements OnInit {
         this.stepListForm.controls['steps'].setValue(this.steps);
         console.log(this.stepListForm.value);
 
-        // const control = <FormArray>this.stepListForm.controls['steps'];
-        // control.push(this.stepForm);
-        // console.log(this.stepListForm.value);
         this.isEditStep = false;
     }
     processReset(): void {
@@ -208,8 +204,6 @@ export class CreateProductComponent implements OnInit {
 
     logProcessForm(): void {
         this.isEditProcess = false;
-
-        // this.process.push(this.stepListForm.controls.steps.value);
         this.processForm.controls.steps.setValue(
             this.stepListForm.controls.steps.value
         );
@@ -218,15 +212,6 @@ export class CreateProductComponent implements OnInit {
         this.processes.push(this.processForm.value);
         this.processesListForm.controls.processes.setValue(this.processes);
         console.log(this.processesListForm.value);
-
-        // this.processForm.controls.steps.setValue(
-        //     this.stepListForm.controls.steps.value
-        // );
-
-        // console.log(this.processForm.value);
-        // const control = <FormArray>this.processesListForm.controls['processes'];
-        // control.push(this.processForm);
-        // console.log(this.processesListForm.value);
     }
 
     logProcessesListForm(): void {
@@ -342,7 +327,7 @@ export class CreateProductComponent implements OnInit {
         this.createProductForm = this._formBuilder.group({
             name: ['Áo thun', [Validators.required]],
             code: ['AOTHUN01', [Validators.required]],
-            description: 'Áo Zues thần kỳ với các màu sắc sỡ',
+            description: 'Áo thun thần kỳ với những màu sắc sặc sỡ',
             categoryId: [null, [Validators.required]],
             semiFinishedProducts: [],
             specifications: [],
