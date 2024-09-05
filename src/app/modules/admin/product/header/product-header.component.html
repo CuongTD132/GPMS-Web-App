@@ -149,11 +149,17 @@
                                 </div>
                             </div>
 
-                            <div class="hidden sm:block">
+                            <div
+                                class="hidden sm:block"
+                                matTooltip="{{ product.code }}"
+                            >
                                 {{ product.code }}
                             </div>
 
-                            <div class="hidden truncate sm:block">
+                            <div
+                                class="hidden truncate sm:block"
+                                matTooltip="{{ product.name }}"
+                            >
                                 {{ product.name }}
                             </div>
 
@@ -165,19 +171,19 @@
                             >
                                 {{ getFormattedSizesAndColors(product.sizes) }}
                             </div>
-                            <mat-chip-set aria-label="Dog selection">
+                            <div class="flex gap-1 truncate">
                                 <ng-container
                                     *ngFor="let item of product.colorCodes"
                                 >
-                                    <mat-chip
+                                    <div
+                                        class="h-4 w-4 rounded-full border border-gray-600"
                                         [ngStyle]="{
                                             'background-color': item,
                                         }"
-                                    >
-                                        {{ item }}
-                                    </mat-chip>
+                                        matTooltip="{{ item }}"
+                                    ></div>
                                 </ng-container>
-                            </mat-chip-set>
+                            </div>
 
                             <div class="hidden sm:block">
                                 {{ getFormattedDate(product.createdDate) }}

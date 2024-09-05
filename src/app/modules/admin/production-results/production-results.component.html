@@ -17,82 +17,41 @@
         class="flex flex-auto flex-col overflow-scroll sm:mb-18"
     >
         <ng-container *ngIf="productionPlans$ | async as productionPlans">
-            <div class="grid">
-                <!-- Header -->
-                <div
-                    class="production-plan-grid text-secondary sticky top-0 z-10 grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
-                    matSort
-                    matSortDisableClear
-                >
-                    <div class="hidden sm:block">Action</div>
-                    <div class="hidden sm:block">Code</div>
-                    <div class="hidden sm:block">Name</div>
-                    <div class="hidden sm:block">Expected Starting Date</div>
-                    <div class="hidden sm:block">Due Date</div>
-                    <div class="hidden sm:block">Type</div>
-                </div>
-                <!-- Rows -->
+            <div
+                class="text-secondary sticky top-0 z-10 grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+            >
+                <mat-form-field>
+                    <mat-label>Select a working production plan:</mat-label>
+                    <mat-select
+                        (selectionChange)="logProPlan()"
+                        [(value)]="selectedProPlan"
+                    >
+                        <ng-container
+                            *ngFor="let productionPlan of productionPlans"
+                        >
+                            <mat-option value="{{ productionPlan.id }}"
+                                >{{ productionPlan.code }} -
+                                {{ productionPlan.name }}</mat-option
+                            >
+                        </ng-container>
+                    </mat-select>
+                </mat-form-field>
                 <ng-container
                     *ngIf="productionPlans$ | async as productionPlans"
                 >
-                    <ng-container
-                        *ngFor="
-                            let productionPlan of productionPlans;
-                            trackBy: trackByFn
-                        "
-                    >
-                        <div
-                            class="production-plan-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
-                        >
-                            <!-- Id -->
-                            <div class="hidden sm:block">
-                                <div class="flex gap-3">
-                                    <span
-                                        [routerLink]="[
-                                            'years/',
-                                            productionPlan.id,
-                                        ]"
-                                    >
-                                        <mat-icon
-                                            class="cursor-pointer text-blue-500 icon-size-5"
-                                            [svgIcon]="
-                                                'heroicons_outline:pencil-square'
-                                            "
-                                        ></mat-icon>
-                                    </span>
-                                </div>
-                            </div>
-
-                            <!-- Code -->
-                            <div class="hidden sm:block">
-                                {{ productionPlan.code }}
-                            </div>
-
-                            <!-- Name -->
-                            <div class="hidden truncate sm:block">
-                                {{ productionPlan.name }}
-                            </div>
-
-                            <!-- Status -->
-                            <div class="hidden sm:block">
-                                {{
-                                    getFormattedDate(
-                                        productionPlan.expectedStartingDate
-                                    )
-                                }}
-                            </div>
-
-                            <!-- Status -->
-                            <div class="hidden sm:block">
-                                {{ getFormattedDate(productionPlan.dueDate) }}
-                            </div>
-
-                            <!-- Status -->
-                            <div class="hidden sm:block">
-                                {{ productionPlan.type }}
-                            </div>
-                        </div>
-                    </ng-container>
+                    <mat-form-field>
+                        <mat-label>Select a production requirement:</mat-label>
+                        <mat-select>
+                            <ng-container
+                                *ngFor="let productionPlan of productionPlans"
+                            >
+                                <mat-option value="{{ productionPlan.id }}"
+                                    >{{ productionPlan.code }} -
+                                    {{ productionPlan.name }}</mat-option
+                                >
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
                 </ng-container>
             </div>
         </ng-container>
