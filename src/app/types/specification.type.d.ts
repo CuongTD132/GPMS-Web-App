@@ -2,8 +2,8 @@ type Specification = {
     id: string;
     inventoryQuantity: number;
     size: string;
-    color: string;
-    imageURLs?: string
+    colorCode: string;
+    imageURLs?: string;
     productCode: string;
     productName: string;
     measurements: Measurement[];

@@ -71,25 +71,29 @@ type Steps = {
 };
 
 type IORespone = {
-    products: Res;
-    semiFinishProducts: Res;
-    materials: Res;
+    seriesQuantity: number;
+    inputs: Res;
+    outputs: Res;
 };
 
 type Res = {
-    inputs: GeneralIO[];
-    outputs: GeneralIO[];
+    products: GeneralIO[];
+    semis: GeneralIO[];
+    materials: GeneralIO[];
 };
 type GeneralIO = {
-    name: string;
-    code: string;
     id: string;
-    quantity: number;
-    consumption: number;
-    isProduct: boolean;
-    type: number;
-    totalQuantity: number;
-    totalConsumption: number;
+    code: string;
+    name: string;
+    quantity?: number;
+    consumption?: number;
+    unit: string;
+    type: string;
+    isQuantity: boolean;
+    totalQuantity?: number;
+    totalConsumption?: number;
+    resultQuantity?: number;
+    resultConsumption?: number;
 };
 
 type InputOutputResult = {

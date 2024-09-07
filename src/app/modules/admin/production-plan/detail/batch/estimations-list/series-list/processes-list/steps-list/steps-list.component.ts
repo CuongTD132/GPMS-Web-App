@@ -40,7 +40,7 @@ export class StepsListComponent implements OnInit {
             .subscribe((stepIOs) => {
                 const data = {
                     seriesId: this.data.seriesId,
-                    stepIOsList: stepIOs.data,
+                    // stepIOsList: stepIOs.data,
                     stepId: id,
                 };
                 this._dialog

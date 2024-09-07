@@ -435,14 +435,36 @@
                                                                     value="{{
                                                                         item.id
                                                                     }}"
-                                                                    >{{
-                                                                        item.name
-                                                                    }}
-                                                                    -
-                                                                    {{
-                                                                        item.colorName
-                                                                    }}</mat-option
                                                                 >
+                                                                    <div
+                                                                        class="flex items-center gap-1"
+                                                                    >
+                                                                        <p>
+                                                                            {{
+                                                                                item.name
+                                                                            }}
+                                                                            -
+                                                                        </p>
+                                                                        <p>
+                                                                            {{
+                                                                                item.sizeWidthUnit
+                                                                            }}
+                                                                            -
+                                                                            {{
+                                                                                item.consumptionUnit
+                                                                            }}
+                                                                        </p>
+                                                                        <div
+                                                                            class="h-4 w-4 cursor-pointer rounded-full border border-gray-600"
+                                                                            [ngStyle]="{
+                                                                                'background-color':
+                                                                                    item.colorCode,
+                                                                            }"
+                                                                            matTooltip="{{
+                                                                                item.colorCode
+                                                                            }}"
+                                                                        ></div></div
+                                                                ></mat-option>
                                                             </ng-container>
                                                         </mat-select>
                                                     </mat-form-field>

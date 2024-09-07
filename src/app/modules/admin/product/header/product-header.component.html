@@ -175,13 +175,13 @@
                                 <ng-container
                                     *ngFor="let item of product.colorCodes"
                                 >
-                                    <div
-                                        class="h-4 w-4 rounded-full border border-gray-600"
+                                    <span
+                                        class="h-4 w-4 cursor-pointer rounded-full border border-gray-600"
                                         [ngStyle]="{
                                             'background-color': item,
                                         }"
                                         matTooltip="{{ item }}"
-                                    ></div>
+                                    ></span>
                                 </ng-container>
                             </div>
 

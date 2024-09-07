@@ -9,6 +9,7 @@ export class StepService {
         null
     );
     private _steps: BehaviorSubject<Step[] | null> = new BehaviorSubject(null);
+
     private _stepIOs: BehaviorSubject<IORespone | null> = new BehaviorSubject(
         null
     );
@@ -26,6 +27,10 @@ export class StepService {
 
     get step$(): Observable<StepDetail> {
         return this._step.asObservable();
+    }
+
+    get stepIOs$(): Observable<IORespone> {
+        return this._stepIOs.asObservable();
     }
     /**
      * Get step by id
@@ -65,32 +70,26 @@ export class StepService {
             );
     }
 
-    getStepIOListByStepId(
-        id: string,
-        seriesId: string
-    ): Observable<{ pagination: Pagination; data: IORespone }> {
-        return this._httpClient
-            .post<{
-                pagination: Pagination;
-                data: IORespone;
-            }>(
-                '/api/v1/steps/' +
-                    id +
-                    '/series/' +
-                    seriesId +
-                    '/step-input-outputs/step-results/filter',
-                {
-                    pagination: {
-                        pageSize: 999,
-                    },
-                }
+    getStepIOListByStepId(id: string, seriesId: string): Observable<IORespone> {
+        return this.stepIOs$.pipe(
+            take(1),
+            switchMap(() =>
+                this._httpClient
+                    .get<IORespone>(
+                        '/api/v1/steps/' +
+                            id +
+                            '/series/' +
+                            seriesId +
+                            '/step-input-outputs/step-results/filter'
+                    )
+                    .pipe(
+                        map((stepIO) => {
+                            this._stepIOs.next(stepIO);
+                            return stepIO;
+                        })
+                    )
             )
-            .pipe(
-                tap((response) => {
-                    this._pagination.next(response.pagination);
-                    this._stepIOs.next(response.data);
-                })
-            );
+        );
     }
 
     createStepResult(id: string, data) {

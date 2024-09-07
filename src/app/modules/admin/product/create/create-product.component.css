@@ -15,7 +15,7 @@
 }
 
 .boms-grid {
-    grid-template-columns: 280px 150px 150px auto 50px;
+    grid-template-columns: auto 150px 150px 300px 50px;
 }
 
 .qualityStandards-grid {

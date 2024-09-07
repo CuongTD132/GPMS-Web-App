@@ -19,6 +19,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { ProductionPlanService } from '../../production-plan.service';
 import { EstimationComponent } from './estimation/estimation.component';
 @Component({
@@ -37,6 +38,7 @@ import { EstimationComponent } from './estimation/estimation.component';
         MatDatepickerModule,
         MatSelectModule,
         MatCheckboxModule,
+        MatTooltipModule,
     ],
 })
 export class CreateMonthProductionPlanComponent implements OnInit {
@@ -105,7 +107,9 @@ export class CreateMonthProductionPlanComponent implements OnInit {
                 .createChildProductionPlan(this.createProductionPlanForm.value)
                 .subscribe({
                     next: () => {
-                        this._productionPlanService.getProductionPlanById(this.data.parentId).subscribe()
+                        this._productionPlanService
+                            .getProductionPlanById(this.data.parentId)
+                            .subscribe();
                         this.matDialogRef.close('success');
                     },
                     // error: (err) => {},

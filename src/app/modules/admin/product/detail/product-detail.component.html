@@ -82,21 +82,22 @@
                                     </mat-chip>
                                 </mat-chip-set>
                             </div>
+
                             <div class="color">
                                 <span class="font-semibold">COLOR</span>
-                                <mat-chip-set aria-label="Dog selection">
+                                <div class="flex gap-1 truncate">
                                     <ng-container
                                         *ngFor="let item of product.colorCodes"
                                     >
-                                        <mat-chip
+                                        <span
+                                            class="h-8 w-8 cursor-pointer rounded-full border border-gray-600"
                                             [ngStyle]="{
                                                 'background-color': item,
                                             }"
-                                        >
-                                            {{ item }}
-                                        </mat-chip>
+                                            matTooltip="{{ item }}"
+                                        ></span>
                                     </ng-container>
-                                </mat-chip-set>
+                                </div>
                             </div>
                             <div class="category">
                                 <span class="font-semibold">CATEGORY</span>
@@ -155,7 +156,7 @@
                             >
                                 <div class="ml-6 hidden sm:block">Thump</div>
                                 <div class="hidden sm:block">Size</div>
-                                <div class="hidden sm:block">Color Code</div>
+                                <div class="hidden sm:block">Color</div>
                                 <div class="hidden pl-10 sm:block">
                                     Inventory Quantity
                                 </div>
@@ -217,18 +218,16 @@
                                                     >
                                                         {{ item.size }}
                                                     </div>
-                                                    <mat-chip-set
-                                                        aria-label="Dog selection"
-                                                    >
-                                                        <mat-chip
-                                                            [ngStyle]="{
-                                                                'background-color':
-                                                                    item.colorCode,
-                                                            }"
-                                                        >
-                                                            {{ item.colorCode }}
-                                                        </mat-chip>
-                                                    </mat-chip-set>
+                                                    <span
+                                                        class="h-4 w-4 cursor-pointer rounded-full border border-gray-600"
+                                                        [ngStyle]="{
+                                                            'background-color':
+                                                                item.colorCode,
+                                                        }"
+                                                        matTooltip="{{
+                                                            item.colorCode
+                                                        }}"
+                                                    ></span>
                                                     <div
                                                         class="hidden pl-10 sm:block"
                                                     >
@@ -361,12 +360,6 @@
                                                                             <div
                                                                                 class="hidden sm:block"
                                                                             >
-                                                                                Color
-                                                                                Code
-                                                                            </div>
-                                                                            <div
-                                                                                class="hidden sm:block"
-                                                                            >
                                                                                 Size
                                                                                 Width
                                                                             </div>
@@ -405,24 +398,20 @@
                                                                                                 .code
                                                                                         }}
                                                                                     </div>
-                                                                                    <div
-                                                                                        class="hidden sm:block"
-                                                                                    >
-                                                                                        {{
-                                                                                            item
-                                                                                                .material
-                                                                                                .colorName
-                                                                                        }}
-                                                                                    </div>
-                                                                                    <div
-                                                                                        class="hidden sm:block"
-                                                                                    >
-                                                                                        {{
+                                                                                    <span
+                                                                                        class="h-4 w-4 cursor-pointer rounded-full border border-gray-600"
+                                                                                        [ngStyle]="{
+                                                                                            'background-color':
+                                                                                                item
+                                                                                                    .material
+                                                                                                    .colorCode,
+                                                                                        }"
+                                                                                        matTooltip="{{
                                                                                             item
                                                                                                 .material
                                                                                                 .colorCode
-                                                                                        }}
-                                                                                    </div>
+                                                                                        }}"
+                                                                                    ></span>
                                                                                     <div
                                                                                         class="hidden sm:block"
                                                                                     >

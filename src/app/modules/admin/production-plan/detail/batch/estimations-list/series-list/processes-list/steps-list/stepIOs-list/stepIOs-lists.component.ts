@@ -48,7 +48,7 @@ export class StepIOsListComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA)
         public data: {
             seriesId: string;
-            stepIOsList: IORespone;
+            // stepIOsList: IORespone;
             stepId: string;
         },
         private _stepService: StepService,
@@ -57,42 +57,42 @@ export class StepIOsListComponent implements OnInit {
 
     ngOnInit() {
         console.log(this.data.seriesId);
-        if (this.data.stepIOsList.materials !== null) {
-            const matIn = this.data.stepIOsList.materials.inputs.length;
-            if (matIn > 0) {
-                this.totalIO += matIn;
-            }
-            const matOut = this.data.stepIOsList.materials.outputs.length;
-            if (matOut > 0) {
-                this.totalIO += matOut;
-            }
-        }
-        if (this.data.stepIOsList.semiFinishProducts !== null) {
-            const semiIn =
-                this.data.stepIOsList.semiFinishProducts.inputs.length;
-            if (semiIn > 0) {
-                this.totalIO += semiIn;
-            }
-            const semiOut =
-                this.data.stepIOsList.semiFinishProducts.outputs.length;
-            if (semiOut > 0) {
-                this.totalIO += semiOut;
-            }
-        }
-        if (this.data.stepIOsList.products !== null) {
-            const proIn = this.data.stepIOsList.products.inputs.length;
-            if (proIn > 0) {
-                this.totalIO += proIn;
-            }
-            const proOut = this.data.stepIOsList.products.outputs.length;
-            if (proOut > 0) {
-                this.totalIO += proOut;
-            }
-        }
+        // if (this.data.stepIOsList.materials !== null) {
+        //     const matIn = this.data.stepIOsList.materials.inputs.length;
+        //     if (matIn > 0) {
+        //         this.totalIO += matIn;
+        //     }
+        //     const matOut = this.data.stepIOsList.materials.outputs.length;
+        //     if (matOut > 0) {
+        //         this.totalIO += matOut;
+        //     }
+        // }
+        // if (this.data.stepIOsList.semiFinishProducts !== null) {
+        //     const semiIn =
+        //         this.data.stepIOsList.semiFinishProducts.inputs.length;
+        //     if (semiIn > 0) {
+        //         this.totalIO += semiIn;
+        //     }
+        //     const semiOut =
+        //         this.data.stepIOsList.semiFinishProducts.outputs.length;
+        //     if (semiOut > 0) {
+        //         this.totalIO += semiOut;
+        //     }
+        // }
+        // if (this.data.stepIOsList.products !== null) {
+        //     const proIn = this.data.stepIOsList.products.inputs.length;
+        //     if (proIn > 0) {
+        //         this.totalIO += proIn;
+        //     }
+        //     const proOut = this.data.stepIOsList.products.outputs.length;
+        //     if (proOut > 0) {
+        //         this.totalIO += proOut;
+        //     }
+        // }
 
         console.log(this.totalIO);
 
-        this.stepIOsList = this.data.stepIOsList;
+        // this.stepIOsList = this.data.stepIOsList;
         console.log(this.stepIOsList);
         this.initStepResultForm();
     }

@@ -31,7 +31,7 @@
 }
 
 .bill-of-material-grid {
-    grid-template-columns: auto 200px 100px 100px 100px 100px;
+    grid-template-columns: auto 200px 100px 100px 100px;
 }
 
 .quality-standard-grid {

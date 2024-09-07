@@ -17,6 +17,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MaterialService } from '../../material/material.service';
 import { ProductService } from '../product.service';
@@ -39,6 +40,7 @@ import { StepsComponent } from './steps/steps.component';
         MatSelectModule,
         MatStepperModule,
         MatRadioModule,
+        MatTooltipModule,
     ],
 })
 export class CreateProductComponent implements OnInit {
