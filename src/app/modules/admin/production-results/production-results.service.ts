@@ -17,6 +17,9 @@ export class ProductionResultService {
         filter: any = {
             type: 'batch',
             status: 'InProgress',
+            pagination: {
+                pageSize: 999,
+            },
         }
     ): Observable<{ data: ProductionPlan[] }> {
         return this._httpClient

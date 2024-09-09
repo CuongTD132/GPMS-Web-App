@@ -50,8 +50,7 @@ export class StepService {
     }
 
     getStepListByProcessId(
-        id: string,
-        filter: any = {}
+        id: string
     ): Observable<{ pagination: Pagination; data: Step[] }> {
         return this._httpClient
             .post<{
@@ -68,6 +67,27 @@ export class StepService {
                     this._steps.next(response.data);
                 })
             );
+    }
+
+    getStepListByProcessIdAndSeriesId(
+        id: string,
+        seriesId: string
+    ): Observable<Step[]> {
+        return this.steps$.pipe(
+            take(1),
+            switchMap(() =>
+                this._httpClient
+                    .get<
+                        Step[]
+                    >('/api/v1/processes/' + id + '/series/' + seriesId + '/steps')
+                    .pipe(
+                        tap((step) => {
+                            this._steps.next(step);
+                            return step;
+                        })
+                    )
+            )
+        );
     }
 
     getStepIOListByStepId(id: string, seriesId: string): Observable<IORespone> {

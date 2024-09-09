@@ -197,8 +197,8 @@
         </div>
         <div *ngIf="stepIOsList">
             <mat-tab-group class="mt-4">
-                <ng-container *ngIf="stepIOsList.inputs"
-                    ><mat-tab [label]="'Input List' | titlecase">
+                <ng-container *ngIf="stepIOsList.inputs">
+                    <mat-tab [label]="'Input List' | titlecase">
                         <mat-tab-group>
                             <ng-container
                                 *ngIf="
@@ -321,7 +321,9 @@
                                                             </mat-form-field>
                                                             <form
                                                                 [formGroup]="
-                                                                    consumptionForm
+                                                                    consumptionForms[
+                                                                        item.id
+                                                                    ]
                                                                 "
                                                             >
                                                                 <div
@@ -350,7 +352,11 @@
                                                                     </mat-form-field>
                                                                     <button
                                                                         [disabled]="
-                                                                            consumptionForm.invalid
+                                                                            consumptionForms[
+                                                                                item
+                                                                                    .id
+                                                                            ]
+                                                                                .invalid
                                                                         "
                                                                         mat-button
                                                                         (click)="
@@ -491,7 +497,9 @@
                                                             </mat-form-field>
                                                             <form
                                                                 [formGroup]="
-                                                                    quantityForm
+                                                                    quantityForms[
+                                                                        item.id
+                                                                    ]
                                                                 "
                                                             >
                                                                 <div
@@ -520,7 +528,11 @@
                                                                     </mat-form-field>
                                                                     <button
                                                                         [disabled]="
-                                                                            quantityForm.invalid
+                                                                            quantityForms[
+                                                                                item
+                                                                                    .id
+                                                                            ]
+                                                                                .invalid
                                                                         "
                                                                         mat-button
                                                                         (click)="
@@ -661,7 +673,9 @@
                                                             </mat-form-field>
                                                             <form
                                                                 [formGroup]="
-                                                                    quantityForm
+                                                                    quantityForms[
+                                                                        item.id
+                                                                    ]
                                                                 "
                                                             >
                                                                 <div
@@ -690,7 +704,11 @@
                                                                     </mat-form-field>
                                                                     <button
                                                                         [disabled]="
-                                                                            quantityForm.invalid
+                                                                            quantityForms[
+                                                                                item
+                                                                                    .id
+                                                                            ]
+                                                                                .invalid
                                                                         "
                                                                         mat-button
                                                                         (click)="
@@ -715,8 +733,8 @@
                         </mat-tab-group></mat-tab
                     ></ng-container
                 >
-                <ng-container *ngIf="stepIOsList.outputs"
-                    ><mat-tab [label]="'Output List' | titlecase">
+                <ng-container *ngIf="stepIOsList.outputs">
+                    <mat-tab [label]="'Output List' | titlecase">
                         <mat-tab-group>
                             <ng-container
                                 *ngIf="
@@ -832,14 +850,16 @@
                                                                 "
                                                             >
                                                                 <input
-                                                                    matInput
                                                                     disabled
+                                                                    matInput
                                                                     placeholder="Result have been obtained!"
                                                                 />
                                                             </mat-form-field>
                                                             <form
                                                                 [formGroup]="
-                                                                    consumptionForm
+                                                                    consumptionForms[
+                                                                        item.id
+                                                                    ]
                                                                 "
                                                             >
                                                                 <div
@@ -854,13 +874,13 @@
                                                                         <input
                                                                             type="number"
                                                                             matInput
+                                                                            placeholder="Enter result here (Maximum is {{
+                                                                                item.totalConsumption
+                                                                            }})"
                                                                             min="0"
                                                                             max="{{
                                                                                 item.totalConsumption
                                                                             }}"
-                                                                            placeholder="Enter result here (Maximum is {{
-                                                                                item.totalConsumption
-                                                                            }})"
                                                                             [formControlName]="
                                                                                 'consumption'
                                                                             "
@@ -868,7 +888,11 @@
                                                                     </mat-form-field>
                                                                     <button
                                                                         [disabled]="
-                                                                            consumptionForm.invalid
+                                                                            consumptionForms[
+                                                                                item
+                                                                                    .id
+                                                                            ]
+                                                                                .invalid
                                                                         "
                                                                         mat-button
                                                                         (click)="
@@ -1002,14 +1026,16 @@
                                                                 "
                                                             >
                                                                 <input
-                                                                    matInput
                                                                     disabled
+                                                                    matInput
                                                                     placeholder="Result have been obtained!"
                                                                 />
                                                             </mat-form-field>
                                                             <form
                                                                 [formGroup]="
-                                                                    quantityForm
+                                                                    quantityForms[
+                                                                        item.id
+                                                                    ]
                                                                 "
                                                             >
                                                                 <div
@@ -1022,8 +1048,8 @@
                                                                         class="mt-4 h-fit w-full"
                                                                     >
                                                                         <input
-                                                                            matInput
                                                                             type="number"
+                                                                            matInput
                                                                             min="0"
                                                                             max="{{
                                                                                 item.totalQuantity
@@ -1038,7 +1064,11 @@
                                                                     </mat-form-field>
                                                                     <button
                                                                         [disabled]="
-                                                                            quantityForm.invalid
+                                                                            quantityForms[
+                                                                                item
+                                                                                    .id
+                                                                            ]
+                                                                                .invalid
                                                                         "
                                                                         mat-button
                                                                         (click)="
@@ -1180,7 +1210,9 @@
                                                             </mat-form-field>
                                                             <form
                                                                 [formGroup]="
-                                                                    quantityForm
+                                                                    quantityForms[
+                                                                        item.id
+                                                                    ]
                                                                 "
                                                             >
                                                                 <div
@@ -1193,8 +1225,8 @@
                                                                         class="mt-4 h-fit w-full"
                                                                     >
                                                                         <input
-                                                                            matInput
                                                                             type="number"
+                                                                            matInput
                                                                             min="0"
                                                                             max="{{
                                                                                 item.totalQuantity
@@ -1208,10 +1240,14 @@
                                                                         />
                                                                     </mat-form-field>
                                                                     <button
-                                                                        mat-button
                                                                         [disabled]="
-                                                                            quantityForm.invalid
+                                                                            quantityForms[
+                                                                                item
+                                                                                    .id
+                                                                            ]
+                                                                                .invalid
                                                                         "
+                                                                        mat-button
                                                                         (click)="
                                                                             saveQuantityForm(
                                                                                 item.id
@@ -1231,8 +1267,8 @@
                                     </div>
                                 </mat-tab>
                             </ng-container>
-                        </mat-tab-group>
-                    </mat-tab></ng-container
+                        </mat-tab-group></mat-tab
+                    ></ng-container
                 >
             </mat-tab-group>
             <div
@@ -1252,3 +1288,25 @@
         </div>
     </div>
 </div>
+
+<!-- Notification -->
+<a class="cursor-pointer" *ngIf="flashMessage">
+    <fuse-alert
+        class="absolute bottom-0 right-0 z-999"
+        [type]="'success'"
+        [appearance]="'border'"
+        *ngIf="flashMessage === 'success'"
+    >
+        <span fuseAlertTitle>Success</span>
+        {{ message }}
+    </fuse-alert>
+    <fuse-alert
+        class="absolute bottom-0 right-0 z-999"
+        [type]="'error'"
+        [appearance]="'border'"
+        *ngIf="flashMessage === 'error'"
+    >
+        <span fuseAlertTitle>Error</span>
+        {{ message }}
+    </fuse-alert>
+</a>

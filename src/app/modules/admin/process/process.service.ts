@@ -44,11 +44,7 @@ export class ProcessService {
             take(1),
             switchMap(() =>
                 this._httpClient
-                    .post<Process[]>('/api/v1/series/' + id + '/processes', {
-                        pagination: {
-                            pageSize: 999,
-                        },
-                    })
+                    .get<Process[]>('/api/v1/series/' + id + '/processes')
                     .pipe(
                         tap((response) => {
                             this._processes.next(response);

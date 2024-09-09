@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import {
     FormBuilder,
     FormGroup,
@@ -16,6 +16,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
+import { FuseAlertComponent } from '@fuse/components/alert';
 import { Observable, map } from 'rxjs';
 import { ProcessService } from '../process/process.service';
 import { ProductionPlanService } from '../production-plan/production-plan.service';
@@ -40,14 +41,15 @@ import { ProductionResultService } from './production-results.service';
         RouterModule,
         MatTooltipModule,
         MatTabsModule,
+        FuseAlertComponent,
     ],
 })
 export class ProductionResultComponent implements OnInit {
     stepResultForm: FormGroup;
-    consumptionForm: FormGroup;
     totalIO: number = 0;
     inputOutputResults: InputOutputResult[] = [];
-    quantityForm: FormGroup;
+    quantityForms: { [key: string]: FormGroup } = {}; // Object to hold form groups for each item
+    consumptionForms: { [key: string]: FormGroup } = {};
     productionPlans$: Observable<ProductionPlan[]>;
     productionPlan$: Observable<ProductionPlan>;
     productionReqs$: Observable<ProductionRequirement[]>;
@@ -66,11 +68,14 @@ export class ProductionResultComponent implements OnInit {
     selectedProcess: string = null;
     selectedStep: string = null;
     selectedStepIO: string = null;
+    flashMessage: 'success' | 'error' | null = null;
+    message: string = null;
     constructor(
         private _productionResultService: ProductionResultService,
         private _productionPlanService: ProductionPlanService,
         private _processService: ProcessService,
         private _stepService: StepService,
+        private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder
     ) {}
     ngOnInit(): void {
@@ -81,7 +86,19 @@ export class ProductionResultComponent implements OnInit {
         this.resetFromProPlan();
         this.productionPlans$ = this._productionResultService.productionPlans$;
     }
-
+    private showFlashMessage(
+        type: 'success' | 'error',
+        message: string,
+        time: number
+    ): void {
+        this.flashMessage = type;
+        this.message = message;
+        this._changeDetectorRef.markForCheck();
+        setTimeout(() => {
+            this.flashMessage = this.message = null;
+            this._changeDetectorRef.markForCheck();
+        }, time);
+    }
     getTotalStepIO(): void {
         if (this.stepIOsList) {
             if (this.stepIOsList.inputs) {
@@ -128,62 +145,98 @@ export class ProductionResultComponent implements OnInit {
         console.log(this.totalIO);
     }
 
-    initStepResultForm() {
+    initForms() {
         this.stepResultForm = this._formBuilder.group({
             stepId: [this.stepId, [Validators.required]],
-            inputOutputResults: [[], [Validators.required]],
+            inputOutputResults: [[]],
         });
-        if (this.stepResultForm.valid) {
+
+        // Create individual form groups for each item in inputs
+        if (this.stepIOsList?.inputs?.semis) {
+            this.stepIOsList.inputs.semis.forEach((item) => {
+                this.quantityForms[item.id] = this._formBuilder.group({
+                    quantity: [null, [Validators.required]],
+                });
+            });
+        }
+        if (this.stepIOsList?.inputs?.products) {
+            this.stepIOsList.inputs.products.forEach((item) => {
+                this.quantityForms[item.id] = this._formBuilder.group({
+                    quantity: [null, [Validators.required]],
+                });
+            });
+        }
+
+        // Create individual form groups for each item in outputs
+        if (this.stepIOsList?.outputs?.semis) {
+            this.stepIOsList.outputs.semis.forEach((item) => {
+                this.quantityForms[item.id] = this._formBuilder.group({
+                    quantity: [null, [Validators.required]],
+                });
+            });
+        }
+        if (this.stepIOsList?.outputs?.products) {
+            this.stepIOsList.outputs.products.forEach((item) => {
+                this.quantityForms[item.id] = this._formBuilder.group({
+                    quantity: [null, [Validators.required]],
+                });
+            });
+        }
+
+        if (this.stepIOsList?.inputs?.materials) {
+            this.stepIOsList.inputs.materials.forEach((item) => {
+                this.consumptionForms[item.id] = this._formBuilder.group({
+                    consumption: [null, [Validators.required]],
+                });
+            });
+        }
+        if (this.stepIOsList?.outputs?.materials) {
+            this.stepIOsList.outputs.materials.forEach((item) => {
+                this.consumptionForms[item.id] = this._formBuilder.group({
+                    consumption: [null, [Validators.required]],
+                });
+            });
         }
     }
 
-    initQuantityForm() {
-        this.quantityForm = this._formBuilder.group({
-            stepInputOutputId: null,
-            quantity: [null, [Validators.required]],
-        });
-    }
-
-    initConsumptionForm() {
-        this.consumptionForm = this._formBuilder.group({
-            stepInputOutputId: null,
-            consumption: [null, [Validators.required]],
-        });
-    }
-
     saveQuantityForm(id: string) {
-        this.quantityForm.controls['stepInputOutputId'].setValue(id);
-        console.log(this.quantityForm.value);
-        if (this.quantityForm.valid) {
+        const form = this.quantityForms[id];
+        if (form.valid) {
+            const quantityValue = form.value.quantity;
             const existingIndex = this.inputOutputResults.findIndex(
                 (result) => result.stepInputOutputId === id
             );
             if (existingIndex !== -1) {
                 // Update the existing object
-                this.inputOutputResults[existingIndex] =
-                    this.quantityForm.value;
+                this.inputOutputResults[existingIndex].quantity = quantityValue;
             } else {
                 // Push the new object
-                this.inputOutputResults.push(this.quantityForm.value);
+                this.inputOutputResults.push({
+                    stepInputOutputId: id,
+                    quantity: quantityValue,
+                });
             }
             console.log(this.inputOutputResults);
         }
     }
 
     saveConsumptionForm(id: string) {
-        this.consumptionForm.controls['stepInputOutputId'].setValue(id);
-        console.log(this.consumptionForm.value);
-        if (this.consumptionForm.valid) {
+        const form = this.consumptionForms[id];
+        if (form.valid) {
+            const consumptionValue = form.value.consumption;
             const existingIndex = this.inputOutputResults.findIndex(
                 (result) => result.stepInputOutputId === id
             );
             if (existingIndex !== -1) {
                 // Update the existing object
-                this.inputOutputResults[existingIndex] =
-                    this.consumptionForm.value;
+                this.inputOutputResults[existingIndex].consumption =
+                    consumptionValue;
             } else {
                 // Push the new object
-                this.inputOutputResults.push(this.consumptionForm.value);
+                this.inputOutputResults.push({
+                    stepInputOutputId: id,
+                    consumption: consumptionValue,
+                });
             }
             console.log(this.inputOutputResults);
         }
@@ -221,7 +274,23 @@ export class ProductionResultComponent implements OnInit {
         if (this.stepResultForm.valid) {
             this._stepService
                 .createStepResult(this.seriesId, this.stepResultForm.value)
-                .subscribe(() => this.resetAll());
+                .subscribe({
+                    next: () => {
+                        this.resetAll(),
+                            this.showFlashMessage(
+                                'success',
+                                'Create production result successful',
+                                3000
+                            );
+                    },
+                    error: () => {
+                        this.showFlashMessage(
+                            'error',
+                            'Create production result failed',
+                            3000
+                        );
+                    },
+                });
         }
     }
 
@@ -364,21 +433,22 @@ export class ProductionResultComponent implements OnInit {
     }
 
     getStepsList(id: string) {
-        this._stepService.getStepListByProcessId(id).subscribe((steps) => {
-            (this.stepsList = steps.data), this.resetFromProcess();
-        });
+        this._stepService
+            .getStepListByProcessIdAndSeriesId(id, this.seriesId)
+            .subscribe((steps) => {
+                (this.stepsList = steps), this.resetFromProcess();
+            });
     }
 
     getStepIOsList(id: string) {
+        this.totalIO = 0;
         this.stepId = id;
         this._stepService
             .getStepIOListByStepId(id, this.seriesId)
             .subscribe((stepIOs) => {
                 (this.stepIOsList = stepIOs),
                     this.resetFromStep(),
-                    this.initStepResultForm(),
-                    this.initQuantityForm(),
-                    this.initConsumptionForm(),
+                    this.initForms(),
                     this.getTotalStepIO();
             });
     }

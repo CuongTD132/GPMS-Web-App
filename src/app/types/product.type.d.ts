@@ -98,6 +98,6 @@ type GeneralIO = {
 
 type InputOutputResult = {
     stepInputOutputId: string;
-    consumption: number;
-    quantity: number;
+    consumption?: number;
+    quantity?: number;
 };
