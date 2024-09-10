@@ -81,7 +81,20 @@
                                         {{ item.position }}
                                     </div>
                                     <div class="hidden sm:block">
-                                        {{ item.status }}
+                                        <ng-container
+                                            *ngIf="
+                                                item.status === 'In_production'
+                                            "
+                                            >In Production</ng-container
+                                        >
+                                        <ng-container
+                                            *ngIf="item.status === 'Inactive'"
+                                            >Inactive</ng-container
+                                        >
+                                        <ng-container
+                                            *ngIf="item.status === 'Active'"
+                                            >Active</ng-container
+                                        >
                                     </div>
                                 </ng-container>
                             </div>

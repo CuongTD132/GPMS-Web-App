@@ -1,0 +1,39 @@
+<div class="-m-6 flex max-h-[calc(100vh-128px)] flex-auto flex-col">
+    <!-- Header -->
+    <div
+        class="flex h-16 flex-0 items-center justify-end bg-primary pl-6 pr-3 text-on-primary sm:pl-8 sm:pr-5"
+    >
+        <button mat-icon-button (click)="matDialogRef.close()" [tabIndex]="-1">
+            <mat-icon
+                class="text-current"
+                [svgIcon]="'heroicons_outline:x-mark'"
+            ></mat-icon>
+        </button>
+    </div>
+    <div class="font-poppins overflow-y-scroll p-8 dark:bg-gray-800">
+        <ng-container *ngIf="form">
+            <form [formGroup]="form">
+                <div>
+                    <mat-form-field class="w-full">
+                        <mat-label>Note</mat-label>
+                        <textarea
+                            matInput
+                            placeholder="Write decline reason here..."
+                            [formControlName]="'note'"
+                        ></textarea>
+                    </mat-form-field>
+                </div>
+                <div class="mt-4 flex justify-end">
+                    <button
+                        (click)="decline()"
+                        mat-raised-button
+                        color="primary"
+                        class="flex min-w-fit gap-2"
+                    >
+                        <span> Confirm </span>
+                    </button>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+</div>

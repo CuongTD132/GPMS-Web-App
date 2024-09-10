@@ -139,13 +139,6 @@ export const appRoutes: Route[] = [
                     import('app/modules/admin/product/product.routes'),
             },
             {
-                path: 'specifications',
-                loadChildren: () =>
-                    import(
-                        'app/modules/admin/specification/specification.routes'
-                    ),
-            },
-            {
                 path: 'production-plans',
                 loadChildren: () =>
                     import(
@@ -157,6 +150,13 @@ export const appRoutes: Route[] = [
                 loadChildren: () =>
                     import(
                         'app/modules/admin/production-results/production-results.routes'
+                    ),
+            },
+            {
+                path: 'warehouse-requests',
+                loadChildren: () =>
+                    import(
+                        'app/modules/admin/warehouse-requests/warehouse-requests.routes'
                     ),
             },
         ],

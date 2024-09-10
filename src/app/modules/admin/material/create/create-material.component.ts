@@ -58,8 +58,8 @@ export class CreateMaterialComponent implements OnInit {
             sizeWidthUnit: [null, [Validators.required]],
             colorCode: [null, [Validators.required]],
             colorName: [null, [Validators.required]],
-            description: [null, [Validators.required]],
-            isNew: [true],
+            description: null,
+            isNew: true,
         });
     }
 

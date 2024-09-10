@@ -4,6 +4,7 @@ type Process = {
     name: string;
     orderNumber: number;
     description?: string;
+    haveResult?: boolean;
     steps: Step[];
 };
 
@@ -15,6 +16,7 @@ type Step = {
     standardTime: number;
     outputPerHour: number;
     description?: string;
+    haveResult?: boolean;
     stepIOs: StepIO[];
 };
 

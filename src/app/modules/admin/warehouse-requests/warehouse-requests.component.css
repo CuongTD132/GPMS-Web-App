@@ -1,0 +1,15 @@
+.warehouse-requests-grid {
+    grid-template-columns: 220px auto 196px 196px 80px;
+}
+
+.warehouse-requests-header-grid {
+    grid-template-columns: 220px auto 195px 195px 135px;
+}
+
+.warehouse-requests-detail-grid {
+    grid-template-columns: 750px auto;
+}
+
+.warehouse-requests-detail-header-grid {
+    grid-template-columns: 750px auto 300px;
+}

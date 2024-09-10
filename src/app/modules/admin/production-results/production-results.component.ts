@@ -405,7 +405,6 @@ export class ProductionResultComponent implements OnInit {
             .subscribe((estimations) => {
                 this.estimationsList = estimations;
                 console.log(this.estimationsList);
-                console.log(this.selectedColor);
                 this.resetFromProReqs();
             });
     }

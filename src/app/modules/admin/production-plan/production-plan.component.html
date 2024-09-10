@@ -59,6 +59,7 @@
                     <div class="hidden sm:block">Name</div>
                     <div class="hidden sm:block">Expected Starting Date</div>
                     <div class="hidden sm:block">Due Date</div>
+                    <div class="hidden sm:block">Status</div>
                     <div class="hidden sm:block">Type</div>
                 </div>
                 <!-- Rows -->
@@ -115,6 +116,10 @@
                             <!-- Status -->
                             <div class="hidden sm:block">
                                 {{ getFormattedDate(productionPlan.dueDate) }}
+                            </div>
+
+                            <div class="hidden sm:block">
+                                {{ productionPlan.status }}
                             </div>
 
                             <!-- Status -->

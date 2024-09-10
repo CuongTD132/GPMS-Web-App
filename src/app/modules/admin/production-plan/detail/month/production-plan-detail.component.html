@@ -10,15 +10,6 @@
                     <div class="productionPlan-name">
                         {{ productionPlan.name | uppercase }}
                     </div>
-                    <div
-                        class="productionPlan-parentName"
-                        *ngIf="productionPlan.parentProductionPlan"
-                    >
-                        OF
-                        {{
-                            productionPlan.parentProductionPlan.name | uppercase
-                        }}
-                    </div>
                 </div>
                 <div class="productionPlan-code">
                     Production Plan Code - {{ productionPlan.code | uppercase }}
@@ -69,7 +60,7 @@
                     class="productionPlan-description"
                     *ngIf="productionPlan.description"
                 >
-                    Description: {{ productionPlan.description }}
+                    {{ productionPlan.description }}
                 </div>
             </div>
             <div class="col-span-9">

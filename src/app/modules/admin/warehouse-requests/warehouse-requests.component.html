@@ -1,0 +1,291 @@
+<div
+    class="bg-card flex min-w-0 flex-auto flex-col dark:bg-transparent sm:absolute sm:inset-0 sm:overflow-hidden"
+>
+    <!-- Header -->
+    <div
+        class="relative flex flex-0 flex-col border-b px-6 py-8 sm:flex-row sm:items-center sm:justify-between md:px-8"
+    >
+        <!-- Loader -->
+        @if (isLoading) {
+            <div class="absolute inset-x-0 bottom-0">
+                <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+            </div>
+        }
+        <!-- Title -->
+        <div class="text-4xl font-extrabold tracking-tight">
+            Warehouse Requests
+        </div>
+        <!-- Actions -->
+        <div class="mt-6 flex shrink-0 items-center gap-3 sm:ml-4 sm:mt-0">
+            <button
+                (click)="openCreateWarehouseRequestDialog()"
+                mat-raised-button
+                class="flex min-w-fit gap-2"
+                color="primary"
+            >
+                <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
+                <span> Create </span>
+            </button>
+            <div class="flex gap-3" [formGroup]="filterForm">
+                <div>
+                    <!-- Search -->
+                    <mat-form-field
+                        class="fuse-mat-dense fuse-mat-rounded min-w-64"
+                        [subscriptSizing]="'dynamic'"
+                    >
+                        <mat-icon
+                            class="icon-size-5"
+                            matPrefix
+                            [svgIcon]="'heroicons_solid:magnifying-glass'"
+                        ></mat-icon>
+                        <input
+                            matInput
+                            [formControlName]="'search'"
+                            [autocomplete]="'off'"
+                            [placeholder]="'Search'"
+                        />
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div
+        appHorizontalScroll
+        class="flex flex-auto flex-col overflow-scroll sm:mb-18"
+    >
+        <ng-container *ngIf="warehouseRequests$ | async as warehouseRequests">
+            <div class="grid">
+                <!-- Header -->
+                <div
+                    class="warehouse-requests-header-grid sticky top-0 z-10 grid gap-4 bg-gray-50 px-6 py-4 text-[15px] font-semibold text-[#1E293B] shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                    matSort
+                    matSortDisableClear
+                >
+                    <div class="hidden pl-6 sm:block">Createtor</div>
+                    <div class="hidden pl-6 sm:block">Name</div>
+                    <div class="m-0 hidden sm:block">Reviewer</div>
+                    <div class="hidden sm:block">Createted Date</div>
+                    <div class="hidden sm:block">Status</div>
+                </div>
+                <!-- Rows -->
+                <ng-container
+                    *ngIf="warehouseRequests$ | async as warehouseRequests"
+                >
+                    <mat-accordion>
+                        <ng-container
+                            *ngFor="
+                                let item of warehouseRequests;
+                                trackBy: trackByFn
+                            "
+                        >
+                            <mat-expansion-panel
+                                class="m-0"
+                                (opened)="openPanel(item.id)"
+                            >
+                                <mat-expansion-panel-header>
+                                    <mat-panel-description
+                                        class="warehouse-requests-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                    >
+                                        <div class="hidden sm:block">
+                                            {{ item.creator }}
+                                        </div>
+
+                                        <!-- Name -->
+                                        <div class="hidden truncate sm:block">
+                                            {{ item.name }}
+                                        </div>
+
+                                        <!-- Status -->
+                                        <div class="hidden sm:block">
+                                            {{ item.reviewer }}
+                                            <ng-container *ngIf="!item.reviewer"
+                                                >No reviews yet</ng-container
+                                            >
+                                        </div>
+
+                                        <!-- Status -->
+                                        <div class="hidden sm:block">
+                                            {{
+                                                getFormattedDate(
+                                                    item.createdDate
+                                                )
+                                            }}
+                                        </div>
+
+                                        <!-- Status -->
+                                        <div class="hidden sm:block">
+                                            {{ item.status }}
+                                        </div>
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <ng-container
+                                    *ngIf="
+                                        warehouseRequest &&
+                                        warehouseRequest
+                                            .warehouseRequestRequirements
+                                            .length === 0
+                                    "
+                                    ><p class="pl-8">
+                                        There is no requirement!
+                                    </p></ng-container
+                                >
+                                <ng-container
+                                    *ngIf="
+                                        warehouseRequest &&
+                                        warehouseRequest
+                                            .warehouseRequestRequirements
+                                            .length > 0
+                                    "
+                                >
+                                    <div
+                                        class="warehouse-requests-detail-header-grid grid pt-4"
+                                    >
+                                        <h1 class="pb-2 pl-8 text-xl font-bold">
+                                            Products List:
+                                        </h1>
+                                        <h1 class="pb-2 pl-8 text-xl font-bold">
+                                            Warehouse Tickets List:
+                                        </h1>
+                                        <div
+                                            *ngIf="item.status === 'Pending'"
+                                            class="flex items-center gap-2"
+                                        >
+                                            <h1 class="pb-2 text-xl font-bold">
+                                                Actions:
+                                            </h1>
+                                            <span [matMenuTriggerFor]="menu">
+                                                <mat-icon
+                                                    class="cursor-pointer text-blue-500 icon-size-5"
+                                                    svgIcon="heroicons_outline:ellipsis-horizontal-circle"
+                                                ></mat-icon>
+                                                <mat-menu #menu="matMenu">
+                                                    <button
+                                                        (click)="
+                                                            approve(item.id)
+                                                        "
+                                                        mat-menu-item
+                                                    >
+                                                        Approve
+                                                        <mat-icon
+                                                            class="cursor-pointer text-blue-500 icon-size-5"
+                                                            svgIcon="heroicons_outline:check-circle"
+                                                        ></mat-icon>
+                                                    </button>
+                                                    <button
+                                                        (click)="
+                                                            decline(item.id)
+                                                        "
+                                                        mat-menu-item
+                                                    >
+                                                        Decline
+                                                        <mat-icon
+                                                            class="cursor-pointer text-blue-500 icon-size-5"
+                                                            svgIcon="heroicons_outline:no-symbol"
+                                                        ></mat-icon>
+                                                    </button>
+                                                </mat-menu>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <ng-container
+                                        *ngFor="
+                                            let req of warehouseRequest.warehouseRequestRequirements
+                                        "
+                                    >
+                                        <div
+                                            class="warehouse-requests-detail-grid mx-8 my-4 grid"
+                                        >
+                                            <div
+                                                class="flex items-center gap-1"
+                                            >
+                                                <p>
+                                                    {{ req.productName }} -
+                                                    {{ req.productCode }} - Size
+                                                    {{ req.size }} -
+                                                </p>
+                                                <span
+                                                    class="h-4 w-4 cursor-pointer rounded-full"
+                                                    [ngStyle]="{
+                                                        'background-color':
+                                                            req.color,
+                                                    }"
+                                                    matTooltip="{{ req.color }}"
+                                                ></span>
+                                                <p>
+                                                    - Quantity:
+                                                    {{ req.quantity }}
+                                                </p>
+                                            </div>
+                                            <ng-container
+                                                *ngIf="req.warehouseTicket"
+                                            >
+                                                <p>
+                                                    {{
+                                                        req.warehouseTicket.name
+                                                    }}
+                                                    vào
+                                                    {{
+                                                        req.warehouseTicket
+                                                            .warehouseName
+                                                    }}
+                                                    - Ngày tạo:
+                                                    {{
+                                                        getFormattedDate(
+                                                            req.warehouseTicket
+                                                                .createdDate
+                                                        )
+                                                    }}
+                                                </p>
+                                            </ng-container>
+                                            <ng-container
+                                                *ngIf="!req.warehouseTicket"
+                                            >
+                                                <p>
+                                                    Sản phẩm này chưa có ticket!
+                                                </p>
+                                            </ng-container>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                            </mat-expansion-panel>
+                        </ng-container>
+                    </mat-accordion>
+                </ng-container>
+            </div>
+
+            <mat-paginator
+                class="z-10 border-b bg-gray-50 dark:bg-transparent sm:absolute sm:inset-x-0 sm:bottom-0 sm:border-b-0 sm:border-t"
+                [ngClass]="{ 'pointer-events-none': isLoading }"
+                [length]="pagination.totalRows"
+                [pageIndex]="pagination.pageIndex"
+                [pageSize]="pagination.pageSize"
+                [pageSizeOptions]="[5, 10, 25, 100]"
+                [showFirstLastButtons]="true"
+            >
+            </mat-paginator>
+        </ng-container>
+    </div>
+</div>
+
+<!-- Notification -->
+<a class="cursor-pointer" *ngIf="flashMessage">
+    <fuse-alert
+        class="absolute bottom-0 right-0 z-999"
+        [type]="'success'"
+        [appearance]="'border'"
+        *ngIf="flashMessage === 'success'"
+    >
+        <span fuseAlertTitle>Success</span>
+        {{ message }}
+    </fuse-alert>
+    <fuse-alert
+        class="absolute bottom-0 right-0 z-999"
+        [type]="'error'"
+        [appearance]="'border'"
+        *ngIf="flashMessage === 'error'"
+    >
+        <span fuseAlertTitle>Error</span>
+        {{ message }}
+    </fuse-alert>
+</a>

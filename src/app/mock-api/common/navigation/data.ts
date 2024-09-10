@@ -52,6 +52,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
         icon: 'heroicons_outline:clipboard-document-list',
         link: '/production-results',
     },
+    {
+        id: 'Warehouse Requests',
+        title: 'Warehouse Requests',
+        type: 'basic',
+        icon: 'heroicons_outline:building-storefront',
+        link: '/warehouse-requests',
+    },
 ];
 export const compactNavigation: FuseNavigationItem[] = [
     {
@@ -102,6 +109,13 @@ export const compactNavigation: FuseNavigationItem[] = [
         type: 'basic',
         icon: 'heroicons_outline:clipboard-document-list',
         link: '/production-results',
+    },
+    {
+        id: 'Warehouse Requests',
+        title: 'Warehouse Requests',
+        type: 'basic',
+        icon: 'heroicons_outline:building-storefront',
+        link: '/warehouse-requests',
     },
 ];
 export const futuristicNavigation: FuseNavigationItem[] = [
@@ -154,6 +168,13 @@ export const futuristicNavigation: FuseNavigationItem[] = [
         icon: 'heroicons_outline:clipboard-document-list',
         link: '/production-results',
     },
+    {
+        id: 'Warehouse Requests',
+        title: 'Warehouse Requests',
+        type: 'basic',
+        icon: 'heroicons_outline:building-storefront',
+        link: '/warehouse-requests',
+    },
 ];
 export const horizontalNavigation: FuseNavigationItem[] = [
     {
@@ -204,5 +225,12 @@ export const horizontalNavigation: FuseNavigationItem[] = [
         type: 'basic',
         icon: 'heroicons_outline:clipboard-document-list',
         link: '/production-results',
+    },
+    {
+        id: 'Warehouse Requests',
+        title: 'Warehouse Requests',
+        type: 'basic',
+        icon: 'heroicons_outline:building-storefront',
+        link: '/warehouse-requests',
     },
 ];

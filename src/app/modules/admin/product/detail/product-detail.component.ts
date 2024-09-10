@@ -20,8 +20,7 @@ import { SemiService } from '../../semi/semi.service';
 import { SpecificationService } from '../../specification/specification.service';
 import { StepService } from '../../step/step.service';
 import { ProductService } from '../product.service';
-import { ProcessDetailComponent } from './process-detail/process-detail.component';
-import { StepDetailComponent } from './process-detail/step-detail/step-detail.component';
+import { StepDetailComponent } from './step-detail/step-detail.component';
 
 @Component({
     selector: 'product-detail',
@@ -74,7 +73,6 @@ export class ProductDetailComponent implements OnInit {
                 this.semies = semies.data;
             });
         });
-        // console.log(this.semies$);
     }
 
     private showFlashMessage(
@@ -89,6 +87,19 @@ export class ProductDetailComponent implements OnInit {
             this.flashMessage = this.message = null;
             this._changeDetectorRef.markForCheck();
         }, time);
+    }
+
+    onFileSelected(event: Event): void {
+        const fileInput = event.target as HTMLInputElement;
+        if (fileInput.files && fileInput.files[0]) {
+            const file = fileInput.files[0];
+            this.selectedFile = file;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                this.previewUrl = e.target?.result;
+            };
+            reader.readAsDataURL(file);
+        }
     }
 
     openCreateYearProductionPlanDialog() {
@@ -110,20 +121,6 @@ export class ProductDetailComponent implements OnInit {
             });
     }
 
-    openProcessDetailDialog(id: string) {
-        this._processService.getProcessById(id).subscribe((process) => {
-            if (process) {
-                this._dialog
-                    .open(ProcessDetailComponent, {
-                        width: '900px',
-                        data: process,
-                    })
-                    .afterClosed()
-                    .subscribe();
-            }
-        });
-    }
-
     openProcessPanel(id: string) {
         this._processService.getProcessById(id).subscribe((process) => {
             if (process) {
@@ -131,25 +128,6 @@ export class ProductDetailComponent implements OnInit {
             }
         });
     }
-
-    // openSpecificationDetailDialog(id: string) {
-    //     this._specificationsService
-    //         .getSpecificationById(id)
-    //         .subscribe((specification) => {
-    //             if (specification) {
-    //                 this._dialog
-    //                     .open(SpecificationDetailComponent, {
-    //                         width: '1080px',
-    //                         data: specification,
-    //                     })
-    //                     .afterClosed()
-    //                     .subscribe();
-    //             } else {
-    //                 // Handle undefined case (optional: show error message, etc.)
-    //                 return undefined;
-    //             }
-    //         });
-    // }
 
     openSpecPanel(id: string) {
         this._specificationsService

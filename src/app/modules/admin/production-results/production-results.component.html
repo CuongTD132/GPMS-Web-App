@@ -126,8 +126,7 @@
                             <mat-option value="{{ item.id }}">
                                 <p>
                                     Day No: {{ item.dayNumber }} - Required
-                                    {{ item.quantity }} pcs - Overtime Quantity:
-                                    {{ item.overtimeQuantity }} pcs
+                                    {{ item.quantity }} pcs
                                 </p></mat-option
                             >
                         </ng-container>
@@ -169,10 +168,17 @@
                             <mat-option value="{{ item.id }}">
                                 <p>
                                     {{ item.orderNumber }}. {{ item.code }} -
-                                    Quy trình
-                                    {{ item.name }}
-                                </p></mat-option
-                            >
+                                    Quy trình {{ item.name }} -
+                                    <ng-container
+                                        *ngIf="item.haveResult === true"
+                                        >Đã có đầy đủ kết quả</ng-container
+                                    >
+                                    <ng-container
+                                        *ngIf="item.haveResult === false"
+                                        >Chưa có kết quả</ng-container
+                                    >
+                                </p>
+                            </mat-option>
                         </ng-container>
                     </mat-select>
                 </mat-form-field>
@@ -186,8 +192,15 @@
                             <mat-option value="{{ item.id }}">
                                 <p>
                                     {{ item.orderNumber }}. {{ item.code }} -
-                                    Bước
-                                    {{ item.name }}
+                                    Bước {{ item.name }} -
+                                    <ng-container
+                                        *ngIf="item.haveResult === true"
+                                        >Đã nhập kết quả</ng-container
+                                    >
+                                    <ng-container
+                                        *ngIf="item.haveResult === false"
+                                        >Chưa có kết quả</ng-container
+                                    >
                                 </p></mat-option
                             >
                         </ng-container>
@@ -514,7 +527,7 @@
                                                                         <input
                                                                             type="number"
                                                                             matInput
-                                                                            min="0"
+                                                                            min="1"
                                                                             max="{{
                                                                                 item.totalQuantity
                                                                             }}"
@@ -690,7 +703,7 @@
                                                                         <input
                                                                             type="number"
                                                                             matInput
-                                                                            min="0"
+                                                                            min="1"
                                                                             max="{{
                                                                                 item.totalQuantity
                                                                             }}"
@@ -1050,7 +1063,7 @@
                                                                         <input
                                                                             type="number"
                                                                             matInput
-                                                                            min="0"
+                                                                            min="1"
                                                                             max="{{
                                                                                 item.totalQuantity
                                                                             }}"
@@ -1227,7 +1240,7 @@
                                                                         <input
                                                                             type="number"
                                                                             matInput
-                                                                            min="0"
+                                                                            min="1"
                                                                             max="{{
                                                                                 item.totalQuantity
                                                                             }}"
