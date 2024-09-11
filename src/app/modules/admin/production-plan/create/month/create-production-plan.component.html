@@ -100,9 +100,9 @@
                                 <div
                                     class="h-4 w-4 cursor-pointer rounded-full border border-gray-600"
                                     [ngStyle]="{
-                                        'background-color': item.colorCode,
+                                        'background-color': item.color,
                                     }"
-                                    matTooltip="{{ item.colorCode }}"
+                                    matTooltip="{{ item.color }}"
                                 ></div>
                                 <div class="hidden sm:block">
                                     {{ item.quantity }}
@@ -115,9 +115,6 @@
                                         class="flex min-w-fit gap-2"
                                         color="primary"
                                     >
-                                        <mat-icon
-                                            svgIcon="heroicons_outline:inbox"
-                                        ></mat-icon>
                                         <span> Add + </span>
                                     </button>
                                 </div>
@@ -128,6 +125,7 @@
                 <div class="mt-4 flex justify-end">
                     <button
                         (click)="createProductionPlan()"
+                        [disabled]="this.createProductionPlanForm.invalid"
                         mat-raised-button
                         color="primary"
                         class="flex min-w-fit gap-2"

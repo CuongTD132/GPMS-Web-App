@@ -1,0 +1,50 @@
+<div class="-m-6 flex max-h-[calc(100vh-128px)] flex-auto flex-col">
+    <div class="font-poppins overflow-y-scroll p-8 dark:bg-gray-800">
+        <div
+            class="flex h-16 flex-0 items-center justify-end pl-6 pr-3 text-on-primary sm:pl-8 sm:pr-5"
+        >
+            <button
+                mat-icon-button
+                (click)="matDialogRef.close()"
+                [tabIndex]="-1"
+            >
+                <mat-icon
+                    class="text-current"
+                    [svgIcon]="'heroicons_outline:x-mark'"
+                ></mat-icon>
+            </button>
+        </div>
+        <ng-container *ngIf="data">
+            <mat-form-field class="w-full">
+                <mat-label>Select an aprroved product to create:</mat-label>
+                <mat-select
+                    (selectionChange)="getSelectedId(selectedPro)"
+                    [(value)]="selectedPro"
+                >
+                    <ng-container *ngFor="let item of data">
+                        <mat-option value="{{ item.id }}"
+                            >{{ item.code }} - {{ item.name }}</mat-option
+                        >
+                    </ng-container>
+                </mat-select>
+            </mat-form-field>
+            <div class="mt-4 flex justify-end">
+                <button
+                    (click)="openCreateYearProductionPlanDialog()"
+                    mat-raised-button
+                    color="primary"
+                    class="flex min-w-fit gap-2"
+                >
+                    <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
+                    <span> Next </span>
+                </button>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="!data">
+            <p class="text-xl font-semibold">
+                Hiện tại chưa có product nào đã được approve để tạo kế hoạch
+                năm!
+            </p>
+        </ng-container>
+    </div>
+</div>

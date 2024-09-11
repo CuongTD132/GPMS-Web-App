@@ -25,8 +25,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressBar } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { FuseAlertComponent } from '@fuse/components/alert';
 import { Pagination } from 'app/types/pagination.type';
 import {
@@ -43,7 +45,6 @@ import {
 import { CreateMaterialComponent } from './create/create-material.component';
 import { MaterialDetailComponent } from './detail/material-detail.component';
 import { MaterialService } from './material.service';
-import { MatProgressBar } from '@angular/material/progress-bar';
 
 @Component({
     selector: 'material',
@@ -66,6 +67,7 @@ import { MatProgressBar } from '@angular/material/progress-bar';
         FuseAlertComponent,
         MatCheckboxModule,
         MatProgressBar,
+        MatTooltipModule,
     ],
 })
 export class MaterialComponent implements OnInit, AfterViewInit {

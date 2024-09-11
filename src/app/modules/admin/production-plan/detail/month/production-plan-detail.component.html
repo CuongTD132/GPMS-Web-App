@@ -103,9 +103,17 @@
                                     <div class="hidden sm:block">
                                         {{ item.productSpecification.size }}
                                     </div>
-                                    <div class="hidden sm:block">
-                                        {{ item.productSpecification.color }}
-                                    </div>
+                                    <p
+                                        class="h-4 w-4 cursor-pointer rounded-full border border-gray-600"
+                                        [ngStyle]="{
+                                            'background-color':
+                                                item.productSpecification
+                                                    .colorCode,
+                                        }"
+                                        matTooltip="{{
+                                            item.productSpecification.colorCode
+                                        }}"
+                                    ></p>
                                     <div class="hidden sm:block">
                                         {{ item.quantity }}
                                     </div>
@@ -134,10 +142,15 @@
                     class="flex shrink-0 items-center justify-end gap-3 pt-4 sm:ml-4 sm:mt-0"
                 >
                     <button
-                        *ngIf="productionPlan.status !== 'InProgress'"
                         (click)="
                             openCreateBatchProductionPlanDialog(
                                 productionPlan.id
+                            )
+                        "
+                        [disabled]="
+                            !(
+                                productionPlan.status === 'Approved' &&
+                                productionPlan.childPlanRequiredCount > 0
                             )
                         "
                         mat-raised-button

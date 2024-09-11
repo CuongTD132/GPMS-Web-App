@@ -10,20 +10,6 @@
             <div class="text-2xl font-extrabold tracking-tight">Product</div>
         </div>
         <!-- Actions -->
-        <div
-            *ngIf="product.status === 'Approved'"
-            class="mt-6 flex shrink-0 items-center gap-3 sm:ml-4 sm:mt-0"
-        >
-            <button
-                (click)="openCreateYearProductionPlanDialog()"
-                mat-raised-button
-                class="flex min-w-fit gap-2"
-                color="primary"
-            >
-                <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
-                <span> Create Year Production Plan </span>
-            </button>
-        </div>
     </div>
 
     <ng-container *ngIf="product">
@@ -112,37 +98,6 @@
                 </div>
             </div>
             <mat-tab-group class="mx-auto w-fit rounded-xl bg-gray-100 pt-4">
-                <ng-container *ngIf="semies && semies.length > 0">
-                    <mat-tab
-                        class=""
-                        [label]="'SEMI FINISHED PRODUCTS List' | titlecase"
-                    >
-                        <div class="grid">
-                            <div
-                                class="semi-finished-product-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
-                            >
-                                <div class="mr-10 hidden sm:block">Code</div>
-                                <div class="hidden sm:block">Name</div>
-                                <div class="hidden sm:block">Quantity</div>
-                            </div>
-                            <div
-                                class="semi-finished-product-grid grid max-h-100 items-center gap-4 overflow-y-scroll border-b bg-white px-6 py-3 md:px-8"
-                            >
-                                <ng-container *ngFor="let item of semies">
-                                    <div class="mr-10 hidden sm:block">
-                                        {{ item.code }}
-                                    </div>
-                                    <div class="hidden sm:block">
-                                        {{ item.name }}
-                                    </div>
-                                    <div class="hidden sm:block">
-                                        {{ item.quantity }}
-                                    </div>
-                                </ng-container>
-                            </div>
-                        </div>
-                    </mat-tab>
-                </ng-container>
                 <ng-container
                     *ngIf="
                         product.specifications &&
@@ -214,113 +169,113 @@
                                                         </div>
                                                     </div>
                                                     <!-- <section
-                                                        class="container mx-auto w-full items-center"
-                                                    >
-                                                        <div class="px-4 py-6">
-                                                            <div
-                                                                id="image-preview"
-                                                                class="mx-auto max-w-sm cursor-pointer items-center rounded-lg border-2 border-dashed border-gray-400 bg-gray-100 text-center"
+                                                    class="container mx-auto w-full items-center"
+                                                >
+                                                    <div class="px-4 py-6">
+                                                        <div
+                                                            id="image-preview"
+                                                            class="mx-auto max-w-sm cursor-pointer items-center rounded-lg border-2 border-dashed border-gray-400 bg-gray-100 text-center"
+                                                        >
+                                                            <input
+                                                                (change)="
+                                                                    onFileSelected(
+                                                                        $event
+                                                                    )
+                                                                "
+                                                                id="upload"
+                                                                type="file"
+                                                                class="hidden"
+                                                                accept="image/*"
+                                                            />
+                                                            <label
+                                                                for="upload"
+                                                                class="cursor-pointer"
                                                             >
-                                                                <input
-                                                                    (change)="
-                                                                        onFileSelected(
-                                                                            $event
-                                                                        )
-                                                                    "
-                                                                    id="upload"
-                                                                    type="file"
-                                                                    class="hidden"
-                                                                    accept="image/*"
-                                                                />
-                                                                <label
-                                                                    for="upload"
-                                                                    class="cursor-pointer"
-                                                                >
-                                                                    @if (
-                                                                        previewUrl
-                                                                    ) {
-                                                                        <img
-                                                                            [src]="
-                                                                                previewUrl
-                                                                            "
-                                                                            class="mx-auto h-4 rounded-lg object-cover"
-                                                                            alt="Image preview"
-                                                                        />
-                                                                    } @else {
-                                                                        <div
-                                                                            class="h-4 p-6"
+                                                                @if (
+                                                                    previewUrl
+                                                                ) {
+                                                                    <img
+                                                                        [src]="
+                                                                            previewUrl
+                                                                        "
+                                                                        class="mx-auto h-4 rounded-lg object-cover"
+                                                                        alt="Image preview"
+                                                                    />
+                                                                } @else {
+                                                                    <div
+                                                                        class="h-4 p-6"
+                                                                    >
+                                                                        <svg
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            fill="none"
+                                                                            viewBox="0 0 24 24"
+                                                                            stroke-width="1.5"
+                                                                            stroke="currentColor"
+                                                                            class="mx-auto mb-4 h-8 w-8 text-gray-700"
                                                                         >
-                                                                            <svg
-                                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                                fill="none"
-                                                                                viewBox="0 0 24 24"
-                                                                                stroke-width="1.5"
-                                                                                stroke="currentColor"
-                                                                                class="mx-auto mb-4 h-8 w-8 text-gray-700"
+                                                                            <path
+                                                                                stroke-linecap="round"
+                                                                                stroke-linejoin="round"
+                                                                                d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
+                                                                            />
+                                                                        </svg>
+                                                                        <h5
+                                                                            class="mb-2 text-xl font-bold tracking-tight text-gray-700"
+                                                                        >
+                                                                            Upload
+                                                                            picture
+                                                                        </h5>
+                                                                        <p
+                                                                            class="text-sm font-normal text-gray-400 md:px-6"
+                                                                        >
+                                                                            Choose
+                                                                            photo
+                                                                            size
+                                                                            should
+                                                                            be
+                                                                            less
+                                                                            than
+                                                                            <b
+                                                                                class="text-gray-600"
+                                                                                >2mb</b
                                                                             >
-                                                                                <path
-                                                                                    stroke-linecap="round"
-                                                                                    stroke-linejoin="round"
-                                                                                    d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
-                                                                                />
-                                                                            </svg>
-                                                                            <h5
-                                                                                class="mb-2 text-xl font-bold tracking-tight text-gray-700"
+                                                                        </p>
+                                                                        <p
+                                                                            class="text-sm font-normal text-gray-400 md:px-6"
+                                                                        >
+                                                                            and
+                                                                            should
+                                                                            be
+                                                                            in
+                                                                            <b
+                                                                                class="text-gray-600"
+                                                                                >JPG,
+                                                                                PNG,
+                                                                                or
+                                                                                GIF</b
                                                                             >
-                                                                                Upload
-                                                                                picture
-                                                                            </h5>
-                                                                            <p
-                                                                                class="text-sm font-normal text-gray-400 md:px-6"
-                                                                            >
-                                                                                Choose
-                                                                                photo
-                                                                                size
-                                                                                should
-                                                                                be
-                                                                                less
-                                                                                than
-                                                                                <b
-                                                                                    class="text-gray-600"
-                                                                                    >2mb</b
-                                                                                >
-                                                                            </p>
-                                                                            <p
-                                                                                class="text-sm font-normal text-gray-400 md:px-6"
-                                                                            >
-                                                                                and
-                                                                                should
-                                                                                be
-                                                                                in
-                                                                                <b
-                                                                                    class="text-gray-600"
-                                                                                    >JPG,
-                                                                                    PNG,
-                                                                                    or
-                                                                                    GIF</b
-                                                                                >
-                                                                                format.
-                                                                            </p>
-                                                                            <span
-                                                                                id="filename"
-                                                                                class="z-50 bg-gray-200 text-gray-500"
-                                                                            ></span>
-                                                                        </div>
-                                                                    }
-                                                                </label>
-                                                                <div
-                                                                    class="absolute cursor-default text-red-500"
-                                                                    *ngIf="
-                                                                        uploadMessage
-                                                                    "
-                                                                >
-                                                                    {{
-                                                                        uploadMessage
-                                                                    }}
-                                                                </div>
+                                                                            format.
+                                                                        </p>
+                                                                        <span
+                                                                            id="filename"
+                                                                            class="z-50 bg-gray-200 text-gray-500"
+                                                                        ></span>
+                                                                    </div>
+                                                                }
+                                                            </label>
+                                                            <div
+                                                                class="absolute cursor-default text-red-500"
+                                                                *ngIf="
+                                                                    uploadMessage
+                                                                "
+                                                            >
+                                                                {{
+                                                                    uploadMessage
+                                                                }}
                                                             </div>
                                                         </div>
-                                                    </section> -->
+                                                    </div>
+                                                </section> -->
                                                     <div
                                                         class="hidden sm:block"
                                                     >
@@ -673,6 +628,39 @@
                         </div>
                     </mat-tab>
                 </ng-container>
+
+                <ng-container *ngIf="semies && semies.length > 0">
+                    <mat-tab
+                        class=""
+                        [label]="'SEMI FINISHED PRODUCTS List' | titlecase"
+                    >
+                        <div class="grid">
+                            <div
+                                class="semi-finished-product-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                            >
+                                <div class="mr-10 hidden sm:block">Code</div>
+                                <div class="hidden sm:block">Name</div>
+                                <div class="hidden sm:block">Quantity</div>
+                            </div>
+                            <div
+                                class="semi-finished-product-grid grid max-h-100 items-center gap-4 overflow-y-scroll border-b bg-white px-6 py-3 md:px-8"
+                            >
+                                <ng-container *ngFor="let item of semies">
+                                    <div class="mr-10 hidden sm:block">
+                                        {{ item.code }}
+                                    </div>
+                                    <div class="hidden sm:block">
+                                        {{ item.name }}
+                                    </div>
+                                    <div class="hidden sm:block">
+                                        {{ item.quantity }}
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </mat-tab>
+                </ng-container>
+
                 <ng-container
                     *ngIf="
                         product.productionProcesses &&

@@ -14,6 +14,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { CustomPipeModule } from '@fuse/pipes/pipe.module';
 import { Observable } from 'rxjs';
 import { CreateBatchProductionPlanComponent } from '../../../create/batch/create-production-plan.component';
@@ -36,6 +37,7 @@ import { ProductionPlanService } from '../../../production-plan.service';
         MatCheckboxModule,
         MatChipsModule,
         CustomPipeModule,
+        MatTooltipModule,
     ],
 })
 export class BatchsListComponent implements OnInit {
@@ -63,7 +65,7 @@ export class BatchsListComponent implements OnInit {
         this.batchsLists$ = this._productionPlanService.batch$;
     }
 
-    add(item: Reqs[]) {
+    add(item: BatchAndSpecs) {
         const data = { item, parentId: this.parentId };
         this._dialog
             .open(CreateBatchProductionPlanComponent, {

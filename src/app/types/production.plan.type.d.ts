@@ -1,5 +1,4 @@
 type ProductionPlan = {
-    parentProductionPlan?: Plan;
     childProductionPlans?: Plan[];
     productionRequirements: ProductionRequirement[];
 } & Plan;
@@ -13,6 +12,8 @@ type Plan = {
     dueDate: string;
     actualStartingDate?: string;
     completionDate?: string;
+    childPlanRequiredCount: number;
+    batch?: number;
     type: string;
     createdDate: string;
     status: string;

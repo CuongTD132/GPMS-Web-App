@@ -148,9 +148,13 @@
                             </div>
 
                             <!-- Status -->
-                            <div class="hidden sm:block">
-                                {{ material.colorCode }}
-                            </div>
+                            <div
+                                class="h-4 w-4 cursor-pointer rounded-full border border-gray-600"
+                                [ngStyle]="{
+                                    'background-color': material.colorCode,
+                                }"
+                                matTooltip="{{ material.colorCode }}"
+                            ></div>
 
                             <!-- Status -->
                             <div class="hidden sm:block">

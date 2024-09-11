@@ -15,6 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { ProductionPlanService } from '../../production-plan.service';
 import { BatchsListComponent } from './batchs-list/batchs-list.component';
@@ -38,6 +39,7 @@ import { EstimationsListComponent } from './estimations-list/estimations-list.co
         MatChipsModule,
         MatMenuModule,
         RouterModule,
+        MatTooltipModule,
     ],
 })
 export class ProductionPlanMonthDetailComponent implements OnInit {
@@ -106,7 +108,6 @@ export class ProductionPlanMonthDetailComponent implements OnInit {
                         .open(BatchsListComponent, {
                             data: id,
                             width: '480px',
-                            height: '720px',
                         })
                         .afterClosed()
                         .subscribe((result) => {

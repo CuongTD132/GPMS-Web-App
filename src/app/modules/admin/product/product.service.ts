@@ -11,6 +11,8 @@ export class ProductService {
     private _products: BehaviorSubject<Product[] | null> = new BehaviorSubject(
         null
     );
+    private _aprrovedProducts: BehaviorSubject<Product[] | null> =
+        new BehaviorSubject(null);
     private _pagination: BehaviorSubject<Pagination | null> =
         new BehaviorSubject(null);
     private _productPatch: BehaviorSubject<Patch | null> = new BehaviorSubject(
@@ -39,6 +41,10 @@ export class ProductService {
         return this._products.asObservable();
     }
 
+    get aprrovedProducts$(): Observable<Product[]> {
+        return this._aprrovedProducts.asObservable();
+    }
+
     /**
      * Getter for pagination
      */
@@ -58,6 +64,26 @@ export class ProductService {
                 tap((response) => {
                     this._pagination.next(response.pagination);
                     this._products.next(response.data);
+                })
+            );
+    }
+
+    getApprovedProducts(
+        filter: any = {
+            status: 'Approved',
+            pagination: {
+                pageSize: 999,
+            },
+        }
+    ): Observable<{ pagination: Pagination; data: Product[] }> {
+        return this._httpClient
+            .post<{
+                pagination: Pagination;
+                data: Product[];
+            }>('/api/v1/products/filter', filter)
+            .pipe(
+                tap((response) => {
+                    return response.data;
                 })
             );
     }

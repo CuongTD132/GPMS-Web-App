@@ -66,18 +66,12 @@ export class CreateYearProductionPlanComponent implements OnInit {
     }
     initProductionPlanForm() {
         this.createProductionPlanForm = this._formBuilder.group({
-            name: [
-                'Kế hoạch sản xuất áo ENCORE JEANS V6017',
-                [Validators.required],
-            ],
-            code: ['YEAR-PLAN00', [Validators.required]],
-            expectedStartingDate: ['2024-09-01', [Validators.required]],
-            dueDate: ['2024-11-30', [Validators.required]],
+            name: [null, [Validators.required]],
+            code: [null, [Validators.required]],
+            expectedStartingDate: [null, [Validators.required]],
+            dueDate: [null, [Validators.required]],
             type: ['Year', [Validators.required]],
-            description: [
-                'Lên kế hoạch sản xuất ENCORE JEANS V6017 từ 2024-09-01 đến 2024-11-30',
-                [Validators.required],
-            ],
+            description: null,
             productionRequirements: [[], [Validators.required]],
         });
     }
@@ -110,8 +104,7 @@ export class CreateYearProductionPlanComponent implements OnInit {
             })
             .afterClosed()
             .subscribe((result) => {
-                console.log(result);
-                if (result.status == 'success') {
+                if (result && result.status == 'success') {
                     this.productionRequirements.push(result.data);
                     this.createProductionPlanForm.controls[
                         'productionRequirements'

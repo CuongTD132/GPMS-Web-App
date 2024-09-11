@@ -15,7 +15,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { CustomPipeModule } from '@fuse/pipes/pipe.module';
 import { ProcessService } from '../../process/process.service';
-import { CreateYearProductionPlanComponent } from '../../production-plan/create/year/create-production-plan.component';
 import { SemiService } from '../../semi/semi.service';
 import { SpecificationService } from '../../specification/specification.service';
 import { StepService } from '../../step/step.service';
@@ -100,25 +99,6 @@ export class ProductDetailComponent implements OnInit {
             };
             reader.readAsDataURL(file);
         }
-    }
-
-    openCreateYearProductionPlanDialog() {
-        this._dialog
-            .open(CreateYearProductionPlanComponent, {
-                data: this.product.specifications,
-                width: '720px',
-                height: '720px',
-            })
-            .afterClosed()
-            .subscribe((result) => {
-                if (result === 'success') {
-                    this.showFlashMessage(
-                        'success',
-                        'Create year production plan successful',
-                        3000
-                    );
-                }
-            });
     }
 
     openProcessPanel(id: string) {

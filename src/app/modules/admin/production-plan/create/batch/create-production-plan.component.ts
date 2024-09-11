@@ -52,7 +52,7 @@ export class CreateBatchProductionPlanComponent implements OnInit {
     message: string = null;
     constructor(
         @Inject(MAT_DIALOG_DATA)
-        public data: any,
+        public data: { item: BatchAndSpecs; parentId: string },
         private _dialog: MatDialog,
         public matDialogRef: MatDialogRef<CreateBatchProductionPlanComponent>,
         private _formBuilder: UntypedFormBuilder,
@@ -66,18 +66,13 @@ export class CreateBatchProductionPlanComponent implements OnInit {
     initProductionPlanForm() {
         this.createProductionPlanForm = this._formBuilder.group({
             parentProductionPlanId: this.data.parentId,
-            name: [
-                'Kế hoạch sản xuất ENCORE JEANS V6017 batch số 1',
-                [Validators.required],
-            ],
-            code: ['BATCH-PLAN00', [Validators.required]],
-            expectedStartingDate: ['2024-09-01', [Validators.required]],
-            dueDate: ['2024-09-07', [Validators.required]],
+            batch: this.data.item.batch,
+            name: [null, [Validators.required]],
+            code: [null, [Validators.required]],
+            expectedStartingDate: [null, [Validators.required]],
+            dueDate: [null, [Validators.required]],
             type: ['Batch', [Validators.required]],
-            description: [
-                'Lên kế hoạch sản xuất ENCORE JEANS V6017 từ 2024-09-01 đến 2024-09-07',
-                [Validators.required],
-            ],
+            description: [null, [Validators.required]],
             productionRequirements: [[], [Validators.required]],
         });
     }

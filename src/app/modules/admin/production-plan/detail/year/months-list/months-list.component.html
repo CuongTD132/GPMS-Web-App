@@ -14,37 +14,36 @@
     <div class="font-poppins overflow-y-scroll p-8 dark:bg-gray-800">
         <ng-container *ngIf="monthsLists$ | async as monthsLists">
             <div *ngFor="let item of monthsLists" class="mb-10 border-b pb-2">
-                <div class="flex items-center">
-                    <div><b>Month:</b> {{ item.month }}</div>
-                    <div class="flex shrink-0 items-center pl-12 sm:mt-0">
-                        <button
-                            (click)="add(item.requirements)"
-                            mat-raised-button
-                            class="flex min-w-fit gap-2"
-                            color="primary"
-                        >
-                            <mat-icon
-                                svgIcon="heroicons_outline:inbox"
-                            ></mat-icon>
-                            <span> Choose </span>
-                        </button>
-                    </div>
-                </div>
+                <div><b>Month:</b> {{ item.month }}</div>
+
                 <div class="hidden sm:block">
-                    <h1 class="hidden sm:block"><b>Requirements List:</b></h1>
+                    <div class="flex items-center">
+                        <h1 class="hidden sm:block">
+                            <b>Requirements List:</b>
+                        </h1>
+                        <div class="flex shrink-0 justify-end pl-12 sm:mt-0">
+                            <button
+                                (click)="add(item.requirements)"
+                                mat-raised-button
+                                class="flex min-w-fit gap-2"
+                                color="primary"
+                            >
+                                <span> Choose </span>
+                            </button>
+                        </div>
+                    </div>
                     <div
                         *ngFor="let item of item.requirements"
-                        class="ml-10 flex"
+                        class="ml-10 flex items-center gap-1 pt-4"
                     >
-                        <mat-chip-set aria-label="Dog selection">
-                            <mat-chip> {{ item.size }} </mat-chip>
-                        </mat-chip-set>
-                        <div class="pl-1 pt-[10px]">
-                            -
-                            <span [class]="item.color | colorStatus">
-                                {{ item.color }} </span
-                            >: {{ item.quantity }} pc(s)
-                        </div>
+                        <p
+                            class="h-4 w-4 cursor-pointer rounded-full border border-gray-600"
+                            [ngStyle]="{
+                                'background-color': item.color,
+                            }"
+                            matTooltip="{{ item.color }}"
+                        ></p>
+                        <p>Size {{ item.size }}: {{ item.quantity }} pcs</p>
                     </div>
                 </div>
             </div>

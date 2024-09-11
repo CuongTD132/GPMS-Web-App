@@ -42,6 +42,8 @@ import {
     switchMap,
     takeUntil,
 } from 'rxjs';
+import { ProductService } from '../product/product.service';
+import { ApprovedProductComponent } from './aprroved-products/aprroved-products.component';
 import { CreateYearProductionPlanComponent } from './create/year/create-production-plan.component';
 import { ProductionPlanYearDetailComponent } from './detail/year/production-plan-detail.component';
 import { ProductionPlanService } from './production-plan.service';
@@ -77,7 +79,8 @@ export class ProductionPlanComponent implements OnInit, AfterViewInit {
 
     searchInputControl: UntypedFormControl = new UntypedFormControl();
     filterForm: UntypedFormGroup;
-
+    products$: Observable<Product[]>;
+    products: Product[];
     productionPlans$: Observable<ProductionPlan[]>;
     pagination: Pagination;
     isLoading: boolean = false;
@@ -89,6 +92,7 @@ export class ProductionPlanComponent implements OnInit, AfterViewInit {
      * Constructor
      */
     constructor(
+        private _productService: ProductService,
         private _productionPlanService: ProductionPlanService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: UntypedFormBuilder,
@@ -98,6 +102,7 @@ export class ProductionPlanComponent implements OnInit, AfterViewInit {
 
     ngOnInit(): void {
         // Get the productionPlans
+        this.getApprovedProducts();
         this.getProductionPlans();
 
         // Get the pagination
@@ -109,10 +114,16 @@ export class ProductionPlanComponent implements OnInit, AfterViewInit {
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
-
         this.initFilterForm();
         this.subcribeFilterForm();
     }
+
+    private getApprovedProducts() {
+        this._productService.getApprovedProducts().subscribe((res) => {
+            this.products = res.data;
+        });
+    }
+
     getFormattedDate(date: string): string {
         const parsedDate = this.dateAdapter.parse(
             date,
@@ -253,6 +264,16 @@ export class ProductionPlanComponent implements OnInit, AfterViewInit {
                     );
                 }
             });
+    }
+
+    openAprrovedProductDialog() {
+        this._dialog
+            .open(ApprovedProductComponent, {
+                width: '720px',
+                data: this.products,
+            })
+            .afterClosed()
+            .subscribe();
     }
 
     openProductionPlanDetailDialog(id: string) {

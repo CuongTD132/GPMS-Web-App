@@ -122,7 +122,7 @@ export class WarehouseRequestComponent implements OnInit, AfterViewInit {
     private getProductionPlans() {
         this.productionPlans$ =
             this._warehouseRequestService.getBatchPlanList();
-        this.productionPlans$.subscribe((a) => (this.productionPlans = a));
+        this.productionPlans$.subscribe((res) => (this.productionPlans = res));
     }
 
     openPanel(id: string) {

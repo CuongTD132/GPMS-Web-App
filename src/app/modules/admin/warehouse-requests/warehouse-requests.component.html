@@ -151,41 +151,26 @@
                                             *ngIf="item.status === 'Pending'"
                                             class="flex items-center gap-2"
                                         >
-                                            <h1 class="pb-2 text-xl font-bold">
-                                                Actions:
-                                            </h1>
-                                            <span [matMenuTriggerFor]="menu">
+                                            <button
+                                                (click)="approve(item.id)"
+                                                mat-menu-item
+                                            >
+                                                Approve
                                                 <mat-icon
                                                     class="cursor-pointer text-blue-500 icon-size-5"
-                                                    svgIcon="heroicons_outline:ellipsis-horizontal-circle"
+                                                    svgIcon="heroicons_outline:check-circle"
                                                 ></mat-icon>
-                                                <mat-menu #menu="matMenu">
-                                                    <button
-                                                        (click)="
-                                                            approve(item.id)
-                                                        "
-                                                        mat-menu-item
-                                                    >
-                                                        Approve
-                                                        <mat-icon
-                                                            class="cursor-pointer text-blue-500 icon-size-5"
-                                                            svgIcon="heroicons_outline:check-circle"
-                                                        ></mat-icon>
-                                                    </button>
-                                                    <button
-                                                        (click)="
-                                                            decline(item.id)
-                                                        "
-                                                        mat-menu-item
-                                                    >
-                                                        Decline
-                                                        <mat-icon
-                                                            class="cursor-pointer text-blue-500 icon-size-5"
-                                                            svgIcon="heroicons_outline:no-symbol"
-                                                        ></mat-icon>
-                                                    </button>
-                                                </mat-menu>
-                                            </span>
+                                            </button>
+                                            <button
+                                                (click)="decline(item.id)"
+                                                mat-menu-item
+                                            >
+                                                Decline
+                                                <mat-icon
+                                                    class="cursor-pointer text-blue-500 icon-size-5"
+                                                    svgIcon="heroicons_outline:no-symbol"
+                                                ></mat-icon>
+                                            </button>
                                         </div>
                                     </div>
                                     <ng-container
@@ -220,23 +205,29 @@
                                             <ng-container
                                                 *ngIf="req.warehouseTicket"
                                             >
-                                                <p>
-                                                    {{
-                                                        req.warehouseTicket.name
-                                                    }}
-                                                    vào
-                                                    {{
-                                                        req.warehouseTicket
-                                                            .warehouseName
-                                                    }}
-                                                    - Ngày tạo:
-                                                    {{
-                                                        getFormattedDate(
+                                                <div>
+                                                    <p>
+                                                        {{
                                                             req.warehouseTicket
-                                                                .createdDate
-                                                        )
-                                                    }}
-                                                </p>
+                                                                .name
+                                                        }}
+                                                        vào
+                                                        {{
+                                                            req.warehouseTicket
+                                                                .warehouseName
+                                                        }}
+                                                    </p>
+                                                    <p>
+                                                        Ngày tạo:
+                                                        {{
+                                                            getFormattedDate(
+                                                                req
+                                                                    .warehouseTicket
+                                                                    .createdDate
+                                                            )
+                                                        }}
+                                                    </p>
+                                                </div>
                                             </ng-container>
                                             <ng-container
                                                 *ngIf="!req.warehouseTicket"

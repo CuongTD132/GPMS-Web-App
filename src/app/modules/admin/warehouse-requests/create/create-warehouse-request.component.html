@@ -27,17 +27,23 @@
                     </ng-container>
                 </mat-select>
             </mat-form-field>
+            <div class="mt-4 flex justify-end">
+                <button
+                    (click)="create()"
+                    mat-raised-button
+                    color="primary"
+                    class="flex min-w-fit gap-2"
+                >
+                    <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
+                    <span> Okay </span>
+                </button>
+            </div>
         </ng-container>
-        <div class="mt-4 flex justify-end">
-            <button
-                (click)="create()"
-                mat-raised-button
-                color="primary"
-                class="flex min-w-fit gap-2"
-            >
-                <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
-                <span> Okay </span>
-            </button>
-        </div>
+        <ng-container *ngIf="!data">
+            <p class="text-xl font-semibold">
+                Hiện tại chưa có batch productionPlan nào sẵn sàng để tạo
+                request!
+            </p>
+        </ng-container>
     </div>
 </div>

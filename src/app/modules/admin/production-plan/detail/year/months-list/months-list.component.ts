@@ -14,6 +14,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { CustomPipeModule } from '@fuse/pipes/pipe.module';
 import { Observable } from 'rxjs';
 import { CreateMonthProductionPlanComponent } from '../../../create/month/create-production-plan.component';
@@ -36,6 +37,7 @@ import { ProductionPlanService } from '../../../production-plan.service';
         MatCheckboxModule,
         MatChipsModule,
         CustomPipeModule,
+        MatTooltipModule,
     ],
 })
 export class MonthsListComponent implements OnInit {
@@ -74,5 +76,6 @@ export class MonthsListComponent implements OnInit {
             .subscribe((result) => {
                 console.log(result);
             });
+        this.matDialogRef.close();
     }
 }
