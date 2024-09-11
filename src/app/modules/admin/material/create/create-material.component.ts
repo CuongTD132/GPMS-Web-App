@@ -77,16 +77,18 @@ export class CreateMaterialComponent implements OnInit {
     }
 
     createMaterial() {
-        this._materialService
-            .createMaterial(this.createMaterialForm.value)
-            .subscribe({
-                next: (result) => {
-                    this.matDialogRef.close('success');
-                },
-                error: (err) => {
-                    this.matDialogRef.close('error');
-                },
-            });
+        if (this.createMaterialForm.valid) {
+            this._materialService
+                .createMaterial(this.createMaterialForm.value)
+                .subscribe({
+                    next: (result) => {
+                        this.matDialogRef.close('success');
+                    },
+                    error: (err) => {
+                        // this.matDialogRef.close('error');
+                    },
+                });
+        }
     }
     // createMaterial() {
     //     if (this.createMaterialForm.valid) {

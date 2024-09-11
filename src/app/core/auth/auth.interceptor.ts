@@ -67,13 +67,20 @@ export const authInterceptor = (
                 // Reload the app
                 location.reload();
             }
+            // ${key}:
+            if (error && error.status === 400) {
+                const errors = error.error.errors;
+                let message = [];
 
-            if (error instanceof HttpErrorResponse && error.status === 400) {
-                errorService.showBadRequestError(error.error.message);
+                Object.keys(errors).forEach((key) => {
+                    message.push(`${errors[key]}`);
+                });
+
+                errorService.showBadRequestError(message);
             }
 
             if (error instanceof HttpErrorResponse && error.status === 500) {
-                errorService.showServerError(error.error);
+                errorService.showServerError(error.error.message);
             }
 
             if (error instanceof HttpErrorResponse && error.status === 409) {

@@ -64,15 +64,17 @@ export class CreateCategoryComponent implements OnInit {
     }
 
     createCategory() {
-        this._categoryService
-            .createCategory(this.createCategoryForm.value)
-            .subscribe({
-                next: (result) => {
-                    this.matDialogRef.close('success');
-                },
-                error: (err) => {
-                    this.matDialogRef.close('error');
-                },
-            });
+        if (this.createCategoryForm.valid) {
+            this._categoryService
+                .createCategory(this.createCategoryForm.value)
+                .subscribe({
+                    next: (result) => {
+                        this.matDialogRef.close('success');
+                    },
+                    error: (err) => {
+                        // this.matDialogRef.close('error');
+                    },
+                });
+        }
     }
 }

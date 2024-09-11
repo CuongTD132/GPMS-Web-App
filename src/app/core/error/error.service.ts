@@ -14,6 +14,8 @@ export class ErrorService {
     error$ = this.errorSubject.asObservable();
 
     showServerError(message: string) {
+        console.log(message);
+
         this.errorSubject.next(message);
         this._fuseConfirmationService.open({
             title: 'Internal Server Error',

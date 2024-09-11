@@ -7,7 +7,7 @@
 }
 
 .material-step-detail-grid {
-    grid-template-columns: 200px 200px 300px 300px 100px auto;
+    grid-template-columns: 200px 200px 150px 150px 150px auto;
 }
 
 .product-step-detail-grid {
