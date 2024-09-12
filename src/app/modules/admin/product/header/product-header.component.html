@@ -119,6 +119,21 @@
                                                     svgIcon="heroicons_outline:no-symbol"
                                                 ></mat-icon>
                                             </button>
+                                            <button
+                                                (click)="
+                                                    deleteProduct(product.id)
+                                                "
+                                                *ngIf="
+                                                    product.status === 'Pending'
+                                                "
+                                                mat-menu-item
+                                            >
+                                                Delete
+                                                <mat-icon
+                                                    class="cursor-pointer text-blue-500 icon-size-5"
+                                                    svgIcon="heroicons_outline:x-circle"
+                                                ></mat-icon>
+                                            </button>
                                         </mat-menu>
                                     </span>
                                 </div>

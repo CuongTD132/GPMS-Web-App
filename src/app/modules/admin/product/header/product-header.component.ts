@@ -286,4 +286,10 @@ export class ProductHeaderComponent implements OnInit, AfterViewInit {
             this._productService.getProducts().subscribe();
         });
     }
+
+    deleteProduct(id: string) {
+        this._productService.deleteProduct(id).subscribe(() => {
+            this._productService.getProducts().subscribe();
+        });
+    }
 }

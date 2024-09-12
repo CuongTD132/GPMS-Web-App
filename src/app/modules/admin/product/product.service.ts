@@ -193,7 +193,7 @@ export class ProductService {
         return this.products$.pipe(
             take(1),
             switchMap((products) =>
-                this._httpClient.delete('/api/products/' + id).pipe(
+                this._httpClient.delete('/api/v1/products/' + id).pipe(
                     map((isDeleted: boolean) => {
                         // Find the index of the deleted product
                         const index = products.findIndex(

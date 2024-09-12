@@ -65,7 +65,7 @@
                     matSort
                     matSortDisableClear
                 >
-                    <div class="hidden sm:block">Action</div>
+                    <div class="hidden sm:block">Actions</div>
                     <div class="hidden sm:block">Code</div>
                     <div class="hidden sm:block">Name</div>
                     <div class="hidden sm:block">Expected Starting Date</div>
@@ -88,7 +88,7 @@
                         >
                             <!-- Id -->
                             <div class="hidden sm:block">
-                                <div class="flex gap-3">
+                                <div class="flex gap-2">
                                     <span
                                         [routerLink]="[
                                             'years/',
@@ -101,6 +101,33 @@
                                                 'heroicons_outline:pencil-square'
                                             "
                                         ></mat-icon>
+                                    </span>
+                                    <span
+                                        *ngIf="
+                                            productionPlan.status === 'Approved'
+                                        "
+                                        [matMenuTriggerFor]="menu"
+                                    >
+                                        <mat-icon
+                                            class="cursor-pointer text-blue-500 icon-size-5"
+                                            svgIcon="heroicons_outline:ellipsis-horizontal-circle"
+                                        ></mat-icon>
+                                        <mat-menu #menu="matMenu">
+                                            <button
+                                                (click)="
+                                                    deleteProductionPlan(
+                                                        productionPlan.id
+                                                    )
+                                                "
+                                                mat-menu-item
+                                            >
+                                                Delete
+                                                <mat-icon
+                                                    class="cursor-pointer text-blue-500 icon-size-5"
+                                                    svgIcon="heroicons_outline:x-circle"
+                                                ></mat-icon>
+                                            </button>
+                                        </mat-menu>
                                     </span>
                                 </div>
                             </div>

@@ -24,6 +24,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
@@ -44,8 +45,6 @@ import {
 } from 'rxjs';
 import { ProductService } from '../product/product.service';
 import { ApprovedProductComponent } from './aprroved-products/aprroved-products.component';
-import { CreateYearProductionPlanComponent } from './create/year/create-production-plan.component';
-import { ProductionPlanYearDetailComponent } from './detail/year/production-plan-detail.component';
 import { ProductionPlanService } from './production-plan.service';
 
 @Component({
@@ -70,6 +69,7 @@ import { ProductionPlanService } from './production-plan.service';
         MatCheckboxModule,
         RouterModule,
         MatProgressBar,
+        MatMenuModule,
     ],
 })
 export class ProductionPlanComponent implements OnInit, AfterViewInit {
@@ -249,23 +249,6 @@ export class ProductionPlanComponent implements OnInit, AfterViewInit {
         }, time);
     }
 
-    openCreateProductionPlanDialog() {
-        this._dialog
-            .open(CreateYearProductionPlanComponent, {
-                width: '720px',
-            })
-            .afterClosed()
-            .subscribe((result) => {
-                if (result === 'success') {
-                    this.showFlashMessage(
-                        'success',
-                        'Create productionPlan successful',
-                        3000
-                    );
-                }
-            });
-    }
-
     openAprrovedProductDialog() {
         this._dialog
             .open(ApprovedProductComponent, {
@@ -276,26 +259,9 @@ export class ProductionPlanComponent implements OnInit, AfterViewInit {
             .subscribe();
     }
 
-    openProductionPlanDetailDialog(id: string) {
-        this._productionPlanService
-            .getProductionPlanById(id)
-            .subscribe((productionPlan) => {
-                if (productionPlan) {
-                    this._dialog
-                        .open(ProductionPlanYearDetailComponent, {
-                            width: '720px',
-                        })
-                        .afterClosed()
-                        .subscribe((result) => {
-                            if (result === 'success') {
-                                this.showFlashMessage(
-                                    'success',
-                                    'Update productionPlan successful',
-                                    3000
-                                );
-                            }
-                        });
-                }
-            });
+    deleteProductionPlan(id: string) {
+        this._productionPlanService.deleteProductionPlan(id).subscribe(() => {
+            this._productionPlanService.getProductionPlans().subscribe();
+        });
     }
 }

@@ -170,4 +170,16 @@ export class ProductionPlanMonthDetailComponent implements OnInit {
                     });
             });
     }
+
+    deleteProductionPlan(id: string) {
+        this._productionPlanService
+            .deleteProductionPlan(id)
+            .subscribe((response) => {
+                this._productionPlanService
+                    .getProductionPlanById(this.productionPlan.id)
+                    .subscribe((productionPlan) => {
+                        this.productionPlan = productionPlan;
+                    });
+            });
+    }
 }

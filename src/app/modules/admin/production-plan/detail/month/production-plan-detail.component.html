@@ -294,6 +294,24 @@
                                                     </button>
                                                     <button
                                                         (click)="
+                                                            deleteProductionPlan(
+                                                                item.id
+                                                            )
+                                                        "
+                                                        *ngIf="
+                                                            item.status ===
+                                                            'Pending'
+                                                        "
+                                                        mat-menu-item
+                                                    >
+                                                        Delete
+                                                        <mat-icon
+                                                            class="cursor-pointer text-blue-500 icon-size-5"
+                                                            svgIcon="heroicons_outline:x-circle"
+                                                        ></mat-icon>
+                                                    </button>
+                                                    <button
+                                                        (click)="
                                                             endProductionPlan(
                                                                 item.id
                                                             )

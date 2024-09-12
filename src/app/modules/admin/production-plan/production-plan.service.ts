@@ -276,4 +276,16 @@ export class ProductionPlanService {
             )
         );
     }
+
+    /**
+     * Delete productionPlan
+     */
+    deleteProductionPlan(id: string) {
+        return this.productionPlanPatch$.pipe(
+            take(1),
+            switchMap(() =>
+                this._httpClient.delete<Patch>('/api/v1/production-plans/' + id)
+            )
+        );
+    }
 }
