@@ -4,6 +4,18 @@ import { AuthGuard } from 'app/core/auth/guards/auth.guard';
 import { NoAuthGuard } from 'app/core/auth/guards/noAuth.guard';
 import { LayoutComponent } from 'app/layout/layout.component';
 
+export function getRouteForRole(role: string): string {
+    // Định nghĩa các route mặc định cho từng role
+    const routesByRole = {
+        Admin: 'accounts',
+        ProductionManager: 'production-plans',
+        FactoryDirector: 'products',
+        ProductionStaff: 'production-results',
+        WarehouseManager: 'warehouse-requests',
+    };
+
+    return routesByRole[role] || 'login';
+}
 // @formatter:off
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */

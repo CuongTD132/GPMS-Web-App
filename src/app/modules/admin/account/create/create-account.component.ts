@@ -92,10 +92,10 @@ export class CreateAccountComponent implements OnInit {
         this.createAccountForm
             .get('personalInfo.position')
             .setValue(event.value);
-        if (event.value === 0 || event.value === 3) {
-            this.showDepartment = false;
-        } else {
+        if (event.value === 1 || event.value === 2) {
             this.showDepartment = true;
+        } else {
+            this.showDepartment = false;
         }
 
         this.logForm();
