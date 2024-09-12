@@ -58,7 +58,7 @@ export class CreateCategoryComponent implements OnInit {
             sizeWidthUnit: [null, [Validators.required]],
             colorCode: [null, [Validators.required]],
             colorName: [null, [Validators.required]],
-            description: [null, [Validators.required]],
+            description: null,
             isNew: [true],
         });
     }

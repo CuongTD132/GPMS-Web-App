@@ -4,8 +4,8 @@ import { Pagination } from 'app/types/pagination.type';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class MeasurementService {
-    private _measurements: BehaviorSubject<Measurement[] | null> =
+export class SeriesService {
+    private _series: BehaviorSubject<ProductionSeries[] | null> =
         new BehaviorSubject(null);
     private _pagination: BehaviorSubject<Pagination | null> =
         new BehaviorSubject(null);
@@ -13,10 +13,10 @@ export class MeasurementService {
     constructor(private _httpClient: HttpClient) {}
 
     /**
-     * Getter for Measurements
+     * Getter for Series
      */
-    get measurements$(): Observable<Measurement[]> {
-        return this._measurements.asObservable();
+    get series$(): Observable<ProductionSeries[]> {
+        return this._series.asObservable();
     }
     /**
      * Getter for pagination
@@ -25,23 +25,23 @@ export class MeasurementService {
         return this._pagination.asObservable();
     }
 
-    getMeasurements(
-        id: string,
-        filter: any = {}
-    ): Observable<{ pagination: Pagination; data: Measurement[] }> {
+    getSeries(
+        filter: any = {
+            status: 'InInspection',
+            pagination: {
+                pageSize: 999,
+            },
+        }
+    ): Observable<{ pagination: Pagination; data: ProductionSeries[] }> {
         return this._httpClient
             .post<{
                 pagination: Pagination;
-                data: Measurement[];
-            }>('/api/v1/specifications/' + id + '/measurements/filter', {
-                pagination: {
-                    pageSize: 999,
-                },
-            })
+                data: ProductionSeries[];
+            }>('/api/v1/series/filter', filter)
             .pipe(
                 tap((response) => {
                     this._pagination.next(response.pagination);
-                    this._measurements.next(response.data);
+                    this._series.next(response.data);
                 })
             );
     }

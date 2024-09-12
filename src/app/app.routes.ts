@@ -159,6 +159,13 @@ export const appRoutes: Route[] = [
                         'app/modules/admin/warehouse-requests/warehouse-requests.routes'
                     ),
             },
+            {
+                path: 'create-inspection-request',
+                loadChildren: () =>
+                    import(
+                        'app/modules/admin/inspection-request/inspection-request.routes'
+                    ),
+            },
         ],
     },
 ];

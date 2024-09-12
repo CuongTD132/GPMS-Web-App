@@ -1,0 +1,99 @@
+<div
+    class="bg-card flex min-w-0 flex-auto flex-col dark:bg-transparent sm:absolute sm:inset-0 sm:overflow-hidden"
+>
+    <!-- Header -->
+    <div
+        class="relative flex flex-0 flex-col border-b px-6 py-8 sm:flex-row sm:items-center sm:justify-between md:px-8"
+    >
+        <!-- Loader -->
+        @if (isLoading) {
+            <div class="absolute inset-x-0 bottom-0">
+                <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+            </div>
+        }
+        <div class="text-4xl font-extrabold tracking-tight">
+            Create inspection request
+        </div>
+    </div>
+    <div
+        appHorizontalScroll
+        class="flex flex-auto flex-col overflow-scroll px-6 py-8 sm:mb-18 md:px-8"
+    >
+        <ng-container *ngIf="series$ | async as series">
+            <ng-container *ngIf="inspectionRequestForm">
+                <form [formGroup]="inspectionRequestForm">
+                    <mat-form-field class="w-full">
+                        <mat-label>Select a series:</mat-label>
+                        <mat-select
+                            (selectionChange)="onSeriesChange($event.value)"
+                            [formControlName]="'productionSeriesId'"
+                        >
+                            <ng-container *ngFor="let item of series">
+                                <mat-option value="{{ item.id }}"
+                                    >Series {{ item.code }} của
+                                    {{ item.productionPlanCode }} để sản xuất mã
+                                    sản phẩm {{ item.productCode }} với số lượng
+                                    cần kiểm định là
+                                    <ng-container *ngIf="item.faultyQuantity">
+                                        {{ item.faultyQuantity }} cái
+                                    </ng-container>
+                                    <ng-container *ngIf="!item.faultyQuantity">
+                                        {{ item.quantity }} cái
+                                    </ng-container>
+                                </mat-option>
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field class="w-full">
+                        <mat-label>Note:</mat-label>
+                        <textarea
+                            matInput
+                            placeholder="You can note something in here..."
+                            [formControlName]="'description'"
+                        ></textarea>
+                    </mat-form-field>
+                    <div class="mt-4 flex justify-end">
+                        <button
+                            (click)="create()"
+                            mat-raised-button
+                            color="primary"
+                            class="flex min-w-fit gap-2"
+                        >
+                            <mat-icon
+                                svgIcon="heroicons_outline:inbox"
+                            ></mat-icon>
+                            <span> Send </span>
+                        </button>
+                    </div>
+                </form>
+            </ng-container>
+        </ng-container>
+        <ng-container *ngIf="!series$">
+            <p class="text-xl font-semibold">
+                Hiện tại chưa có series nào sẵn sàng để tạo inspection request!
+            </p>
+        </ng-container>
+    </div>
+</div>
+
+<!-- Notification -->
+<a class="cursor-pointer" *ngIf="flashMessage">
+    <fuse-alert
+        class="absolute bottom-0 right-0 z-999"
+        [type]="'success'"
+        [appearance]="'border'"
+        *ngIf="flashMessage === 'success'"
+    >
+        <span fuseAlertTitle>Success</span>
+        {{ message }}
+    </fuse-alert>
+    <fuse-alert
+        class="absolute bottom-0 right-0 z-999"
+        [type]="'error'"
+        [appearance]="'border'"
+        *ngIf="flashMessage === 'error'"
+    >
+        <span fuseAlertTitle>Error</span>
+        {{ message }}
+    </fuse-alert>
+</a>

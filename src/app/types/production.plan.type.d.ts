@@ -19,6 +19,7 @@ type Plan = {
     status: string;
     creatorName: string;
     reviewerName: string;
+    readyToFinish?: boolean;
 };
 
 type ProductionRequirement = {
@@ -42,7 +43,7 @@ type ProductionSeries = {
     id: string;
     code: string;
     quantity: number;
-    faultyQuantity: number;
+    faultyQuantity?: number;
     currentProcess: string;
     status: string;
 };

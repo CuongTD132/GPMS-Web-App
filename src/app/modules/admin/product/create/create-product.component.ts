@@ -21,7 +21,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MaterialService } from '../../material/material.service';
 import { ProductService } from '../product.service';
-import { StepsComponent } from './steps/steps.component';
 @Component({
     selector: 'create-product',
     standalone: true,
@@ -327,9 +326,9 @@ export class CreateProductComponent implements OnInit {
 
     initProductForm() {
         this.createProductForm = this._formBuilder.group({
-            name: ['Áo thun', [Validators.required]],
-            code: ['AOTHUN01', [Validators.required]],
-            description: 'Áo thun thần kỳ với những màu sắc sặc sỡ',
+            name: [null, [Validators.required]],
+            code: [null, [Validators.required]],
+            description: null,
             categoryId: [null, [Validators.required]],
             semiFinishedProducts: [],
             specifications: [],
@@ -629,24 +628,5 @@ export class CreateProductComponent implements OnInit {
             );
             console.log(this.createProductForm.value);
         }
-    }
-
-    openStepsDialog() {
-        const data = { semi: this.semiFinishedProducts, boMs: this.boMs };
-        this._dialog
-            .open(StepsComponent, {
-                width: '1280px',
-                data: data,
-            })
-            .afterClosed()
-            .subscribe((result) => {
-                console.log(result);
-                if (result && result.status == 'success') {
-                    const steps: Steps[] = [];
-                    steps.push(result.data);
-                    this.processForm.controls['steps'].setValue(steps);
-                    console.log(this.processForm.value);
-                }
-            });
     }
 }

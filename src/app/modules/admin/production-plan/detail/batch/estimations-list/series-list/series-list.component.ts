@@ -8,7 +8,6 @@ import {
 } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { ProcessService } from 'app/modules/admin/process/process.service';
-import { ProcessListComponent } from './processes-list/processes-list.component';
 
 @Component({
     selector: 'series-list',
@@ -30,25 +29,5 @@ export class SeriesListComponent implements OnInit {
     ngOnInit() {
         this.seriesList = this.data;
         console.log(this.seriesList);
-    }
-
-    openProcessListDialog(id: string) {
-        this._processService
-            .getProcessListBySeriesId(id)
-            .subscribe((processes) => {
-                this.processesList = processes;
-                console.log(this.processesList);
-                const data = {
-                    seriesId: id,
-                    processesList: this.processesList,
-                };
-                this._dialog
-                    .open(ProcessListComponent, {
-                        width: '900px',
-                        data: data,
-                    })
-                    .afterClosed()
-                    .subscribe();
-            });
     }
 }

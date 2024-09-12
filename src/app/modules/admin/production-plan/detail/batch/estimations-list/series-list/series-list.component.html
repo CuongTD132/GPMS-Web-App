@@ -25,7 +25,6 @@
                         <div class="hidden sm:block">Faulty Quantity</div>
                         <div class="hidden sm:block">Current Process</div>
                         <div class="hidden sm:block">Current Status</div>
-                        <div class="hidden sm:block">Production Result</div>
                     </div>
                     <div class="max-h-100 overflow-y-scroll">
                         <ng-container *ngFor="let item of seriesList">
@@ -39,7 +38,10 @@
                                     {{ item.quantity }}
                                 </div>
                                 <div class="hidden sm:block">
-                                    {{ item.faultyQuantity || 0 }}
+                                    {{
+                                        item.faultyQuantity ||
+                                            'Chưa có sản phẩm lỗi'
+                                    }}
                                 </div>
                                 <div class="hidden sm:block">
                                     {{ item.currentProcess || 'Not Start' }}
@@ -47,14 +49,6 @@
                                 <div class="hidden sm:block">
                                     {{ item.status }}
                                 </div>
-                                <button
-                                    (click)="openProcessListDialog(item.id)"
-                                    mat-raised-button
-                                    class="flex min-w-fit gap-2"
-                                    color="primary"
-                                >
-                                    <span> Fill Result+ </span>
-                                </button>
                             </div>
                         </ng-container>
                     </div>

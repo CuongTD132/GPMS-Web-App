@@ -229,7 +229,7 @@
                     <mat-step
                         [editable]="isEditSubSpec"
                         [stepControl]="colorForm"
-                        label="Choose size"
+                        label="Choose color"
                     >
                         <form [formGroup]="colorForm">
                             <mat-form-field class="w-1/12">
@@ -444,12 +444,17 @@
                                                                                 item.name
                                                                             }}
                                                                             -
+                                                                            size
+                                                                            width
+                                                                            unit:
                                                                         </p>
                                                                         <p>
                                                                             {{
                                                                                 item.sizeWidthUnit
                                                                             }}
                                                                             -
+                                                                            consumption
+                                                                            unit:
                                                                             {{
                                                                                 item.consumptionUnit
                                                                             }}

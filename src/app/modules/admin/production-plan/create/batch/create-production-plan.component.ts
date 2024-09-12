@@ -72,7 +72,7 @@ export class CreateBatchProductionPlanComponent implements OnInit {
             expectedStartingDate: [null, [Validators.required]],
             dueDate: [null, [Validators.required]],
             type: ['Batch', [Validators.required]],
-            description: [null, [Validators.required]],
+            description: null,
             productionRequirements: [[], [Validators.required]],
         });
     }

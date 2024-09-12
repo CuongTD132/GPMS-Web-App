@@ -158,4 +158,16 @@ export class ProductionPlanMonthDetailComponent implements OnInit {
                     });
             });
     }
+
+    endProductionPlan(id: string) {
+        this._productionPlanService
+            .endProductionPlan(id)
+            .subscribe((response) => {
+                this._productionPlanService
+                    .getProductionPlanById(this.productionPlan.id)
+                    .subscribe((productionPlan) => {
+                        this.productionPlan = productionPlan;
+                    });
+            });
+    }
 }

@@ -255,4 +255,25 @@ export class ProductionPlanService {
             )
         );
     }
+
+    /**
+     * End productionPlan
+     */
+    endProductionPlan(id: string) {
+        return this.productionPlanPatch$.pipe(
+            take(1),
+            switchMap(() =>
+                this._httpClient
+                    .patch<Patch>(
+                        '/api/v1/production-plans/' + id + '/finish',
+                        null
+                    )
+                    .pipe(
+                        tap((response) => {
+                            this._productionPlanPatch.next(response);
+                        })
+                    )
+            )
+        );
+    }
 }
