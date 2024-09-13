@@ -48,7 +48,7 @@ import { ApprovedProductComponent } from './aprroved-products/aprroved-products.
 import { ProductionPlanService } from './production-plan.service';
 
 @Component({
-    selector: 'productionPlan',
+    selector: 'production-plan',
     standalone: true,
     templateUrl: './production-plan.component.html',
     styleUrls: ['./production-plan.component.css'],
@@ -256,12 +256,36 @@ export class ProductionPlanComponent implements OnInit, AfterViewInit {
                 data: this.products,
             })
             .afterClosed()
-            .subscribe();
+            .subscribe((res) => {
+                if (res === 'success') {
+                    this.showFlashMessage(
+                        'success',
+                        'Create year production plan successful',
+                        3000
+                    );
+                }
+            });
     }
 
     deleteProductionPlan(id: string) {
+        console.log('hihi');
+
         this._productionPlanService.deleteProductionPlan(id).subscribe(() => {
-            this._productionPlanService.getProductionPlans().subscribe();
+            this._productionPlanService.getProductionPlans().subscribe({
+                next: () => {
+                    this.showFlashMessage(
+                        'success',
+                        'Production plan has been delete successful',
+                        3000
+                    );
+                },
+                error: () =>
+                    this.showFlashMessage(
+                        'error',
+                        'Production plan has been delete failed',
+                        3000
+                    ),
+            });
         });
     }
 }

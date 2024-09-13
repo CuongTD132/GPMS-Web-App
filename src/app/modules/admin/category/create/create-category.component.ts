@@ -53,13 +53,6 @@ export class CreateCategoryComponent implements OnInit {
     initCategoryForm() {
         this.createCategoryForm = this._formBuilder.group({
             name: [null, [Validators.required]],
-            code: [null, [Validators.required]],
-            consumptionUnit: [null, [Validators.required]],
-            sizeWidthUnit: [null, [Validators.required]],
-            colorCode: [null, [Validators.required]],
-            colorName: [null, [Validators.required]],
-            description: null,
-            isNew: [true],
         });
     }
 

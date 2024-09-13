@@ -31,9 +31,10 @@
                             <ng-container *ngFor="let item of series">
                                 <mat-option value="{{ item.id }}"
                                     >Series {{ item.code }} của
-                                    {{ item.productionPlanCode }} để sản xuất mã
-                                    sản phẩm {{ item.productCode }} với số lượng
-                                    cần kiểm định là
+                                    {{ item.productionPlanCode }} để sản xuất
+                                    {{ item.productName }} có mã sản phẩm
+                                    {{ item.productCode }} với số lượng cần kiểm
+                                    định là
                                     <ng-container *ngIf="item.faultyQuantity">
                                         {{ item.faultyQuantity }} cái
                                     </ng-container>

@@ -37,11 +37,17 @@
                                 <div class="hidden sm:block">
                                     {{ item.quantity }}
                                 </div>
-                                <div class="hidden sm:block">
-                                    {{
-                                        item.faultyQuantity ||
-                                            'Chưa có sản phẩm lỗi'
-                                    }}
+                                <div
+                                    *ngIf="item.faultyQuantity === null"
+                                    class="hidden sm:block"
+                                >
+                                    Chưa có sản phẩm lỗi
+                                </div>
+                                <div
+                                    *ngIf="item.faultyQuantity !== null"
+                                    class="hidden sm:block"
+                                >
+                                    {{ item.faultyQuantity }}
                                 </div>
                                 <div class="hidden sm:block">
                                     {{ item.currentProcess || 'Not Start' }}

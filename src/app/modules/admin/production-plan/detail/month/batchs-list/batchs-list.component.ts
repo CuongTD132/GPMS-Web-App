@@ -73,6 +73,10 @@ export class BatchsListComponent implements OnInit {
                 width: '720px',
             })
             .afterClosed()
-            .subscribe();
+            .subscribe((res) => {
+                if (res === 'success') {
+                    this.matDialogRef.close('success');
+                }
+            });
     }
 }

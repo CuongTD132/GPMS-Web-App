@@ -16,41 +16,6 @@
     <div
         class="font-poppins bg-card space-y-10 overflow-y-scroll p-8 dark:bg-gray-800"
     >
-        <div class="grid grid-cols-12">
-            <div class="col-span-4 flex flex-col gap-4">
-                <div class="hidden sm:block">
-                    Total Required Quantity: {{ totalQuantity }}
-                </div>
-            </div>
-            <div
-                *ngIf="totalQuantity > 0"
-                class="col-span-9 flex flex-col gap-4 pt-4"
-            >
-                <div>LIST ADDED ESTIMATIONS</div>
-                <div class="estimation flex flex-col gap-2">
-                    <div class="grid">
-                        <div
-                            class="estimation-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
-                        >
-                            <div class="hidden sm:block">Month</div>
-                            <div class="hidden sm:block">Required Quantity</div>
-                            <div class="hidden sm:block">
-                                Required Overtime Quantity
-                            </div>
-                        </div>
-                        <ng-container *ngFor="let item of estimations">
-                            <div
-                                class="estimation-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
-                            >
-                                <div>{{ item.month }}</div>
-                                <div>{{ item.quantity }}</div>
-                                <div>{{ item.overTimeQuantity }}</div>
-                            </div>
-                        </ng-container>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="flex flex-col">
             <ng-container *ngIf="addProductionEstimationForm">
                 <form [formGroup]="addProductionEstimationForm">
@@ -67,6 +32,15 @@
                                     Required Overtime Quantity
                                 </div>
                             </div>
+                            <ng-container *ngFor="let item of estimations">
+                                <div
+                                    class="estimation-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                >
+                                    <div>{{ item.month }}</div>
+                                    <div>{{ item.quantity }}</div>
+                                    <div>{{ item.overTimeQuantity }}</div>
+                                </div>
+                            </ng-container>
                             <div
                                 class="estimation-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
                             >
@@ -144,6 +118,7 @@
                     </div>
                     <div class="mt-4 flex justify-end">
                         <button
+                            [disabled]="totalQuantity <= 0"
                             (click)="onProductionEstimationSubmit()"
                             mat-raised-button
                             color="primary"

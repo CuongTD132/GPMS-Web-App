@@ -172,23 +172,10 @@ export class ProductionPlanService {
         return this.productionPlans$.pipe(
             take(1),
             switchMap((productionPlans) =>
-                this._httpClient
-                    .post<ProductionPlan>(
-                        '/api/v1/production-plans/child',
-                        data
-                    )
-                    .pipe(
-                        map((newProductionPlan) => {
-                            this._productionPlans.next(
-                                [newProductionPlan, ...productionPlans].slice(
-                                    0,
-                                    this._pagination.value.pageSize
-                                )
-                            );
-
-                            return newProductionPlan;
-                        })
-                    )
+                this._httpClient.post<ProductionPlan>(
+                    '/api/v1/production-plans/child',
+                    data
+                )
             )
         );
     }

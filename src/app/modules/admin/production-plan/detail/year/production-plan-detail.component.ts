@@ -17,6 +17,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
+import { FuseAlertComponent } from '@fuse/components/alert';
 import { ProductionPlanService } from '../../production-plan.service';
 import { EstimationsListComponent } from './estimations-list/estimations-list.component';
 import { MonthsListComponent } from './months-list/months-list.component';
@@ -40,6 +41,7 @@ import { MonthsListComponent } from './months-list/months-list.component';
         RouterModule,
         MatMenuModule,
         MatTooltipModule,
+        FuseAlertComponent,
     ],
 })
 export class ProductionPlanYearDetailComponent implements OnInit {
@@ -114,7 +116,7 @@ export class ProductionPlanYearDetailComponent implements OnInit {
                             if (result === 'success') {
                                 this.showFlashMessage(
                                     'success',
-                                    'Create year production plan successful',
+                                    'Create month production plan successful',
                                     3000
                                 );
                             }
@@ -124,38 +126,71 @@ export class ProductionPlanYearDetailComponent implements OnInit {
     }
 
     approveProductionPlan(id: string) {
-        this._productionPlanService
-            .approveProductionPlan(id)
-            .subscribe((response) => {
+        this._productionPlanService.approveProductionPlan(id).subscribe({
+            next: () => {
                 this._productionPlanService
                     .getProductionPlanById(this.productionPlan.id)
                     .subscribe((productionPlan) => {
                         this.productionPlan = productionPlan;
                     });
-            });
+                this.showFlashMessage(
+                    'success',
+                    'Production plan has been aprrove successful',
+                    3000
+                );
+            },
+            error: () =>
+                this.showFlashMessage(
+                    'error',
+                    'Production plan has been aprrove failed',
+                    3000
+                ),
+        });
     }
 
     declineProductionPlan(id: string) {
-        this._productionPlanService
-            .declineProductionPlan(id)
-            .subscribe((response) => {
+        this._productionPlanService.declineProductionPlan(id).subscribe({
+            next: () => {
                 this._productionPlanService
                     .getProductionPlanById(this.productionPlan.id)
                     .subscribe((productionPlan) => {
                         this.productionPlan = productionPlan;
                     });
-            });
+                this.showFlashMessage(
+                    'success',
+                    'Production plan has been decline successful',
+                    3000
+                );
+            },
+            error: () =>
+                this.showFlashMessage(
+                    'error',
+                    'Production plan has been decline failed',
+                    3000
+                ),
+        });
     }
 
     deleteProductionPlan(id: string) {
-        this._productionPlanService
-            .deleteProductionPlan(id)
-            .subscribe((response) => {
+        this._productionPlanService.deleteProductionPlan(id).subscribe({
+            next: () => {
                 this._productionPlanService
                     .getProductionPlanById(this.productionPlan.id)
                     .subscribe((productionPlan) => {
                         this.productionPlan = productionPlan;
                     });
-            });
+                this.showFlashMessage(
+                    'success',
+                    'Production plan has been delete successful',
+                    3000
+                );
+            },
+            error: () =>
+                this.showFlashMessage(
+                    'error',
+                    'Production plan has been delete failed',
+                    3000
+                ),
+        });
     }
 }

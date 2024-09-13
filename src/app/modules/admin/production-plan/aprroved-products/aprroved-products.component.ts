@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -40,8 +40,7 @@ export class ApprovedProductComponent implements OnInit {
         public matDialogRef: MatDialogRef<ApprovedProductComponent>,
         @Inject(MAT_DIALOG_DATA) public data: Product[],
         private _productService: ProductService,
-        private _dialog: MatDialog,
-        private _changeDetectorRef: ChangeDetectorRef
+        private _dialog: MatDialog
     ) {}
 
     ngOnInit(): void {}
@@ -50,25 +49,10 @@ export class ApprovedProductComponent implements OnInit {
         this.id = id;
     }
 
-    private showFlashMessage(
-        type: 'success' | 'error',
-        message: string,
-        time: number
-    ): void {
-        this.flashMessage = type;
-        this.message = message;
-        this._changeDetectorRef.markForCheck();
-        setTimeout(() => {
-            this.flashMessage = this.message = null;
-            this._changeDetectorRef.markForCheck();
-        }, time);
-    }
-
     openCreateYearProductionPlanDialog() {
         if (this.id) {
             this._productService.getProductById(this.id).subscribe({
                 next: (result) => {
-                    this.matDialogRef.close('success');
                     this._dialog
                         .open(CreateYearProductionPlanComponent, {
                             data: result.specifications,
@@ -77,11 +61,7 @@ export class ApprovedProductComponent implements OnInit {
                         .afterClosed()
                         .subscribe((result) => {
                             if (result === 'success') {
-                                this.showFlashMessage(
-                                    'success',
-                                    'Create year production plan successful',
-                                    3000
-                                );
+                                this.matDialogRef.close('success');
                             }
                         });
                 },

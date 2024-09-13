@@ -92,7 +92,10 @@
                                         </div>
 
                                         <!-- Name -->
-                                        <div class="hidden truncate sm:block">
+                                        <div
+                                            class="hidden truncate sm:block"
+                                            matTooltip="{{ item.name }}"
+                                        >
                                             {{ item.name }}
                                         </div>
 
@@ -184,11 +187,6 @@
                                             <div
                                                 class="flex items-center gap-1"
                                             >
-                                                <p>
-                                                    {{ req.productName }} -
-                                                    {{ req.productCode }} - Size
-                                                    {{ req.size }} -
-                                                </p>
                                                 <span
                                                     class="h-4 w-4 cursor-pointer rounded-full"
                                                     [ngStyle]="{
@@ -198,7 +196,9 @@
                                                     matTooltip="{{ req.color }}"
                                                 ></span>
                                                 <p>
-                                                    - Quantity:
+                                                    {{ req.productName }} -
+                                                    {{ req.productCode }} - Size
+                                                    {{ req.size }} - Quantity:
                                                     {{ req.quantity }}
                                                 </p>
                                             </div>

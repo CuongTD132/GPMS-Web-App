@@ -39,7 +39,8 @@
                                 <input
                                     matInput
                                     type="number"
-                                    min="0"
+                                    min="1"
+                                    max="{{ requiredQuantity }}"
                                     [formControlName]="'quantity'"
                             /></mat-form-field>
                             <button
@@ -54,32 +55,6 @@
                                 <span> Add Series + </span>
                             </button>
                         </div>
-                    </div>
-                </div>
-            </form>
-        </ng-container>
-        <div class="gap-4">
-            <div class="hidden sm:block">
-                Total Required Quantity: {{ requiredQuantity }}
-            </div>
-            <div class="hidden sm:block">
-                Total Added Required Quantity: {{ totalQuantity }}
-            </div>
-        </div>
-        <div class="grid grid-cols-12">
-            <div
-                *ngIf="totalQuantity > 0"
-                class="col-span-12 flex flex-col gap-4"
-            >
-                <div>LIST ADDED SERIES</div>
-                <div class="series flex flex-col gap-2">
-                    <div class="grid">
-                        <div
-                            class="series-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
-                        >
-                            <div class="hidden sm:block">Code</div>
-                            <div class="hidden sm:block">Required Quantity</div>
-                        </div>
                         <div class="max-h-30 overflow-y-scroll">
                             <ng-container *ngFor="let item of seriess">
                                 <div
@@ -92,11 +67,20 @@
                         </div>
                     </div>
                 </div>
+            </form>
+        </ng-container>
+        <div class="gap-4">
+            <div class="hidden sm:block">
+                Total Required Quantity: {{ requiredQuantity }}
+            </div>
+            <div class="hidden sm:block">
+                Total Added Required Quantity: {{ totalQuantity }}
             </div>
         </div>
         <div class="flex flex-col">
             <div class="mt-4 flex justify-end">
                 <button
+                    [disabled]="totalQuantity !== requiredQuantity"
                     (click)="onProductionSeriesSubmit()"
                     mat-raised-button
                     color="primary"
