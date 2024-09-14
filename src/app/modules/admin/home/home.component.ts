@@ -17,9 +17,12 @@ export class HomeComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this._userService.get().subscribe((user) => {
-            this.user = user;
-            this.redirectWithRole();
+        this._userService.get().subscribe({
+            next: (user) => {
+                this.user = user;
+                this.redirectWithRole();
+            },
+            error: () => this._router.navigate(['/sign-in']),
         });
     }
 
