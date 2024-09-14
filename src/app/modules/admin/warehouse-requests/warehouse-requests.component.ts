@@ -81,7 +81,6 @@ export class WarehouseRequestComponent implements OnInit, AfterViewInit {
     searchInputControl: UntypedFormControl = new UntypedFormControl();
     filterForm: UntypedFormGroup;
     productionPlans$: Observable<ProductionPlan[]>;
-    productionPlans: ProductionPlan[];
     warehouseRequests$: Observable<WarehouseRequest[]>;
     warehouseRequest: WarehouseRequest;
     pagination: Pagination;
@@ -104,7 +103,6 @@ export class WarehouseRequestComponent implements OnInit, AfterViewInit {
     ngOnInit(): void {
         // Get the warehouseRequests
         this.getWarehouseRequests();
-        this.getProductionPlans();
         // Get the pagination
         this._warehouseRequestService.pagination$
             .pipe(takeUntil(this._unsubscribeAll))
@@ -117,12 +115,6 @@ export class WarehouseRequestComponent implements OnInit, AfterViewInit {
 
         this.initFilterForm();
         this.subcribeFilterForm();
-    }
-
-    private getProductionPlans() {
-        this.productionPlans$ =
-            this._warehouseRequestService.getBatchPlanList();
-        this.productionPlans$.subscribe((res) => (this.productionPlans = res));
     }
 
     openPanel(id: string) {
@@ -316,31 +308,35 @@ export class WarehouseRequestComponent implements OnInit, AfterViewInit {
     }
 
     openCreateWarehouseRequestDialog() {
-        this._dialog
-            .open(CreateWarehouseRequestComponent, {
-                width: '720px',
-                data: this.productionPlans,
-            })
-            .afterClosed()
-            .subscribe((result) => {
-                if (result === 'success') {
-                    this._warehouseRequestService
-                        .getWarehouseRequests()
-                        .subscribe();
+        this.productionPlans$ =
+            this._warehouseRequestService.getBatchPlanList();
+        this.productionPlans$.subscribe((res) => {
+            this._dialog
+                .open(CreateWarehouseRequestComponent, {
+                    width: '720px',
+                    data: res,
+                })
+                .afterClosed()
+                .subscribe((result) => {
+                    if (result === 'success') {
+                        this._warehouseRequestService
+                            .getWarehouseRequests()
+                            .subscribe();
 
-                    this.showFlashMessage(
-                        'success',
-                        'Create warehouse request successful',
-                        3000
-                    );
-                }
-                if (result === 'error') {
-                    this.showFlashMessage(
-                        'error',
-                        'Create warehouse request failed',
-                        3000
-                    );
-                }
-            });
+                        this.showFlashMessage(
+                            'success',
+                            'Create warehouse request successful',
+                            3000
+                        );
+                    }
+                    if (result === 'error') {
+                        this.showFlashMessage(
+                            'error',
+                            'Create warehouse request failed',
+                            3000
+                        );
+                    }
+                });
+        });
     }
 }

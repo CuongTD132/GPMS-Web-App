@@ -51,7 +51,6 @@ export class CreateAccountComponent implements OnInit {
     ngOnInit(): void {
         this.departments$ = this._departmentService.departments$;
         this.initAccountForm();
-        this.logForm();
     }
 
     logForm() {
@@ -59,10 +58,6 @@ export class CreateAccountComponent implements OnInit {
     }
 
     initAccountForm() {
-        let departmentId: string;
-        this.departments$.subscribe((departments) => {
-            departmentId = departments[0].id;
-        });
         this.createAccountForm = this._formBuilder.group({
             code: [null, [Validators.required]],
             email: [null, [Validators.required, Validators.email]],
@@ -70,7 +65,10 @@ export class CreateAccountComponent implements OnInit {
             personalInfo: this._formBuilder.group({
                 fullName: [null, [Validators.required]],
                 position: [2, [Validators.required]],
-                departmentId: [departmentId, [Validators.required]],
+                departmentId: [
+                    '0f8cb729-c71f-47d1-9755-0310a39db359',
+                    [Validators.required],
+                ],
             }),
         });
     }
@@ -92,6 +90,9 @@ export class CreateAccountComponent implements OnInit {
         this.createAccountForm
             .get('personalInfo.position')
             .setValue(event.value);
+        this.createAccountForm
+            .get('personalInfo.departmentId')
+            .setValue('0f8cb729-c71f-47d1-9755-0310a39db359');
         if (event.value === 1 || event.value === 2) {
             this.showDepartment = true;
         } else {
@@ -108,16 +109,15 @@ export class CreateAccountComponent implements OnInit {
     }
 
     createAccount() {
-        this._accountService
-            .createAccount(this.createAccountForm.value)
-            .subscribe({
-                next: (result) => {
-                    this.matDialogRef.close('success');
-                },
-                error: (err) => {
-                    // this.matDialogRef.close('error');
-                },
-                // complete: () => console.log('There are no more action happen.')
-            });
+        if (this.createAccountForm.valid) {
+            this._accountService
+                .createAccount(this.createAccountForm.value)
+                .subscribe({
+                    next: (result) => {
+                        this.matDialogRef.close('success');
+                    },
+                    error: (err) => {},
+                });
+        }
     }
 }

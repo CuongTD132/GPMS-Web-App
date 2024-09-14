@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { getRouteForRole } from 'app/app.routes';
 import { Navigation } from 'app/core/navigation/navigation.types';
 import { Observable, ReplaySubject, tap } from 'rxjs';
 import { UserService } from '../user/user.service';
@@ -45,7 +44,6 @@ export class NavigationService {
                     navigation,
                     this._user.role
                 );
-                getRouteForRole(this._user.role);
                 this._navigation.next(filteredNav);
             })
         );

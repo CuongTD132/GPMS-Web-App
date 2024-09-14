@@ -6,7 +6,7 @@
         <div class="text-4xl font-extrabold tracking-tight">Create Product</div>
     </div> -->
     <div class="font-poppins overflow-y-scroll p-8 dark:bg-gray-800">
-        <mat-stepper [linear]="true" #stepper>
+        <mat-stepper [linear]="false" #stepper>
             <mat-step
                 [editable]="isEditGeneral"
                 [stepControl]="createProductForm"
@@ -1308,3 +1308,25 @@
         </mat-stepper>
     </div>
 </div>
+
+<!-- Notification -->
+<a class="cursor-pointer" *ngIf="flashMessage">
+    <fuse-alert
+        class="absolute bottom-0 right-0 z-999"
+        [type]="'success'"
+        [appearance]="'border'"
+        *ngIf="flashMessage === 'success'"
+    >
+        <span fuseAlertTitle>Success</span>
+        {{ message }}
+    </fuse-alert>
+    <fuse-alert
+        class="absolute bottom-0 right-0 z-999"
+        [type]="'error'"
+        [appearance]="'border'"
+        *ngIf="flashMessage === 'error'"
+    >
+        <span fuseAlertTitle>Error</span>
+        {{ message }}
+    </fuse-alert>
+</a>

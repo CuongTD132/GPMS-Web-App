@@ -69,10 +69,55 @@
                         <mat-form-field *ngIf="showDepartment" class="w-full">
                             <mat-label>Department</mat-label>
                             <ng-container
-                                *ngIf="departments$ | async as departments"
+                                *ngIf="
+                                    this.createAccountForm.controls.personalInfo
+                                        .value.position === 2
+                                "
                             >
                                 <mat-select
-                                    [value]="departments[0].id"
+                                    [value]="
+                                        '0f8cb729-c71f-47d1-9755-0310a39db359'
+                                    "
+                                    (selectionChange)="
+                                        onDepartmentChange($event)
+                                    "
+                                >
+                                    <mat-option
+                                        [value]="
+                                            '0f8cb729-c71f-47d1-9755-0310a39db359'
+                                        "
+                                        >{{
+                                            'Inspection Department'
+                                        }}</mat-option
+                                    >
+                                    <!-- <mat-option
+                                        [value]="
+                                            '56aeaab3-0dbe-4003-93d6-5961d228dc69'
+                                        "
+                                        >{{
+                                            'Warehouse Department'
+                                        }}</mat-option
+                                    > -->
+                                    <mat-option
+                                        [value]="
+                                            '237fadc5-40bc-4f66-b60a-ccea08620b90'
+                                        "
+                                        >{{
+                                            'Production Department'
+                                        }}</mat-option
+                                    >
+                                </mat-select>
+                            </ng-container>
+                            <ng-container
+                                *ngIf="
+                                    this.createAccountForm.controls.personalInfo
+                                        .value.position === 1
+                                "
+                            >
+                                <mat-select
+                                    [value]="
+                                        '0f8cb729-c71f-47d1-9755-0310a39db359'
+                                    "
                                     (selectionChange)="
                                         onDepartmentChange($event)
                                     "

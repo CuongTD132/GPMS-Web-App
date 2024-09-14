@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import {
     FormArray,
     FormBuilder,
@@ -10,7 +10,6 @@ import {
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -19,6 +18,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FuseAlertComponent } from '@fuse/components/alert';
 import { MaterialService } from '../../material/material.service';
 import { ProductService } from '../product.service';
 @Component({
@@ -40,6 +40,7 @@ import { ProductService } from '../product.service';
         MatStepperModule,
         MatRadioModule,
         MatTooltipModule,
+        FuseAlertComponent,
     ],
 })
 export class CreateProductComponent implements OnInit {
@@ -92,11 +93,13 @@ export class CreateProductComponent implements OnInit {
     materials: Material[];
     sizes: string[];
     selectedMaterials: Material[] = [];
+    flashMessage: 'success' | 'error' | null = null;
+    message: string = null;
     constructor(
         private _activatedRoute: ActivatedRoute,
         private _formBuilder: FormBuilder,
         private _productService: ProductService,
-        private _dialog: MatDialog,
+        private _changeDetectorRef: ChangeDetectorRef,
         private _materialService: MaterialService,
         private _router: Router
     ) {}
@@ -117,6 +120,20 @@ export class CreateProductComponent implements OnInit {
             console.log(this.stepForm.value);
             this.isEditStepIO = !this.isEditStepIO;
         }
+    }
+
+    private showFlashMessage(
+        type: 'success' | 'error',
+        message: string,
+        time: number
+    ): void {
+        this.flashMessage = type;
+        this.message = message;
+        this._changeDetectorRef.markForCheck();
+        setTimeout(() => {
+            this.flashMessage = this.message = null;
+            this._changeDetectorRef.markForCheck();
+        }, time);
     }
 
     setCate() {
@@ -594,7 +611,14 @@ export class CreateProductComponent implements OnInit {
         this._productService
             .createProduct(this.createProductForm.value)
             .subscribe(() => {
-                this._router.navigate(['/products']);
+                this.showFlashMessage(
+                    'success',
+                    'Create product successful',
+                    3000
+                );
+                setInterval(() => {
+                    this._router.navigate(['/products']);
+                }, 3000);
             });
     }
 

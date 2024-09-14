@@ -34,11 +34,13 @@ export class UserService {
      * Get the current signed-in user data
      */
     get(): Observable<User> {
-        return this._httpClient.get<User>('api/common/user').pipe(
-            tap((user) => {
-                this._user.next(user);
-            })
-        );
+        return this._httpClient
+            .post<User>('/api/v1/auth/sign-in-with-token', null)
+            .pipe(
+                tap((user) => {
+                    this._user.next(user);
+                })
+            );
     }
 
     /**
