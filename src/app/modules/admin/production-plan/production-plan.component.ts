@@ -80,7 +80,6 @@ export class ProductionPlanComponent implements OnInit, AfterViewInit {
     searchInputControl: UntypedFormControl = new UntypedFormControl();
     filterForm: UntypedFormGroup;
     products$: Observable<Product[]>;
-    products: Product[];
     productionPlans$: Observable<ProductionPlan[]>;
     pagination: Pagination;
     isLoading: boolean = false;
@@ -101,8 +100,6 @@ export class ProductionPlanComponent implements OnInit, AfterViewInit {
     ) {}
 
     ngOnInit(): void {
-        // Get the productionPlans
-        this.getApprovedProducts();
         this.getProductionPlans();
 
         // Get the pagination
@@ -116,12 +113,6 @@ export class ProductionPlanComponent implements OnInit, AfterViewInit {
             });
         this.initFilterForm();
         this.subcribeFilterForm();
-    }
-
-    private getApprovedProducts() {
-        this._productService.getApprovedProducts().subscribe((res) => {
-            this.products = res.data;
-        });
     }
 
     getFormattedDate(date: string): string {
@@ -250,21 +241,23 @@ export class ProductionPlanComponent implements OnInit, AfterViewInit {
     }
 
     openAprrovedProductDialog() {
-        this._dialog
-            .open(ApprovedProductComponent, {
-                width: '720px',
-                data: this.products,
-            })
-            .afterClosed()
-            .subscribe((res) => {
-                if (res === 'success') {
-                    this.showFlashMessage(
-                        'success',
-                        'Create year production plan successful',
-                        3000
-                    );
-                }
-            });
+        this._productService.getApprovedProducts().subscribe((res) => {
+            this._dialog
+                .open(ApprovedProductComponent, {
+                    width: '720px',
+                    data: res,
+                })
+                .afterClosed()
+                .subscribe((res) => {
+                    if (res === 'success') {
+                        this.showFlashMessage(
+                            'success',
+                            'Create year production plan successful',
+                            3000
+                        );
+                    }
+                });
+        });
     }
 
     deleteProductionPlan(id: string) {

@@ -521,7 +521,7 @@ export class CreateProductComponent implements OnInit {
 
     initColorForm() {
         this.colorForm = this._formBuilder.group({
-            colorCode: ['#00897B', [Validators.required]],
+            colorCode: [null, [Validators.required]],
         });
     }
 
@@ -549,9 +549,9 @@ export class CreateProductComponent implements OnInit {
 
     initProcessForm() {
         this.processForm = this._formBuilder.group({
-            code: ['PROCESS001', [Validators.required]],
-            name: ['Cắt', [Validators.required]],
-            orderNumber: [1, [Validators.required]],
+            code: [null, [Validators.required]],
+            name: [null, [Validators.required]],
+            orderNumber: [null, [Validators.required]],
             description: null,
             steps: [],
         });
@@ -565,11 +565,11 @@ export class CreateProductComponent implements OnInit {
 
     initStepForm() {
         this.stepForm = this._formBuilder.group({
-            code: ['Step-code', [Validators.required]],
-            name: ['Step name', [Validators.required]],
-            orderNumber: [1, [Validators.required]],
-            standardTime: [10, [Validators.required]],
-            outputPerHour: [10, [Validators.required]],
+            code: [null, [Validators.required]],
+            name: [null, [Validators.required]],
+            orderNumber: [null, [Validators.required]],
+            standardTime: [null, [Validators.required]],
+            outputPerHour: [null, [Validators.required]],
             description: null,
             stepIOs: [],
         });

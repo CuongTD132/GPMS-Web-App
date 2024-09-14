@@ -32,6 +32,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { FuseAlertComponent } from '@fuse/components/alert';
+import { UserService } from 'app/core/user/user.service';
 import { Pagination } from 'app/types/pagination.type';
 import {
     Observable,
@@ -85,6 +86,7 @@ export class ProductHeaderComponent implements OnInit, AfterViewInit {
     isLoading: boolean = false;
     flashMessage: 'success' | 'error' | null = null;
     message: string = null;
+    role: string = null;
     categories: Category[];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     /**
@@ -95,13 +97,22 @@ export class ProductHeaderComponent implements OnInit, AfterViewInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: UntypedFormBuilder,
         private _dialog: MatDialog,
+        private _userService: UserService,
         private dateAdapter: DateAdapter<Date>,
         private _categoryService: CategoryService
     ) {}
 
     ngOnInit(): void {
-        // Get the products
+        this._userService.get().subscribe((user) => {
+            this.role = user.role;
+            if (
+                user.role === 'ProductionManager' ||
+                user.role === 'FactoryDirector'
+            ) {
+            }
+        });
         this.getProducts();
+        // Get the products
         // Get the pagination
         this._productService.pagination$
             .pipe(takeUntil(this._unsubscribeAll))

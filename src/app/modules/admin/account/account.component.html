@@ -66,6 +66,7 @@
                     <div class="hidden sm:block">Code</div>
                     <div class="hidden sm:block">Email</div>
                     <div class="hidden sm:block">Position</div>
+                    <div class="hidden sm:block">Department</div>
                     <div class="hidden sm:block">Status</div>
                 </div>
                 <!-- Rows -->
@@ -116,6 +117,13 @@
                             <!-- Poition -->
                             <div class="hidden sm:block">
                                 {{ account.position }}
+                            </div>
+
+                            <div class="hidden sm:block">
+                                {{
+                                    account.department ||
+                                        'Does not belong to any department'
+                                }}
                             </div>
 
                             <!-- Status -->

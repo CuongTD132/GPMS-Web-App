@@ -17,6 +17,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { FuseAlertComponent } from '@fuse/components/alert';
+import { UserService } from 'app/core/user/user.service';
 import { Observable, map } from 'rxjs';
 import { ProcessService } from '../process/process.service';
 import { ProductionPlanService } from '../production-plan/production-plan.service';
@@ -70,16 +71,21 @@ export class ProductionResultComponent implements OnInit {
     selectedStepIO: string = null;
     flashMessage: 'success' | 'error' | null = null;
     message: string = null;
+    role: string = null;
     constructor(
         private _productionResultService: ProductionResultService,
         private _productionPlanService: ProductionPlanService,
         private _processService: ProcessService,
         private _stepService: StepService,
+        private _userService: UserService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder
     ) {}
     ngOnInit(): void {
         this.getProductionPlans();
+        this._userService.get().subscribe((user) => {
+            this.role = user.role;
+        });
     }
 
     private getProductionPlans() {

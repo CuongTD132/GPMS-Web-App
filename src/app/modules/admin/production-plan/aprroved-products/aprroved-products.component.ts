@@ -43,7 +43,9 @@ export class ApprovedProductComponent implements OnInit {
         private _dialog: MatDialog
     ) {}
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        console.log(this.data);
+    }
 
     getSelectedId(id: string) {
         this.id = id;

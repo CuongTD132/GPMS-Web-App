@@ -78,6 +78,11 @@ export const authInterceptor = (
 
                 errorService.showBadRequestError(message);
             }
+            if (error instanceof HttpErrorResponse && error.status === 403) {
+                errorService.showBadRequestError([
+                    'You do not have permission!',
+                ]);
+            }
 
             if (error instanceof HttpErrorResponse && error.status === 500) {
                 errorService.showServerError(error.error.message);

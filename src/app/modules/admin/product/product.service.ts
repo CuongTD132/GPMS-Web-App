@@ -68,22 +68,12 @@ export class ProductService {
             );
     }
 
-    getApprovedProducts(
-        filter: any = {
-            status: 'Approved',
-            pagination: {
-                pageSize: 999,
-            },
-        }
-    ): Observable<{ pagination: Pagination; data: Product[] }> {
+    getApprovedProducts(): Observable<Product[]> {
         return this._httpClient
-            .post<{
-                pagination: Pagination;
-                data: Product[];
-            }>('/api/v1/products/filter', filter)
+            .get<Product[]>('/api/v1/products/create-annual-production-plan')
             .pipe(
                 tap((response) => {
-                    return response.data;
+                    return response;
                 })
             );
     }

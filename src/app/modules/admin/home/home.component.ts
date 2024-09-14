@@ -20,7 +20,6 @@ export class HomeComponent implements OnInit {
         this._userService.get().subscribe((user) => {
             this.user = user;
             this.redirectWithRole();
-            console.log(this.user);
         });
     }
 

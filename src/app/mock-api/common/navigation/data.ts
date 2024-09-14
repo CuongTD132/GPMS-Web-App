@@ -162,7 +162,7 @@ export const compactNavigation: FuseNavigationItem[] = [
         type: 'basic',
         icon: 'heroicons_outline:server-stack',
         link: '/departments',
-        permissions: ['Admin', 'ProductionManager'],
+        permissions: ['ProductionManager'],
     },
 ];
 export const futuristicNavigation: FuseNavigationItem[] = [
