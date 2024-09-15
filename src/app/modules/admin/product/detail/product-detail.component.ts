@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    ElementRef,
+    OnInit,
+    ViewChild,
+} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
@@ -13,6 +19,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
+import { FuseAlertComponent } from '@fuse/components/alert';
 import { CustomPipeModule } from '@fuse/pipes/pipe.module';
 import { ProcessService } from '../../process/process.service';
 import { SemiService } from '../../semi/semi.service';
@@ -42,9 +49,11 @@ import { StepDetailComponent } from './step-detail/step-detail.component';
         RouterModule,
         MatExpansionModule,
         MatTooltipModule,
+        FuseAlertComponent,
     ],
 })
 export class ProductDetailComponent implements OnInit {
+    @ViewChild('uploadImg') private _avatarFileInput: ElementRef;
     stepsList: Step[] = [];
     stepDetail: StepDetail;
     specification: Specification;
@@ -72,6 +81,44 @@ export class ProductDetailComponent implements OnInit {
                 this.semies = semies.data;
             });
         });
+    }
+
+    uploadSpecImg(proId: string, id: string, fileList: FileList): void {
+        // Return if canceled
+        if (!fileList.length) {
+            return;
+        }
+
+        const allowedTypes = ['image/jpeg', 'image/png'];
+        const file = fileList[0];
+
+        // Return if the file is not allowed
+        if (!allowedTypes.includes(file.type)) {
+            return;
+        }
+        const formData = new FormData();
+
+        if (file) {
+            formData.append('imageURLs', file);
+            // Upload the avatar
+            this._productService.uploadSpecImg(id, formData).subscribe({
+                next: () => {
+                    this._productService.getProductById(proId).subscribe();
+
+                    this.showFlashMessage(
+                        'success',
+                        'Image has been upload successful',
+                        3000
+                    );
+                },
+                error: () =>
+                    this.showFlashMessage(
+                        'error',
+                        'Image has been upload failed',
+                        3000
+                    ),
+            });
+        }
     }
 
     private showFlashMessage(

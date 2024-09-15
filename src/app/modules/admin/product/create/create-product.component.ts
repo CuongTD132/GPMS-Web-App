@@ -552,6 +552,7 @@ export class CreateProductComponent implements OnInit {
             code: [null, [Validators.required]],
             name: [null, [Validators.required]],
             orderNumber: [null, [Validators.required]],
+            type: [null, [Validators.required]],
             description: null,
             steps: [],
         });

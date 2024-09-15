@@ -22,7 +22,7 @@
                         class="relative mr-6 flex h-72 w-72 flex-0 items-center justify-center overflow-hidden rounded border"
                     >
                         <img
-                            class="w-8"
+                            class="w-full"
                             *ngIf="
                                 product.imageURLs &&
                                 product.imageURLs.length > 0
@@ -120,182 +120,128 @@
                                 <mat-accordion class="specsList">
                                     <ng-container
                                         *ngFor="
-                                            let item of product.specifications
+                                            let spec of product.specifications
                                         "
                                     >
                                         <mat-expansion-panel
                                             class="m-0"
-                                            (opened)="openSpecPanel(item.id)"
+                                            (opened)="openSpecPanel(spec.id)"
                                         >
                                             <mat-expansion-panel-header>
                                                 <mat-panel-description
                                                     class="product-specifications-item-grid grid items-center border-b py-3 hover:bg-gray-50 hover:text-gray-800 md:px-8"
                                                 >
                                                     <div
-                                                        class="flex items-center"
+                                                        class="flex flex-auto items-end"
                                                     >
                                                         <div
-                                                            class="relative flex h-12 w-12 flex-0 items-center justify-center overflow-hidden rounded border"
+                                                            class="ring-bg-card relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-full ring-4"
                                                         >
-                                                            <img
-                                                                class="w-8"
+                                                            <!-- Upload / Remove avatar -->
+                                                            <ng-container
                                                                 *ngIf="
-                                                                    item.imageURLs &&
-                                                                    item
-                                                                        .imageURLs
-                                                                        .length >
-                                                                        0
-                                                                "
-                                                                [alt]="
-                                                                    'Product image'
-                                                                "
-                                                                [src]="
-                                                                    item
-                                                                        .imageURLs[0]
-                                                                "
-                                                            />
-                                                            <div
-                                                                class="flex h-12 w-12 items-center justify-center text-center text-xs font-semibold uppercase leading-none"
-                                                                *ngIf="
-                                                                    !item.imageURLs ||
-                                                                    !item
-                                                                        .imageURLs
-                                                                        .length >
-                                                                        0
-                                                                "
-                                                            >
-                                                                NO THUMB
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- <section
-                                                    class="container mx-auto w-full items-center"
-                                                >
-                                                    <div class="px-4 py-6">
-                                                        <div
-                                                            id="image-preview"
-                                                            class="mx-auto max-w-sm cursor-pointer items-center rounded-lg border-2 border-dashed border-gray-400 bg-gray-100 text-center"
-                                                        >
-                                                            <input
-                                                                (change)="
-                                                                    onFileSelected(
-                                                                        $event
+                                                                    !(
+                                                                        spec.imageURLs &&
+                                                                        spec
+                                                                            .imageURLs
+                                                                            .length >
+                                                                            0
                                                                     )
                                                                 "
-                                                                id="upload"
-                                                                type="file"
-                                                                class="hidden"
-                                                                accept="image/*"
-                                                            />
-                                                            <label
-                                                                for="upload"
-                                                                class="cursor-pointer"
                                                             >
-                                                                @if (
-                                                                    previewUrl
-                                                                ) {
-                                                                    <img
-                                                                        [src]="
-                                                                            previewUrl
-                                                                        "
-                                                                        class="mx-auto h-4 rounded-lg object-cover"
-                                                                        alt="Image preview"
-                                                                    />
-                                                                } @else {
-                                                                    <div
-                                                                        class="h-4 p-6"
-                                                                    >
-                                                                        <svg
-                                                                            xmlns="http://www.w3.org/2000/svg"
-                                                                            fill="none"
-                                                                            viewBox="0 0 24 24"
-                                                                            stroke-width="1.5"
-                                                                            stroke="currentColor"
-                                                                            class="mx-auto mb-4 h-8 w-8 text-gray-700"
-                                                                        >
-                                                                            <path
-                                                                                stroke-linecap="round"
-                                                                                stroke-linejoin="round"
-                                                                                d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
-                                                                            />
-                                                                        </svg>
-                                                                        <h5
-                                                                            class="mb-2 text-xl font-bold tracking-tight text-gray-700"
-                                                                        >
-                                                                            Upload
-                                                                            picture
-                                                                        </h5>
-                                                                        <p
-                                                                            class="text-sm font-normal text-gray-400 md:px-6"
-                                                                        >
-                                                                            Choose
-                                                                            photo
-                                                                            size
-                                                                            should
-                                                                            be
-                                                                            less
-                                                                            than
-                                                                            <b
-                                                                                class="text-gray-600"
-                                                                                >2mb</b
-                                                                            >
-                                                                        </p>
-                                                                        <p
-                                                                            class="text-sm font-normal text-gray-400 md:px-6"
-                                                                        >
-                                                                            and
-                                                                            should
-                                                                            be
-                                                                            in
-                                                                            <b
-                                                                                class="text-gray-600"
-                                                                                >JPG,
-                                                                                PNG,
-                                                                                or
-                                                                                GIF</b
-                                                                            >
-                                                                            format.
-                                                                        </p>
-                                                                        <span
-                                                                            id="filename"
-                                                                            class="z-50 bg-gray-200 text-gray-500"
-                                                                        ></span>
-                                                                    </div>
-                                                                }
-                                                            </label>
+                                                                <div
+                                                                    class="absolute inset-0 z-10 bg-black bg-opacity-50"
+                                                                ></div>
+                                                            </ng-container>
                                                             <div
-                                                                class="absolute cursor-default text-red-500"
-                                                                *ngIf="
-                                                                    uploadMessage
-                                                                "
+                                                                class="absolute inset-0 z-20 flex items-center justify-center"
                                                             >
-                                                                {{
-                                                                    uploadMessage
-                                                                }}
+                                                                <div>
+                                                                    <input
+                                                                        [id]="
+                                                                            spec.id
+                                                                        "
+                                                                        class="pointer-events-none invisible absolute h-0 w-0 opacity-0"
+                                                                        type="file"
+                                                                        [multiple]="
+                                                                            false
+                                                                        "
+                                                                        [accept]="
+                                                                            'image/jpeg, image/png'
+                                                                        "
+                                                                        (change)="
+                                                                            uploadSpecImg(
+                                                                                product.id,
+                                                                                spec.id,
+                                                                                uploadImg.files
+                                                                            )
+                                                                        "
+                                                                        #uploadImg
+                                                                    />
+                                                                    <ng-container
+                                                                        *ngIf="
+                                                                            !(
+                                                                                spec.imageURLs &&
+                                                                                spec
+                                                                                    .imageURLs
+                                                                                    .length >
+                                                                                    0
+                                                                            )
+                                                                        "
+                                                                    >
+                                                                        <label
+                                                                            class="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full hover:bg-hover"
+                                                                            [for]="
+                                                                                spec.id
+                                                                            "
+                                                                            matRipple
+                                                                        >
+                                                                            <mat-icon
+                                                                                class="text-white"
+                                                                                [svgIcon]="
+                                                                                    'heroicons_outline:camera'
+                                                                                "
+                                                                            ></mat-icon>
+                                                                        </label>
+                                                                    </ng-container>
+                                                                </div>
                                                             </div>
+                                                            <!-- Image/Letter -->
+                                                            @if (
+                                                                spec.imageURLs &&
+                                                                spec.imageURLs
+                                                                    .length > 0
+                                                            ) {
+                                                                <img
+                                                                    class="h-12 w-12 object-cover"
+                                                                    [src]="
+                                                                        spec
+                                                                            .imageURLs[0]
+                                                                    "
+                                                                />
+                                                            }
                                                         </div>
                                                     </div>
-                                                </section> -->
                                                     <div
                                                         class="hidden sm:block"
                                                     >
-                                                        {{ item.size }}
+                                                        {{ spec.size }}
                                                     </div>
                                                     <span
                                                         class="h-4 w-4 cursor-pointer rounded-full border border-gray-600"
                                                         [ngStyle]="{
                                                             'background-color':
-                                                                item.colorCode,
+                                                                spec.colorCode,
                                                         }"
                                                         matTooltip="{{
-                                                            item.colorCode
+                                                            spec.colorCode
                                                         }}"
                                                     ></span>
                                                     <div
                                                         class="hidden pl-10 sm:block"
                                                     >
                                                         {{
-                                                            item.inventoryQuantity ||
+                                                            spec.inventoryQuantity ||
                                                                 0
                                                         }}
                                                     </div>
@@ -675,6 +621,7 @@
                                 <div class="ml-6 hidden sm:block">No.</div>
                                 <div class="mr-10 hidden sm:block">Code</div>
                                 <div class="hidden sm:block">Name</div>
+                                <div class="hidden sm:block">Type</div>
                                 <div class="hidden sm:block">Description</div>
                             </div>
                             <div class="max-h-200 overflow-y-scroll">
@@ -706,6 +653,11 @@
                                                         class="hidden sm:block"
                                                     >
                                                         {{ item.name }}
+                                                    </div>
+                                                    <div
+                                                        class="hidden sm:block"
+                                                    >
+                                                        {{ item.type }}
                                                     </div>
                                                     <div
                                                         class="hidden truncate sm:block"
@@ -863,4 +815,25 @@
     </ng-container>
 </div>
 
+<!-- Notification -->
+<a class="cursor-pointer" *ngIf="flashMessage">
+    <fuse-alert
+        class="absolute bottom-0 right-0 z-999"
+        [type]="'success'"
+        [appearance]="'border'"
+        *ngIf="flashMessage === 'success'"
+    >
+        <span fuseAlertTitle>Success</span>
+        {{ message }}
+    </fuse-alert>
+    <fuse-alert
+        class="absolute bottom-0 right-0 z-999"
+        [type]="'error'"
+        [appearance]="'border'"
+        *ngIf="flashMessage === 'error'"
+    >
+        <span fuseAlertTitle>Error</span>
+        {{ message }}
+    </fuse-alert>
+</a>
 <router-outlet></router-outlet>

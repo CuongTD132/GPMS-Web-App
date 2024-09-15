@@ -78,6 +78,7 @@ import { ProductService } from '../product.service';
 export class ProductHeaderComponent implements OnInit, AfterViewInit {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
+    @ViewChild('uploadExcel') private _avatarFileInput: ElementRef;
     @ViewChildren('inputField') inputFields: QueryList<ElementRef>;
     filterForm: UntypedFormGroup;
 
@@ -263,6 +264,47 @@ export class ProductHeaderComponent implements OnInit, AfterViewInit {
             this.flashMessage = this.message = null;
             this._changeDetectorRef.markForCheck();
         }, time);
+    }
+
+    uploadExcelFile(fileList: FileList): void {
+        // Return if canceled
+        if (!fileList.length) {
+            return;
+        }
+
+        const allowedTypes = [
+            '.xlsx',
+            '.xls',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        ];
+        const file = fileList[0];
+        console.log(file.type);
+
+        // Return if the file is not allowed
+        if (!allowedTypes.includes(file.type)) {
+            this.showFlashMessage('error', 'Wrong file format!', 3000);
+            return;
+        }
+        const formData = new FormData();
+
+        formData.append('files', file);
+        // Upload the avatar
+        this._productService.uploadExcel(formData).subscribe({
+            next: () => {
+                this._productService.getProducts().subscribe();
+                this.showFlashMessage(
+                    'success',
+                    'Product has been upload successful',
+                    3000
+                );
+            },
+            error: () =>
+                this.showFlashMessage(
+                    'error',
+                    'Product has been upload failed',
+                    3000
+                ),
+        });
     }
 
     openCreateProductDialog() {

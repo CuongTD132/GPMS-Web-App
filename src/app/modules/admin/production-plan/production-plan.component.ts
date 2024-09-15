@@ -76,6 +76,7 @@ export class ProductionPlanComponent implements OnInit, AfterViewInit {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
     @ViewChildren('inputField') inputFields: QueryList<ElementRef>;
+    @ViewChild('uploadYearExcel') private _avatarFileInput: ElementRef;
 
     searchInputControl: UntypedFormControl = new UntypedFormControl();
     filterForm: UntypedFormGroup;
@@ -279,6 +280,47 @@ export class ProductionPlanComponent implements OnInit, AfterViewInit {
                         3000
                     ),
             });
+        });
+    }
+
+    uploadYearExcelFile(fileList: FileList): void {
+        // Return if canceled
+        if (!fileList.length) {
+            return;
+        }
+
+        const allowedTypes = [
+            '.xlsx',
+            '.xls',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        ];
+        const file = fileList[0];
+        console.log(file.type);
+
+        // Return if the file is not allowed
+        if (!allowedTypes.includes(file.type)) {
+            this.showFlashMessage('error', 'Wrong file format!', 3000);
+            return;
+        }
+        const formData = new FormData();
+
+        formData.append('files', file);
+        // Upload the avatar
+        this._productionPlanService.uploadYearExcel(formData).subscribe({
+            next: () => {
+                this._productionPlanService.getProductionPlans().subscribe();
+                this.showFlashMessage(
+                    'success',
+                    'Annual production plan has been upload successful',
+                    3000
+                );
+            },
+            error: () =>
+                this.showFlashMessage(
+                    'error',
+                    'Annual production plan has been upload failed',
+                    3000
+                ),
         });
     }
 }

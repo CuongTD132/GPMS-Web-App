@@ -122,6 +122,30 @@ export class ProductService {
         );
     }
 
+    uploadExcel(data) {
+        return this.products$.pipe(
+            take(1),
+            switchMap(() =>
+                this._httpClient.post<any>(
+                    '/api/v1/products/upload-excel',
+                    data
+                )
+            )
+        );
+    }
+
+    uploadSpecImg(id: string, data) {
+        return this.products$.pipe(
+            take(1),
+            switchMap(() =>
+                this._httpClient.post<Product>(
+                    '/api/v1/specifications/' + id + '/images',
+                    data
+                )
+            )
+        );
+    }
+
     approveProduct(id: string) {
         return this.productPatch$.pipe(
             take(1),

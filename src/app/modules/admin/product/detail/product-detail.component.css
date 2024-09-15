@@ -11,11 +11,11 @@
 }
 
 .product-processes-grid {
-    grid-template-columns: 90px auto 300px 400px;
+    grid-template-columns: 90px auto 200px 80px 400px;
 }
 
 .product-processes-item-grid {
-    grid-template-columns: 80px auto 315px 340px;
+    grid-template-columns: 80px auto 215px 100px 340px;
 }
 
 .product-processes-steps-list-grid {

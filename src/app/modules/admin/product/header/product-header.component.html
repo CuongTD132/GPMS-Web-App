@@ -24,6 +24,28 @@
                 <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
                 <span> Create </span>
             </button>
+            <div class="flex min-w-fit gap-2 rounded-3xl bg-[#0d9488] px-8">
+                <input
+                    id="upload-excel"
+                    class="hidden"
+                    type="file"
+                    [multiple]="false"
+                    [accept]="'.xlsx, .xls'"
+                    (change)="uploadExcelFile(uploadExcel.files)"
+                    #uploadExcel
+                />
+                <label
+                    class="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full hover:bg-hover"
+                    for="upload-excel"
+                    matRipple
+                >
+                    <mat-icon
+                        class="text-black"
+                        [svgIcon]="'heroicons_outline:plus-small'"
+                    ></mat-icon>
+                    <span>Upload</span>
+                </label>
+            </div>
 
             <div class="flex gap-3" [formGroup]="filterForm">
                 <div>

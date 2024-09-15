@@ -760,6 +760,8 @@
                                         [formControlName]="'name'"
                                     />
                                 </mat-form-field>
+                            </div>
+                            <div class="flex gap-4">                                
                                 <mat-form-field class="w-full">
                                     <mat-label>Process Code</mat-label>
                                     <input
@@ -767,6 +769,43 @@
                                         placeholder="Process Code"
                                         [formControlName]="'code'"
                                     />
+                                </mat-form-field>
+                                <mat-form-field class="w-full">
+                                    <mat-label>Process Type</mat-label>
+                                    <mat-select [formControlName]="'type'">
+                                        <mat-option
+                                        [value]="
+                                            'Cutting'
+                                        "
+                                        >{{
+                                            'Cutting'
+                                        }}</mat-option
+                                    >
+                                    <mat-option
+                                        [value]="
+                                            'Sewing'
+                                        "
+                                        >{{
+                                            'Sewing'
+                                        }}</mat-option
+                                    >
+                                    <mat-option
+                                        [value]="
+                                            'Finishing'
+                                        "
+                                        >{{
+                                            'Finishing'
+                                        }}</mat-option
+                                    >
+                                    <mat-option
+                                        [value]="
+                                            'Inspecting'
+                                        "
+                                        >{{
+                                            'Inspecting'
+                                        }}</mat-option
+                                    >
+                                    </mat-select>
                                 </mat-form-field>
                             </div>
                             <div>

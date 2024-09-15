@@ -270,6 +270,7 @@ export class ProductionResultComponent implements OnInit {
 
         this.stepIOsList = null;
         this.selectedStepIO = null;
+        this.inputOutputResults = [];
     }
 
     submit() {

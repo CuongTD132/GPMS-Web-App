@@ -168,6 +168,18 @@ export class ProductionPlanService {
         );
     }
 
+    uploadYearExcel(data) {
+        return this.productionPlans$.pipe(
+            take(1),
+            switchMap(() =>
+                this._httpClient.post<any>(
+                    '/api/v1/production-plans/annual/upload-excel',
+                    data
+                )
+            )
+        );
+    }
+
     createChildProductionPlan(data) {
         return this.productionPlans$.pipe(
             take(1),
