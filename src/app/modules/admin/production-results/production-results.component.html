@@ -168,14 +168,11 @@
                             <mat-option value="{{ item.id }}">
                                 <p>
                                     {{ item.orderNumber }}. {{ item.code }} -
-                                    Quy trình {{ item.name }} -
+                                    Quy trình {{ item.name }}
                                     <ng-container
                                         *ngIf="item.haveResult === true"
-                                        >Đã có đầy đủ kết quả</ng-container
-                                    >
-                                    <ng-container
-                                        *ngIf="item.haveResult === false"
-                                        >Chưa có kết quả</ng-container
+                                        >- Đã có đầy đủ kết quả các
+                                        step</ng-container
                                     >
                                 </p>
                             </mat-option>
@@ -192,14 +189,10 @@
                             <mat-option value="{{ item.id }}">
                                 <p>
                                     {{ item.orderNumber }}. {{ item.code }} -
-                                    Bước {{ item.name }} -
+                                    Bước {{ item.name }}
                                     <ng-container
                                         *ngIf="item.haveResult === true"
-                                        >Đã nhập kết quả</ng-container
-                                    >
-                                    <ng-container
-                                        *ngIf="item.haveResult === false"
-                                        >Chưa có kết quả</ng-container
+                                        >- Đã nhập kết quả</ng-container
                                     >
                                 </p></mat-option
                             >
