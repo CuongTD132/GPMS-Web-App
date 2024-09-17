@@ -21,6 +21,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { FuseAlertComponent } from '@fuse/components/alert';
 import { CustomPipeModule } from '@fuse/pipes/pipe.module';
+import { UserService } from 'app/core/user/user.service';
 import { ProcessService } from '../../process/process.service';
 import { SemiService } from '../../semi/semi.service';
 import { SpecificationService } from '../../specification/specification.service';
@@ -64,6 +65,7 @@ export class ProductDetailComponent implements OnInit {
     uploadMessage: string;
     flashMessage: 'success' | 'error' | null = null;
     message: string = null;
+    role: string = null;
     constructor(
         private _productService: ProductService,
         private _specificationsService: SpecificationService,
@@ -71,10 +73,14 @@ export class ProductDetailComponent implements OnInit {
         private _semiService: SemiService,
         private _dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _stepService: StepService
+        private _stepService: StepService,
+        private _userService: UserService
     ) {}
 
     ngOnInit(): void {
+        this._userService.get().subscribe((user) => {
+            this.role = user.role;
+        });
         this._productService.product$.subscribe((product) => {
             this.product = product;
             this._semiService.getSemies(this.product.id).subscribe((semies) => {

@@ -71,6 +71,7 @@ type Steps = {
 };
 
 type IORespone = {
+    stepId?: string;
     seriesQuantity: number;
     inputs: Res;
     outputs: Res;

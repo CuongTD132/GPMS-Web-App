@@ -41,6 +41,8 @@ type ProductionEstimation = {
 };
 type ProductionSeries = {
     id: string;
+    colorCode: string;
+    size: string;
     code: string;
     quantity: number;
     faultyQuantity?: number;

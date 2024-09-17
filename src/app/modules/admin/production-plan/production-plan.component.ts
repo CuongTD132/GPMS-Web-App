@@ -31,6 +31,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { RouterModule } from '@angular/router';
 import { FuseAlertComponent } from '@fuse/components/alert';
+import { CustomPipeModule } from '@fuse/pipes/pipe.module';
+import { UserService } from 'app/core/user/user.service';
 import { Pagination } from 'app/types/pagination.type';
 import {
     Observable,
@@ -70,6 +72,7 @@ import { ProductionPlanService } from './production-plan.service';
         RouterModule,
         MatProgressBar,
         MatMenuModule,
+        CustomPipeModule,
     ],
 })
 export class ProductionPlanComponent implements OnInit, AfterViewInit {
@@ -86,7 +89,7 @@ export class ProductionPlanComponent implements OnInit, AfterViewInit {
     isLoading: boolean = false;
     flashMessage: 'success' | 'error' | null = null;
     message: string = null;
-
+    role: string = null;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     /**
      * Constructor
@@ -96,13 +99,16 @@ export class ProductionPlanComponent implements OnInit, AfterViewInit {
         private _productionPlanService: ProductionPlanService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: UntypedFormBuilder,
+        private _userService: UserService,
         private _dialog: MatDialog,
         private dateAdapter: DateAdapter<Date>
     ) {}
 
     ngOnInit(): void {
         this.getProductionPlans();
-
+        this._userService.get().subscribe((user) => {
+            this.role = user.role;
+        });
         // Get the pagination
         this._productionPlanService.pagination$
             .pipe(takeUntil(this._unsubscribeAll))

@@ -64,29 +64,33 @@
                 </div>
             </div>
             <div class="col-span-9 space-y-8">
-                <div
-                    class="flex shrink-0 items-center justify-end gap-3 pt-4 sm:ml-4 sm:mt-0"
-                >
-                    <button
-                        (click)="
-                            openCreateBatchProductionPlanDialog(
-                                productionPlan.id
-                            )
-                        "
-                        [disabled]="
-                            !(
-                                productionPlan.status === 'Approved' &&
-                                productionPlan.childPlanRequiredCount > 0
-                            )
-                        "
-                        mat-raised-button
-                        class="flex min-w-fit gap-2"
-                        color="primary"
+                <ng-container *ngIf="role === 'ProductionManager'">
+                    <div
+                        class="flex shrink-0 items-center justify-end gap-3 pt-4 sm:ml-4 sm:mt-0"
                     >
-                        <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
-                        <span> Create Batch Production Plans </span>
-                    </button>
-                </div>
+                        <button
+                            (click)="
+                                openCreateBatchProductionPlanDialog(
+                                    productionPlan.id
+                                )
+                            "
+                            [disabled]="
+                                !(
+                                    productionPlan.status === 'Approved' &&
+                                    productionPlan.childPlanRequiredCount > 0
+                                )
+                            "
+                            mat-raised-button
+                            class="flex min-w-fit gap-2"
+                            color="primary"
+                        >
+                            <mat-icon
+                                svgIcon="heroicons_outline:inbox"
+                            ></mat-icon>
+                            <span> Create Batch Production Plans </span>
+                        </button>
+                    </div></ng-container
+                >
                 <div class="grid">
                     <div class="production-plan-detail flex flex-col gap-2">
                         <span>LIST PRODUCTION REQUIREMENTS</span>
@@ -241,98 +245,111 @@
                                                     svgIcon="heroicons_outline:ellipsis-horizontal-circle"
                                                 ></mat-icon>
                                                 <mat-menu #menu="matMenu">
-                                                    <button
-                                                        (click)="
-                                                            approveProductionPlan(
-                                                                item.id
-                                                            )
-                                                        "
+                                                    <ng-container
                                                         *ngIf="
-                                                            item.status ===
-                                                            'Pending'
+                                                            role ===
+                                                            'FactoryDirector'
                                                         "
-                                                        mat-menu-item
-                                                    >
-                                                        Approve
-                                                        <mat-icon
-                                                            class="cursor-pointer text-blue-500 icon-size-5"
-                                                            svgIcon="heroicons_outline:check-circle"
-                                                        ></mat-icon>
-                                                    </button>
-                                                    <button
-                                                        (click)="
-                                                            startProductionPlan(
-                                                                item.id
-                                                            )
-                                                        "
+                                                        ><button
+                                                            (click)="
+                                                                approveProductionPlan(
+                                                                    item.id
+                                                                )
+                                                            "
+                                                            *ngIf="
+                                                                item.status ===
+                                                                'Pending'
+                                                            "
+                                                            mat-menu-item
+                                                        >
+                                                            Approve
+                                                            <mat-icon
+                                                                class="cursor-pointer text-blue-500 icon-size-5"
+                                                                svgIcon="heroicons_outline:check-circle"
+                                                            ></mat-icon>
+                                                        </button>
+                                                        <button
+                                                            (click)="
+                                                                declineProductionPlan(
+                                                                    item.id
+                                                                )
+                                                            "
+                                                            *ngIf="
+                                                                item.status ===
+                                                                'Pending'
+                                                            "
+                                                            mat-menu-item
+                                                        >
+                                                            Decline
+                                                            <mat-icon
+                                                                class="cursor-pointer text-blue-500 icon-size-5"
+                                                                svgIcon="heroicons_outline:no-symbol"
+                                                            ></mat-icon>
+                                                        </button>
+                                                    </ng-container>
+                                                    <ng-container
                                                         *ngIf="
-                                                            item.status ===
-                                                            'Approved'
+                                                            role ===
+                                                            'ProductionManager'
                                                         "
-                                                        mat-menu-item
                                                     >
-                                                        Start
-                                                        <mat-icon
-                                                            class="cursor-pointer text-blue-500 icon-size-5"
-                                                            svgIcon="heroicons_outline:play-circle"
-                                                        ></mat-icon>
-                                                    </button>
-                                                    <button
-                                                        (click)="
-                                                            declineProductionPlan(
-                                                                item.id
-                                                            )
-                                                        "
-                                                        *ngIf="
-                                                            item.status ===
-                                                            'Pending'
-                                                        "
-                                                        mat-menu-item
-                                                    >
-                                                        Decline
-                                                        <mat-icon
-                                                            class="cursor-pointer text-blue-500 icon-size-5"
-                                                            svgIcon="heroicons_outline:no-symbol"
-                                                        ></mat-icon>
-                                                    </button>
-                                                    <button
-                                                        (click)="
-                                                            deleteProductionPlan(
-                                                                item.id
-                                                            )
-                                                        "
-                                                        *ngIf="
-                                                            item.status ===
-                                                            'Pending'
-                                                        "
-                                                        mat-menu-item
-                                                    >
-                                                        Delete
-                                                        <mat-icon
-                                                            class="cursor-pointer text-blue-500 icon-size-5"
-                                                            svgIcon="heroicons_outline:x-circle"
-                                                        ></mat-icon>
-                                                    </button>
-                                                    <button
-                                                        (click)="
-                                                            endProductionPlan(
-                                                                item.id
-                                                            )
-                                                        "
-                                                        *ngIf="
-                                                            item.status ===
-                                                                'InProgress' &&
-                                                            item.readyToFinish ===
-                                                                true
-                                                        "
-                                                        mat-menu-item
-                                                    >
-                                                        Finish
-                                                        <mat-icon
-                                                            class="cursor-pointer text-blue-500 icon-size-5"
-                                                            svgIcon="heroicons_outline:play-circle"
-                                                        ></mat-icon>
-                                                    </button>
+                                                        <button
+                                                            (click)="
+                                                                startProductionPlan(
+                                                                    item.id
+                                                                )
+                                                            "
+                                                            *ngIf="
+                                                                item.status ===
+                                                                'Approved'
+                                                            "
+                                                            mat-menu-item
+                                                        >
+                                                            Start
+                                                            <mat-icon
+                                                                class="cursor-pointer text-blue-500 icon-size-5"
+                                                                svgIcon="heroicons_outline:play-circle"
+                                                            ></mat-icon>
+                                                        </button>
+                                                        <button
+                                                            (click)="
+                                                                deleteProductionPlan(
+                                                                    item.id
+                                                                )
+                                                            "
+                                                            *ngIf="
+                                                                item.status ===
+                                                                'Pending'
+                                                            "
+                                                            mat-menu-item
+                                                        >
+                                                            Delete
+                                                            <mat-icon
+                                                                class="cursor-pointer text-blue-500 icon-size-5"
+                                                                svgIcon="heroicons_outline:x-circle"
+                                                            ></mat-icon>
+                                                        </button>
+                                                        <button
+                                                            (click)="
+                                                                endProductionPlan(
+                                                                    item.id
+                                                                )
+                                                            "
+                                                            *ngIf="
+                                                                item.status ===
+                                                                    'InProgress' &&
+                                                                item.readyToFinish ===
+                                                                    true
+                                                            "
+                                                            mat-menu-item
+                                                        >
+                                                            Finish
+                                                            <mat-icon
+                                                                class="cursor-pointer text-blue-500 icon-size-5"
+                                                                svgIcon="heroicons_outline:play-circle"
+                                                            ></mat-icon>
+                                                        </button>
+                                                    </ng-container>
                                                 </mat-menu>
                                             </span>
                                         </div>

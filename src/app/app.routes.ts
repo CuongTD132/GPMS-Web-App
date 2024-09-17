@@ -187,6 +187,13 @@ export const appRoutes: Route[] = [
                     ),
             },
             {
+                path: 'enter-production-results',
+                loadChildren: () =>
+                    import(
+                        'app/modules/admin/enter-production-results/enter-production-results.routes'
+                    ),
+            },
+            {
                 path: 'warehouse-requests',
                 loadChildren: () =>
                     import(

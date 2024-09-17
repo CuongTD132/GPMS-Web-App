@@ -44,6 +44,7 @@ import {
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { CustomPipeModule } from '@fuse/pipes/pipe.module';
 import { CreateWarehouseRequestComponent } from './create/create-warehouse-request.component';
 import { DeclineComponent } from './decline/decline.component';
 import { WarehouseRequestService } from './warehouse-requests.service';
@@ -71,6 +72,7 @@ import { WarehouseRequestService } from './warehouse-requests.service';
         MatExpansionModule,
         MatTooltipModule,
         MatMenuModule,
+        CustomPipeModule,
     ],
 })
 export class WarehouseRequestComponent implements OnInit, AfterViewInit {

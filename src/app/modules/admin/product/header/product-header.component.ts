@@ -32,6 +32,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { FuseAlertComponent } from '@fuse/components/alert';
+import { CustomPipeModule } from '@fuse/pipes/pipe.module';
 import { UserService } from 'app/core/user/user.service';
 import { Pagination } from 'app/types/pagination.type';
 import {
@@ -73,6 +74,7 @@ import { ProductService } from '../product.service';
         MatProgressBar,
         MatTooltipModule,
         MatChipsModule,
+        CustomPipeModule,
     ],
 })
 export class ProductHeaderComponent implements OnInit, AfterViewInit {
@@ -106,11 +108,6 @@ export class ProductHeaderComponent implements OnInit, AfterViewInit {
     ngOnInit(): void {
         this._userService.get().subscribe((user) => {
             this.role = user.role;
-            if (
-                user.role === 'ProductionManager' ||
-                user.role === 'FactoryDirector'
-            ) {
-            }
         });
         this.getProducts();
         // Get the products

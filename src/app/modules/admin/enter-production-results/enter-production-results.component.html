@@ -1,0 +1,1412 @@
+<div
+    class="bg-card flex min-w-0 flex-auto flex-col dark:bg-transparent sm:absolute sm:inset-0 sm:overflow-hidden"
+>
+    <!-- Header -->
+    <div
+        class="relative flex flex-0 flex-col border-b px-6 py-8 sm:flex-row sm:items-center sm:justify-between md:px-8"
+    >
+        @if (isLoading) {
+            <div class="absolute inset-x-0 bottom-0">
+                <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+            </div>
+        }
+        <!-- Title -->
+        <div class="text-4xl font-extrabold tracking-tight">
+            Production Results
+        </div>
+
+        <div>
+            <input
+                class="w-100 rounded-lg border px-4 py-2 text-left"
+                matInput
+                placeholder="Select a working production plan"
+                [matAutocomplete]="auto"
+                [formControl]="stateCtrl"
+            />
+            <mat-autocomplete
+                #auto="matAutocomplete"
+                (optionSelected)="planSelectHandle($event)"
+            >
+                @for (item of filteredStates | async; track item) {
+                    <mat-option [value]="item.code">
+                        <span>{{ item.code }}</span> |
+                        <small>Name: {{ item.name }}</small>
+                    </mat-option>
+                }
+            </mat-autocomplete>
+        </div>
+    </div>
+
+    <!-- Production Plans list -->
+    <div
+        appHorizontalScroll
+        class="flex flex-auto flex-col overflow-scroll sm:mb-18"
+    >
+        <div
+            class="text-secondary sticky top-0 z-10 grid w-full grid-cols-2 gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+        >
+            <mat-form-field class="w-full">
+                <mat-label>Select a series:</mat-label>
+                <mat-select
+                    (selectionChange)="getProcessesList(selectedSeries)"
+                    [(value)]="selectedSeries"
+                >
+                    <ng-container *ngFor="let item of seriesList">
+                        <mat-option value="{{ item.id }}">
+                            <p>
+                                {{ item.code }} - Required
+                                {{ item.quantity }} pcs size {{ item.size }}
+                                {{ item.colorCode }}
+                                <ng-container *ngIf="item.currentProcess">
+                                    - Current Process:
+                                    {{ item.currentProcess }}
+                                </ng-container>
+
+                                - {{ item.status }}
+                            </p></mat-option
+                        >
+                    </ng-container>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="w-full">
+                <mat-label>Select a process:</mat-label>
+                <mat-select
+                    (selectionChange)="getStepsList(selectedProcess)"
+                    [(value)]="selectedProcess"
+                >
+                    <ng-container *ngFor="let item of processesList">
+                        <mat-option value="{{ item.id }}">
+                            <p>
+                                {{ item.orderNumber }}. {{ item.code }} - Quy
+                                trình {{ item.name }} -
+                                <ng-container *ngIf="item.haveResult === true"
+                                    >Đã có đầy đủ kết quả</ng-container
+                                >
+                                <ng-container *ngIf="item.haveResult === false"
+                                    >Chưa có kết quả</ng-container
+                                >
+                            </p>
+                        </mat-option>
+                    </ng-container>
+                </mat-select>
+            </mat-form-field>
+            <!-- <mat-form-field class="w-full">
+                    <mat-label>Select a step:</mat-label>
+                    <mat-select
+                        (selectionChange)="getStepIOsList(selectedStep)"
+                        [(value)]="selectedStep"
+                    >
+                        <ng-container *ngFor="let item of stepsList">
+                            <mat-option value="{{ item.id }}">
+                                <p>
+                                    {{ item.orderNumber }}. {{ item.code }} -
+                                    Bước {{ item.name }} -
+                                    <ng-container
+                                        *ngIf="item.haveResult === true"
+                                        >Đã nhập kết quả</ng-container
+                                    >
+                                    <ng-container
+                                        *ngIf="item.haveResult === false"
+                                        >Chưa có kết quả</ng-container
+                                    >
+                                </p></mat-option
+                            >
+                        </ng-container>
+                    </mat-select>
+                </mat-form-field> -->
+        </div>
+
+        <div class="mx-4 my-4">
+            <mat-accordion>
+                <ng-container *ngIf="stepsList">
+                    <ng-container *ngFor="let step of stepsList">
+                        <mat-expansion-panel (opened)="openStepCard(step.id)">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    {{ step.orderNumber }}. {{ step.code }} -
+                                    {{ step.name }}
+                                </mat-panel-title>
+                                <mat-panel-description class="flex justify-end">
+                                    <ng-container
+                                        *ngIf="step.haveResult === true"
+                                    >
+                                        <mat-icon
+                                            svgIcon="heroicons_outline:check-circle"
+                                        ></mat-icon>
+                                    </ng-container>
+                                    <ng-container
+                                        *ngIf="step.haveResult === false"
+                                    >
+                                        <mat-icon
+                                            svgIcon="heroicons_outline:minus-circle"
+                                        ></mat-icon>
+                                    </ng-container>
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <div *ngIf="stepIOsList">
+                                <mat-tab-group class="mt-4">
+                                    <ng-container
+                                        *ngIf="
+                                            (
+                                                stepIOsList
+                                                | filter: stepId : step.id
+                                            ).inputs
+                                        "
+                                    >
+                                        <mat-tab
+                                            [label]="'Input List' | titlecase"
+                                        >
+                                            <mat-tab-group>
+                                                <ng-container
+                                                    *ngIf="
+                                                        stepIOsList.inputs
+                                                            .materials &&
+                                                        stepIOsList.inputs
+                                                            .materials.length >
+                                                            0
+                                                    "
+                                                >
+                                                    <mat-tab label="Materials"
+                                                        ><div
+                                                            class="flex flex-col gap-4"
+                                                        >
+                                                            <div
+                                                                class="material-step-detail flex flex-col gap-2"
+                                                            >
+                                                                <div
+                                                                    class="grid w-full"
+                                                                >
+                                                                    <div
+                                                                        class="material-step-detail-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                                                                    >
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Name
+                                                                        </div>
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Code
+                                                                        </div>
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Estimated
+                                                                            consumption
+                                                                            for
+                                                                            1
+                                                                            pce
+                                                                        </div>
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Estimated
+                                                                            consumption
+                                                                            for
+                                                                            {{
+                                                                                stepIOsList.seriesQuantity
+                                                                            }}
+                                                                            pcs
+                                                                        </div>
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Actual
+                                                                            results
+                                                                        </div>
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Fill
+                                                                            results
+                                                                        </div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="max-h-80 overflow-y-scroll"
+                                                                    >
+                                                                        <ng-container
+                                                                            *ngFor="
+                                                                                let item of stepIOsList
+                                                                                    .inputs
+                                                                                    .materials
+                                                                            "
+                                                                        >
+                                                                            <div
+                                                                                class="material-step-detail-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                                                            >
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    {{
+                                                                                        item.name
+                                                                                    }}
+                                                                                </div>
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    {{
+                                                                                        item.code
+                                                                                    }}
+                                                                                </div>
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    {{
+                                                                                        item.consumption
+                                                                                    }}
+                                                                                    {{
+                                                                                        item.unit
+                                                                                    }}
+                                                                                </div>
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    {{
+                                                                                        item.totalConsumption
+                                                                                    }}
+                                                                                    {{
+                                                                                        item.unit
+                                                                                    }}
+                                                                                </div>
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    {{
+                                                                                        item.resultConsumption ||
+                                                                                            'Not yet available'
+                                                                                    }}
+                                                                                    <ng-container
+                                                                                        *ngIf="
+                                                                                            item.resultConsumption
+                                                                                        "
+                                                                                        >{{
+                                                                                            item.unit
+                                                                                        }}</ng-container
+                                                                                    >
+                                                                                </div>
+                                                                                <mat-form-field
+                                                                                    class="mt-4 h-fit w-full"
+                                                                                    *ngIf="
+                                                                                        item.resultConsumption
+                                                                                    "
+                                                                                >
+                                                                                    <input
+                                                                                        disabled
+                                                                                        matInput
+                                                                                        placeholder="Result have been obtained!"
+                                                                                    />
+                                                                                </mat-form-field>
+                                                                                <form
+                                                                                    [formGroup]="
+                                                                                        consumptionForms[
+                                                                                            item
+                                                                                                .id
+                                                                                        ]
+                                                                                    "
+                                                                                >
+                                                                                    <div
+                                                                                        class="flex items-center gap-2"
+                                                                                        *ngIf="
+                                                                                            !item.resultConsumption
+                                                                                        "
+                                                                                    >
+                                                                                        <mat-form-field
+                                                                                            class="mt-4 h-fit w-full"
+                                                                                        >
+                                                                                            <input
+                                                                                                type="number"
+                                                                                                matInput
+                                                                                                placeholder="Enter result here (Maximum is {{
+                                                                                                    item.totalConsumption
+                                                                                                }})"
+                                                                                                min="0"
+                                                                                                max="{{
+                                                                                                    item.totalConsumption
+                                                                                                }}"
+                                                                                                [formControlName]="
+                                                                                                    'consumption'
+                                                                                                "
+                                                                                            />
+                                                                                        </mat-form-field>
+                                                                                        <button
+                                                                                            [disabled]="
+                                                                                                consumptionForms[
+                                                                                                    item
+                                                                                                        .id
+                                                                                                ]
+                                                                                                    .invalid
+                                                                                            "
+                                                                                            mat-button
+                                                                                            (click)="
+                                                                                                saveConsumptionForm(
+                                                                                                    item.id
+                                                                                                )
+                                                                                            "
+                                                                                            class="hover:text-blue-500"
+                                                                                        >
+                                                                                            Save
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+                                                                        </ng-container>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </mat-tab>
+                                                </ng-container>
+                                                <ng-container
+                                                    *ngIf="
+                                                        stepIOsList.inputs
+                                                            .semis &&
+                                                        stepIOsList.inputs.semis
+                                                            .length > 0
+                                                    "
+                                                >
+                                                    <mat-tab
+                                                        label="Semi Finished Products"
+                                                        ><div
+                                                            class="flex flex-col gap-4"
+                                                        >
+                                                            <div
+                                                                class="material-step-detail flex flex-col gap-2"
+                                                            >
+                                                                <div
+                                                                    class="grid w-full"
+                                                                >
+                                                                    <div
+                                                                        class="material-step-detail-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                                                                    >
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Name
+                                                                        </div>
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Code
+                                                                        </div>
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Estimated
+                                                                            quantity
+                                                                            for
+                                                                            1
+                                                                            pce
+                                                                        </div>
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Estimated
+                                                                            quantity
+                                                                            for
+                                                                            {{
+                                                                                stepIOsList.seriesQuantity
+                                                                            }}
+                                                                            pcs
+                                                                        </div>
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Actual
+                                                                            results
+                                                                        </div>
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Fill
+                                                                            results
+                                                                        </div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="max-h-80 overflow-y-scroll"
+                                                                    >
+                                                                        <ng-container
+                                                                            *ngFor="
+                                                                                let item of stepIOsList
+                                                                                    .inputs
+                                                                                    .semis
+                                                                            "
+                                                                        >
+                                                                            <div
+                                                                                class="material-step-detail-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                                                            >
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    {{
+                                                                                        item.name
+                                                                                    }}
+                                                                                </div>
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    {{
+                                                                                        item.code
+                                                                                    }}
+                                                                                </div>
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    {{
+                                                                                        item.quantity
+                                                                                    }}
+                                                                                    piece
+                                                                                </div>
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    {{
+                                                                                        item.totalQuantity
+                                                                                    }}
+                                                                                    {{
+                                                                                        item.unit
+                                                                                    }}
+                                                                                </div>
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    {{
+                                                                                        item.resultQuantity ||
+                                                                                            'Not yet available'
+                                                                                    }}
+                                                                                    <ng-container
+                                                                                        *ngIf="
+                                                                                            item.resultQuantity
+                                                                                        "
+                                                                                        >{{
+                                                                                            item.unit
+                                                                                        }}</ng-container
+                                                                                    >
+                                                                                </div>
+                                                                                <mat-form-field
+                                                                                    class="mt-4 h-fit w-full"
+                                                                                    *ngIf="
+                                                                                        item.resultQuantity
+                                                                                    "
+                                                                                >
+                                                                                    <input
+                                                                                        disabled
+                                                                                        matInput
+                                                                                        placeholder="Result have been obtained!"
+                                                                                    />
+                                                                                </mat-form-field>
+                                                                                <form
+                                                                                    [formGroup]="
+                                                                                        quantityForms[
+                                                                                            item
+                                                                                                .id
+                                                                                        ]
+                                                                                    "
+                                                                                >
+                                                                                    <div
+                                                                                        class="flex items-center gap-2"
+                                                                                        *ngIf="
+                                                                                            !item.resultQuantity
+                                                                                        "
+                                                                                    >
+                                                                                        <mat-form-field
+                                                                                            class="mt-4 h-fit w-full"
+                                                                                        >
+                                                                                            <input
+                                                                                                type="number"
+                                                                                                matInput
+                                                                                                min="1"
+                                                                                                max="{{
+                                                                                                    item.totalQuantity
+                                                                                                }}"
+                                                                                                placeholder="Enter result here (Maximum is {{
+                                                                                                    item.totalQuantity
+                                                                                                }})"
+                                                                                                [formControlName]="
+                                                                                                    'quantity'
+                                                                                                "
+                                                                                            />
+                                                                                        </mat-form-field>
+                                                                                        <button
+                                                                                            [disabled]="
+                                                                                                quantityForms[
+                                                                                                    item
+                                                                                                        .id
+                                                                                                ]
+                                                                                                    .invalid
+                                                                                            "
+                                                                                            mat-button
+                                                                                            (click)="
+                                                                                                saveQuantityForm(
+                                                                                                    item.id
+                                                                                                )
+                                                                                            "
+                                                                                            class="hover:text-blue-500"
+                                                                                        >
+                                                                                            Save
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+                                                                        </ng-container>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </mat-tab>
+                                                </ng-container>
+                                                <ng-container
+                                                    *ngIf="
+                                                        stepIOsList.inputs
+                                                            .products &&
+                                                        stepIOsList.inputs
+                                                            .products.length > 0
+                                                    "
+                                                >
+                                                    <mat-tab label="Products"
+                                                        ><div
+                                                            class="flex flex-col gap-4"
+                                                        >
+                                                            <div
+                                                                class="material-step-detail flex flex-col gap-2"
+                                                            >
+                                                                <div
+                                                                    class="grid w-full"
+                                                                >
+                                                                    <div
+                                                                        class="material-step-detail-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                                                                    >
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Name
+                                                                        </div>
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Code
+                                                                        </div>
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Estimated
+                                                                            quantity
+                                                                            for
+                                                                            1
+                                                                            pce
+                                                                        </div>
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Estimated
+                                                                            quantity
+                                                                            for
+                                                                            {{
+                                                                                stepIOsList.seriesQuantity
+                                                                            }}
+                                                                            pcs
+                                                                        </div>
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Actual
+                                                                            results
+                                                                        </div>
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Fill
+                                                                            results
+                                                                        </div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="max-h-80 overflow-y-scroll"
+                                                                    >
+                                                                        <ng-container
+                                                                            *ngFor="
+                                                                                let item of stepIOsList
+                                                                                    .inputs
+                                                                                    .products
+                                                                            "
+                                                                        >
+                                                                            <div
+                                                                                class="material-step-detail-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                                                            >
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    {{
+                                                                                        item.name
+                                                                                    }}
+                                                                                </div>
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    {{
+                                                                                        item.code
+                                                                                    }}
+                                                                                </div>
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    {{
+                                                                                        item.quantity
+                                                                                    }}
+                                                                                    piece
+                                                                                </div>
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    {{
+                                                                                        item.totalQuantity
+                                                                                    }}
+                                                                                    {{
+                                                                                        item.unit
+                                                                                    }}
+                                                                                </div>
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    {{
+                                                                                        item.resultQuantity ||
+                                                                                            'Not yet available'
+                                                                                    }}
+                                                                                    <ng-container
+                                                                                        *ngIf="
+                                                                                            item.resultQuantity
+                                                                                        "
+                                                                                        >{{
+                                                                                            item.unit
+                                                                                        }}</ng-container
+                                                                                    >
+                                                                                </div>
+                                                                                <mat-form-field
+                                                                                    class="mt-4 h-fit w-full"
+                                                                                    *ngIf="
+                                                                                        item.resultQuantity
+                                                                                    "
+                                                                                >
+                                                                                    <input
+                                                                                        matInput
+                                                                                        disabled
+                                                                                        placeholder="Result have been obtained!"
+                                                                                    />
+                                                                                </mat-form-field>
+                                                                                <form
+                                                                                    [formGroup]="
+                                                                                        quantityForms[
+                                                                                            item
+                                                                                                .id
+                                                                                        ]
+                                                                                    "
+                                                                                >
+                                                                                    <div
+                                                                                        class="flex items-center gap-2"
+                                                                                        *ngIf="
+                                                                                            !item.resultQuantity
+                                                                                        "
+                                                                                    >
+                                                                                        <mat-form-field
+                                                                                            class="mt-4 h-fit w-full"
+                                                                                        >
+                                                                                            <input
+                                                                                                type="number"
+                                                                                                matInput
+                                                                                                min="1"
+                                                                                                max="{{
+                                                                                                    item.totalQuantity
+                                                                                                }}"
+                                                                                                placeholder="Enter result here (Maximum is {{
+                                                                                                    item.totalQuantity
+                                                                                                }})"
+                                                                                                [formControlName]="
+                                                                                                    'quantity'
+                                                                                                "
+                                                                                            />
+                                                                                        </mat-form-field>
+                                                                                        <button
+                                                                                            [disabled]="
+                                                                                                quantityForms[
+                                                                                                    item
+                                                                                                        .id
+                                                                                                ]
+                                                                                                    .invalid
+                                                                                            "
+                                                                                            mat-button
+                                                                                            (click)="
+                                                                                                saveQuantityForm(
+                                                                                                    item.id
+                                                                                                )
+                                                                                            "
+                                                                                            class="hover:text-blue-500"
+                                                                                        >
+                                                                                            Save
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+                                                                        </ng-container>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </mat-tab>
+                                                </ng-container>
+                                            </mat-tab-group></mat-tab
+                                        ></ng-container
+                                    >
+                                    <ng-container *ngIf="stepIOsList.outputs">
+                                        <mat-tab
+                                            [label]="'Output List' | titlecase"
+                                        >
+                                            <mat-tab-group>
+                                                <ng-container
+                                                    *ngIf="
+                                                        stepIOsList.outputs
+                                                            .materials &&
+                                                        stepIOsList.outputs
+                                                            .materials.length >
+                                                            0
+                                                    "
+                                                >
+                                                    <mat-tab label="Materials"
+                                                        ><div
+                                                            class="flex flex-col gap-4"
+                                                        >
+                                                            <div
+                                                                class="material-step-detail flex flex-col gap-2"
+                                                            >
+                                                                <div
+                                                                    class="grid w-full"
+                                                                >
+                                                                    <div
+                                                                        class="material-step-detail-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                                                                    >
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Name
+                                                                        </div>
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Code
+                                                                        </div>
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Estimated
+                                                                            consumption
+                                                                            for
+                                                                            1
+                                                                            pce
+                                                                        </div>
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Estimated
+                                                                            consumption
+                                                                            for
+                                                                            {{
+                                                                                stepIOsList.seriesQuantity
+                                                                            }}
+                                                                            pcs
+                                                                        </div>
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Actual
+                                                                            results
+                                                                        </div>
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Fill
+                                                                            results
+                                                                        </div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="max-h-80 overflow-y-scroll"
+                                                                    >
+                                                                        <ng-container
+                                                                            *ngFor="
+                                                                                let item of stepIOsList
+                                                                                    .outputs
+                                                                                    .materials
+                                                                            "
+                                                                        >
+                                                                            <div
+                                                                                class="material-step-detail-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                                                            >
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    {{
+                                                                                        item.name
+                                                                                    }}
+                                                                                </div>
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    {{
+                                                                                        item.code
+                                                                                    }}
+                                                                                </div>
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    {{
+                                                                                        item.consumption
+                                                                                    }}
+                                                                                    {{
+                                                                                        item.unit
+                                                                                    }}
+                                                                                </div>
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    {{
+                                                                                        item.totalConsumption
+                                                                                    }}
+                                                                                    {{
+                                                                                        item.unit
+                                                                                    }}
+                                                                                </div>
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    {{
+                                                                                        item.resultConsumption ||
+                                                                                            'Not yet available'
+                                                                                    }}
+                                                                                    <ng-container
+                                                                                        *ngIf="
+                                                                                            item.resultConsumption
+                                                                                        "
+                                                                                        >{{
+                                                                                            item.unit
+                                                                                        }}</ng-container
+                                                                                    >
+                                                                                </div>
+                                                                                <mat-form-field
+                                                                                    class="mt-4 h-fit w-full"
+                                                                                    *ngIf="
+                                                                                        item.resultConsumption
+                                                                                    "
+                                                                                >
+                                                                                    <input
+                                                                                        disabled
+                                                                                        matInput
+                                                                                        placeholder="Result have been obtained!"
+                                                                                    />
+                                                                                </mat-form-field>
+                                                                                <form
+                                                                                    [formGroup]="
+                                                                                        consumptionForms[
+                                                                                            item
+                                                                                                .id
+                                                                                        ]
+                                                                                    "
+                                                                                >
+                                                                                    <div
+                                                                                        class="flex items-center gap-2"
+                                                                                        *ngIf="
+                                                                                            !item.resultConsumption
+                                                                                        "
+                                                                                    >
+                                                                                        <mat-form-field
+                                                                                            class="mt-4 h-fit w-full"
+                                                                                        >
+                                                                                            <input
+                                                                                                type="number"
+                                                                                                matInput
+                                                                                                placeholder="Enter result here (Maximum is {{
+                                                                                                    item.totalConsumption
+                                                                                                }})"
+                                                                                                min="0"
+                                                                                                max="{{
+                                                                                                    item.totalConsumption
+                                                                                                }}"
+                                                                                                [formControlName]="
+                                                                                                    'consumption'
+                                                                                                "
+                                                                                            />
+                                                                                        </mat-form-field>
+                                                                                        <button
+                                                                                            [disabled]="
+                                                                                                consumptionForms[
+                                                                                                    item
+                                                                                                        .id
+                                                                                                ]
+                                                                                                    .invalid
+                                                                                            "
+                                                                                            mat-button
+                                                                                            (click)="
+                                                                                                saveConsumptionForm(
+                                                                                                    item.id
+                                                                                                )
+                                                                                            "
+                                                                                            class="hover:text-blue-500"
+                                                                                        >
+                                                                                            Save
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+                                                                        </ng-container>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </mat-tab>
+                                                </ng-container>
+                                                <ng-container
+                                                    *ngIf="
+                                                        stepIOsList.outputs
+                                                            .semis &&
+                                                        stepIOsList.outputs
+                                                            .semis.length > 0
+                                                    "
+                                                >
+                                                    <mat-tab
+                                                        label="Semi Finished Products"
+                                                        ><div
+                                                            class="flex flex-col gap-4"
+                                                        >
+                                                            <div
+                                                                class="material-step-detail flex flex-col gap-2"
+                                                            >
+                                                                <div
+                                                                    class="grid w-full"
+                                                                >
+                                                                    <div
+                                                                        class="material-step-detail-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                                                                    >
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Name
+                                                                        </div>
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Code
+                                                                        </div>
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Estimated
+                                                                            quantity
+                                                                            for
+                                                                            1
+                                                                            pce
+                                                                        </div>
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Estimated
+                                                                            quantity
+                                                                            for
+                                                                            {{
+                                                                                stepIOsList.seriesQuantity
+                                                                            }}
+                                                                            pcs
+                                                                        </div>
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Actual
+                                                                            results
+                                                                        </div>
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Fill
+                                                                            results
+                                                                        </div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="max-h-80 overflow-y-scroll"
+                                                                    >
+                                                                        <ng-container
+                                                                            *ngFor="
+                                                                                let item of stepIOsList
+                                                                                    .outputs
+                                                                                    .semis
+                                                                            "
+                                                                        >
+                                                                            <div
+                                                                                class="material-step-detail-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                                                            >
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    {{
+                                                                                        item.name
+                                                                                    }}
+                                                                                </div>
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    {{
+                                                                                        item.code
+                                                                                    }}
+                                                                                </div>
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    {{
+                                                                                        item.quantity
+                                                                                    }}
+                                                                                    piece
+                                                                                </div>
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    {{
+                                                                                        item.totalQuantity
+                                                                                    }}
+                                                                                    {{
+                                                                                        item.unit
+                                                                                    }}
+                                                                                </div>
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    {{
+                                                                                        item.resultQuantity ||
+                                                                                            'Not yet available'
+                                                                                    }}
+                                                                                    <ng-container
+                                                                                        *ngIf="
+                                                                                            item.resultQuantity
+                                                                                        "
+                                                                                        >{{
+                                                                                            item.unit
+                                                                                        }}</ng-container
+                                                                                    >
+                                                                                </div>
+                                                                                <mat-form-field
+                                                                                    class="mt-4 h-fit w-full"
+                                                                                    *ngIf="
+                                                                                        item.resultQuantity
+                                                                                    "
+                                                                                >
+                                                                                    <input
+                                                                                        disabled
+                                                                                        matInput
+                                                                                        placeholder="Result have been obtained!"
+                                                                                    />
+                                                                                </mat-form-field>
+                                                                                <form
+                                                                                    [formGroup]="
+                                                                                        quantityForms[
+                                                                                            item
+                                                                                                .id
+                                                                                        ]
+                                                                                    "
+                                                                                >
+                                                                                    <div
+                                                                                        class="flex items-center gap-2"
+                                                                                        *ngIf="
+                                                                                            !item.resultQuantity
+                                                                                        "
+                                                                                    >
+                                                                                        <mat-form-field
+                                                                                            class="mt-4 h-fit w-full"
+                                                                                        >
+                                                                                            <input
+                                                                                                type="number"
+                                                                                                matInput
+                                                                                                min="1"
+                                                                                                max="{{
+                                                                                                    item.totalQuantity
+                                                                                                }}"
+                                                                                                placeholder="Enter result here (Maximum is {{
+                                                                                                    item.totalQuantity
+                                                                                                }})"
+                                                                                                [formControlName]="
+                                                                                                    'quantity'
+                                                                                                "
+                                                                                            />
+                                                                                        </mat-form-field>
+                                                                                        <button
+                                                                                            [disabled]="
+                                                                                                quantityForms[
+                                                                                                    item
+                                                                                                        .id
+                                                                                                ]
+                                                                                                    .invalid
+                                                                                            "
+                                                                                            mat-button
+                                                                                            (click)="
+                                                                                                saveQuantityForm(
+                                                                                                    item.id
+                                                                                                )
+                                                                                            "
+                                                                                            class="hover:text-blue-500"
+                                                                                        >
+                                                                                            Save
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+                                                                        </ng-container>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </mat-tab>
+                                                </ng-container>
+                                                <ng-container
+                                                    *ngIf="
+                                                        stepIOsList.outputs
+                                                            .products &&
+                                                        stepIOsList.outputs
+                                                            .products.length > 0
+                                                    "
+                                                >
+                                                    <mat-tab label="Products"
+                                                        ><div
+                                                            class="flex flex-col gap-4"
+                                                        >
+                                                            <div
+                                                                class="material-step-detail flex flex-col gap-2"
+                                                            >
+                                                                <div
+                                                                    class="grid w-full"
+                                                                >
+                                                                    <div
+                                                                        class="material-step-detail-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                                                                    >
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Name
+                                                                        </div>
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Code
+                                                                        </div>
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Estimated
+                                                                            quantity
+                                                                            for
+                                                                            1
+                                                                            pce
+                                                                        </div>
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Estimated
+                                                                            quantity
+                                                                            for
+                                                                            {{
+                                                                                stepIOsList.seriesQuantity
+                                                                            }}
+                                                                            pcs
+                                                                        </div>
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Actual
+                                                                            results
+                                                                        </div>
+                                                                        <div
+                                                                            class="hidden sm:block"
+                                                                        >
+                                                                            Fill
+                                                                            results
+                                                                        </div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="max-h-80 overflow-y-scroll"
+                                                                    >
+                                                                        <ng-container
+                                                                            *ngFor="
+                                                                                let item of stepIOsList
+                                                                                    .outputs
+                                                                                    .products
+                                                                            "
+                                                                        >
+                                                                            <div
+                                                                                class="material-step-detail-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                                                                            >
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    {{
+                                                                                        item.name
+                                                                                    }}
+                                                                                </div>
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    {{
+                                                                                        item.code
+                                                                                    }}
+                                                                                </div>
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    {{
+                                                                                        item.quantity
+                                                                                    }}
+                                                                                    piece
+                                                                                </div>
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    {{
+                                                                                        item.totalQuantity
+                                                                                    }}
+                                                                                    {{
+                                                                                        item.unit
+                                                                                    }}
+                                                                                </div>
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    {{
+                                                                                        item.resultQuantity ||
+                                                                                            'Not yet available'
+                                                                                    }}
+                                                                                    <ng-container
+                                                                                        *ngIf="
+                                                                                            item.resultQuantity
+                                                                                        "
+                                                                                        >{{
+                                                                                            item.unit
+                                                                                        }}</ng-container
+                                                                                    >
+                                                                                </div>
+                                                                                <mat-form-field
+                                                                                    class="mt-4 h-fit w-full"
+                                                                                    *ngIf="
+                                                                                        item.resultQuantity
+                                                                                    "
+                                                                                >
+                                                                                    <input
+                                                                                        matInput
+                                                                                        disabled
+                                                                                        placeholder="Result have been obtained!"
+                                                                                    />
+                                                                                </mat-form-field>
+                                                                                <form
+                                                                                    [formGroup]="
+                                                                                        quantityForms[
+                                                                                            item
+                                                                                                .id
+                                                                                        ]
+                                                                                    "
+                                                                                >
+                                                                                    <div
+                                                                                        class="flex items-center gap-2"
+                                                                                        *ngIf="
+                                                                                            !item.resultQuantity
+                                                                                        "
+                                                                                    >
+                                                                                        <mat-form-field
+                                                                                            class="mt-4 h-fit w-full"
+                                                                                        >
+                                                                                            <input
+                                                                                                type="number"
+                                                                                                matInput
+                                                                                                min="1"
+                                                                                                max="{{
+                                                                                                    item.totalQuantity
+                                                                                                }}"
+                                                                                                placeholder="Enter result here (Maximum is {{
+                                                                                                    item.totalQuantity
+                                                                                                }})"
+                                                                                                [formControlName]="
+                                                                                                    'quantity'
+                                                                                                "
+                                                                                            />
+                                                                                        </mat-form-field>
+                                                                                        <button
+                                                                                            [disabled]="
+                                                                                                quantityForms[
+                                                                                                    item
+                                                                                                        .id
+                                                                                                ]
+                                                                                                    .invalid
+                                                                                            "
+                                                                                            mat-button
+                                                                                            (click)="
+                                                                                                saveQuantityForm(
+                                                                                                    item.id
+                                                                                                )
+                                                                                            "
+                                                                                            class="hover:text-blue-500"
+                                                                                        >
+                                                                                            Save
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+                                                                        </ng-container>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </mat-tab>
+                                                </ng-container>
+                                            </mat-tab-group></mat-tab
+                                        ></ng-container
+                                    >
+                                </mat-tab-group>
+                                <div
+                                    *ngIf="
+                                        inputOutputResults &&
+                                        inputOutputResults.length > 0 &&
+                                        role === 'ProductionStaff'
+                                    "
+                                    class="mt-4 flex justify-end pr-8"
+                                >
+                                    <button
+                                        [disabled]="
+                                            totalIO !==
+                                            inputOutputResults.length
+                                        "
+                                        (click)="submit()"
+                                        mat-raised-button
+                                        color="primary"
+                                        class="flex min-w-fit gap-2"
+                                    >
+                                        <span> Submit Step Result </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </mat-expansion-panel>
+                    </ng-container>
+                </ng-container>
+            </mat-accordion>
+        </div>
+    </div>
+</div>
+
+<!-- Notification -->
+<a class="cursor-pointer" *ngIf="flashMessage">
+    <fuse-alert
+        class="absolute bottom-0 right-0 z-999"
+        [type]="'success'"
+        [appearance]="'border'"
+        *ngIf="flashMessage === 'success'"
+    >
+        <span fuseAlertTitle>Success</span>
+        {{ message }}
+    </fuse-alert>
+    <fuse-alert
+        class="absolute bottom-0 right-0 z-999"
+        [type]="'error'"
+        [appearance]="'border'"
+        *ngIf="flashMessage === 'error'"
+    >
+        <span fuseAlertTitle>Error</span>
+        {{ message }}
+    </fuse-alert>
+</a>

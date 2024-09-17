@@ -15,38 +15,39 @@
         <div class="text-4xl font-extrabold tracking-tight">Products</div>
         <!-- Actions -->
         <div class="mt-6 flex shrink-0 items-center gap-3 sm:ml-4 sm:mt-0">
-            <button
-                [routerLink]="['create']"
-                mat-raised-button
-                class="flex min-w-fit gap-2"
-                color="primary"
-            >
-                <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
-                <span> Create </span>
-            </button>
-            <div class="flex min-w-fit gap-2 rounded-3xl bg-[#0d9488] px-8">
-                <input
-                    id="upload-excel"
-                    class="hidden"
-                    type="file"
-                    [multiple]="false"
-                    [accept]="'.xlsx, .xls'"
-                    (change)="uploadExcelFile(uploadExcel.files)"
-                    #uploadExcel
-                />
-                <label
-                    class="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full hover:bg-hover"
-                    for="upload-excel"
-                    matRipple
+            <ng-container *ngIf="role === 'ProductionManager'">
+                <button
+                    [routerLink]="['create']"
+                    mat-raised-button
+                    class="flex min-w-fit gap-2"
+                    color="primary"
                 >
-                    <mat-icon
-                        class="text-black"
-                        [svgIcon]="'heroicons_outline:plus-small'"
-                    ></mat-icon>
-                    <span>Upload</span>
-                </label>
-            </div>
-
+                    <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
+                    <span> Create </span>
+                </button>
+                <div class="flex min-w-fit gap-2 rounded-3xl bg-[#0d9488] px-8">
+                    <input
+                        id="upload-excel"
+                        class="hidden"
+                        type="file"
+                        [multiple]="false"
+                        [accept]="'.xlsx, .xls'"
+                        (change)="uploadExcelFile(uploadExcel.files)"
+                        #uploadExcel
+                    />
+                    <label
+                        class="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full hover:bg-hover"
+                        for="upload-excel"
+                        matRipple
+                    >
+                        <mat-icon
+                            class="text-black"
+                            [svgIcon]="'heroicons_outline:plus-small'"
+                        ></mat-icon>
+                        <span>Upload</span>
+                    </label>
+                </div>
+            </ng-container>
             <div class="flex gap-3" [formGroup]="filterForm">
                 <div>
                     <!-- Search -->
@@ -117,45 +118,64 @@
                                             svgIcon="heroicons_outline:ellipsis-horizontal-circle"
                                         ></mat-icon>
                                         <mat-menu #menu="matMenu">
-                                            <button
-                                                (click)="
-                                                    approveProduct(product.id)
-                                                "
-                                                mat-menu-item
-                                            >
-                                                Approve
-                                                <mat-icon
-                                                    class="cursor-pointer text-blue-500 icon-size-5"
-                                                    svgIcon="heroicons_outline:check-circle"
-                                                ></mat-icon>
-                                            </button>
-                                            <button
-                                                (click)="
-                                                    declineProduct(product.id)
-                                                "
-                                                mat-menu-item
-                                            >
-                                                Decline
-                                                <mat-icon
-                                                    class="cursor-pointer text-blue-500 icon-size-5"
-                                                    svgIcon="heroicons_outline:no-symbol"
-                                                ></mat-icon>
-                                            </button>
-                                            <button
-                                                (click)="
-                                                    deleteProduct(product.id)
-                                                "
+                                            <ng-container
                                                 *ngIf="
-                                                    product.status === 'Pending'
+                                                    role === 'FactoryDirector'
                                                 "
-                                                mat-menu-item
                                             >
-                                                Delete
-                                                <mat-icon
-                                                    class="cursor-pointer text-blue-500 icon-size-5"
-                                                    svgIcon="heroicons_outline:x-circle"
-                                                ></mat-icon>
-                                            </button>
+                                                <button
+                                                    (click)="
+                                                        approveProduct(
+                                                            product.id
+                                                        )
+                                                    "
+                                                    mat-menu-item
+                                                >
+                                                    Approve
+                                                    <mat-icon
+                                                        class="cursor-pointer text-blue-500 icon-size-5"
+                                                        svgIcon="heroicons_outline:check-circle"
+                                                    ></mat-icon>
+                                                </button>
+                                                <button
+                                                    (click)="
+                                                        declineProduct(
+                                                            product.id
+                                                        )
+                                                    "
+                                                    mat-menu-item
+                                                >
+                                                    Decline
+                                                    <mat-icon
+                                                        class="cursor-pointer text-blue-500 icon-size-5"
+                                                        svgIcon="heroicons_outline:no-symbol"
+                                                    ></mat-icon>
+                                                </button>
+                                            </ng-container>
+                                            <ng-container
+                                                *ngIf="
+                                                    role === 'ProductionManager'
+                                                "
+                                            >
+                                                <button
+                                                    (click)="
+                                                        deleteProduct(
+                                                            product.id
+                                                        )
+                                                    "
+                                                    *ngIf="
+                                                        product.status ===
+                                                        'Pending'
+                                                    "
+                                                    mat-menu-item
+                                                >
+                                                    Delete
+                                                    <mat-icon
+                                                        class="cursor-pointer text-blue-500 icon-size-5"
+                                                        svgIcon="heroicons_outline:x-circle"
+                                                    ></mat-icon>
+                                                </button>
+                                            </ng-container>
                                         </mat-menu>
                                     </span>
                                 </div>
@@ -227,7 +247,9 @@
                             </div>
 
                             <div class="hidden sm:block">
-                                {{ product.status }}
+                                <span [class]="product.status | statusClass">
+                                    {{ product.status }}
+                                </span>
                             </div>
                         </div>
                     </ng-container>

@@ -29,9 +29,27 @@ export class ProjectService {
     /**
      * Get data
      */
+    // getData(): Observable<any> {
+    //     return this._httpClient.get('api/dashboards/project').pipe(
+    //         tap((response: any) => {
+    //             this._data.next(response);
+    //         })
+    //     );
+    // }
+
+    // getData(): Observable<any> {
+    //     return this._httpClient.get('api/dashboards/analytics').pipe(
+    //         tap((response: any) => {
+    //             this._data.next(response);
+    //         })
+    //     );
+    // }
+
     getData(): Observable<any> {
-        return this._httpClient.get('api/dashboards/project').pipe(
+        return this._httpClient.get('/api/v1/production-plans/dashboard').pipe(
             tap((response: any) => {
+                console.log(response);
+
                 this._data.next(response);
             })
         );

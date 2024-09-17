@@ -18,6 +18,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { FuseAlertComponent } from '@fuse/components/alert';
+import { UserService } from 'app/core/user/user.service';
 import { ProductionPlanService } from '../../production-plan.service';
 import { BatchsListComponent } from './batchs-list/batchs-list.component';
 import { EstimationsListComponent } from './estimations-list/estimations-list.component';
@@ -51,15 +52,20 @@ export class ProductionPlanMonthDetailComponent implements OnInit {
     uploadMessage: string;
     updateProductionPlanForm: UntypedFormGroup;
     flashMessage: 'success' | 'error' | null = null;
+    role: string = null;
     message: string = null;
     constructor(
         private _productionPlanService: ProductionPlanService,
         private _dialog: MatDialog,
+        private _userService: UserService,
         private dateAdapter: DateAdapter<Date>,
         private _changeDetectorRef: ChangeDetectorRef
     ) {}
 
     ngOnInit(): void {
+        this._userService.get().subscribe((user) => {
+            this.role = user.role;
+        });
         this._productionPlanService.productionPlan$.subscribe(
             (productionPlan) => {
                 this.productionPlan = productionPlan;

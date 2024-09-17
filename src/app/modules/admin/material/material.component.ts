@@ -177,7 +177,7 @@ export class MaterialComponent implements OnInit, AfterViewInit {
 
     private initFilterForm() {
         this.filterForm = this._formBuilder.group({
-            search: [null],
+            name: [null],
             orderBy: [null],
             pagination: [
                 {

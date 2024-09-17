@@ -45,4 +45,10 @@ export class SeriesService {
                 })
             );
     }
+
+    getSeriesInProcess(id: string): Observable<ProductionSeries[]> {
+        return this._httpClient.get<ProductionSeries[]>(
+            '/api/v1/production-plans/' + id + '/in-production-series'
+        );
+    }
 }
