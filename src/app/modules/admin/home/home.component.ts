@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
                 break;
             case 'ProductionManager':
             case 'FactoryDirector':
-                this._router.navigate(['products']);
+                this._router.navigate(['dashboards']);
                 break;
             case 'ProductionStaff':
                 this._router.navigate(['production-results']);

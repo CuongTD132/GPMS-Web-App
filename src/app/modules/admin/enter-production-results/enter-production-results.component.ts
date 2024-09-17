@@ -77,6 +77,7 @@ export class ProductionResultComponent implements OnInit {
     processesList: Process[];
     stepsList: Step[];
     stepIOsList: IORespone[] = [];
+    stepIOs: IORespone;
     selectedColor: string = null;
     selectedProPlan: string = null;
     selectedProReqs: string = null;
@@ -437,11 +438,19 @@ export class ProductionResultComponent implements OnInit {
     }
 
     openStepCard(id: string) {
-        if (
-            this.stepIOsList.filter((stepIOs) => stepIOs.stepId === id)
-                .length == 0
-        ) {
-            this.getStepIOsList(id);
+        if (this.stepIOsList) {
+            if (
+                this.stepIOsList.filter((stepIOs) => stepIOs.stepId === id)
+                    .length == 0
+            ) {
+                this.getStepIOsList(id);
+            } else {
+                this.stepIOs = this.stepIOsList.filter(
+                    (stepIOs) => stepIOs.stepId === id
+                )[0];
+            }
+        } else {
+            this.stepIOsList = [];
         }
     }
 
@@ -452,6 +461,7 @@ export class ProductionResultComponent implements OnInit {
             .getStepIOListByStepId(id, this.seriesId)
             .subscribe((stepIOs) => {
                 stepIOs.stepId = id;
+                console.log(stepIOs);
                 this.stepIOsList.push(stepIOs),
                     this.resetFromStep(),
                     this.initForms(),

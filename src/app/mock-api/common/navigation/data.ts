@@ -3,6 +3,14 @@ import { FuseNavigationItem } from '@fuse/components/navigation';
 
 export const defaultNavigation: FuseNavigationItem[] = [
     {
+        id: 'dashboards',
+        title: 'Dashboard',
+        type: 'basic',
+        icon: 'heroicons_outline:chart-pie',
+        link: '/dashboards',
+        permissions: ['ProductionManager', 'FactoryDirector'],
+    },
+    {
         id: 'products',
         title: 'Products',
         type: 'basic',
@@ -84,6 +92,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
     },
 ];
 export const compactNavigation: FuseNavigationItem[] = [
+    {
+        id: 'dashboards',
+        title: 'Dashboard',
+        type: 'basic',
+        icon: 'heroicons_outline:chart-pie',
+        link: '/dashboards',
+        permissions: ['ProductionManager', 'FactoryDirector'],
+    },
     {
         id: 'products',
         title: 'Products',
@@ -167,6 +183,14 @@ export const compactNavigation: FuseNavigationItem[] = [
 ];
 export const futuristicNavigation: FuseNavigationItem[] = [
     {
+        id: 'dashboards',
+        title: 'Dashboard',
+        type: 'basic',
+        icon: 'heroicons_outline:chart-pie',
+        link: '/dashboards',
+        permissions: ['ProductionManager', 'FactoryDirector'],
+    },
+    {
         id: 'products',
         title: 'Products',
         type: 'basic',
@@ -248,6 +272,14 @@ export const futuristicNavigation: FuseNavigationItem[] = [
     },
 ];
 export const horizontalNavigation: FuseNavigationItem[] = [
+    {
+        id: 'dashboards',
+        title: 'Dashboard',
+        type: 'basic',
+        icon: 'heroicons_outline:chart-pie',
+        link: '/dashboards',
+        permissions: ['ProductionManager', 'FactoryDirector'],
+    },
     {
         id: 'products',
         title: 'Products',

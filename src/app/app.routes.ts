@@ -119,38 +119,45 @@ export const appRoutes: Route[] = [
                     import('app/modules/admin/material/material.routes'),
             },
             // Dashboards
+            // {
+            //     path: 'dashboards',
+            //     children: [
+            //         {
+            //             path: 'project',
+            //             loadChildren: () =>
+            //                 import(
+            //                     'app/modules/admin/dashboards/project/project.routes'
+            //                 ),
+            //         },
+            //         {
+            //             path: 'analytics',
+            //             loadChildren: () =>
+            //                 import(
+            //                     'app/modules/admin/dashboards/analytics/analytics.routes'
+            //                 ),
+            //         },
+            //         {
+            //             path: 'finance',
+            //             loadChildren: () =>
+            //                 import(
+            //                     'app/modules/admin/dashboards/finance/finance.routes'
+            //                 ),
+            //         },
+            //         {
+            //             path: 'crypto',
+            //             loadChildren: () =>
+            //                 import(
+            //                     'app/modules/admin/dashboards/crypto/crypto.routes'
+            //                 ),
+            //         },
+            //     ],
+            // },
             {
                 path: 'dashboards',
-                children: [
-                    {
-                        path: 'project',
-                        loadChildren: () =>
-                            import(
-                                'app/modules/admin/dashboards/project/project.routes'
-                            ),
-                    },
-                    {
-                        path: 'analytics',
-                        loadChildren: () =>
-                            import(
-                                'app/modules/admin/dashboards/analytics/analytics.routes'
-                            ),
-                    },
-                    {
-                        path: 'finance',
-                        loadChildren: () =>
-                            import(
-                                'app/modules/admin/dashboards/finance/finance.routes'
-                            ),
-                    },
-                    {
-                        path: 'crypto',
-                        loadChildren: () =>
-                            import(
-                                'app/modules/admin/dashboards/crypto/crypto.routes'
-                            ),
-                    },
-                ],
+                loadChildren: () =>
+                    import(
+                        'app/modules/admin/dashboards/project/project.routes'
+                    ),
             },
             {
                 path: 'accounts',
