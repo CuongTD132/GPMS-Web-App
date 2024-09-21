@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Messaging } from '@angular/fire/messaging';
 import { RouterOutlet } from '@angular/router';
+import { FcmService } from 'firebase-service';
 
 @Component({
     selector: 'app-root',
@@ -9,8 +11,10 @@ import { RouterOutlet } from '@angular/router';
     imports: [RouterOutlet],
 })
 export class AppComponent {
+    private messaging = inject(Messaging);
     /**
      * Constructor
      */
-    constructor() {}
+    constructor(private fcm : FcmService) {
+    }
 }
