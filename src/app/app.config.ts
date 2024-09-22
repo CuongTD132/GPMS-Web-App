@@ -7,6 +7,8 @@ import {
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getMessaging, provideMessaging } from '@angular/fire/messaging';
 import {
     PreloadAllModules,
     provideRouter,
@@ -141,5 +143,17 @@ export const appConfig: ApplicationConfig = {
                 ],
             },
         }),
+        provideFirebaseApp(() =>
+            initializeApp({
+                projectId: 'gpms-9bf3e',
+                appId: '1:552692924572:web:5b051a734e7e2dd41d6d59',
+                storageBucket: 'gpms-9bf3e.appspot.com',
+                // locationId: 'us-central',
+                apiKey: 'AIzaSyAKEPcAovTGKGyLYt4IiWgtK2ePZV7VJJ0',
+                authDomain: 'gpms-9bf3e.firebaseapp.com',
+                messagingSenderId: '552692924572',
+            })
+        ),
+        provideMessaging(() => getMessaging()),
     ],
 };

@@ -438,34 +438,42 @@ export class ProductionResultComponent implements OnInit {
     }
 
     openStepCard(id: string) {
-        if (this.stepIOsList) {
-            if (
-                this.stepIOsList.filter((stepIOs) => stepIOs.stepId === id)
-                    .length == 0
-            ) {
-                this.getStepIOsList(id);
-            } else {
-                this.stepIOs = this.stepIOsList.filter(
-                    (stepIOs) => stepIOs.stepId === id
-                )[0];
-            }
-        } else {
+        if (!this.stepIOsList) {
             this.stepIOsList = [];
         }
+
+        const length = this.stepIOsList.filter(
+            (stepIOs) => stepIOs.stepId === id
+        ).length;
+
+        if (length === 0) {
+            this.getStepIOsList(id);
+        } else {
+            this.stepIOs = this.stepIOsList.find(
+                (stepIOs) => stepIOs.stepId === id
+            );
+            this.stepId = id;
+            this.initForms();
+        }
+
+        console.log(this.stepIOsList);
     }
 
     getStepIOsList(id: string) {
         this.totalIO = 0;
         this.stepId = id;
+
+        // if (this.stepIOs.stepId === id) {
         this._stepService
             .getStepIOListByStepId(id, this.seriesId)
             .subscribe((stepIOs) => {
                 stepIOs.stepId = id;
-                console.log(stepIOs);
+                this.stepIOs = stepIOs;
                 this.stepIOsList.push(stepIOs),
                     this.resetFromStep(),
                     this.initForms(),
                     this.getTotalStepIO();
             });
+        // }
     }
 }
