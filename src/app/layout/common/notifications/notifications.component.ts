@@ -12,6 +12,7 @@ import {
     ViewContainerRef,
     ViewEncapsulation,
 } from '@angular/core';
+import { Messaging, onMessage } from '@angular/fire/messaging';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -41,6 +42,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     @ViewChild('notificationsOrigin') private _notificationsOrigin: MatButton;
     @ViewChild('notificationsPanel')
     private _notificationsPanel: TemplateRef<any>;
+    private message$;
 
     notifications: Notification[];
     unreadCount: number = 0;
@@ -51,6 +53,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
      * Constructor
      */
     constructor(
+        private _msg: Messaging,
         private _changeDetectorRef: ChangeDetectorRef,
         private _notificationsService: NotificationsService,
         private _overlay: Overlay,
@@ -78,6 +81,27 @@ export class NotificationsComponent implements OnInit, OnDestroy {
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
+
+        // this.message$ = new Observable((sub) =>
+        //     onMessage(this._msg, (payload) => sub.next(payload))
+        // ).pipe(
+        //     tap((notification) => {
+        //         console.log(JSON.stringify(notification));
+        //     })
+        // );
+        onMessage(this._msg, (payload) => {
+            this._notificationsService
+                .create({
+                    id: payload.messageId,
+                    read: false,
+                    time: payload.data['google.c.a.ts'],
+                    title: payload.notification.title,
+                    description: payload.notification.body,
+                })
+                .subscribe((notification) => {
+                    console.log(notification);
+                });
+        });
     }
 
     /**
