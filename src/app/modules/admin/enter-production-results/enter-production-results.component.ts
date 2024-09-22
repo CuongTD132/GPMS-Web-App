@@ -452,6 +452,8 @@ export class ProductionResultComponent implements OnInit {
             this.stepIOs = this.stepIOsList.find(
                 (stepIOs) => stepIOs.stepId === id
             );
+            this.stepId = id;
+            this.initForms();
         }
 
         console.log(this.stepIOsList);

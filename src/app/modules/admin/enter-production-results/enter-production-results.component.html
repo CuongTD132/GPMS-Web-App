@@ -37,7 +37,6 @@
         </div>
     </div>
 
-    <!-- Production Plans list -->
     <div
         appHorizontalScroll
         class="flex flex-auto flex-col overflow-scroll sm:mb-18"
@@ -61,8 +60,6 @@
                                     - Current Process:
                                     {{ item.currentProcess }}
                                 </ng-container>
-
-                                - {{ item.status }}
                             </p></mat-option
                         >
                     </ng-container>
@@ -78,42 +75,15 @@
                         <mat-option value="{{ item.id }}">
                             <p>
                                 {{ item.orderNumber }}. {{ item.code }} - Quy
-                                trình {{ item.name }} -
+                                trình {{ item.name }}
                                 <ng-container *ngIf="item.haveResult === true"
-                                    >Đã có đầy đủ kết quả</ng-container
-                                >
-                                <ng-container *ngIf="item.haveResult === false"
-                                    >Chưa có kết quả</ng-container
+                                    >- Đã đủ kết quả của các bước</ng-container
                                 >
                             </p>
                         </mat-option>
                     </ng-container>
                 </mat-select>
             </mat-form-field>
-            <!-- <mat-form-field class="w-full">
-                    <mat-label>Select a step:</mat-label>
-                    <mat-select
-                        (selectionChange)="getstepIOs(selectedStep)"
-                        [(value)]="selectedStep"
-                    >
-                        <ng-container *ngFor="let item of stepsList">
-                            <mat-option value="{{ item.id }}">
-                                <p>
-                                    {{ item.orderNumber }}. {{ item.code }} -
-                                    Bước {{ item.name }} -
-                                    <ng-container
-                                        *ngIf="item.haveResult === true"
-                                        >Đã nhập kết quả</ng-container
-                                    >
-                                    <ng-container
-                                        *ngIf="item.haveResult === false"
-                                        >Chưa có kết quả</ng-container
-                                    >
-                                </p></mat-option
-                            >
-                        </ng-container>
-                    </mat-select>
-                </mat-form-field> -->
         </div>
 
         <div class="mx-4 my-4">
@@ -147,26 +117,43 @@
                                 <div>
                                     <label>
                                         Description:
-                                        <p>{{step.Description ?? "No description"}}</p>
+                                        <p>
+                                            {{
+                                                step.Description ??
+                                                    'No description'
+                                            }}
+                                        </p>
                                     </label>
                                 </div>
                                 <div *ngIf="stepIOs">
                                     <mat-tab-group class="mt-4">
                                         <ng-container *ngIf="stepIOs.inputs">
-                                            <mat-tab [label]="'Input List' | titlecase">
+                                            <mat-tab
+                                                [label]="
+                                                    'Input List' | titlecase
+                                                "
+                                            >
                                                 <mat-tab-group>
                                                     <ng-container
                                                         *ngIf="
-                                                            stepIOs.inputs.materials &&
-                                                            stepIOs.inputs.materials.length > 0
+                                                            stepIOs.inputs
+                                                                .materials &&
+                                                            stepIOs.inputs
+                                                                .materials
+                                                                .length > 0
                                                         "
                                                     >
-                                                        <mat-tab label="Materials"
-                                                            ><div class="flex flex-col gap-4">
+                                                        <mat-tab
+                                                            label="Materials"
+                                                            ><div
+                                                                class="flex flex-col gap-4"
+                                                            >
                                                                 <div
                                                                     class="material-step-detail flex flex-col gap-2"
                                                                 >
-                                                                    <div class="grid w-full">
+                                                                    <div
+                                                                        class="grid w-full"
+                                                                    >
                                                                         <div
                                                                             class="material-step-detail-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
                                                                         >
@@ -183,13 +170,17 @@
                                                                             <div
                                                                                 class="hidden sm:block"
                                                                             >
-                                                                                Estimated consumption
-                                                                                for 1 pce
+                                                                                Estimated
+                                                                                consumption
+                                                                                for
+                                                                                1
+                                                                                pce
                                                                             </div>
                                                                             <div
                                                                                 class="hidden sm:block"
                                                                             >
-                                                                                Estimated consumption
+                                                                                Estimated
+                                                                                consumption
                                                                                 for
                                                                                 {{
                                                                                     stepIOs.seriesQuantity
@@ -199,12 +190,14 @@
                                                                             <div
                                                                                 class="hidden sm:block"
                                                                             >
-                                                                                Actual results
+                                                                                Actual
+                                                                                results
                                                                             </div>
                                                                             <div
                                                                                 class="hidden sm:block"
                                                                             >
-                                                                                Fill results
+                                                                                Fill
+                                                                                results
                                                                             </div>
                                                                         </div>
                                                                         <div
@@ -223,12 +216,16 @@
                                                                                     <div
                                                                                         class="hidden sm:block"
                                                                                     >
-                                                                                        {{ item.name }}
+                                                                                        {{
+                                                                                            item.name
+                                                                                        }}
                                                                                     </div>
                                                                                     <div
                                                                                         class="hidden sm:block"
                                                                                     >
-                                                                                        {{ item.code }}
+                                                                                        {{
+                                                                                            item.code
+                                                                                        }}
                                                                                     </div>
                                                                                     <div
                                                                                         class="hidden sm:block"
@@ -236,7 +233,9 @@
                                                                                         {{
                                                                                             item.consumption
                                                                                         }}
-                                                                                        {{ item.unit }}
+                                                                                        {{
+                                                                                            item.unit
+                                                                                        }}
                                                                                     </div>
                                                                                     <div
                                                                                         class="hidden sm:block"
@@ -244,7 +243,9 @@
                                                                                         {{
                                                                                             item.totalConsumption
                                                                                         }}
-                                                                                        {{ item.unit }}
+                                                                                        {{
+                                                                                            item.unit
+                                                                                        }}
                                                                                     </div>
                                                                                     <div
                                                                                         class="hidden sm:block"
@@ -277,7 +278,8 @@
                                                                                     <form
                                                                                         [formGroup]="
                                                                                             consumptionForms[
-                                                                                                item.id
+                                                                                                item
+                                                                                                    .id
                                                                                             ]
                                                                                         "
                                                                                     >
@@ -335,16 +337,23 @@
                                                     </ng-container>
                                                     <ng-container
                                                         *ngIf="
-                                                            stepIOs.inputs.semis &&
-                                                            stepIOs.inputs.semis.length > 0
+                                                            stepIOs.inputs
+                                                                .semis &&
+                                                            stepIOs.inputs.semis
+                                                                .length > 0
                                                         "
                                                     >
-                                                        <mat-tab label="Semi Finished Products"
-                                                            ><div class="flex flex-col gap-4">
+                                                        <mat-tab
+                                                            label="Semi Finished Products"
+                                                            ><div
+                                                                class="flex flex-col gap-4"
+                                                            >
                                                                 <div
                                                                     class="material-step-detail flex flex-col gap-2"
                                                                 >
-                                                                    <div class="grid w-full">
+                                                                    <div
+                                                                        class="grid w-full"
+                                                                    >
                                                                         <div
                                                                             class="material-step-detail-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
                                                                         >
@@ -361,13 +370,18 @@
                                                                             <div
                                                                                 class="hidden sm:block"
                                                                             >
-                                                                                Estimated quantity for 1
+                                                                                Estimated
+                                                                                quantity
+                                                                                for
+                                                                                1
                                                                                 pce
                                                                             </div>
                                                                             <div
                                                                                 class="hidden sm:block"
                                                                             >
-                                                                                Estimated quantity for
+                                                                                Estimated
+                                                                                quantity
+                                                                                for
                                                                                 {{
                                                                                     stepIOs.seriesQuantity
                                                                                 }}
@@ -376,12 +390,14 @@
                                                                             <div
                                                                                 class="hidden sm:block"
                                                                             >
-                                                                                Actual results
+                                                                                Actual
+                                                                                results
                                                                             </div>
                                                                             <div
                                                                                 class="hidden sm:block"
                                                                             >
-                                                                                Fill results
+                                                                                Fill
+                                                                                results
                                                                             </div>
                                                                         </div>
                                                                         <div
@@ -390,7 +406,8 @@
                                                                             <ng-container
                                                                                 *ngFor="
                                                                                     let item of stepIOs
-                                                                                        .inputs.semis
+                                                                                        .inputs
+                                                                                        .semis
                                                                                 "
                                                                             >
                                                                                 <div
@@ -399,12 +416,16 @@
                                                                                     <div
                                                                                         class="hidden sm:block"
                                                                                     >
-                                                                                        {{ item.name }}
+                                                                                        {{
+                                                                                            item.name
+                                                                                        }}
                                                                                     </div>
                                                                                     <div
                                                                                         class="hidden sm:block"
                                                                                     >
-                                                                                        {{ item.code }}
+                                                                                        {{
+                                                                                            item.code
+                                                                                        }}
                                                                                     </div>
                                                                                     <div
                                                                                         class="hidden sm:block"
@@ -420,7 +441,9 @@
                                                                                         {{
                                                                                             item.totalQuantity
                                                                                         }}
-                                                                                        {{ item.unit }}
+                                                                                        {{
+                                                                                            item.unit
+                                                                                        }}
                                                                                     </div>
                                                                                     <div
                                                                                         class="hidden sm:block"
@@ -453,7 +476,8 @@
                                                                                     <form
                                                                                         [formGroup]="
                                                                                             quantityForms[
-                                                                                                item.id
+                                                                                                item
+                                                                                                    .id
                                                                                             ]
                                                                                         "
                                                                                     >
@@ -511,16 +535,24 @@
                                                     </ng-container>
                                                     <ng-container
                                                         *ngIf="
-                                                            stepIOs.inputs.products &&
-                                                            stepIOs.inputs.products.length > 0
+                                                            stepIOs.inputs
+                                                                .products &&
+                                                            stepIOs.inputs
+                                                                .products
+                                                                .length > 0
                                                         "
                                                     >
-                                                        <mat-tab label="Products"
-                                                            ><div class="flex flex-col gap-4">
+                                                        <mat-tab
+                                                            label="Products"
+                                                            ><div
+                                                                class="flex flex-col gap-4"
+                                                            >
                                                                 <div
                                                                     class="material-step-detail flex flex-col gap-2"
                                                                 >
-                                                                    <div class="grid w-full">
+                                                                    <div
+                                                                        class="grid w-full"
+                                                                    >
                                                                         <div
                                                                             class="material-step-detail-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
                                                                         >
@@ -537,13 +569,18 @@
                                                                             <div
                                                                                 class="hidden sm:block"
                                                                             >
-                                                                                Estimated quantity for 1
+                                                                                Estimated
+                                                                                quantity
+                                                                                for
+                                                                                1
                                                                                 pce
                                                                             </div>
                                                                             <div
                                                                                 class="hidden sm:block"
                                                                             >
-                                                                                Estimated quantity for
+                                                                                Estimated
+                                                                                quantity
+                                                                                for
                                                                                 {{
                                                                                     stepIOs.seriesQuantity
                                                                                 }}
@@ -552,12 +589,14 @@
                                                                             <div
                                                                                 class="hidden sm:block"
                                                                             >
-                                                                                Actual results
+                                                                                Actual
+                                                                                results
                                                                             </div>
                                                                             <div
                                                                                 class="hidden sm:block"
                                                                             >
-                                                                                Fill results
+                                                                                Fill
+                                                                                results
                                                                             </div>
                                                                         </div>
                                                                         <div
@@ -566,7 +605,8 @@
                                                                             <ng-container
                                                                                 *ngFor="
                                                                                     let item of stepIOs
-                                                                                        .inputs.products
+                                                                                        .inputs
+                                                                                        .products
                                                                                 "
                                                                             >
                                                                                 <div
@@ -575,12 +615,16 @@
                                                                                     <div
                                                                                         class="hidden sm:block"
                                                                                     >
-                                                                                        {{ item.name }}
+                                                                                        {{
+                                                                                            item.name
+                                                                                        }}
                                                                                     </div>
                                                                                     <div
                                                                                         class="hidden sm:block"
                                                                                     >
-                                                                                        {{ item.code }}
+                                                                                        {{
+                                                                                            item.code
+                                                                                        }}
                                                                                     </div>
                                                                                     <div
                                                                                         class="hidden sm:block"
@@ -596,7 +640,9 @@
                                                                                         {{
                                                                                             item.totalQuantity
                                                                                         }}
-                                                                                        {{ item.unit }}
+                                                                                        {{
+                                                                                            item.unit
+                                                                                        }}
                                                                                     </div>
                                                                                     <div
                                                                                         class="hidden sm:block"
@@ -629,7 +675,8 @@
                                                                                     <form
                                                                                         [formGroup]="
                                                                                             quantityForms[
-                                                                                                item.id
+                                                                                                item
+                                                                                                    .id
                                                                                             ]
                                                                                         "
                                                                                     >
@@ -689,20 +736,32 @@
                                             ></ng-container
                                         >
                                         <ng-container *ngIf="stepIOs.outputs">
-                                            <mat-tab [label]="'Output List' | titlecase">
+                                            <mat-tab
+                                                [label]="
+                                                    'Output List' | titlecase
+                                                "
+                                            >
                                                 <mat-tab-group>
                                                     <ng-container
                                                         *ngIf="
-                                                            stepIOs.outputs.materials &&
-                                                            stepIOs.outputs.materials.length > 0
+                                                            stepIOs.outputs
+                                                                .materials &&
+                                                            stepIOs.outputs
+                                                                .materials
+                                                                .length > 0
                                                         "
                                                     >
-                                                        <mat-tab label="Materials"
-                                                            ><div class="flex flex-col gap-4">
+                                                        <mat-tab
+                                                            label="Materials"
+                                                            ><div
+                                                                class="flex flex-col gap-4"
+                                                            >
                                                                 <div
                                                                     class="material-step-detail flex flex-col gap-2"
                                                                 >
-                                                                    <div class="grid w-full">
+                                                                    <div
+                                                                        class="grid w-full"
+                                                                    >
                                                                         <div
                                                                             class="material-step-detail-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
                                                                         >
@@ -719,13 +778,17 @@
                                                                             <div
                                                                                 class="hidden sm:block"
                                                                             >
-                                                                                Estimated consumption
-                                                                                for 1 pce
+                                                                                Estimated
+                                                                                consumption
+                                                                                for
+                                                                                1
+                                                                                pce
                                                                             </div>
                                                                             <div
                                                                                 class="hidden sm:block"
                                                                             >
-                                                                                Estimated consumption
+                                                                                Estimated
+                                                                                consumption
                                                                                 for
                                                                                 {{
                                                                                     stepIOs.seriesQuantity
@@ -735,12 +798,14 @@
                                                                             <div
                                                                                 class="hidden sm:block"
                                                                             >
-                                                                                Actual results
+                                                                                Actual
+                                                                                results
                                                                             </div>
                                                                             <div
                                                                                 class="hidden sm:block"
                                                                             >
-                                                                                Fill results
+                                                                                Fill
+                                                                                results
                                                                             </div>
                                                                         </div>
                                                                         <div
@@ -759,12 +824,16 @@
                                                                                     <div
                                                                                         class="hidden sm:block"
                                                                                     >
-                                                                                        {{ item.name }}
+                                                                                        {{
+                                                                                            item.name
+                                                                                        }}
                                                                                     </div>
                                                                                     <div
                                                                                         class="hidden sm:block"
                                                                                     >
-                                                                                        {{ item.code }}
+                                                                                        {{
+                                                                                            item.code
+                                                                                        }}
                                                                                     </div>
                                                                                     <div
                                                                                         class="hidden sm:block"
@@ -772,7 +841,9 @@
                                                                                         {{
                                                                                             item.consumption
                                                                                         }}
-                                                                                        {{ item.unit }}
+                                                                                        {{
+                                                                                            item.unit
+                                                                                        }}
                                                                                     </div>
                                                                                     <div
                                                                                         class="hidden sm:block"
@@ -780,7 +851,9 @@
                                                                                         {{
                                                                                             item.totalConsumption
                                                                                         }}
-                                                                                        {{ item.unit }}
+                                                                                        {{
+                                                                                            item.unit
+                                                                                        }}
                                                                                     </div>
                                                                                     <div
                                                                                         class="hidden sm:block"
@@ -813,7 +886,8 @@
                                                                                     <form
                                                                                         [formGroup]="
                                                                                             consumptionForms[
-                                                                                                item.id
+                                                                                                item
+                                                                                                    .id
                                                                                             ]
                                                                                         "
                                                                                     >
@@ -871,16 +945,24 @@
                                                     </ng-container>
                                                     <ng-container
                                                         *ngIf="
-                                                            stepIOs.outputs.semis &&
-                                                            stepIOs.outputs.semis.length > 0
+                                                            stepIOs.outputs
+                                                                .semis &&
+                                                            stepIOs.outputs
+                                                                .semis.length >
+                                                                0
                                                         "
                                                     >
-                                                        <mat-tab label="Semi Finished Products"
-                                                            ><div class="flex flex-col gap-4">
+                                                        <mat-tab
+                                                            label="Semi Finished Products"
+                                                            ><div
+                                                                class="flex flex-col gap-4"
+                                                            >
                                                                 <div
                                                                     class="material-step-detail flex flex-col gap-2"
                                                                 >
-                                                                    <div class="grid w-full">
+                                                                    <div
+                                                                        class="grid w-full"
+                                                                    >
                                                                         <div
                                                                             class="material-step-detail-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
                                                                         >
@@ -897,13 +979,18 @@
                                                                             <div
                                                                                 class="hidden sm:block"
                                                                             >
-                                                                                Estimated quantity for 1
+                                                                                Estimated
+                                                                                quantity
+                                                                                for
+                                                                                1
                                                                                 pce
                                                                             </div>
                                                                             <div
                                                                                 class="hidden sm:block"
                                                                             >
-                                                                                Estimated quantity for
+                                                                                Estimated
+                                                                                quantity
+                                                                                for
                                                                                 {{
                                                                                     stepIOs.seriesQuantity
                                                                                 }}
@@ -912,12 +999,14 @@
                                                                             <div
                                                                                 class="hidden sm:block"
                                                                             >
-                                                                                Actual results
+                                                                                Actual
+                                                                                results
                                                                             </div>
                                                                             <div
                                                                                 class="hidden sm:block"
                                                                             >
-                                                                                Fill results
+                                                                                Fill
+                                                                                results
                                                                             </div>
                                                                         </div>
                                                                         <div
@@ -926,7 +1015,8 @@
                                                                             <ng-container
                                                                                 *ngFor="
                                                                                     let item of stepIOs
-                                                                                        .outputs.semis
+                                                                                        .outputs
+                                                                                        .semis
                                                                                 "
                                                                             >
                                                                                 <div
@@ -935,12 +1025,16 @@
                                                                                     <div
                                                                                         class="hidden sm:block"
                                                                                     >
-                                                                                        {{ item.name }}
+                                                                                        {{
+                                                                                            item.name
+                                                                                        }}
                                                                                     </div>
                                                                                     <div
                                                                                         class="hidden sm:block"
                                                                                     >
-                                                                                        {{ item.code }}
+                                                                                        {{
+                                                                                            item.code
+                                                                                        }}
                                                                                     </div>
                                                                                     <div
                                                                                         class="hidden sm:block"
@@ -956,7 +1050,9 @@
                                                                                         {{
                                                                                             item.totalQuantity
                                                                                         }}
-                                                                                        {{ item.unit }}
+                                                                                        {{
+                                                                                            item.unit
+                                                                                        }}
                                                                                     </div>
                                                                                     <div
                                                                                         class="hidden sm:block"
@@ -989,7 +1085,8 @@
                                                                                     <form
                                                                                         [formGroup]="
                                                                                             quantityForms[
-                                                                                                item.id
+                                                                                                item
+                                                                                                    .id
                                                                                             ]
                                                                                         "
                                                                                     >
@@ -1047,16 +1144,24 @@
                                                     </ng-container>
                                                     <ng-container
                                                         *ngIf="
-                                                            stepIOs.outputs.products &&
-                                                            stepIOs.outputs.products.length > 0
+                                                            stepIOs.outputs
+                                                                .products &&
+                                                            stepIOs.outputs
+                                                                .products
+                                                                .length > 0
                                                         "
                                                     >
-                                                        <mat-tab label="Products"
-                                                            ><div class="flex flex-col gap-4">
+                                                        <mat-tab
+                                                            label="Products"
+                                                            ><div
+                                                                class="flex flex-col gap-4"
+                                                            >
                                                                 <div
                                                                     class="material-step-detail flex flex-col gap-2"
                                                                 >
-                                                                    <div class="grid w-full">
+                                                                    <div
+                                                                        class="grid w-full"
+                                                                    >
                                                                         <div
                                                                             class="material-step-detail-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
                                                                         >
@@ -1073,13 +1178,18 @@
                                                                             <div
                                                                                 class="hidden sm:block"
                                                                             >
-                                                                                Estimated quantity for 1
+                                                                                Estimated
+                                                                                quantity
+                                                                                for
+                                                                                1
                                                                                 pce
                                                                             </div>
                                                                             <div
                                                                                 class="hidden sm:block"
                                                                             >
-                                                                                Estimated quantity for
+                                                                                Estimated
+                                                                                quantity
+                                                                                for
                                                                                 {{
                                                                                     stepIOs.seriesQuantity
                                                                                 }}
@@ -1088,12 +1198,14 @@
                                                                             <div
                                                                                 class="hidden sm:block"
                                                                             >
-                                                                                Actual results
+                                                                                Actual
+                                                                                results
                                                                             </div>
                                                                             <div
                                                                                 class="hidden sm:block"
                                                                             >
-                                                                                Fill results
+                                                                                Fill
+                                                                                results
                                                                             </div>
                                                                         </div>
                                                                         <div
@@ -1112,12 +1224,16 @@
                                                                                     <div
                                                                                         class="hidden sm:block"
                                                                                     >
-                                                                                        {{ item.name }}
+                                                                                        {{
+                                                                                            item.name
+                                                                                        }}
                                                                                     </div>
                                                                                     <div
                                                                                         class="hidden sm:block"
                                                                                     >
-                                                                                        {{ item.code }}
+                                                                                        {{
+                                                                                            item.code
+                                                                                        }}
                                                                                     </div>
                                                                                     <div
                                                                                         class="hidden sm:block"
@@ -1133,7 +1249,9 @@
                                                                                         {{
                                                                                             item.totalQuantity
                                                                                         }}
-                                                                                        {{ item.unit }}
+                                                                                        {{
+                                                                                            item.unit
+                                                                                        }}
                                                                                     </div>
                                                                                     <div
                                                                                         class="hidden sm:block"
@@ -1166,7 +1284,8 @@
                                                                                     <form
                                                                                         [formGroup]="
                                                                                             quantityForms[
-                                                                                                item.id
+                                                                                                item
+                                                                                                    .id
                                                                                             ]
                                                                                         "
                                                                                     >
@@ -1235,7 +1354,10 @@
                                         class="mt-4 flex justify-end pr-8"
                                     >
                                         <button
-                                            [disabled]="totalIO !== inputOutputResults.length"
+                                            [disabled]="
+                                                totalIO !==
+                                                inputOutputResults.length
+                                            "
                                             (click)="submit()"
                                             mat-raised-button
                                             color="primary"

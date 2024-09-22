@@ -190,16 +190,16 @@ export const appRoutes: Route[] = [
                 path: 'production-results',
                 loadChildren: () =>
                     import(
-                        'app/modules/admin/production-results/production-results.routes'
-                    ),
-            },
-            {
-                path: 'enter-production-results',
-                loadChildren: () =>
-                    import(
                         'app/modules/admin/enter-production-results/enter-production-results.routes'
                     ),
             },
+            // {
+            //     path: 'enter-production-results',
+            //     loadChildren: () =>
+            //         import(
+            //             'app/modules/admin/enter-production-results/enter-production-results.routes'
+            //         ),
+            // },
             {
                 path: 'warehouse-requests',
                 loadChildren: () =>
