@@ -62,7 +62,6 @@
                     matSort
                     matSortDisableClear
                 >
-                    <div class="hidden sm:block">Action</div>
                     <div class="hidden sm:block">Name</div>
                 </div>
                 <!-- Rows -->
@@ -73,35 +72,6 @@
                         <div
                             class="category-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
                         >
-                            <!-- Id -->
-                            <div class="hidden sm:block">
-                                <div class="flex gap-3">
-                                    <!-- <span
-                                        (click)="
-                                            openCategoryDetailDialog(
-                                                category.id
-                                            )
-                                        "
-                                    >
-                                        <mat-icon
-                                            class="cursor-pointer text-blue-500 icon-size-5"
-                                            [svgIcon]="
-                                                'heroicons_outline:pencil-square'
-                                            "
-                                        ></mat-icon>
-                                    </span> -->
-
-                                    <span>
-                                        <mat-icon
-                                            class="cursor-pointer text-red-500 icon-size-5"
-                                            [svgIcon]="
-                                                'heroicons_outline:trash'
-                                            "
-                                        ></mat-icon>
-                                    </span>
-                                </div>
-                            </div>
-
                             <!-- Name -->
                             <div class="hidden sm:block">
                                 {{ category.name }}
