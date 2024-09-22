@@ -40,7 +40,6 @@ import {
     switchMap,
     takeUntil,
 } from 'rxjs';
-import { DepartmentService } from '../department/department.service';
 import { AccountService } from './account.service';
 import { CreateAccountComponent } from './create/create-account.component';
 import { AccountDetailComponent } from './detail/account-detail.component';
@@ -87,7 +86,6 @@ export class AccountComponent implements OnInit, AfterViewInit {
      */
     constructor(
         private _accountService: AccountService,
-        private _departmentService: DepartmentService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: UntypedFormBuilder,
         private _dialog: MatDialog
@@ -233,29 +231,27 @@ export class AccountComponent implements OnInit, AfterViewInit {
     }
 
     openCreateAccountDialog() {
-        this._departmentService.getDepartments().subscribe((result) => {
-            this._dialog
-                .open(CreateAccountComponent, {
-                    width: '720px',
-                })
-                .afterClosed()
-                .subscribe((result) => {
-                    if (result === 'success') {
-                        this.showFlashMessage(
-                            'success',
-                            'Create account successful',
-                            3000
-                        );
-                    }
-                    if (result === 'error') {
-                        this.showFlashMessage(
-                            'error',
-                            'Create account failed',
-                            3000
-                        );
-                    }
-                });
-        });
+        this._dialog
+            .open(CreateAccountComponent, {
+                width: '720px',
+            })
+            .afterClosed()
+            .subscribe((result) => {
+                if (result === 'success') {
+                    this.showFlashMessage(
+                        'success',
+                        'Create account successful',
+                        3000
+                    );
+                }
+                if (result === 'error') {
+                    this.showFlashMessage(
+                        'error',
+                        'Create account failed',
+                        3000
+                    );
+                }
+            });
     }
 
     openAccountDetailDialog(id: string) {

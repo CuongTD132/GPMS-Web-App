@@ -7,17 +7,21 @@ export class StatusClassPipe implements PipeTransform {
     transform(value: string): string {
         switch (value) {
             case 'Approved':
-                return 'rounded-full border border-green-500 px-3 py-1 text-green-500';
+                return 'bg-green-500 text-white rounded-full px-3 py-1';
             case 'InProgress':
-                return 'rounded-full border border-blue-500 px-3 py-1 text-blue-500';
+                return 'bg-blue-500 text-white rounded-full px-3 py-1';
             case 'InProduction':
-                return 'rounded-full border border-yellow-500 px-3 py-1 text-yellow-500';
+                return 'bg-yellow-500 text-white rounded-full px-3 py-1';
             case 'Pending':
-                return 'rounded-full border border-orange-500 px-3 py-1 text-orange-500';
-            case 'Decline':
-                return 'rounded-full border border-red-500 px-3 py-1 text-red-500';
+                return 'bg-orange-500 text-white rounded-full px-3 py-1';
+            case 'Declined':
+                return 'bg-red-500 text-white rounded-full px-3 py-1';
             case 'Finished':
-                return 'rounded-full border border-purple-500 px-3 py-1 text-purple-500';
+                return 'bg-purple-500 text-white rounded-full px-3 py-1';
+            case 'Failed':
+                return 'bg-gray-500 text-white rounded-full px-3 py-1';
+            case 'Passed':
+                return 'bg-teal-500 text-white rounded-full px-3 py-1';
             default:
                 return 'rounded-full border border-gray-500 px-3 py-1 text-gray-500';
         }

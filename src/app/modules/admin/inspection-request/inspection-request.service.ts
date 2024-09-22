@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Pagination } from 'app/types/pagination.type';
-import { BehaviorSubject, Observable, switchMap, take } from 'rxjs';
+import { BehaviorSubject, Observable, switchMap, take, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class InspectionRequestService {
@@ -9,9 +9,15 @@ export class InspectionRequestService {
         new BehaviorSubject(null);
 
     constructor(private _httpClient: HttpClient) {}
-    private _inspectionRequest: BehaviorSubject<any[] | null> =
+    private _inspectionRequests: BehaviorSubject<InspectionRequest[] | null> =
         new BehaviorSubject(null);
-    get inspectionRequest$(): Observable<any[]> {
+
+    private _inspectionRequest: BehaviorSubject<InspectionRequest | null> =
+        new BehaviorSubject(null);
+    get inspectionRequests$(): Observable<InspectionRequest[]> {
+        return this._inspectionRequests.asObservable();
+    }
+    get inspectionRequest$(): Observable<InspectionRequest> {
         return this._inspectionRequest.asObservable();
     }
     /**
@@ -24,6 +30,23 @@ export class InspectionRequestService {
     /**
      * Create warehouseRequest
      */
+
+    getInspectionRequests(
+        filter: any = {}
+    ): Observable<{ pagination: Pagination; data: InspectionRequest[] }> {
+        return this._httpClient
+            .post<{
+                pagination: Pagination;
+                data: InspectionRequest[];
+            }>('/api/v1/inspection-requests/filter', filter)
+            .pipe(
+                tap((response) => {
+                    this._pagination.next(response.pagination);
+                    this._inspectionRequests.next(response.data);
+                })
+            );
+    }
+
     createInspectionRequest(data) {
         return this.inspectionRequest$.pipe(
             take(1),

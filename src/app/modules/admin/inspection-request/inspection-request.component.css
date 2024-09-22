@@ -1,0 +1,3 @@
+.inspection-requests-grid {
+    grid-template-columns: 50px auto 150px 150px 150px 150px 150px 120px;
+}

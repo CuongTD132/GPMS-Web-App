@@ -12,67 +12,120 @@
             </div>
         }
         <div class="text-4xl font-extrabold tracking-tight">
-            Create inspection request
+            Inspection requests
+        </div>
+
+        <div class="mt-6 flex shrink-0 items-center gap-3 sm:ml-4 sm:mt-0">
+            <button
+                (click)="openDialog()"
+                mat-raised-button
+                class="flex min-w-fit gap-2"
+                color="primary"
+            >
+                <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
+                <span> Create </span>
+            </button>
+            <div class="flex gap-3" [formGroup]="filterForm">
+                <div>
+                    <!-- Search -->
+                    <mat-form-field
+                        class="fuse-mat-dense fuse-mat-rounded min-w-64"
+                        [subscriptSizing]="'dynamic'"
+                    >
+                        <mat-icon
+                            class="icon-size-5"
+                            matPrefix
+                            [svgIcon]="'heroicons_solid:magnifying-glass'"
+                        ></mat-icon>
+                        <input
+                            matInput
+                            [formControlName]="'searchString'"
+                            [autocomplete]="'off'"
+                            [placeholder]="'Search'"
+                        />
+                    </mat-form-field>
+                </div>
+            </div>
         </div>
     </div>
     <div
         appHorizontalScroll
-        class="flex flex-auto flex-col overflow-scroll px-6 py-8 sm:mb-18 md:px-8"
+        class="flex flex-auto flex-col overflow-scroll sm:mb-18"
     >
-        <ng-container *ngIf="series$ | async as series">
-            <ng-container *ngIf="inspectionRequestForm">
-                <form [formGroup]="inspectionRequestForm">
-                    <mat-form-field class="w-full">
-                        <mat-label>Select a series:</mat-label>
-                        <mat-select
-                            (selectionChange)="onSeriesChange($event.value)"
-                            [formControlName]="'productionSeriesId'"
-                        >
-                            <ng-container *ngFor="let item of series">
-                                <mat-option value="{{ item.id }}"
-                                    >Series {{ item.code }} của
-                                    {{ item.productionPlanCode }} để sản xuất
-                                    {{ item.productName }} có mã sản phẩm
-                                    {{ item.productCode }} với số lượng cần kiểm
-                                    định là
-                                    <ng-container *ngIf="item.faultyQuantity">
-                                        {{ item.faultyQuantity }} cái
-                                    </ng-container>
-                                    <ng-container *ngIf="!item.faultyQuantity">
-                                        {{ item.quantity }} cái
-                                    </ng-container>
-                                </mat-option>
-                            </ng-container>
-                        </mat-select>
-                    </mat-form-field>
-                    <mat-form-field class="w-full">
-                        <mat-label>Note:</mat-label>
-                        <textarea
-                            matInput
-                            placeholder="You can note something in here..."
-                            [formControlName]="'description'"
-                        ></textarea>
-                    </mat-form-field>
-                    <div class="mt-4 flex justify-end">
-                        <button
-                            (click)="create()"
-                            mat-raised-button
-                            color="primary"
-                            class="flex min-w-fit gap-2"
-                        >
+        <ng-container *ngIf="inspectionRequests$ | async as inspectionRequests">
+            <div class="grid">
+                <!-- Header -->
+                <div
+                    class="inspection-requests-grid text-secondary sticky top-0 z-10 grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                    matSort
+                    matSortDisableClear
+                >
+                    <div class="hidden sm:block">Action</div>
+                    <div class="hidden sm:block">Name</div>
+                    <div class="hidden sm:block">Required Quantity</div>
+                    <div class="hidden sm:block">Inspected Quantity</div>
+                    <div class="hidden sm:block">Passed Quantity</div>
+                    <div class="hidden sm:block">Failed Quantity</div>
+                    <div class="hidden sm:block">Created Date</div>
+                    <div class="hidden sm:block">Status</div>
+                </div>
+                <!-- Rows -->
+                <ng-container
+                    *ngFor="
+                        let inspectionRequest of inspectionRequests;
+                        trackBy: trackByFn
+                    "
+                >
+                    <div
+                        class="inspection-requests-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                    >
+                        <span>
                             <mat-icon
-                                svgIcon="heroicons_outline:inbox"
+                                class="cursor-pointer text-blue-500 icon-size-5"
+                                [svgIcon]="'heroicons_outline:pencil-square'"
                             ></mat-icon>
-                            <span> Send </span>
-                        </button>
+                        </span>
+                        <div class="hidden sm:block">
+                            {{ inspectionRequest.name }}
+                        </div>
+                        <div class="hidden sm:block">
+                            {{ inspectionRequest.requiredQuantity }}
+                        </div>
+                        <div class="hidden sm:block">
+                            {{ inspectionRequest.inspectedQuantity }}
+                        </div>
+                        <div class="hidden truncate sm:block">
+                            {{ inspectionRequest.passedQuantity }}
+                        </div>
+                        <div class="hidden sm:block">
+                            {{ inspectionRequest.failedQuantity }}
+                        </div>
+                        <div class="hidden sm:block">
+                            {{
+                                getFormattedDate(inspectionRequest.createdDate)
+                            }}
+                        </div>
+                        <div class="hidden sm:block">
+                            <span
+                                [class]="inspectionRequest.status | statusClass"
+                            >
+                                {{ inspectionRequest.status }}
+                            </span>
+                        </div>
                     </div>
-                </form>
-            </ng-container>
-        </ng-container>
-        <ng-container *ngIf="!series$">
-            <p class="text-xl font-semibold">
-                Hiện tại chưa có series nào sẵn sàng để tạo inspection request!
-            </p>
+                </ng-container>
+            </div>
+
+            <mat-paginator
+                class="z-10 border-b bg-gray-50 dark:bg-transparent sm:absolute sm:inset-x-0 sm:bottom-0 sm:border-b-0 sm:border-t"
+                [ngClass]="{ 'pointer-events-none': isLoading }"
+                [length]="pagination.totalRows"
+                [pageIndex]="pagination.pageIndex"
+                [pageSize]="pagination.pageSize"
+                [pageSizeOptions]="[5, 10, 25, 100]"
+                [showFirstLastButtons]="true"
+            >
+            </mat-paginator>
         </ng-container>
     </div>
 </div>
