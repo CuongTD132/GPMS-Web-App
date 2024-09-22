@@ -45,6 +45,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CustomPipeModule } from '@fuse/pipes/pipe.module';
+import { UserService } from 'app/core/user/user.service';
 import { CreateWarehouseRequestComponent } from './create/create-warehouse-request.component';
 import { DeclineComponent } from './decline/decline.component';
 import { WarehouseRequestService } from './warehouse-requests.service';
@@ -84,10 +85,12 @@ export class WarehouseRequestComponent implements OnInit, AfterViewInit {
     filterForm: UntypedFormGroup;
     productionPlans$: Observable<ProductionPlan[]>;
     warehouseRequests$: Observable<WarehouseRequest[]>;
+    warehouseRequestList: WarehouseRequest[] = [];
     warehouseRequest: WarehouseRequest;
     pagination: Pagination;
     isLoading: boolean = false;
     flashMessage: 'success' | 'error' | null = null;
+    role: string = null;
     message: string = null;
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -98,12 +101,15 @@ export class WarehouseRequestComponent implements OnInit, AfterViewInit {
         private _warehouseRequestService: WarehouseRequestService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: UntypedFormBuilder,
+        private _userService: UserService,
         private dateAdapter: DateAdapter<Date>,
         private _dialog: MatDialog
     ) {}
 
     ngOnInit(): void {
-        // Get the warehouseRequests
+        this._userService.get().subscribe((user) => {
+            this.role = user.role;
+        }); // Get the warehouseRequests
         this.getWarehouseRequests();
         // Get the pagination
         this._warehouseRequestService.pagination$
@@ -120,15 +126,29 @@ export class WarehouseRequestComponent implements OnInit, AfterViewInit {
     }
 
     openPanel(id: string) {
+        const existingRequest = this.warehouseRequestList.find(
+            (warehouseRequest) => warehouseRequest.id === id
+        );
+
+        if (existingRequest) {
+            this.warehouseRequest = existingRequest;
+        } else {
+            this.getDetail(id);
+        }
+    }
+
+    getDetail(id: string) {
+        this.warehouseRequest = null;
         this._warehouseRequestService
             .getWarehouseRequestById(id)
             .subscribe((res) => {
                 if (res) {
+                    this.warehouseRequestList.push(res);
                     this.warehouseRequest = res;
-                    console.log(this.warehouseRequest);
                 }
             });
     }
+
     /**
      * After view init
      */
@@ -257,13 +277,14 @@ export class WarehouseRequestComponent implements OnInit, AfterViewInit {
     }
 
     approve(id: string): void {
-        console.log(id);
         this._warehouseRequestService.approveWarehouseRequest(id).subscribe({
             next: () => {
                 this._warehouseRequestService
                     .getWarehouseRequests()
                     .subscribe();
-
+                this.warehouseRequestList = this.warehouseRequestList.filter(
+                    (warehouseRequest) => warehouseRequest.id !== id
+                );
                 this.showFlashMessage(
                     'success',
                     'Request has been approve successful',
@@ -293,6 +314,10 @@ export class WarehouseRequestComponent implements OnInit, AfterViewInit {
                     this._warehouseRequestService
                         .getWarehouseRequests()
                         .subscribe();
+                    this.warehouseRequestList =
+                        this.warehouseRequestList.filter(
+                            (warehouseRequest) => warehouseRequest.id !== id
+                        );
                     this.showFlashMessage(
                         'success',
                         'Request has been decline successful',

@@ -12,7 +12,7 @@
         </button>
     </div>
     <div class="font-poppins overflow-y-scroll p-8 dark:bg-gray-800">
-        <ng-container *ngIf="data">
+        <ng-container *ngIf="data.length > 0">
             <mat-form-field class="w-full">
                 <mat-label>Select a batch working production plan:</mat-label>
                 <mat-select
@@ -39,10 +39,9 @@
                 </button>
             </div>
         </ng-container>
-        <ng-container *ngIf="!data">
+        <ng-container *ngIf="data.length < 1">
             <p class="text-xl font-semibold">
-                Hiện tại chưa có batch productionPlan nào sẵn sàng để tạo
-                request!
+                Hiện tại chưa có kế hoạch batch nào sẵn sàng để tạo request!
             </p>
         </ng-container>
     </div>

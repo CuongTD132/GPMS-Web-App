@@ -39,11 +39,11 @@ export const defaultNavigation: FuseNavigationItem[] = [
         ],
     },
     {
-        id: 'create-inspection-request',
-        title: 'Create Inspection Request',
+        id: 'inspection-request',
+        title: 'Inspection Requests',
         type: 'basic',
         icon: 'heroicons_outline:rss',
-        link: '/create-inspection-request',
+        link: '/inspection-request',
         permissions: ['ProductionManager'],
     },
     {
@@ -129,11 +129,11 @@ export const compactNavigation: FuseNavigationItem[] = [
         ],
     },
     {
-        id: 'create-inspection-request',
-        title: 'Create Inspection Request',
+        id: 'inspection-request',
+        title: 'Inspection Requests',
         type: 'basic',
         icon: 'heroicons_outline:rss',
-        link: '/create-inspection-request',
+        link: '/inspection-request',
         permissions: ['ProductionManager'],
     },
     {
@@ -178,7 +178,7 @@ export const compactNavigation: FuseNavigationItem[] = [
         type: 'basic',
         icon: 'heroicons_outline:server-stack',
         link: '/departments',
-        permissions: ['ProductionManager'],
+        permissions: ['Admin', 'ProductionManager'],
     },
 ];
 export const futuristicNavigation: FuseNavigationItem[] = [
@@ -219,11 +219,11 @@ export const futuristicNavigation: FuseNavigationItem[] = [
         ],
     },
     {
-        id: 'create-inspection-request',
-        title: 'Create Inspection Request',
+        id: 'inspection-request',
+        title: 'Inspection Requests',
         type: 'basic',
         icon: 'heroicons_outline:rss',
-        link: '/create-inspection-request',
+        link: '/inspection-request',
         permissions: ['ProductionManager'],
     },
     {
@@ -309,11 +309,11 @@ export const horizontalNavigation: FuseNavigationItem[] = [
         ],
     },
     {
-        id: 'create-inspection-request',
-        title: 'Create Inspection Request',
+        id: 'inspection-request',
+        title: 'Inspection Requests',
         type: 'basic',
         icon: 'heroicons_outline:rss',
-        link: '/create-inspection-request',
+        link: '/inspection-request',
         permissions: ['ProductionManager'],
     },
     {

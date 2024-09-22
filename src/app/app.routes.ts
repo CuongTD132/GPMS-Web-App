@@ -208,7 +208,7 @@ export const appRoutes: Route[] = [
                     ),
             },
             {
-                path: 'create-inspection-request',
+                path: 'inspection-request',
                 loadChildren: () =>
                     import(
                         'app/modules/admin/inspection-request/inspection-request.routes'

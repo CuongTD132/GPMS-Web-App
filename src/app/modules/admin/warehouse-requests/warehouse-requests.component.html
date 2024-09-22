@@ -17,15 +17,17 @@
         </div>
         <!-- Actions -->
         <div class="mt-6 flex shrink-0 items-center gap-3 sm:ml-4 sm:mt-0">
-            <button
-                (click)="openCreateWarehouseRequestDialog()"
-                mat-raised-button
-                class="flex min-w-fit gap-2"
-                color="primary"
-            >
-                <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
-                <span> Create </span>
-            </button>
+            <ng-container *ngIf="role === 'ProductionManager'">
+                <button
+                    (click)="openCreateWarehouseRequestDialog()"
+                    mat-raised-button
+                    class="flex min-w-fit gap-2"
+                    color="primary"
+                >
+                    <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
+                    <span> Create </span>
+                </button>
+            </ng-container>
             <div class="flex gap-3" [formGroup]="filterForm">
                 <div>
                     <!-- Search -->
@@ -118,7 +120,13 @@
 
                                         <!-- Status -->
                                         <div class="hidden sm:block">
-                                            {{ item.status }}
+                                            <span
+                                                [class]="
+                                                    item.status | statusClass
+                                                "
+                                            >
+                                                {{ item.status }}
+                                            </span>
                                         </div>
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
@@ -150,31 +158,37 @@
                                         <h1 class="pb-2 pl-8 text-xl font-bold">
                                             Warehouse Tickets List:
                                         </h1>
-                                        <div
-                                            *ngIf="item.status === 'Pending'"
-                                            class="flex items-center gap-2"
+                                        <ng-container
+                                            *ngIf="role === 'WarehouseManager'"
                                         >
-                                            <button
-                                                (click)="approve(item.id)"
-                                                mat-menu-item
+                                            <div
+                                                *ngIf="
+                                                    item.status === 'Pending'
+                                                "
+                                                class="flex items-center gap-2"
                                             >
-                                                Approve
-                                                <mat-icon
-                                                    class="cursor-pointer text-blue-500 icon-size-5"
-                                                    svgIcon="heroicons_outline:check-circle"
-                                                ></mat-icon>
-                                            </button>
-                                            <button
-                                                (click)="decline(item.id)"
-                                                mat-menu-item
-                                            >
-                                                Decline
-                                                <mat-icon
-                                                    class="cursor-pointer text-blue-500 icon-size-5"
-                                                    svgIcon="heroicons_outline:no-symbol"
-                                                ></mat-icon>
-                                            </button>
-                                        </div>
+                                                <button
+                                                    (click)="approve(item.id)"
+                                                    mat-menu-item
+                                                >
+                                                    Approve
+                                                    <mat-icon
+                                                        class="cursor-pointer text-blue-500 icon-size-5"
+                                                        svgIcon="heroicons_outline:check-circle"
+                                                    ></mat-icon>
+                                                </button>
+                                                <button
+                                                    (click)="decline(item.id)"
+                                                    mat-menu-item
+                                                >
+                                                    Decline
+                                                    <mat-icon
+                                                        class="cursor-pointer text-blue-500 icon-size-5"
+                                                        svgIcon="heroicons_outline:no-symbol"
+                                                    ></mat-icon>
+                                                </button>
+                                            </div>
+                                        </ng-container>
                                     </div>
                                     <ng-container
                                         *ngFor="
@@ -184,41 +198,94 @@
                                         <div
                                             class="warehouse-requests-detail-grid mx-8 my-4 grid"
                                         >
-                                            <div
-                                                class="flex items-center gap-1"
-                                            >
-                                                <span
-                                                    class="h-4 w-4 cursor-pointer rounded-full"
-                                                    [ngStyle]="{
-                                                        'background-color':
-                                                            req.color,
-                                                    }"
-                                                    matTooltip="{{ req.color }}"
-                                                ></span>
+                                            <div>
                                                 <p>
-                                                    {{ req.productName }} -
-                                                    {{ req.productCode }} - Size
-                                                    {{ req.size }} - Quantity:
-                                                    {{ req.quantity }}
+                                                    {{ req.productCode }} -
+                                                    {{ req.productName }}
                                                 </p>
+                                                <div
+                                                    class="flex items-center gap-1"
+                                                >
+                                                    Color
+                                                    <span
+                                                        class="h-4 w-4 cursor-pointer rounded-full"
+                                                        [ngStyle]="{
+                                                            'background-color':
+                                                                req.color,
+                                                        }"
+                                                        matTooltip="{{
+                                                            req.color
+                                                        }}"
+                                                    ></span>
+                                                    <p>
+                                                        - Size
+                                                        {{ req.size }} -
+                                                        Quantity:
+                                                        {{ req.quantity }}
+                                                    </p>
+                                                </div>
                                             </div>
                                             <ng-container
                                                 *ngIf="req.warehouseTicket"
                                             >
                                                 <div>
                                                     <p>
+                                                        -
                                                         {{
                                                             req.warehouseTicket
                                                                 .name
+                                                                | titlecase
                                                         }}
-                                                        vào
+                                                        Vào
                                                         {{
                                                             req.warehouseTicket
                                                                 .warehouseName
                                                         }}
                                                     </p>
+                                                    <div
+                                                        class="flex items-center gap-1"
+                                                    >
+                                                        <p>
+                                                            - Mã sản phẩm:
+                                                            {{
+                                                                req
+                                                                    .warehouseTicket
+                                                                    .productCode
+                                                            }}
+                                                            size
+                                                            {{
+                                                                req
+                                                                    .warehouseTicket
+                                                                    .size
+                                                            }}
+                                                            có màu
+                                                        </p>
+                                                        <span
+                                                            class="h-4 w-4 cursor-pointer rounded-full"
+                                                            [ngStyle]="{
+                                                                'background-color':
+                                                                    req
+                                                                        .warehouseTicket
+                                                                        .color,
+                                                            }"
+                                                            matTooltip="{{
+                                                                req
+                                                                    .warehouseTicket
+                                                                    .color
+                                                            }}"
+                                                        ></span>
+                                                        <p>
+                                                            với số lượng
+                                                            {{
+                                                                req
+                                                                    .warehouseTicket
+                                                                    .quantity
+                                                            }}
+                                                            cái
+                                                        </p>
+                                                    </div>
                                                     <p>
-                                                        Ngày tạo:
+                                                        - Ngày tạo ticket:
                                                         {{
                                                             getFormattedDate(
                                                                 req
