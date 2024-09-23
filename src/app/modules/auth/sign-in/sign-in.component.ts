@@ -17,6 +17,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertComponent, FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
+import { FcmService } from 'firebase-service';
 
 @Component({
     selector: 'auth-sign-in',
@@ -54,7 +55,8 @@ export class AuthSignInComponent implements OnInit {
         private _activatedRoute: ActivatedRoute,
         private _authService: AuthService,
         private _formBuilder: UntypedFormBuilder,
-        private _router: Router
+        private _router: Router,
+        private _fcmService: FcmService
     ) {}
 
     // -----------------------------------------------------------------------------------------------------
@@ -69,7 +71,7 @@ export class AuthSignInComponent implements OnInit {
         this.signInForm = this._formBuilder.group({
             email: ['admin@gmail.com', [Validators.required, Validators.email]],
             password: ['admin', Validators.required],
-            deviceToken: [''],
+            deviceToken: [this._fcmService.getToken],
         });
     }
 

@@ -1,34 +1,38 @@
 import { Injectable } from '@angular/core';
-import { Messaging, deleteToken } from '@angular/fire/messaging';
+import { Messaging, deleteToken, getToken, onMessage } from '@angular/fire/messaging';
+import { Observable, tap } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
 })
 export class FcmService {
+    private deviceToken: string;
+
     constructor(private msg: Messaging) {
-        // Notification.requestPermission().then(
-        //     (notificationPermissions: NotificationPermission) => {
-        //         if (notificationPermissions === 'granted') {
-        //             console.log('Granted');
-        //         }
-        //         if (notificationPermissions === 'denied') {
-        //             console.log('Denied');
-        //         }
-        //     }
-        // );
-        // navigator.serviceWorker
-        //     .register('firebase-messaging-sw.js', {
-        //         type: 'module',
-        //     })
-        //     .then((serviceWorkerRegistration) => {
-        //         getToken(this.msg, {
-        //             vapidKey: `BJf1RyYSRSiKXLp1jps0fg8oAEOwge0jyxkb-GqtsU2Sp1M7YxeDL3ruWFNU2aG2p2tNgwj6w9yqfmRCja9peeY`,
-        //             serviceWorkerRegistration: serviceWorkerRegistration,
-        //         }).then((x) => {
-        //             console.log('my fcm token', x);
-        //             // This is a good place to then store it on your database for each user
-        //         });
-        //     });
+        Notification.requestPermission().then(
+            (notificationPermissions: NotificationPermission) => {
+                if (notificationPermissions === 'granted') {
+                    console.log('Granted');
+                }
+                if (notificationPermissions === 'denied') {
+                    console.log('Denied');
+                }
+            }
+        );
+        navigator.serviceWorker
+            .register('firebase-messaging-sw.js', {
+                type: 'module',
+            })
+            .then((serviceWorkerRegistration) => {
+                getToken(this.msg, {
+                    vapidKey: `BJf1RyYSRSiKXLp1jps0fg8oAEOwge0jyxkb-GqtsU2Sp1M7YxeDL3ruWFNU2aG2p2tNgwj6w9yqfmRCja9peeY`,
+                    serviceWorkerRegistration: serviceWorkerRegistration,
+                }).then((x) => {
+                    console.log('my fcm token', x);
+                    this.deviceToken = x;
+                    // This is a good place to then store it on your database for each user
+                });
+            });
         // onMessage(msg, (payload) => console.log(payload));
         // let message$ = new Observable((sub) =>
         //     onMessage(this.msg, (msg) => sub.next(msg))
@@ -38,6 +42,11 @@ export class FcmService {
         //     })
         // );
     }
+    
+    get getToken(): string{
+        return this.deviceToken;
+    }
+    
     deleteToken() {
         // We can also delete fcm tokens, make sure to also update this on your firestore db if you are storing them as well
         deleteToken(this.msg);
