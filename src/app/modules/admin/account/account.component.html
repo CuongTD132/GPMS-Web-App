@@ -119,7 +119,9 @@
 
                             <!-- Status -->
                             <div class="hidden sm:block">
-                                {{ account.status }}
+                                <span [class]="account.status | statusClass">
+                                    {{ account.status }}
+                                </span>
                             </div>
                         </div>
                     </ng-container>

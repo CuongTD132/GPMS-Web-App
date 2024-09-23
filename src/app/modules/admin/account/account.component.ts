@@ -28,6 +28,7 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { FuseAlertComponent } from '@fuse/components/alert';
+import { CustomPipeModule } from '@fuse/pipes/pipe.module';
 import { Pagination } from 'app/types/pagination.type';
 import {
     Observable,
@@ -64,6 +65,7 @@ import { AccountDetailComponent } from './detail/account-detail.component';
         MatOptionModule,
         FuseAlertComponent,
         MatCheckboxModule,
+        CustomPipeModule,
     ],
 })
 export class AccountComponent implements OnInit, AfterViewInit {
