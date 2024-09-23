@@ -28,6 +28,7 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { FuseAlertComponent } from '@fuse/components/alert';
+import { CustomPipeModule } from '@fuse/pipes/pipe.module';
 import { Pagination } from 'app/types/pagination.type';
 import {
     Observable,
@@ -65,6 +66,7 @@ import { DepartmentService } from './department.service';
         FuseAlertComponent,
         MatCheckboxModule,
         MatTabsModule,
+        CustomPipeModule,
     ],
 })
 export class DepartmentComponent implements OnInit, AfterViewInit {

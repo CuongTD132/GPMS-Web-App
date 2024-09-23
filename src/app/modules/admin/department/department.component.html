@@ -85,15 +85,33 @@
                                             *ngIf="
                                                 item.status === 'In_production'
                                             "
-                                            >In Production</ng-container
+                                            ><span
+                                                [class]="
+                                                    item.status | statusClass
+                                                "
+                                            >
+                                                In Production
+                                            </span></ng-container
                                         >
                                         <ng-container
                                             *ngIf="item.status === 'Inactive'"
-                                            >Inactive</ng-container
+                                            ><span
+                                                [class]="
+                                                    item.status | statusClass
+                                                "
+                                            >
+                                                Inactive
+                                            </span></ng-container
                                         >
                                         <ng-container
                                             *ngIf="item.status === 'Active'"
-                                            >Active</ng-container
+                                            ><span
+                                                [class]="
+                                                    item.status | statusClass
+                                                "
+                                            >
+                                                Active
+                                            </span></ng-container
                                         >
                                     </div>
                                 </ng-container>
