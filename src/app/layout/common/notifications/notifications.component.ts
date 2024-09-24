@@ -82,24 +82,17 @@ export class NotificationsComponent implements OnInit, OnDestroy {
                 this._changeDetectorRef.markForCheck();
             });
 
-        // this.message$ = new Observable((sub) =>
-        //     onMessage(this._msg, (payload) => sub.next(payload))
-        // ).pipe(
-        //     tap((notification) => {
-        //         console.log(JSON.stringify(notification));
-        //     })
-        // );
         onMessage(this._msg, (payload) => {
             this._notificationsService
                 .create({
                     id: payload.messageId,
-                    read: false,
-                    time: payload.data['google.c.a.ts'],
+                    // read: false,
+                    createdDate: payload.data['google.c.a.ts'],
                     title: payload.notification.title,
-                    description: payload.notification.body,
+                    body: payload.notification.body,
                 })
-                .subscribe((notification) => {
-                    console.log(notification);
+                .subscribe((_) => {
+                    // this._calculateUnreadCount();
                 });
         });
     }
@@ -152,23 +145,23 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     /**
      * Mark all notifications as read
      */
-    markAllAsRead(): void {
-        // Mark all as read
-        this._notificationsService.markAllAsRead().subscribe();
-    }
+    // markAllAsRead(): void {
+    //     // Mark all as read
+    //     this._notificationsService.markAllAsRead().subscribe();
+    // }
 
     /**
      * Toggle read status of the given notification
      */
-    toggleRead(notification: Notification): void {
-        // Toggle the read status
-        notification.read = !notification.read;
+    // toggleRead(notification: Notification): void {
+    //     // Toggle the read status
+    //     notification.read = !notification.read;
 
-        // Update the notification
-        this._notificationsService
-            .update(notification.id, notification)
-            .subscribe();
-    }
+    //     // Update the notification
+    //     this._notificationsService
+    //         .update(notification.id, notification)
+    //         .subscribe();
+    // }
 
     /**
      * Delete the given notification
@@ -252,7 +245,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
         if (this.notifications && this.notifications.length) {
             count = this.notifications.filter(
-                (notification) => !notification.read
+                (notification) => !notification.isRead
             ).length;
         }
 

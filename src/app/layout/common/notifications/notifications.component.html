@@ -62,8 +62,8 @@
                     [ngClass]="{ unread: !notification.read }"
                 >
                     <!-- Notification with a link -->
-                    @if (notification.link) {
-                        <!-- Normal links -->
+                    <!-- @if (notification.link) {
+                        Normal links
                         @if (!notification.useRouter) {
                             <a
                                 class="flex flex-auto cursor-pointer py-5 pl-6"
@@ -74,7 +74,7 @@
                                 ></ng-container>
                             </a>
                         }
-                        <!-- Router links -->
+                        Router links
                         @if (notification.useRouter) {
                             <a
                                 class="flex flex-auto cursor-pointer py-5 pl-6"
@@ -85,7 +85,7 @@
                                 ></ng-container>
                             </a>
                         }
-                    }
+                    } -->
 
                     <!-- Notification without a link -->
                     @if (!notification.link) {
@@ -99,7 +99,7 @@
                     <!-- Actions -->
                     <div class="relative my-5 ml-2 mr-6 flex flex-col">
                         <!-- Indicator -->
-                        <button
+                        <!-- <button
                             class="h-6 min-h-6 w-6"
                             mat-icon-button
                             (click)="toggleRead(notification)"
@@ -117,7 +117,7 @@
                                     'bg-primary': !notification.read,
                                 }"
                             ></span>
-                        </button>
+                        </button> -->
                         <!-- Remove -->
                         <button
                             class="h-6 min-h-6 w-6 sm:opacity-0 sm:group-hover:opacity-100"
@@ -163,14 +163,17 @@
                                 [innerHTML]="notification.title"
                             ></div>
                         }
-                        @if (notification.description) {
+                        @if (notification.body) {
                             <div
                                 class="line-clamp-2"
-                                [innerHTML]="notification.description"
+                                [innerHTML]="notification.body"
                             ></div>
                         }
                         <div class="text-secondary mt-2 text-sm leading-none">
-                            {{ notification.time | date: 'MMM dd, h:mm a' }}
+                            {{
+                                notification.createdDate
+                                    | date: 'MMM dd, h:mm a'
+                            }}
                         </div>
                     </div>
                 </ng-template>

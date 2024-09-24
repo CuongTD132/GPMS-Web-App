@@ -159,6 +159,15 @@
                                             Warehouse Tickets List:
                                         </h1>
                                         <ng-container
+                                            *ngIf="warehouseRequest.note"
+                                        >
+                                            <h1
+                                                class="pb-2 pl-8 text-xl font-bold"
+                                            >
+                                                Reasons for rejection:
+                                            </h1>
+                                        </ng-container>
+                                        <ng-container
                                             *ngIf="role === 'WarehouseManager'"
                                         >
                                             <div
@@ -301,6 +310,16 @@
                                             >
                                                 <p>
                                                     Sản phẩm này chưa có ticket!
+                                                </p>
+                                            </ng-container>
+                                            <ng-container
+                                                *ngIf="warehouseRequest.note"
+                                            >
+                                                <p>
+                                                    {{
+                                                        warehouseRequest.note
+                                                            | titlecase
+                                                    }}
                                                 </p>
                                             </ng-container>
                                         </div>

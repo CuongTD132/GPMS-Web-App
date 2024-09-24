@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Messaging, deleteToken, getToken, onMessage } from '@angular/fire/messaging';
-import { Observable, tap } from 'rxjs';
+import { Messaging, deleteToken, getToken } from '@angular/fire/messaging';
 
 @Injectable({
     providedIn: 'root',
@@ -33,6 +32,7 @@ export class FcmService {
                     // This is a good place to then store it on your database for each user
                 });
             });
+
         // onMessage(msg, (payload) => console.log(payload));
         // let message$ = new Observable((sub) =>
         //     onMessage(this.msg, (msg) => sub.next(msg))
@@ -42,11 +42,11 @@ export class FcmService {
         //     })
         // );
     }
-    
-    get getToken(): string{
+
+    get getToken(): string {
         return this.deviceToken;
     }
-    
+
     deleteToken() {
         // We can also delete fcm tokens, make sure to also update this on your firestore db if you are storing them as well
         deleteToken(this.msg);

@@ -33,6 +33,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { FuseAlertComponent } from '@fuse/components/alert';
 import { CustomPipeModule } from '@fuse/pipes/pipe.module';
+import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { UserService } from 'app/core/user/user.service';
 import { Pagination } from 'app/types/pagination.type';
 import {
@@ -102,7 +103,8 @@ export class ProductHeaderComponent implements OnInit, AfterViewInit {
         private _dialog: MatDialog,
         private _userService: UserService,
         private dateAdapter: DateAdapter<Date>,
-        private _categoryService: CategoryService
+        private _categoryService: CategoryService,
+        private _fuseConfirmationService: FuseConfirmationService
     ) {}
 
     ngOnInit(): void {
@@ -323,6 +325,27 @@ export class ProductHeaderComponent implements OnInit, AfterViewInit {
                     }
                 });
         }
+    }
+
+    showConfirmDialog() {
+        this._fuseConfirmationService
+            .open({
+                title: 'title',
+                message: 'message',
+                icon: {
+                    color: 'success',
+                    name: 'heroicons_outline:archive-box-arrow-down',
+                },
+                actions: {},
+            })
+            .afterClosed()
+            .subscribe((result) => {
+                console.log(result);
+
+                if (result === 'confirmed') {
+                    console.log('confirm');
+                }
+            });
     }
 
     approveProduct(id: string) {
