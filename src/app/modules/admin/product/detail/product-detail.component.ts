@@ -89,6 +89,18 @@ export class ProductDetailComponent implements OnInit {
         });
     }
 
+    approveProduct(id: string) {
+        this._productService.approveProduct(id).subscribe(() => {
+            this._productService.getProducts().subscribe();
+        });
+    }
+
+    declineProduct(id: string) {
+        this._productService.declineProduct(id).subscribe(() => {
+            this._productService.getProducts().subscribe();
+        });
+    }
+
     uploadSpecImg(proId: string, id: string, fileList: FileList): void {
         // Return if canceled
         if (!fileList.length) {
