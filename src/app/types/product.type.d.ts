@@ -102,3 +102,14 @@ type InputOutputResult = {
     consumption?: number;
     quantity?: number;
 };
+
+type ProductInput = {
+    code: string,
+    name: string,
+    description?: string,
+    categoryId: string,
+    semiFinishedProducts: SemiFinishedProductInput[],
+    specifications: SpecificationInput[],
+    
+}
+

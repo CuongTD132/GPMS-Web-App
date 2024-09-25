@@ -42,3 +42,11 @@ type NewSpecification = {
     billOfMaterial: BillOfMaterial[];
     qualityStandards: QualityStandards[];
 };
+
+// 
+type SpecificationInput = {
+    sizeName: string,
+    colorCode: string,
+    measurement: MeasurementInput[],
+    boMs
+}

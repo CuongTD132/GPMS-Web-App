@@ -1,0 +1,16 @@
+<div class="m-8 flex-1 overflow-hidden rounded-md bg-white shadow-sm">
+    <h2 class="mx-8 mt-4 text-3xl font-semibold">Define new product</h2>
+    <form (ngSubmit)="onSubmit()">
+        <mat-horizontal-stepper #stepper class="px-8">
+            <mat-step [stepControl]="form">
+                <ng-template matStepLabel>General information</ng-template>
+                <general-product-form />
+            </mat-step>
+            <mat-step [stepControl]="form">
+                <ng-template matStepLabel>Semi-finished products</ng-template>
+                <semi-product-form />
+            </mat-step>
+        </mat-horizontal-stepper>
+        <button type="submit">test</button>
+    </form>
+</div>
