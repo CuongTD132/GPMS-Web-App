@@ -18,6 +18,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { FuseAlertComponent } from '@fuse/components/alert';
+import { CustomPipeModule } from '@fuse/pipes/pipe.module';
 import { UserService } from 'app/core/user/user.service';
 import { ProductionPlanService } from '../../production-plan.service';
 import { BatchsListComponent } from './batchs-list/batchs-list.component';
@@ -43,6 +44,7 @@ import { EstimationsListComponent } from './estimations-list/estimations-list.co
         RouterModule,
         MatTooltipModule,
         FuseAlertComponent,
+        CustomPipeModule,
     ],
 })
 export class ProductionPlanMonthDetailComponent implements OnInit {

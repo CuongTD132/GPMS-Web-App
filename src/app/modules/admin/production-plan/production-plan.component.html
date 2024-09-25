@@ -94,8 +94,7 @@
                     <div class="hidden sm:block">Actions</div>
                     <div class="hidden sm:block">Code</div>
                     <div class="hidden sm:block">Name</div>
-                    <div class="hidden sm:block">Expected Starting Date</div>
-                    <div class="hidden sm:block">Due Date</div>
+                    <div class="hidden sm:block">Timeline</div>
                     <div class="hidden sm:block">Status</div>
                     <div class="hidden sm:block">Type</div>
                 </div>
@@ -169,22 +168,19 @@
                             </div>
 
                             <!-- Name -->
-                            <div class="hidden truncate sm:block">
+                            <div
+                                class="hidden truncate sm:block"
+                                matTooltip="{{ productionPlan.name }}"
+                            >
                                 {{ productionPlan.name }}
                             </div>
 
                             <!-- Status -->
                             <div class="hidden sm:block">
                                 {{
-                                    getFormattedDate(
-                                        productionPlan.expectedStartingDate
-                                    )
+                                    productionPlan.expectedStartingDate | date
                                 }}
-                            </div>
-
-                            <!-- Status -->
-                            <div class="hidden sm:block">
-                                {{ getFormattedDate(productionPlan.dueDate) }}
+                                - {{ productionPlan.dueDate | date }}
                             </div>
 
                             <div class="hidden sm:block">
@@ -196,11 +192,23 @@
                                         *ngIf="
                                             productionPlan.status === 'Approved'
                                         "
-                                        >Waiting for production
+                                    >
+                                        Waiting for production
                                     </ng-container>
                                     <ng-container
                                         *ngIf="
-                                            productionPlan.status !== 'Approved'
+                                            productionPlan.status ===
+                                            'InProgress'
+                                        "
+                                    >
+                                        In Progress
+                                    </ng-container>
+                                    <ng-container
+                                        *ngIf="
+                                            productionPlan.status !==
+                                                'Approved' &&
+                                            productionPlan.status !==
+                                                'InProgress'
                                         "
                                     >
                                         {{ productionPlan.status }}

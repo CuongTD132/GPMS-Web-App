@@ -102,7 +102,8 @@
                         </div>
                         <div class="hidden sm:block">
                             {{
-                                getFormattedDate(inspectionRequest.createdDate)
+                                inspectionRequest.createdDate
+                                    | date: 'MMM dd YYYY, h:mm a'
                             }}
                         </div>
                         <div class="hidden sm:block">

@@ -112,9 +112,9 @@
                                         <!-- Status -->
                                         <div class="hidden sm:block">
                                             {{
-                                                getFormattedDate(
-                                                    item.createdDate
-                                                )
+                                                item.createdDate
+                                                    | date
+                                                        : 'MMM dd YYYY, h:mm a'
                                             }}
                                         </div>
 
@@ -296,11 +296,10 @@
                                                     <p>
                                                         - Ngày tạo ticket:
                                                         {{
-                                                            getFormattedDate(
-                                                                req
-                                                                    .warehouseTicket
-                                                                    .createdDate
-                                                            )
+                                                            req.warehouseTicket
+                                                                .createdDate
+                                                                | date
+                                                                    : 'MMM dd YYYY, h:mm a'
                                                         }}
                                                     </p>
                                                 </div>

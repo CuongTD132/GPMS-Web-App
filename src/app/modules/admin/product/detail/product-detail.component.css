@@ -35,5 +35,5 @@
 }
 
 .quality-standard-grid {
-    grid-template-columns: 60px 240px auto;
+    grid-template-columns: 240px auto;
 }

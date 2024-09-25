@@ -57,7 +57,12 @@
                             </div>
                         </div>
                         <div class="flex flex-col gap-4">
-                            <ng-container *ngIf="role === 'FactoryDirector' && product.status === 'Pending'">
+                            <ng-container
+                                *ngIf="
+                                    role === 'FactoryDirector' &&
+                                    product.status === 'Pending'
+                                "
+                            >
                                 <div class="flex gap-4">
                                     <button
                                         class="flex items-center"
@@ -513,11 +518,6 @@
                                                                             <div
                                                                                 class="hidden sm:block"
                                                                             >
-                                                                                Thump
-                                                                            </div>
-                                                                            <div
-                                                                                class="hidden sm:block"
-                                                                            >
                                                                                 Name
                                                                             </div>
                                                                             <div
@@ -537,44 +537,6 @@
                                                                                 <div
                                                                                     class="quality-standard-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
                                                                                 >
-                                                                                    <div
-                                                                                        class="flex items-center"
-                                                                                    >
-                                                                                        <div
-                                                                                            class="relative mr-6 flex h-12 w-12 flex-0 items-center justify-center overflow-hidden rounded border"
-                                                                                        >
-                                                                                            <img
-                                                                                                class="w-8"
-                                                                                                *ngIf="
-                                                                                                    item.imageURL &&
-                                                                                                    item
-                                                                                                        .imageURL
-                                                                                                        .length >
-                                                                                                        0
-                                                                                                "
-                                                                                                [alt]="
-                                                                                                    'Product image'
-                                                                                                "
-                                                                                                [src]="
-                                                                                                    item
-                                                                                                        .imageURL[0]
-                                                                                                "
-                                                                                            />
-                                                                                            <div
-                                                                                                class="flex h-full w-full items-center justify-center text-center text-xs font-semibold uppercase leading-none"
-                                                                                                *ngIf="
-                                                                                                    !item.imageURL ||
-                                                                                                    !item
-                                                                                                        .imageURL
-                                                                                                        .length >
-                                                                                                        0
-                                                                                                "
-                                                                                            >
-                                                                                                NO
-                                                                                                IMAGE
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
                                                                                     <div
                                                                                         class="hidden sm:block"
                                                                                     >

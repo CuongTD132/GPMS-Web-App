@@ -15,11 +15,11 @@ export class ProductionResultService {
 
     getBatchProductionPlansInProgress(
         filter: any = {
-            type: 'batch',
-            status: 'InProgress',
-            pagination: {
-                pageSize: 999,
-            },
+            // type: 'batch',
+            // status: 'InProgress',
+            // pagination: {
+            //     pageSize: 999,
+            // },
         }
     ): Observable<{ data: ProductionPlan[] }> {
         return this._httpClient

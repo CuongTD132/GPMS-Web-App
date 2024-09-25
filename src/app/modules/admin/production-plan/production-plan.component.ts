@@ -29,6 +29,7 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { FuseAlertComponent } from '@fuse/components/alert';
 import { CustomPipeModule } from '@fuse/pipes/pipe.module';
@@ -72,6 +73,7 @@ import { ProductionPlanService } from './production-plan.service';
         RouterModule,
         MatProgressBar,
         MatMenuModule,
+        MatTooltipModule,
         CustomPipeModule,
     ],
 })

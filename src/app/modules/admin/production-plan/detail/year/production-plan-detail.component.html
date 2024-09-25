@@ -5,61 +5,90 @@
         class="font-poppins bg-card mx-8 my-6 space-y-10 rounded-lg p-8 dark:bg-gray-800"
     >
         <div class="grid w-full grid-cols-12 gap-4">
-            <div class="col-span-3 flex flex-col gap-4">
+            <div
+                class="col-span-3 flex flex-col gap-4 rounded-lg bg-white p-4 shadow-md"
+            >
                 <div class="flex space-x-1">
-                    <div class="productionPlan-name">
+                    <div class="text-xl font-bold text-gray-800">
+                        {{ productionPlan.code | uppercase }} -
                         {{ productionPlan.name | uppercase }}
                     </div>
                 </div>
-                <div class="productionPlan-code">
-                    Production Plan Code - {{ productionPlan.code | uppercase }}
+                <div class="flex items-center justify-between text-gray-600">
+                    <div>
+                        <strong class="text-gray-500">Type:</strong>
+                        {{ productionPlan.type | uppercase }}
+                    </div>
+                    <span
+                        class="text-lg font-bold"
+                        [class]="productionPlan.status | statusClass"
+                    >
+                        <ng-container
+                            *ngIf="productionPlan.status === 'Approved'"
+                        >
+                            Waiting for production
+                        </ng-container>
+                        <ng-container
+                            *ngIf="productionPlan.status === 'InProgress'"
+                        >
+                            In Progress
+                        </ng-container>
+                        <ng-container
+                            *ngIf="
+                                productionPlan.status !== 'Approved' &&
+                                productionPlan.status !== 'InProgress'
+                            "
+                        >
+                            {{ productionPlan.status }}
+                        </ng-container>
+                    </span>
                 </div>
-                <div class="productionPlan-type">
-                    Type: {{ productionPlan.type | uppercase }}
+                <div class="text-gray-600">
+                    <strong class="text-gray-500">Created Date:</strong>
+                    {{
+                        productionPlan.createdDate | date: 'MMM dd YYYY, h:mm a'
+                    }}
                 </div>
-
-                <div class="productionPlan-createdDate">
-                    Created Date:
-                    {{ getFormattedDate(productionPlan.createdDate) }}
-                </div>
-                <div class="productionPlan-expectedStartingDate">
-                    Expected Starting Date:
-                    {{ getFormattedDate(productionPlan.expectedStartingDate) }}
+                <div class="text-gray-600">
+                    <strong class="text-gray-500">Timeline:</strong>
+                    {{ productionPlan.expectedStartingDate | date }}
+                    -
+                    {{ productionPlan.dueDate | date }}
                 </div>
                 <div
-                    class="productionPlan-actualStartingDate"
+                    class="text-gray-600"
                     *ngIf="productionPlan.actualStartingDate"
                 >
-                    Actual Starting Date:
-                    {{ getFormattedDate(productionPlan.actualStartingDate) }}
-                </div>
-                <div
-                    class="productionPlan-completionDate"
-                    *ngIf="productionPlan.completionDate"
-                >
-                    Completion Date:
-                    {{ getFormattedDate(productionPlan.completionDate) }}
-                </div>
-                <div class="productionPlan-dueDate">
-                    Due Date: {{ getFormattedDate(productionPlan.dueDate) }}
-                </div>
+                    <strong class="text-gray-500"
+                        >Actual execution timeline:</strong
+                    >
+                    <br />
+                    From
+                    {{
+                        productionPlan.actualStartingDate
+                            | date: 'MMM dd YYYY, h:mm a'
+                    }}
 
-                <div class="productionPlan-status">
-                    Current Status: {{ productionPlan.status }}
+                    <span *ngIf="productionPlan.completionDate; else ongoing">
+                        <br />
+                        To
+                        {{
+                            productionPlan.completionDate
+                                | date: 'MMM dd YYYY, h:mm a'
+                        }}
+                    </span>
+                    <ng-template #ongoing>- Ongoing</ng-template>
                 </div>
-                <div class="productionPlan-creatorName">
-                    Creator: {{ productionPlan.creatorName }}
+                <div class="text-gray-600">
+                    <strong class="text-gray-500">Creator:</strong>
+                    {{ productionPlan.creatorName }}
                 </div>
-                <div
-                    class="productionPlan-reviewerName"
-                    *ngIf="productionPlan.reviewerName"
-                >
-                    Reviewer: {{ productionPlan.reviewerName }}
+                <div class="text-gray-600" *ngIf="productionPlan.reviewerName">
+                    <strong class="text-gray-500">Reviewer:</strong>
+                    {{ productionPlan.reviewerName }}
                 </div>
-                <div
-                    class="productionPlan-description"
-                    *ngIf="productionPlan.description"
-                >
+                <div class="text-gray-600" *ngIf="productionPlan.description">
+                    <strong class="text-gray-500">Description:</strong>
                     {{ productionPlan.description }}
                 </div>
             </div>
@@ -93,7 +122,9 @@
                 >
                 <div class="grid">
                     <div class="production-plan-detail flex flex-col gap-2">
-                        <span>LIST PRODUCTION REQUIREMENTS</span>
+                        <strong class="text-gray-500"
+                            >LIST PRODUCTION REQUIREMENTS</strong
+                        >
                         <div class="grid">
                             <div
                                 class="production-plan-detail-grid text-secondary grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
@@ -121,7 +152,13 @@
                                                 .productCode
                                         }}
                                     </div>
-                                    <div class="hidden sm:block">
+                                    <div
+                                        class="hidden truncate sm:block"
+                                        matTooltip="{{
+                                            item.productSpecification
+                                                .productName
+                                        }}"
+                                    >
                                         {{
                                             item.productSpecification
                                                 .productName
@@ -174,7 +211,9 @@
                 >
                     <div class="grid w-full">
                         <div class="production-plans flex flex-col gap-2">
-                            <span>LIST MONTH PRODUCTION PLANS</span>
+                            <strong class="text-gray-500"
+                                >LIST MONTH PRODUCTION PLANS</strong
+                            >
 
                             <div class="grid">
                                 <div
@@ -182,10 +221,7 @@
                                 >
                                     <div class="hidden sm:block">Code</div>
                                     <div class="hidden sm:block">Name</div>
-                                    <div class="hidden sm:block">
-                                        Expected Starting Date
-                                    </div>
-                                    <div class="hidden sm:block">Due Date</div>
+                                    <div class="hidden sm:block">Timeline</div>
                                     <div class="hidden sm:block">Status</div>
                                     <div class="hidden sm:block">Action</div>
                                 </div>
@@ -200,19 +236,41 @@
                                         <div class="hidden sm:block">
                                             {{ item.code }}
                                         </div>
-                                        <div class="hidden sm:block">
+                                        <div
+                                            class="hidden truncate sm:block"
+                                            matTooltip="{{ item.name }}"
+                                        >
                                             {{ item.name }}
                                         </div>
                                         <div class="hidden sm:block">
                                             {{
                                                 item.expectedStartingDate | date
                                             }}
+                                            - {{ item.dueDate | date }}
                                         </div>
                                         <div class="hidden sm:block">
-                                            {{ item.dueDate | date }}
-                                        </div>
-                                        <div class="hidden sm:block">
-                                            {{ item.status }}
+                                            <span
+                                                [class]="
+                                                    item.status | statusClass
+                                                "
+                                            >
+                                                <ng-container
+                                                    *ngIf="
+                                                        item.status ===
+                                                        'InProgress'
+                                                    "
+                                                >
+                                                    In Progress
+                                                </ng-container>
+                                                <ng-container
+                                                    *ngIf="
+                                                        item.status !==
+                                                        'InProgress'
+                                                    "
+                                                >
+                                                    {{ item.status }}
+                                                </ng-container>
+                                            </span>
                                         </div>
                                         <div class="hidden sm:block">
                                             <span

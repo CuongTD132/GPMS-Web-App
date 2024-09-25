@@ -18,6 +18,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
+import { CustomPipeModule } from '@fuse/pipes/pipe.module';
 import { ProductionPlanService } from '../../production-plan.service';
 import { EstimationsListComponent } from './estimations-list/estimations-list.component';
 
@@ -39,6 +40,7 @@ import { EstimationsListComponent } from './estimations-list/estimations-list.co
         MatChipsModule,
         RouterModule,
         MatTooltipModule,
+        CustomPipeModule,
     ],
 })
 export class ProductionPlanBatchDetailComponent implements OnInit {
