@@ -244,7 +244,10 @@
                             </div>
 
                             <div class="hidden sm:block">
-                                {{ getFormattedDate(product.createdDate) }}
+                                {{
+                                    product.createdDate
+                                        | date: 'MMM dd YYYY, h:mm a'
+                                }}
                             </div>
 
                             <div class="hidden sm:block">

@@ -192,8 +192,19 @@
                                     [class]="
                                         productionPlan.status | statusClass
                                     "
-                                >
-                                    {{ productionPlan.status }}
+                                    ><ng-container
+                                        *ngIf="
+                                            productionPlan.status === 'Approved'
+                                        "
+                                        >Waiting for production
+                                    </ng-container>
+                                    <ng-container
+                                        *ngIf="
+                                            productionPlan.status !== 'Approved'
+                                        "
+                                    >
+                                        {{ productionPlan.status }}
+                                    </ng-container>
                                 </span>
                             </div>
 
