@@ -64,7 +64,7 @@ export class ProductionResultComponent implements OnInit {
     stepResultForm: FormGroup;
     totalIO: number = 0;
     inputOutputResults: InputOutputResult[] = [];
-    quantityForms: { [key: string]: FormGroup } = {}; // Object to hold form groups for each item
+    quantityForms: { [key: string]: FormGroup } = {};
     consumptionForms: { [key: string]: FormGroup } = {};
     productionPlans$: Observable<ProductionPlan[]>;
     productionPlans: ProductionPlan[] = [];
@@ -92,24 +92,6 @@ export class ProductionResultComponent implements OnInit {
     role: string = null;
     stateCtrl = new FormControl('');
     filteredStates: Observable<ProductionPlan[]>;
-    states: State[] = [
-        {
-            name: 'Arkansas',
-            population: '2.978M',
-        },
-        {
-            name: 'California',
-            population: '39.14M',
-        },
-        {
-            name: 'Florida',
-            population: '20.27M',
-        },
-        {
-            name: 'Texas',
-            population: '27.47M',
-        },
-    ];
 
     constructor(
         private _productionResultService: ProductionResultService,

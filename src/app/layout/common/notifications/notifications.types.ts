@@ -14,7 +14,7 @@ export interface Notification {
     id: string;
     title?: string;
     body?: string;
-    createdDate: string;
+    createdDate?: string;
     isRead?: boolean;
     // read: boolean;
 }

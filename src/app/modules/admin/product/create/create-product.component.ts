@@ -617,9 +617,9 @@ export class CreateProductComponent implements OnInit {
                     'Create product successful',
                     3000
                 );
-                setInterval(() => {
+                setTimeout(() => {
                     this._router.navigate(['/products']);
-                }, 3000);
+                }, 1000);
             });
     }
 

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import {
     FormsModule,
     ReactiveFormsModule,
@@ -19,6 +19,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { CustomPipeModule } from '@fuse/pipes/pipe.module';
+import { UserService } from 'app/core/user/user.service';
 import { ProductionPlanService } from '../../production-plan.service';
 import { EstimationsListComponent } from './estimations-list/estimations-list.component';
 
@@ -49,15 +50,22 @@ export class ProductionPlanBatchDetailComponent implements OnInit {
     selectedFile: File;
     uploadMessage: string;
     updateProductionPlanForm: UntypedFormGroup;
-
+    flashMessage: 'success' | 'error' | null = null;
+    role: string = null;
+    message: string = null;
     constructor(
         private _formBuilder: UntypedFormBuilder,
         private _productionPlanService: ProductionPlanService,
+        private _userService: UserService,
+        private _changeDetectorRef: ChangeDetectorRef,
         private _dialog: MatDialog,
         private dateAdapter: DateAdapter<Date>
     ) {}
 
     ngOnInit(): void {
+        this._userService.get().subscribe((user) => {
+            this.role = user.role;
+        });
         this._productionPlanService.productionPlan$.subscribe(
             (productionPlan) => {
                 this.productionPlan = productionPlan;
@@ -72,7 +80,19 @@ export class ProductionPlanBatchDetailComponent implements OnInit {
             code: [this.productionPlan.code, [Validators.required]],
         });
     }
-
+    private showFlashMessage(
+        type: 'success' | 'error',
+        message: string,
+        time: number
+    ): void {
+        this.flashMessage = type;
+        this.message = message;
+        this._changeDetectorRef.markForCheck();
+        setTimeout(() => {
+            this.flashMessage = this.message = null;
+            this._changeDetectorRef.markForCheck();
+        }, time);
+    }
     getFormattedDate(date: string): string {
         const parsedDate = this.dateAdapter.parse(
             date,
@@ -91,5 +111,98 @@ export class ProductionPlanBatchDetailComponent implements OnInit {
             })
             .afterClosed()
             .subscribe();
+    }
+
+    approveProductionPlan(id: string) {
+        this._productionPlanService.approveProductionPlan(id).subscribe({
+            next: () => {
+                this._productionPlanService
+                    .getProductionPlanById(this.productionPlan.id)
+                    .subscribe((productionPlan) => {
+                        this.productionPlan = productionPlan;
+                    });
+                this.showFlashMessage(
+                    'success',
+                    'Production plan has been aprrove successful',
+                    3000
+                );
+            },
+            error: () =>
+                this.showFlashMessage(
+                    'error',
+                    'Production plan has been aprrove failed',
+                    3000
+                ),
+        });
+    }
+
+    declineProductionPlan(id: string) {
+        this._productionPlanService.declineProductionPlan(id).subscribe({
+            next: () => {
+                this._productionPlanService
+                    .getProductionPlanById(this.productionPlan.id)
+                    .subscribe((productionPlan) => {
+                        this.productionPlan = productionPlan;
+                    });
+                this.showFlashMessage(
+                    'success',
+                    'Production plan has been decline successful',
+                    3000
+                );
+            },
+            error: () =>
+                this.showFlashMessage(
+                    'error',
+                    'Production plan has been decline failed',
+                    3000
+                ),
+        });
+    }
+
+    deleteProductionPlan(id: string) {
+        this._productionPlanService.deleteProductionPlan(id).subscribe({
+            next: () => {
+                this._productionPlanService
+                    .getProductionPlanById(this.productionPlan.id)
+                    .subscribe((productionPlan) => {
+                        this.productionPlan = productionPlan;
+                    });
+                this.showFlashMessage(
+                    'success',
+                    'Production plan has been delete successful',
+                    3000
+                );
+            },
+            error: () =>
+                this.showFlashMessage(
+                    'error',
+                    'Production plan has been delete failed',
+                    3000
+                ),
+        });
+    }
+
+    startProductionPlan(id: string) {
+        this._productionPlanService
+            .startProductionPlan(id)
+            .subscribe((response) => {
+                this._productionPlanService
+                    .getProductionPlanById(this.productionPlan.id)
+                    .subscribe((productionPlan) => {
+                        this.productionPlan = productionPlan;
+                    });
+            });
+    }
+
+    endProductionPlan(id: string) {
+        this._productionPlanService
+            .endProductionPlan(id)
+            .subscribe((response) => {
+                this._productionPlanService
+                    .getProductionPlanById(this.productionPlan.id)
+                    .subscribe((productionPlan) => {
+                        this.productionPlan = productionPlan;
+                    });
+            });
     }
 }

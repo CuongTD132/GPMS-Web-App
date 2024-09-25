@@ -122,6 +122,13 @@ export class ProductionPlanYearDetailComponent implements OnInit {
                         .afterClosed()
                         .subscribe((result) => {
                             if (result === 'success') {
+                                this._productionPlanService
+                                    .getProductionPlanById(
+                                        this.productionPlan.id
+                                    )
+                                    .subscribe((productionPlan) => {
+                                        this.productionPlan = productionPlan;
+                                    });
                                 this.showFlashMessage(
                                     'success',
                                     'Create month production plan successful',

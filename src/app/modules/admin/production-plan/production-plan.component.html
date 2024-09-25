@@ -127,38 +127,6 @@
                                             "
                                         ></mat-icon>
                                     </span>
-                                    <ng-container
-                                        *ngIf="role === 'FactoryDirector'"
-                                    >
-                                        <span
-                                            *ngIf="
-                                                productionPlan.status ===
-                                                'Approved'
-                                            "
-                                            [matMenuTriggerFor]="menu"
-                                        >
-                                            <mat-icon
-                                                class="cursor-pointer text-blue-500 icon-size-5"
-                                                svgIcon="heroicons_outline:ellipsis-horizontal-circle"
-                                            ></mat-icon>
-                                            <mat-menu #menu="matMenu">
-                                                <button
-                                                    (click)="
-                                                        deleteProductionPlan(
-                                                            productionPlan.id
-                                                        )
-                                                    "
-                                                    mat-menu-item
-                                                >
-                                                    Delete
-                                                    <mat-icon
-                                                        class="cursor-pointer text-blue-500 icon-size-5"
-                                                        svgIcon="heroicons_outline:x-circle"
-                                                    ></mat-icon>
-                                                </button>
-                                            </mat-menu>
-                                        </span>
-                                    </ng-container>
                                 </div>
                             </div>
 
@@ -177,9 +145,7 @@
 
                             <!-- Status -->
                             <div class="hidden sm:block">
-                                {{
-                                    productionPlan.expectedStartingDate | date
-                                }}
+                                {{ productionPlan.expectedStartingDate | date }}
                                 - {{ productionPlan.dueDate | date }}
                             </div>
 

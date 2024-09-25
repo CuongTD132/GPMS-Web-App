@@ -122,6 +122,13 @@ export class ProductionPlanMonthDetailComponent implements OnInit {
                         .afterClosed()
                         .subscribe((result) => {
                             if (result === 'success') {
+                                this._productionPlanService
+                                    .getProductionPlanById(
+                                        this.productionPlan.id
+                                    )
+                                    .subscribe((productionPlan) => {
+                                        this.productionPlan = productionPlan;
+                                    });
                                 this.showFlashMessage(
                                     'success',
                                     'Create batch production plan successful',
@@ -134,62 +141,71 @@ export class ProductionPlanMonthDetailComponent implements OnInit {
     }
 
     approveProductionPlan(id: string) {
-        this._productionPlanService
-            .approveProductionPlan(id)
-            .subscribe((response) => {
+        this._productionPlanService.approveProductionPlan(id).subscribe({
+            next: () => {
                 this._productionPlanService
                     .getProductionPlanById(this.productionPlan.id)
                     .subscribe((productionPlan) => {
                         this.productionPlan = productionPlan;
                     });
-            });
-    }
-
-    startProductionPlan(id: string) {
-        this._productionPlanService
-            .startProductionPlan(id)
-            .subscribe((response) => {
-                this._productionPlanService
-                    .getProductionPlanById(this.productionPlan.id)
-                    .subscribe((productionPlan) => {
-                        this.productionPlan = productionPlan;
-                    });
-            });
+                this.showFlashMessage(
+                    'success',
+                    'Production plan has been aprrove successful',
+                    3000
+                );
+            },
+            error: () =>
+                this.showFlashMessage(
+                    'error',
+                    'Production plan has been aprrove failed',
+                    3000
+                ),
+        });
     }
 
     declineProductionPlan(id: string) {
-        this._productionPlanService
-            .declineProductionPlan(id)
-            .subscribe((response) => {
+        this._productionPlanService.declineProductionPlan(id).subscribe({
+            next: () => {
                 this._productionPlanService
                     .getProductionPlanById(this.productionPlan.id)
                     .subscribe((productionPlan) => {
                         this.productionPlan = productionPlan;
                     });
-            });
-    }
-
-    endProductionPlan(id: string) {
-        this._productionPlanService
-            .endProductionPlan(id)
-            .subscribe((response) => {
-                this._productionPlanService
-                    .getProductionPlanById(this.productionPlan.id)
-                    .subscribe((productionPlan) => {
-                        this.productionPlan = productionPlan;
-                    });
-            });
+                this.showFlashMessage(
+                    'success',
+                    'Production plan has been decline successful',
+                    3000
+                );
+            },
+            error: () =>
+                this.showFlashMessage(
+                    'error',
+                    'Production plan has been decline failed',
+                    3000
+                ),
+        });
     }
 
     deleteProductionPlan(id: string) {
-        this._productionPlanService
-            .deleteProductionPlan(id)
-            .subscribe((response) => {
+        this._productionPlanService.deleteProductionPlan(id).subscribe({
+            next: () => {
                 this._productionPlanService
                     .getProductionPlanById(this.productionPlan.id)
                     .subscribe((productionPlan) => {
                         this.productionPlan = productionPlan;
                     });
-            });
+                this.showFlashMessage(
+                    'success',
+                    'Production plan has been delete successful',
+                    3000
+                );
+            },
+            error: () =>
+                this.showFlashMessage(
+                    'error',
+                    'Production plan has been delete failed',
+                    3000
+                ),
+        });
     }
 }

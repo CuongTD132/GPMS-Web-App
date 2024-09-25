@@ -252,7 +252,20 @@
 
                             <div class="hidden sm:block">
                                 <span [class]="product.status | statusClass">
-                                    {{ product.status }}
+                                    <ng-container
+                                        *ngIf="
+                                            product.status === 'InProduction'
+                                        "
+                                    >
+                                        In Production
+                                    </ng-container>
+                                    <ng-container
+                                        *ngIf="
+                                            product.status !== 'InProduction'
+                                        "
+                                    >
+                                        {{ product.status }}
+                                    </ng-container>
                                 </span>
                             </div>
                         </div>
