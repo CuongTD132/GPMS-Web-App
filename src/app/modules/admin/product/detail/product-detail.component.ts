@@ -15,6 +15,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -50,6 +51,7 @@ import { StepDetailComponent } from './step-detail/step-detail.component';
         RouterModule,
         MatExpansionModule,
         MatTooltipModule,
+        MatMenuModule,
         FuseAlertComponent,
     ],
 })
@@ -90,14 +92,65 @@ export class ProductDetailComponent implements OnInit {
     }
 
     approveProduct(id: string) {
-        this._productService.approveProduct(id).subscribe(() => {
-            this._productService.getProducts().subscribe();
+        this._productService.approveProduct(id).subscribe({
+            next: () => {
+                this._productService
+                    .getProductById(this.product.id)
+                    .subscribe((res) => (this.product = res));
+                this.showFlashMessage(
+                    'success',
+                    'Product has been aprrove successful',
+                    3000
+                );
+            },
+            error: () =>
+                this.showFlashMessage(
+                    'error',
+                    'Product has been aprrove failed',
+                    3000
+                ),
         });
     }
 
     declineProduct(id: string) {
-        this._productService.declineProduct(id).subscribe(() => {
-            this._productService.getProducts().subscribe();
+        this._productService.declineProduct(id).subscribe({
+            next: () => {
+                this._productService
+                    .getProductById(this.product.id)
+                    .subscribe((res) => (this.product = res));
+                this.showFlashMessage(
+                    'success',
+                    'Product has been decline successful',
+                    3000
+                );
+            },
+            error: () =>
+                this.showFlashMessage(
+                    'error',
+                    'Product has been decline failed',
+                    3000
+                ),
+        });
+    }
+
+    deleteProduct(id: string) {
+        this._productService.deleteProduct(id).subscribe({
+            next: () => {
+                this._productService
+                    .getProductById(this.product.id)
+                    .subscribe((res) => (this.product = res));
+                this.showFlashMessage(
+                    'success',
+                    'Product has been delete successful',
+                    3000
+                );
+            },
+            error: () =>
+                this.showFlashMessage(
+                    'error',
+                    'Product has been delete failed',
+                    3000
+                ),
         });
     }
 

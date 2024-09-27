@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatTooltip } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 import { ProjectService } from 'app/modules/admin/dashboards/project/project.service';
@@ -38,11 +39,13 @@ import { Subject, takeUntil } from 'rxjs';
         NgClass,
         CurrencyPipe,
         DecimalPipe,
+        MatTooltip,
     ],
 })
 export class ProjectComponent implements OnInit, OnDestroy {
     chartProductionPlans: ApexOptions = {};
     chartYearPlanPie: ApexOptions = {};
+    chartTodayPlanPie: ApexOptions = {};
     chartTaskDistribution: ApexOptions = {};
     chartBudgetDistribution: ApexOptions = {};
     chartWeeklyExpenses: ApexOptions = {};
@@ -82,6 +85,12 @@ export class ProjectComponent implements OnInit, OnDestroy {
                 });
                 data.yearPlanPieChart.part = newParts;
 
+                const todayParts = this.data.todayPieChart.part as number[];
+                const newTodayParts: number[] = [];
+                todayParts.forEach((number) => {
+                    newTodayParts.push(Math.round(number));
+                });
+                data.todayPieChart.part = newTodayParts;
                 console.log(data);
 
                 // Prepare the chart data
@@ -300,6 +309,61 @@ export class ProjectComponent implements OnInit, OnDestroy {
         //         },
         //     },
         // };
+
+        this.chartTodayPlanPie = {
+            chart: {
+                animations: {
+                    speed: 400,
+                    animateGradually: {
+                        enabled: false,
+                    },
+                },
+                fontFamily: 'inherit',
+                foreColor: 'inherit',
+                height: '100%',
+                type: 'donut',
+                sparkline: {
+                    enabled: true,
+                },
+            },
+            colors: ['#805AD5', '#B794F4', '#00cbb5', '#bf1e2e'],
+            labels: this.data.todayPieChart.labels,
+            plotOptions: {
+                pie: {
+                    customScale: 0.9,
+                    expandOnClick: false,
+                    donut: {
+                        size: '70%',
+                    },
+                },
+            },
+            series: this.data.todayPieChart.part,
+            states: {
+                hover: {
+                    filter: {
+                        type: 'none',
+                    },
+                },
+                active: {
+                    filter: {
+                        type: 'none',
+                    },
+                },
+            },
+            tooltip: {
+                enabled: true,
+                fillSeriesColor: false,
+                theme: 'dark',
+                custom: ({
+                    seriesIndex,
+                    w,
+                }): string => `<div class="flex items-center h-8 min-h-8 max-h-8 px-3">
+                                                    <div class="w-3 h-3 rounded-full" style="background-color: ${w.config.colors[seriesIndex]};"></div>
+                                                    <div class="ml-2 text-md leading-none">${w.config.labels[seriesIndex]}:</div>
+                                                    <div class="ml-2 text-md font-bold leading-none">${w.config.series[seriesIndex]}%</div>
+                                                </div>`,
+            },
+        };
 
         this.chartYearPlanPie = {
             chart: {

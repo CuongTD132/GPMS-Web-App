@@ -89,16 +89,52 @@
                             {{ inspectionRequest.name }}
                         </div>
                         <div class="hidden sm:block">
-                            {{ inspectionRequest.requiredQuantity }}
+                            <ng-container
+                                *ngIf="inspectionRequest.requiredQuantity > 0"
+                            >
+                                {{ inspectionRequest.requiredQuantity }} pcs
+                            </ng-container>
+                            <ng-container
+                                *ngIf="inspectionRequest.requiredQuantity < 1"
+                            >
+                                {{ inspectionRequest.requiredQuantity }}
+                            </ng-container>
                         </div>
                         <div class="hidden sm:block">
-                            {{ inspectionRequest.inspectedQuantity }}
+                            <ng-container
+                                *ngIf="inspectionRequest.inspectedQuantity > 0"
+                            >
+                                {{ inspectionRequest.inspectedQuantity }} pcs
+                            </ng-container>
+                            <ng-container
+                                *ngIf="inspectionRequest.inspectedQuantity < 1"
+                            >
+                                {{ inspectionRequest.inspectedQuantity }}
+                            </ng-container>
                         </div>
                         <div class="hidden truncate sm:block">
-                            {{ inspectionRequest.passedQuantity }}
+                            <ng-container
+                                *ngIf="inspectionRequest.passedQuantity > 0"
+                            >
+                                {{ inspectionRequest.passedQuantity }} pcs
+                            </ng-container>
+                            <ng-container
+                                *ngIf="inspectionRequest.passedQuantity < 1"
+                            >
+                                {{ inspectionRequest.passedQuantity }}
+                            </ng-container>
                         </div>
                         <div class="hidden sm:block">
-                            {{ inspectionRequest.failedQuantity }}
+                            <ng-container
+                                *ngIf="inspectionRequest.failedQuantity > 0"
+                            >
+                                {{ inspectionRequest.failedQuantity }} pcs
+                            </ng-container>
+                            <ng-container
+                                *ngIf="inspectionRequest.failedQuantity < 1"
+                            >
+                                {{ inspectionRequest.failedQuantity }}
+                            </ng-container>
                         </div>
                         <div class="hidden sm:block">
                             {{

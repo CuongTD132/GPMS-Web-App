@@ -8,6 +8,7 @@ export class StatusClassPipe implements PipeTransform {
         switch (value) {
             case 'Approved':
             case 'Active':
+            case 'Passed':
                 return 'bg-green-500 text-white rounded-full px-3 py-1';
             case 'InProduction':
             case 'In_production':
@@ -20,7 +21,6 @@ export class StatusClassPipe implements PipeTransform {
             case 'Failed':
                 return 'bg-gray-500 text-white rounded-full px-3 py-1';
             case 'InProgress':
-            case 'Passed':
                 return 'bg-teal-500 text-white rounded-full px-3 py-1';
             default:
                 return 'rounded-full border border-gray-500 px-3 py-1 text-gray-500';

@@ -417,7 +417,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Pie -->
+                            <!-- Today -->
                             <div
                                 class="bg-card flex flex-auto flex-col overflow-hidden rounded-2xl p-6 shadow"
                             >
@@ -425,7 +425,7 @@
                                     <div
                                         class="truncate text-lg font-medium leading-6 tracking-tight"
                                     >
-                                        Production Plan Statuses
+                                        Production Plan
                                     </div>
                                     <div class="ml-2">
                                         <button
@@ -435,20 +435,93 @@
                                         >
                                             <span
                                                 class="text-secondary text-sm font-medium"
-                                                >30 days</span
+                                                >Today</span
                                             >
                                         </button>
-                                        <mat-menu #conversionMenu="matMenu">
-                                            <button mat-menu-item>
-                                                30 days
-                                            </button>
-                                            <button mat-menu-item>
-                                                3 months
-                                            </button>
-                                            <button mat-menu-item>
-                                                9 months
-                                            </button>
-                                        </mat-menu>
+                                    </div>
+                                </div>
+                                <div class="mt-6 flex h-44 flex-auto flex-col">
+                                    <apx-chart
+                                        class="flex h-full w-full flex-auto items-center justify-center"
+                                        [chart]="chartTodayPlanPie.chart"
+                                        [labels]="chartTodayPlanPie.labels"
+                                        [series]="chartTodayPlanPie.series"
+                                        [states]="chartTodayPlanPie.states"
+                                        [tooltip]="chartTodayPlanPie.tooltip"
+                                        [plotOptions]="
+                                            chartTodayPlanPie.plotOptions
+                                        "
+                                        [colors]="chartTodayPlanPie.colors"
+                                    ></apx-chart>
+                                </div>
+                                <div class="mt-8">
+                                    <div class="-my-3 divide-y">
+                                        @for (
+                                            dataset of data.todayPieChart.part;
+                                            track i;
+                                            let i = $index
+                                        ) {
+                                            <div class="grid grid-cols-3 py-3">
+                                                <div class="flex items-center">
+                                                    <div
+                                                        class="h-2 w-2 flex-0 rounded-full"
+                                                    ></div>
+                                                    <div
+                                                        class="ml-3 truncate"
+                                                        matTooltip="{{
+                                                            data.todayPieChart
+                                                                .labels[i]
+                                                        }}"
+                                                    >
+                                                        {{
+                                                            data.todayPieChart
+                                                                .labels[i]
+                                                        }}
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    class="text-right font-medium"
+                                                >
+                                                    {{
+                                                        (data.todayPieChart
+                                                            .totalQuantity *
+                                                            dataset) /
+                                                            100
+                                                            | number: '1.0-0'
+                                                    }}
+                                                </div>
+                                                <div
+                                                    class="text-secondary text-right"
+                                                >
+                                                    {{ dataset }}%
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Year -->
+                            <div
+                                class="bg-card flex flex-auto flex-col overflow-hidden rounded-2xl p-6 shadow"
+                            >
+                                <div class="flex items-start justify-between">
+                                    <div
+                                        class="truncate text-lg font-medium leading-6 tracking-tight"
+                                    >
+                                        Production Plan
+                                    </div>
+                                    <div class="ml-2">
+                                        <button
+                                            class="bg-hover h-6 min-h-6 rounded-full px-2"
+                                            mat-button
+                                            [matMenuTriggerFor]="conversionMenu"
+                                        >
+                                            <span
+                                                class="text-secondary text-sm font-medium"
+                                                >This year</span
+                                            >
+                                        </button>
                                     </div>
                                 </div>
                                 <div class="mt-6 flex h-44 flex-auto flex-col">
@@ -478,7 +551,14 @@
                                                     <div
                                                         class="h-2 w-2 flex-0 rounded-full"
                                                     ></div>
-                                                    <div class="ml-3 truncate">
+                                                    <div
+                                                        class="ml-3 truncate"
+                                                        matTooltip="{{
+                                                            data
+                                                                .yearPlanPieChart
+                                                                .labels[i]
+                                                        }}"
+                                                    >
                                                         {{
                                                             data
                                                                 .yearPlanPieChart

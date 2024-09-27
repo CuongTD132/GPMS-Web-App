@@ -17,7 +17,7 @@
 
         <div>
             <input
-                class="w-100 rounded-lg border px-4 py-2 text-left"
+                class="w-160 rounded-lg border px-4 py-2 text-left"
                 matInput
                 placeholder="Select a working production plan"
                 [matAutocomplete]="auto"
@@ -29,8 +29,15 @@
             >
                 @for (item of filteredStates | async; track item) {
                     <mat-option [value]="item.code">
-                        <span>{{ item.code }}</span> |
-                        <small>Name: {{ item.name }}</small>
+                        <span class="mr-1" [class]="item.status | statusClass">
+                            <ng-container *ngIf="item.status === 'InProgress'">
+                                In Progress
+                            </ng-container>
+                            <ng-container *ngIf="item.status !== 'InProgress'">
+                                {{ item.status }}
+                            </ng-container> </span
+                        ><span>{{ item.code }}</span> |
+                        <span>{{ item.name }} </span>
                     </mat-option>
                 }
             </mat-autocomplete>
@@ -42,7 +49,7 @@
         class="flex flex-auto flex-col overflow-scroll sm:mb-18"
     >
         <div
-            class="text-secondary sticky top-0 z-10 grid w-full grid-cols-2 gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+            class="text-secondary sticky top-0 z-10 grid w-full grid-cols-2 gap-4 bg-gray-50 px-6 pt-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
         >
             <mat-form-field class="w-full">
                 <mat-label>Select a series:</mat-label>
@@ -86,7 +93,7 @@
             </mat-form-field>
         </div>
 
-        <div class="mx-4 my-4">
+        <div class="mx-8 mt-4">
             <mat-accordion>
                 <ng-container *ngIf="stepsList">
                     <ng-container *ngFor="let step of stepsList">
@@ -114,19 +121,8 @@
                                 </mat-panel-description>
                             </mat-expansion-panel-header>
                             <div>
-                                <div>
-                                    <label>
-                                        Description:
-                                        <p>
-                                            {{
-                                                step.Description ??
-                                                    'No description'
-                                            }}
-                                        </p>
-                                    </label>
-                                </div>
                                 <div *ngIf="stepIOs">
-                                    <mat-tab-group class="mt-4">
+                                    <mat-tab-group>
                                         <ng-container *ngIf="stepIOs.inputs">
                                             <mat-tab
                                                 [label]="
@@ -193,12 +189,20 @@
                                                                                 Actual
                                                                                 results
                                                                             </div>
-                                                                            <div
-                                                                                class="hidden sm:block"
+
+                                                                            <ng-container
+                                                                                *ngIf="
+                                                                                    role ===
+                                                                                    'ProductionStaff'
+                                                                                "
                                                                             >
-                                                                                Fill
-                                                                                results
-                                                                            </div>
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    Fill
+                                                                                    results
+                                                                                </div></ng-container
+                                                                            >
                                                                         </div>
                                                                         <div
                                                                             class="max-h-80 overflow-y-scroll"
@@ -263,70 +267,77 @@
                                                                                             }}</ng-container
                                                                                         >
                                                                                     </div>
-                                                                                    <mat-form-field
-                                                                                        class="mt-4 h-fit w-full"
+                                                                                    <ng-container
                                                                                         *ngIf="
-                                                                                            item.resultConsumption
+                                                                                            role ===
+                                                                                            'ProductionStaff'
                                                                                         "
                                                                                     >
-                                                                                        <input
-                                                                                            disabled
-                                                                                            matInput
-                                                                                            placeholder="Result have been obtained!"
-                                                                                        />
-                                                                                    </mat-form-field>
-                                                                                    <form
-                                                                                        [formGroup]="
-                                                                                            consumptionForms[
-                                                                                                item
-                                                                                                    .id
-                                                                                            ]
-                                                                                        "
-                                                                                    >
-                                                                                        <div
-                                                                                            class="flex items-center gap-2"
+                                                                                        <mat-form-field
+                                                                                            class="mt-4 h-fit w-full"
                                                                                             *ngIf="
-                                                                                                !item.resultConsumption
+                                                                                                item.resultConsumption
                                                                                             "
                                                                                         >
-                                                                                            <mat-form-field
-                                                                                                class="mt-4 h-fit w-full"
+                                                                                            <input
+                                                                                                disabled
+                                                                                                matInput
+                                                                                                placeholder="Result have been obtained!"
+                                                                                            />
+                                                                                        </mat-form-field>
+                                                                                        <form
+                                                                                            [formGroup]="
+                                                                                                consumptionForms[
+                                                                                                    item
+                                                                                                        .id
+                                                                                                ]
+                                                                                            "
+                                                                                        >
+                                                                                            <div
+                                                                                                class="flex items-center gap-2"
+                                                                                                *ngIf="
+                                                                                                    !item.resultConsumption
+                                                                                                "
                                                                                             >
-                                                                                                <input
-                                                                                                    type="number"
-                                                                                                    matInput
-                                                                                                    placeholder="Enter result here (Maximum is {{
-                                                                                                        item.totalConsumption
-                                                                                                    }})"
-                                                                                                    min="0"
-                                                                                                    max="{{
-                                                                                                        item.totalConsumption
-                                                                                                    }}"
-                                                                                                    [formControlName]="
-                                                                                                        'consumption'
+                                                                                                <mat-form-field
+                                                                                                    class="mt-4 h-fit w-full"
+                                                                                                >
+                                                                                                    <input
+                                                                                                        type="number"
+                                                                                                        matInput
+                                                                                                        placeholder="Enter result here (Maximum is {{
+                                                                                                            item.totalConsumption
+                                                                                                        }})"
+                                                                                                        min="0"
+                                                                                                        max="{{
+                                                                                                            item.totalConsumption
+                                                                                                        }}"
+                                                                                                        [formControlName]="
+                                                                                                            'consumption'
+                                                                                                        "
+                                                                                                    />
+                                                                                                </mat-form-field>
+                                                                                                <button
+                                                                                                    [disabled]="
+                                                                                                        consumptionForms[
+                                                                                                            item
+                                                                                                                .id
+                                                                                                        ]
+                                                                                                            .invalid
                                                                                                     "
-                                                                                                />
-                                                                                            </mat-form-field>
-                                                                                            <button
-                                                                                                [disabled]="
-                                                                                                    consumptionForms[
-                                                                                                        item
-                                                                                                            .id
-                                                                                                    ]
-                                                                                                        .invalid
-                                                                                                "
-                                                                                                mat-button
-                                                                                                (click)="
-                                                                                                    saveConsumptionForm(
-                                                                                                        item.id
-                                                                                                    )
-                                                                                                "
-                                                                                                class="hover:text-blue-500"
-                                                                                            >
-                                                                                                Save
-                                                                                            </button>
-                                                                                        </div>
-                                                                                    </form>
+                                                                                                    mat-button
+                                                                                                    (click)="
+                                                                                                        saveConsumptionForm(
+                                                                                                            item.id
+                                                                                                        )
+                                                                                                    "
+                                                                                                    class="hover:text-blue-500"
+                                                                                                >
+                                                                                                    Save
+                                                                                                </button>
+                                                                                            </div>
+                                                                                        </form></ng-container
+                                                                                    >
                                                                                 </div>
                                                                             </ng-container>
                                                                         </div>
@@ -393,12 +404,19 @@
                                                                                 Actual
                                                                                 results
                                                                             </div>
-                                                                            <div
-                                                                                class="hidden sm:block"
+                                                                            <ng-container
+                                                                                *ngIf="
+                                                                                    role ===
+                                                                                    'ProductionStaff'
+                                                                                "
                                                                             >
-                                                                                Fill
-                                                                                results
-                                                                            </div>
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    Fill
+                                                                                    results
+                                                                                </div></ng-container
+                                                                            >
                                                                         </div>
                                                                         <div
                                                                             class="max-h-80 overflow-y-scroll"
@@ -461,70 +479,77 @@
                                                                                             }}</ng-container
                                                                                         >
                                                                                     </div>
-                                                                                    <mat-form-field
-                                                                                        class="mt-4 h-fit w-full"
+                                                                                    <ng-container
                                                                                         *ngIf="
-                                                                                            item.resultQuantity
+                                                                                            role ===
+                                                                                            'ProductionStaff'
                                                                                         "
                                                                                     >
-                                                                                        <input
-                                                                                            disabled
-                                                                                            matInput
-                                                                                            placeholder="Result have been obtained!"
-                                                                                        />
-                                                                                    </mat-form-field>
-                                                                                    <form
-                                                                                        [formGroup]="
-                                                                                            quantityForms[
-                                                                                                item
-                                                                                                    .id
-                                                                                            ]
-                                                                                        "
-                                                                                    >
-                                                                                        <div
-                                                                                            class="flex items-center gap-2"
+                                                                                        <mat-form-field
+                                                                                            class="mt-4 h-fit w-full"
                                                                                             *ngIf="
-                                                                                                !item.resultQuantity
+                                                                                                item.resultQuantity
                                                                                             "
                                                                                         >
-                                                                                            <mat-form-field
-                                                                                                class="mt-4 h-fit w-full"
+                                                                                            <input
+                                                                                                disabled
+                                                                                                matInput
+                                                                                                placeholder="Result have been obtained!"
+                                                                                            />
+                                                                                        </mat-form-field>
+                                                                                        <form
+                                                                                            [formGroup]="
+                                                                                                quantityForms[
+                                                                                                    item
+                                                                                                        .id
+                                                                                                ]
+                                                                                            "
+                                                                                        >
+                                                                                            <div
+                                                                                                class="flex items-center gap-2"
+                                                                                                *ngIf="
+                                                                                                    !item.resultQuantity
+                                                                                                "
                                                                                             >
-                                                                                                <input
-                                                                                                    type="number"
-                                                                                                    matInput
-                                                                                                    min="1"
-                                                                                                    max="{{
-                                                                                                        item.totalQuantity
-                                                                                                    }}"
-                                                                                                    placeholder="Enter result here (Maximum is {{
-                                                                                                        item.totalQuantity
-                                                                                                    }})"
-                                                                                                    [formControlName]="
-                                                                                                        'quantity'
+                                                                                                <mat-form-field
+                                                                                                    class="mt-4 h-fit w-full"
+                                                                                                >
+                                                                                                    <input
+                                                                                                        type="number"
+                                                                                                        matInput
+                                                                                                        min="1"
+                                                                                                        max="{{
+                                                                                                            item.totalQuantity
+                                                                                                        }}"
+                                                                                                        placeholder="Enter result here (Maximum is {{
+                                                                                                            item.totalQuantity
+                                                                                                        }})"
+                                                                                                        [formControlName]="
+                                                                                                            'quantity'
+                                                                                                        "
+                                                                                                    />
+                                                                                                </mat-form-field>
+                                                                                                <button
+                                                                                                    [disabled]="
+                                                                                                        quantityForms[
+                                                                                                            item
+                                                                                                                .id
+                                                                                                        ]
+                                                                                                            .invalid
                                                                                                     "
-                                                                                                />
-                                                                                            </mat-form-field>
-                                                                                            <button
-                                                                                                [disabled]="
-                                                                                                    quantityForms[
-                                                                                                        item
-                                                                                                            .id
-                                                                                                    ]
-                                                                                                        .invalid
-                                                                                                "
-                                                                                                mat-button
-                                                                                                (click)="
-                                                                                                    saveQuantityForm(
-                                                                                                        item.id
-                                                                                                    )
-                                                                                                "
-                                                                                                class="hover:text-blue-500"
-                                                                                            >
-                                                                                                Save
-                                                                                            </button>
-                                                                                        </div>
-                                                                                    </form>
+                                                                                                    mat-button
+                                                                                                    (click)="
+                                                                                                        saveQuantityForm(
+                                                                                                            item.id
+                                                                                                        )
+                                                                                                    "
+                                                                                                    class="hover:text-blue-500"
+                                                                                                >
+                                                                                                    Save
+                                                                                                </button>
+                                                                                            </div>
+                                                                                        </form></ng-container
+                                                                                    >
                                                                                 </div>
                                                                             </ng-container>
                                                                         </div>
@@ -592,12 +617,19 @@
                                                                                 Actual
                                                                                 results
                                                                             </div>
-                                                                            <div
-                                                                                class="hidden sm:block"
+                                                                            <ng-container
+                                                                                *ngIf="
+                                                                                    role ===
+                                                                                    'ProductionStaff'
+                                                                                "
                                                                             >
-                                                                                Fill
-                                                                                results
-                                                                            </div>
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    Fill
+                                                                                    results
+                                                                                </div></ng-container
+                                                                            >
                                                                         </div>
                                                                         <div
                                                                             class="max-h-80 overflow-y-scroll"
@@ -660,70 +692,77 @@
                                                                                             }}</ng-container
                                                                                         >
                                                                                     </div>
-                                                                                    <mat-form-field
-                                                                                        class="mt-4 h-fit w-full"
+                                                                                    <ng-container
                                                                                         *ngIf="
-                                                                                            item.resultQuantity
+                                                                                            role ===
+                                                                                            'ProductionStaff'
                                                                                         "
                                                                                     >
-                                                                                        <input
-                                                                                            matInput
-                                                                                            disabled
-                                                                                            placeholder="Result have been obtained!"
-                                                                                        />
-                                                                                    </mat-form-field>
-                                                                                    <form
-                                                                                        [formGroup]="
-                                                                                            quantityForms[
-                                                                                                item
-                                                                                                    .id
-                                                                                            ]
-                                                                                        "
-                                                                                    >
-                                                                                        <div
-                                                                                            class="flex items-center gap-2"
+                                                                                        <mat-form-field
+                                                                                            class="mt-4 h-fit w-full"
                                                                                             *ngIf="
-                                                                                                !item.resultQuantity
+                                                                                                item.resultQuantity
                                                                                             "
                                                                                         >
-                                                                                            <mat-form-field
-                                                                                                class="mt-4 h-fit w-full"
+                                                                                            <input
+                                                                                                matInput
+                                                                                                disabled
+                                                                                                placeholder="Result have been obtained!"
+                                                                                            />
+                                                                                        </mat-form-field>
+                                                                                        <form
+                                                                                            [formGroup]="
+                                                                                                quantityForms[
+                                                                                                    item
+                                                                                                        .id
+                                                                                                ]
+                                                                                            "
+                                                                                        >
+                                                                                            <div
+                                                                                                class="flex items-center gap-2"
+                                                                                                *ngIf="
+                                                                                                    !item.resultQuantity
+                                                                                                "
                                                                                             >
-                                                                                                <input
-                                                                                                    type="number"
-                                                                                                    matInput
-                                                                                                    min="1"
-                                                                                                    max="{{
-                                                                                                        item.totalQuantity
-                                                                                                    }}"
-                                                                                                    placeholder="Enter result here (Maximum is {{
-                                                                                                        item.totalQuantity
-                                                                                                    }})"
-                                                                                                    [formControlName]="
-                                                                                                        'quantity'
+                                                                                                <mat-form-field
+                                                                                                    class="mt-4 h-fit w-full"
+                                                                                                >
+                                                                                                    <input
+                                                                                                        type="number"
+                                                                                                        matInput
+                                                                                                        min="1"
+                                                                                                        max="{{
+                                                                                                            item.totalQuantity
+                                                                                                        }}"
+                                                                                                        placeholder="Enter result here (Maximum is {{
+                                                                                                            item.totalQuantity
+                                                                                                        }})"
+                                                                                                        [formControlName]="
+                                                                                                            'quantity'
+                                                                                                        "
+                                                                                                    />
+                                                                                                </mat-form-field>
+                                                                                                <button
+                                                                                                    [disabled]="
+                                                                                                        quantityForms[
+                                                                                                            item
+                                                                                                                .id
+                                                                                                        ]
+                                                                                                            .invalid
                                                                                                     "
-                                                                                                />
-                                                                                            </mat-form-field>
-                                                                                            <button
-                                                                                                [disabled]="
-                                                                                                    quantityForms[
-                                                                                                        item
-                                                                                                            .id
-                                                                                                    ]
-                                                                                                        .invalid
-                                                                                                "
-                                                                                                mat-button
-                                                                                                (click)="
-                                                                                                    saveQuantityForm(
-                                                                                                        item.id
-                                                                                                    )
-                                                                                                "
-                                                                                                class="hover:text-blue-500"
-                                                                                            >
-                                                                                                Save
-                                                                                            </button>
-                                                                                        </div>
-                                                                                    </form>
+                                                                                                    mat-button
+                                                                                                    (click)="
+                                                                                                        saveQuantityForm(
+                                                                                                            item.id
+                                                                                                        )
+                                                                                                    "
+                                                                                                    class="hover:text-blue-500"
+                                                                                                >
+                                                                                                    Save
+                                                                                                </button>
+                                                                                            </div>
+                                                                                        </form></ng-container
+                                                                                    >
                                                                                 </div>
                                                                             </ng-container>
                                                                         </div>
@@ -801,12 +840,19 @@
                                                                                 Actual
                                                                                 results
                                                                             </div>
-                                                                            <div
-                                                                                class="hidden sm:block"
+                                                                            <ng-container
+                                                                                *ngIf="
+                                                                                    role ===
+                                                                                    'ProductionStaff'
+                                                                                "
                                                                             >
-                                                                                Fill
-                                                                                results
-                                                                            </div>
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    Fill
+                                                                                    results
+                                                                                </div></ng-container
+                                                                            >
                                                                         </div>
                                                                         <div
                                                                             class="max-h-80 overflow-y-scroll"
@@ -871,70 +917,77 @@
                                                                                             }}</ng-container
                                                                                         >
                                                                                     </div>
-                                                                                    <mat-form-field
-                                                                                        class="mt-4 h-fit w-full"
+                                                                                    <ng-container
                                                                                         *ngIf="
-                                                                                            item.resultConsumption
+                                                                                            role ===
+                                                                                            'ProductionStaff'
                                                                                         "
                                                                                     >
-                                                                                        <input
-                                                                                            disabled
-                                                                                            matInput
-                                                                                            placeholder="Result have been obtained!"
-                                                                                        />
-                                                                                    </mat-form-field>
-                                                                                    <form
-                                                                                        [formGroup]="
-                                                                                            consumptionForms[
-                                                                                                item
-                                                                                                    .id
-                                                                                            ]
-                                                                                        "
-                                                                                    >
-                                                                                        <div
-                                                                                            class="flex items-center gap-2"
+                                                                                        <mat-form-field
+                                                                                            class="mt-4 h-fit w-full"
                                                                                             *ngIf="
-                                                                                                !item.resultConsumption
+                                                                                                item.resultConsumption
                                                                                             "
                                                                                         >
-                                                                                            <mat-form-field
-                                                                                                class="mt-4 h-fit w-full"
+                                                                                            <input
+                                                                                                disabled
+                                                                                                matInput
+                                                                                                placeholder="Result have been obtained!"
+                                                                                            />
+                                                                                        </mat-form-field>
+                                                                                        <form
+                                                                                            [formGroup]="
+                                                                                                consumptionForms[
+                                                                                                    item
+                                                                                                        .id
+                                                                                                ]
+                                                                                            "
+                                                                                        >
+                                                                                            <div
+                                                                                                class="flex items-center gap-2"
+                                                                                                *ngIf="
+                                                                                                    !item.resultConsumption
+                                                                                                "
                                                                                             >
-                                                                                                <input
-                                                                                                    type="number"
-                                                                                                    matInput
-                                                                                                    placeholder="Enter result here (Maximum is {{
-                                                                                                        item.totalConsumption
-                                                                                                    }})"
-                                                                                                    min="0"
-                                                                                                    max="{{
-                                                                                                        item.totalConsumption
-                                                                                                    }}"
-                                                                                                    [formControlName]="
-                                                                                                        'consumption'
+                                                                                                <mat-form-field
+                                                                                                    class="mt-4 h-fit w-full"
+                                                                                                >
+                                                                                                    <input
+                                                                                                        type="number"
+                                                                                                        matInput
+                                                                                                        placeholder="Enter result here (Maximum is {{
+                                                                                                            item.totalConsumption
+                                                                                                        }})"
+                                                                                                        min="0"
+                                                                                                        max="{{
+                                                                                                            item.totalConsumption
+                                                                                                        }}"
+                                                                                                        [formControlName]="
+                                                                                                            'consumption'
+                                                                                                        "
+                                                                                                    />
+                                                                                                </mat-form-field>
+                                                                                                <button
+                                                                                                    [disabled]="
+                                                                                                        consumptionForms[
+                                                                                                            item
+                                                                                                                .id
+                                                                                                        ]
+                                                                                                            .invalid
                                                                                                     "
-                                                                                                />
-                                                                                            </mat-form-field>
-                                                                                            <button
-                                                                                                [disabled]="
-                                                                                                    consumptionForms[
-                                                                                                        item
-                                                                                                            .id
-                                                                                                    ]
-                                                                                                        .invalid
-                                                                                                "
-                                                                                                mat-button
-                                                                                                (click)="
-                                                                                                    saveConsumptionForm(
-                                                                                                        item.id
-                                                                                                    )
-                                                                                                "
-                                                                                                class="hover:text-blue-500"
-                                                                                            >
-                                                                                                Save
-                                                                                            </button>
-                                                                                        </div>
-                                                                                    </form>
+                                                                                                    mat-button
+                                                                                                    (click)="
+                                                                                                        saveConsumptionForm(
+                                                                                                            item.id
+                                                                                                        )
+                                                                                                    "
+                                                                                                    class="hover:text-blue-500"
+                                                                                                >
+                                                                                                    Save
+                                                                                                </button>
+                                                                                            </div>
+                                                                                        </form></ng-container
+                                                                                    >
                                                                                 </div>
                                                                             </ng-container>
                                                                         </div>
@@ -1002,12 +1055,19 @@
                                                                                 Actual
                                                                                 results
                                                                             </div>
-                                                                            <div
-                                                                                class="hidden sm:block"
+                                                                            <ng-container
+                                                                                *ngIf="
+                                                                                    role ===
+                                                                                    'ProductionStaff'
+                                                                                "
                                                                             >
-                                                                                Fill
-                                                                                results
-                                                                            </div>
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    Fill
+                                                                                    results
+                                                                                </div></ng-container
+                                                                            >
                                                                         </div>
                                                                         <div
                                                                             class="max-h-80 overflow-y-scroll"
@@ -1070,70 +1130,77 @@
                                                                                             }}</ng-container
                                                                                         >
                                                                                     </div>
-                                                                                    <mat-form-field
-                                                                                        class="mt-4 h-fit w-full"
+                                                                                    <ng-container
                                                                                         *ngIf="
-                                                                                            item.resultQuantity
+                                                                                            role ===
+                                                                                            'ProductionStaff'
                                                                                         "
                                                                                     >
-                                                                                        <input
-                                                                                            disabled
-                                                                                            matInput
-                                                                                            placeholder="Result have been obtained!"
-                                                                                        />
-                                                                                    </mat-form-field>
-                                                                                    <form
-                                                                                        [formGroup]="
-                                                                                            quantityForms[
-                                                                                                item
-                                                                                                    .id
-                                                                                            ]
-                                                                                        "
-                                                                                    >
-                                                                                        <div
-                                                                                            class="flex items-center gap-2"
+                                                                                        <mat-form-field
+                                                                                            class="mt-4 h-fit w-full"
                                                                                             *ngIf="
-                                                                                                !item.resultQuantity
+                                                                                                item.resultQuantity
                                                                                             "
                                                                                         >
-                                                                                            <mat-form-field
-                                                                                                class="mt-4 h-fit w-full"
+                                                                                            <input
+                                                                                                disabled
+                                                                                                matInput
+                                                                                                placeholder="Result have been obtained!"
+                                                                                            />
+                                                                                        </mat-form-field>
+                                                                                        <form
+                                                                                            [formGroup]="
+                                                                                                quantityForms[
+                                                                                                    item
+                                                                                                        .id
+                                                                                                ]
+                                                                                            "
+                                                                                        >
+                                                                                            <div
+                                                                                                class="flex items-center gap-2"
+                                                                                                *ngIf="
+                                                                                                    !item.resultQuantity
+                                                                                                "
                                                                                             >
-                                                                                                <input
-                                                                                                    type="number"
-                                                                                                    matInput
-                                                                                                    min="1"
-                                                                                                    max="{{
-                                                                                                        item.totalQuantity
-                                                                                                    }}"
-                                                                                                    placeholder="Enter result here (Maximum is {{
-                                                                                                        item.totalQuantity
-                                                                                                    }})"
-                                                                                                    [formControlName]="
-                                                                                                        'quantity'
+                                                                                                <mat-form-field
+                                                                                                    class="mt-4 h-fit w-full"
+                                                                                                >
+                                                                                                    <input
+                                                                                                        type="number"
+                                                                                                        matInput
+                                                                                                        min="1"
+                                                                                                        max="{{
+                                                                                                            item.totalQuantity
+                                                                                                        }}"
+                                                                                                        placeholder="Enter result here (Maximum is {{
+                                                                                                            item.totalQuantity
+                                                                                                        }})"
+                                                                                                        [formControlName]="
+                                                                                                            'quantity'
+                                                                                                        "
+                                                                                                    />
+                                                                                                </mat-form-field>
+                                                                                                <button
+                                                                                                    [disabled]="
+                                                                                                        quantityForms[
+                                                                                                            item
+                                                                                                                .id
+                                                                                                        ]
+                                                                                                            .invalid
                                                                                                     "
-                                                                                                />
-                                                                                            </mat-form-field>
-                                                                                            <button
-                                                                                                [disabled]="
-                                                                                                    quantityForms[
-                                                                                                        item
-                                                                                                            .id
-                                                                                                    ]
-                                                                                                        .invalid
-                                                                                                "
-                                                                                                mat-button
-                                                                                                (click)="
-                                                                                                    saveQuantityForm(
-                                                                                                        item.id
-                                                                                                    )
-                                                                                                "
-                                                                                                class="hover:text-blue-500"
-                                                                                            >
-                                                                                                Save
-                                                                                            </button>
-                                                                                        </div>
-                                                                                    </form>
+                                                                                                    mat-button
+                                                                                                    (click)="
+                                                                                                        saveQuantityForm(
+                                                                                                            item.id
+                                                                                                        )
+                                                                                                    "
+                                                                                                    class="hover:text-blue-500"
+                                                                                                >
+                                                                                                    Save
+                                                                                                </button>
+                                                                                            </div>
+                                                                                        </form></ng-container
+                                                                                    >
                                                                                 </div>
                                                                             </ng-container>
                                                                         </div>
@@ -1201,12 +1268,19 @@
                                                                                 Actual
                                                                                 results
                                                                             </div>
-                                                                            <div
-                                                                                class="hidden sm:block"
+                                                                            <ng-container
+                                                                                *ngIf="
+                                                                                    role ===
+                                                                                    'ProductionStaff'
+                                                                                "
                                                                             >
-                                                                                Fill
-                                                                                results
-                                                                            </div>
+                                                                                <div
+                                                                                    class="hidden sm:block"
+                                                                                >
+                                                                                    Fill
+                                                                                    results
+                                                                                </div></ng-container
+                                                                            >
                                                                         </div>
                                                                         <div
                                                                             class="max-h-80 overflow-y-scroll"
@@ -1269,70 +1343,77 @@
                                                                                             }}</ng-container
                                                                                         >
                                                                                     </div>
-                                                                                    <mat-form-field
-                                                                                        class="mt-4 h-fit w-full"
+                                                                                    <ng-container
                                                                                         *ngIf="
-                                                                                            item.resultQuantity
+                                                                                            role ===
+                                                                                            'ProductionStaff'
                                                                                         "
                                                                                     >
-                                                                                        <input
-                                                                                            matInput
-                                                                                            disabled
-                                                                                            placeholder="Result have been obtained!"
-                                                                                        />
-                                                                                    </mat-form-field>
-                                                                                    <form
-                                                                                        [formGroup]="
-                                                                                            quantityForms[
-                                                                                                item
-                                                                                                    .id
-                                                                                            ]
-                                                                                        "
-                                                                                    >
-                                                                                        <div
-                                                                                            class="flex items-center gap-2"
+                                                                                        <mat-form-field
+                                                                                            class="mt-4 h-fit w-full"
                                                                                             *ngIf="
-                                                                                                !item.resultQuantity
+                                                                                                item.resultQuantity
                                                                                             "
                                                                                         >
-                                                                                            <mat-form-field
-                                                                                                class="mt-4 h-fit w-full"
+                                                                                            <input
+                                                                                                matInput
+                                                                                                disabled
+                                                                                                placeholder="Result have been obtained!"
+                                                                                            />
+                                                                                        </mat-form-field>
+                                                                                        <form
+                                                                                            [formGroup]="
+                                                                                                quantityForms[
+                                                                                                    item
+                                                                                                        .id
+                                                                                                ]
+                                                                                            "
+                                                                                        >
+                                                                                            <div
+                                                                                                class="flex items-center gap-2"
+                                                                                                *ngIf="
+                                                                                                    !item.resultQuantity
+                                                                                                "
                                                                                             >
-                                                                                                <input
-                                                                                                    type="number"
-                                                                                                    matInput
-                                                                                                    min="1"
-                                                                                                    max="{{
-                                                                                                        item.totalQuantity
-                                                                                                    }}"
-                                                                                                    placeholder="Enter result here (Maximum is {{
-                                                                                                        item.totalQuantity
-                                                                                                    }})"
-                                                                                                    [formControlName]="
-                                                                                                        'quantity'
+                                                                                                <mat-form-field
+                                                                                                    class="mt-4 h-fit w-full"
+                                                                                                >
+                                                                                                    <input
+                                                                                                        type="number"
+                                                                                                        matInput
+                                                                                                        min="1"
+                                                                                                        max="{{
+                                                                                                            item.totalQuantity
+                                                                                                        }}"
+                                                                                                        placeholder="Enter result here (Maximum is {{
+                                                                                                            item.totalQuantity
+                                                                                                        }})"
+                                                                                                        [formControlName]="
+                                                                                                            'quantity'
+                                                                                                        "
+                                                                                                    />
+                                                                                                </mat-form-field>
+                                                                                                <button
+                                                                                                    [disabled]="
+                                                                                                        quantityForms[
+                                                                                                            item
+                                                                                                                .id
+                                                                                                        ]
+                                                                                                            .invalid
                                                                                                     "
-                                                                                                />
-                                                                                            </mat-form-field>
-                                                                                            <button
-                                                                                                [disabled]="
-                                                                                                    quantityForms[
-                                                                                                        item
-                                                                                                            .id
-                                                                                                    ]
-                                                                                                        .invalid
-                                                                                                "
-                                                                                                mat-button
-                                                                                                (click)="
-                                                                                                    saveQuantityForm(
-                                                                                                        item.id
-                                                                                                    )
-                                                                                                "
-                                                                                                class="hover:text-blue-500"
-                                                                                            >
-                                                                                                Save
-                                                                                            </button>
-                                                                                        </div>
-                                                                                    </form>
+                                                                                                    mat-button
+                                                                                                    (click)="
+                                                                                                        saveQuantityForm(
+                                                                                                            item.id
+                                                                                                        )
+                                                                                                    "
+                                                                                                    class="hover:text-blue-500"
+                                                                                                >
+                                                                                                    Save
+                                                                                                </button>
+                                                                                            </div>
+                                                                                        </form></ng-container
+                                                                                    >
                                                                                 </div>
                                                                             </ng-container>
                                                                         </div>

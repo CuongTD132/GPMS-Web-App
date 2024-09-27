@@ -177,6 +177,7 @@
                                                 class="flex items-center gap-2"
                                             >
                                                 <button
+                                                    class="flex items-center rounded-full"
                                                     (click)="approve(item.id)"
                                                     mat-menu-item
                                                 >
@@ -187,6 +188,7 @@
                                                     ></mat-icon>
                                                 </button>
                                                 <button
+                                                    class="flex items-center rounded-full"
                                                     (click)="decline(item.id)"
                                                     mat-menu-item
                                                 >
@@ -230,7 +232,7 @@
                                                         - Size
                                                         {{ req.size }} -
                                                         Quantity:
-                                                        {{ req.quantity }}
+                                                        {{ req.quantity }} pcs
                                                     </p>
                                                 </div>
                                             </div>

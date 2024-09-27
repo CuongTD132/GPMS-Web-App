@@ -1,20 +1,9 @@
 <div
     class="bg-card flex min-w-0 flex-auto flex-col overflow-y-scroll dark:bg-transparent sm:absolute sm:inset-0"
 >
-    <!-- Header -->
-    <div
-        class="relative flex flex-0 flex-col border-b px-6 py-4 sm:flex-row sm:items-center sm:justify-between md:px-8"
-    >
-        <!-- Title -->
-        <div class="flex flex-col">
-            <div class="text-2xl font-extrabold tracking-tight">Product</div>
-        </div>
-        <!-- Actions -->
-    </div>
-
     <ng-container *ngIf="product">
         <div
-            class="font-poppins bg-card mx-8 my-6 space-y-1 rounded-lg p-8 dark:bg-gray-800"
+            class="font-poppins bg-card mx-8 space-y-4 rounded-lg p-8 dark:bg-gray-800"
         >
             <div class="grid w-full grid-cols-12 space-x-5 pb-10">
                 <div class="col-span-3 flex">
@@ -57,36 +46,50 @@
                             </div>
                         </div>
                         <div class="flex flex-col gap-4">
-                            <ng-container
-                                *ngIf="
-                                    role === 'FactoryDirector' &&
-                                    product.status === 'Pending'
-                                "
-                            >
-                                <div class="flex gap-4">
+                            <ng-container *ngIf="product.status === 'Pending'">
+                                <ng-container
+                                    *ngIf="role === 'FactoryDirector'"
+                                >
+                                    <div class="flex gap-4">
+                                        <button
+                                            class="flex items-center rounded-full"
+                                            (click)="approveProduct(product.id)"
+                                            mat-menu-item
+                                        >
+                                            Approve
+                                            <mat-icon
+                                                class="cursor-pointer text-blue-500 icon-size-5"
+                                                svgIcon="heroicons_outline:check-circle"
+                                            ></mat-icon>
+                                        </button>
+                                        <button
+                                            class="flex items-center rounded-full"
+                                            (click)="declineProduct(product.id)"
+                                            mat-menu-item
+                                        >
+                                            Decline
+                                            <mat-icon
+                                                class="cursor-pointer text-blue-500 icon-size-5"
+                                                svgIcon="heroicons_outline:no-symbol"
+                                            ></mat-icon>
+                                        </button>
+                                    </div>
+                                </ng-container>
+                                <ng-container
+                                    *ngIf="role === 'ProductionManager'"
+                                >
                                     <button
-                                        class="flex items-center"
-                                        (click)="approveProduct(product.id)"
+                                        class="flex items-center rounded-full"
+                                        (click)="deleteProduct(product.id)"
                                         mat-menu-item
                                     >
-                                        Approve
+                                        Delete
                                         <mat-icon
                                             class="cursor-pointer text-blue-500 icon-size-5"
-                                            svgIcon="heroicons_outline:check-circle"
+                                            svgIcon="heroicons_outline:x-circle"
                                         ></mat-icon>
                                     </button>
-                                    <button
-                                        class="flex items-center"
-                                        (click)="declineProduct(product.id)"
-                                        mat-menu-item
-                                    >
-                                        Decline
-                                        <mat-icon
-                                            class="cursor-pointer text-blue-500 icon-size-5"
-                                            svgIcon="heroicons_outline:no-symbol"
-                                        ></mat-icon>
-                                    </button>
-                                </div>
+                                </ng-container>
                             </ng-container>
 
                             <div class="size">
@@ -278,10 +281,23 @@
                                                     <div
                                                         class="hidden pl-10 sm:block"
                                                     >
-                                                        {{
-                                                            spec.inventoryQuantity ||
-                                                                0
-                                                        }}
+                                                        <ng-container
+                                                            *ngIf="
+                                                                spec.inventoryQuantity
+                                                            "
+                                                        >
+                                                            {{
+                                                                spec.inventoryQuantity
+                                                            }}
+                                                            pcs
+                                                        </ng-container>
+                                                        <ng-container
+                                                            *ngIf="
+                                                                !spec.inventoryQuantity
+                                                            "
+                                                        >
+                                                            Not yet import
+                                                        </ng-container>
                                                     </div>
                                                 </mat-panel-description>
                                             </mat-expansion-panel-header>
@@ -594,7 +610,7 @@
                                         {{ item.name }}
                                     </div>
                                     <div class="hidden sm:block">
-                                        {{ item.quantity }}
+                                        {{ item.quantity }} pcs
                                     </div>
                                 </ng-container>
                             </div>
@@ -764,7 +780,7 @@
                                                                                 >
                                                                                     {{
                                                                                         item.standardTime
-                                                                                    }}
+                                                                                    }}s
                                                                                 </div>
                                                                                 <div
                                                                                     class="hidden sm:block"
@@ -772,6 +788,7 @@
                                                                                     {{
                                                                                         item.outputPerHour
                                                                                     }}
+                                                                                    pcs
                                                                                 </div>
                                                                                 <div
                                                                                     class="hidden truncate sm:block"

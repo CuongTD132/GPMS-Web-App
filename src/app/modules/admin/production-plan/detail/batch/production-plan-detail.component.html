@@ -136,6 +136,7 @@
                     </ng-container>
                     <ng-container *ngIf="role === 'ProductionManager'">
                         <button
+                            class="w-1/6 rounded-full"
                             (click)="startProductionPlan(productionPlan.id)"
                             *ngIf="productionPlan.status === 'Approved'"
                             mat-menu-item
@@ -147,6 +148,7 @@
                             ></mat-icon>
                         </button>
                         <button
+                            class="w-1/6 rounded-full"
                             (click)="endProductionPlan(productionPlan.id)"
                             *ngIf="
                                 productionPlan.status === 'InProgress' &&

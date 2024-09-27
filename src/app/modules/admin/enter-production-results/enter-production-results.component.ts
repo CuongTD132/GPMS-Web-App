@@ -23,6 +23,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { FuseAlertComponent } from '@fuse/components/alert';
+import { CustomPipeModule } from '@fuse/pipes/pipe.module';
 import { UserService } from 'app/core/user/user.service';
 import { Observable, Subject, map, startWith } from 'rxjs';
 import { ProcessService } from '../process/process.service';
@@ -56,6 +57,7 @@ export interface State {
         FuseAlertComponent,
         MatAutocompleteModule,
         MatExpansionModule,
+        CustomPipeModule,
     ],
 })
 export class ProductionResultComponent implements OnInit {
