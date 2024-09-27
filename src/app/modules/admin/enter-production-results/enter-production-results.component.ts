@@ -118,6 +118,7 @@ export class ProductionResultComponent implements OnInit {
             (plan) => plan.code === event.option.value
         )[0].id;
         if (planId) {
+            this.resetFromProPlan();
             this._seriesService
                 .getSeriesInProcess(planId)
                 .subscribe((res) => (this.seriesList = res));

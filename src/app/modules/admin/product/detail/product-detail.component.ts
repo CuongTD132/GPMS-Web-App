@@ -19,15 +19,17 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FuseAlertComponent } from '@fuse/components/alert';
 import { CustomPipeModule } from '@fuse/pipes/pipe.module';
+import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { UserService } from 'app/core/user/user.service';
 import { ProcessService } from '../../process/process.service';
 import { SemiService } from '../../semi/semi.service';
 import { SpecificationService } from '../../specification/specification.service';
 import { StepService } from '../../step/step.service';
 import { ProductService } from '../product.service';
+import { DeclineComponent } from './decline/decline.component';
 import { StepDetailComponent } from './step-detail/step-detail.component';
 
 @Component({
@@ -69,6 +71,7 @@ export class ProductDetailComponent implements OnInit {
     message: string = null;
     role: string = null;
     constructor(
+        private _router: Router,
         private _productService: ProductService,
         private _specificationsService: SpecificationService,
         private _processService: ProcessService,
@@ -76,7 +79,8 @@ export class ProductDetailComponent implements OnInit {
         private _dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef,
         private _stepService: StepService,
-        private _userService: UserService
+        private _userService: UserService,
+        private _fuseConfirmationService: FuseConfirmationService
     ) {}
 
     ngOnInit(): void {
@@ -90,18 +94,38 @@ export class ProductDetailComponent implements OnInit {
             });
         });
     }
-
+    showConfirmDialog(id: string) {
+        this._fuseConfirmationService
+            .open({
+                title: 'Are you sure?',
+                message: 'This action will delete this product',
+                icon: {
+                    color: 'error',
+                    name: 'heroicons_outline:trash',
+                },
+            })
+            .afterClosed()
+            .subscribe((result) => {
+                if (result === 'confirmed') {
+                    this.deleteProduct(id);
+                }
+                if (result === 'cancelled') {
+                }
+            });
+    }
     approveProduct(id: string) {
         this._productService.approveProduct(id).subscribe({
             next: () => {
-                this._productService
-                    .getProductById(this.product.id)
-                    .subscribe((res) => (this.product = res));
-                this.showFlashMessage(
-                    'success',
-                    'Product has been aprrove successful',
-                    3000
-                );
+                this._productService.getProducts().subscribe((res) => {
+                    this.showFlashMessage(
+                        'success',
+                        'Product has been aprrove successful',
+                        3000
+                    );
+                    setTimeout(() => {
+                        this._router.navigate(['/products']);
+                    }, 1000);
+                });
             },
             error: () =>
                 this.showFlashMessage(
@@ -112,38 +136,51 @@ export class ProductDetailComponent implements OnInit {
         });
     }
 
-    declineProduct(id: string) {
-        this._productService.declineProduct(id).subscribe({
-            next: () => {
-                this._productService
-                    .getProductById(this.product.id)
-                    .subscribe((res) => (this.product = res));
-                this.showFlashMessage(
-                    'success',
-                    'Product has been decline successful',
-                    3000
-                );
-            },
-            error: () =>
-                this.showFlashMessage(
-                    'error',
-                    'Product has been decline failed',
-                    3000
-                ),
-        });
+    decline(id: string): void {
+        this._dialog
+            .open(DeclineComponent, {
+                width: '720px',
+                data: id,
+            })
+            .afterClosed()
+            .subscribe((result) => {
+                console.log(result);
+
+                if (result === 'success') {
+                    this._productService.getProducts().subscribe((res) => {
+                        this.showFlashMessage(
+                            'success',
+                            'Product has been decline successful',
+                            3000
+                        );
+                        setTimeout(() => {
+                            this._router.navigate(['/products']);
+                        }, 1000);
+                    });
+                }
+                if (result === 'error') {
+                    this.showFlashMessage(
+                        'error',
+                        'Product has been decline failed',
+                        3000
+                    );
+                }
+            });
     }
 
     deleteProduct(id: string) {
         this._productService.deleteProduct(id).subscribe({
             next: () => {
-                this._productService
-                    .getProductById(this.product.id)
-                    .subscribe((res) => (this.product = res));
-                this.showFlashMessage(
-                    'success',
-                    'Product has been delete successful',
-                    3000
-                );
+                this._productService.getProducts().subscribe((res) => {
+                    this.showFlashMessage(
+                        'success',
+                        'Product has been delete successful',
+                        3000
+                    );
+                    setTimeout(() => {
+                        this._router.navigate(['/products']);
+                    }, 1000);
+                });
             },
             error: () =>
                 this.showFlashMessage(

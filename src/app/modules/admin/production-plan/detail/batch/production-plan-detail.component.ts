@@ -22,6 +22,7 @@ import { RouterModule } from '@angular/router';
 import { CustomPipeModule } from '@fuse/pipes/pipe.module';
 import { UserService } from 'app/core/user/user.service';
 import { ProductionPlanService } from '../../production-plan.service';
+import { DeclineComponent } from './decline/decline.component';
 import { EstimationsListComponent } from './estimations-list/estimations-list.component';
 
 @Component({
@@ -138,27 +139,35 @@ export class ProductionPlanBatchDetailComponent implements OnInit {
         });
     }
 
-    declineProductionPlan(id: string) {
-        this._productionPlanService.declineProductionPlan(id).subscribe({
-            next: () => {
-                this._productionPlanService
-                    .getProductionPlanById(this.productionPlan.id)
-                    .subscribe((productionPlan) => {
-                        this.productionPlan = productionPlan;
-                    });
-                this.showFlashMessage(
-                    'success',
-                    'Production plan has been decline successful',
-                    3000
-                );
-            },
-            error: () =>
-                this.showFlashMessage(
-                    'error',
-                    'Production plan has been decline failed',
-                    3000
-                ),
-        });
+    decline(id: string): void {
+        this._dialog
+            .open(DeclineComponent, {
+                width: '720px',
+                data: id,
+            })
+            .afterClosed()
+            .subscribe((result) => {
+                console.log(result);
+
+                if (result === 'success') {
+                    this._productionPlanService
+                        .getProductionPlanById(this.productionPlan.id)
+                        .subscribe((res) => {
+                            this.showFlashMessage(
+                                'success',
+                                'Production plan has been decline successful',
+                                3000
+                            );
+                        });
+                }
+                if (result === 'error') {
+                    this.showFlashMessage(
+                        'error',
+                        'Production plan has been decline failed',
+                        3000
+                    );
+                }
+            });
     }
 
     deleteProductionPlan(id: string) {

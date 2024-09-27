@@ -30,6 +30,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FuseAlertComponent } from '@fuse/components/alert';
+import { UserService } from 'app/core/user/user.service';
 import { Pagination } from 'app/types/pagination.type';
 import {
     Observable,
@@ -77,7 +78,7 @@ export class MaterialComponent implements OnInit, AfterViewInit {
 
     searchInputControl: UntypedFormControl = new UntypedFormControl();
     filterForm: UntypedFormGroup;
-
+    role: string = null;
     materials$: Observable<Material[]>;
     pagination: Pagination;
     isLoading: boolean = false;
@@ -91,6 +92,7 @@ export class MaterialComponent implements OnInit, AfterViewInit {
     constructor(
         private _materialService: MaterialService,
         private _changeDetectorRef: ChangeDetectorRef,
+        private _userService: UserService,
         private _formBuilder: UntypedFormBuilder,
         private _dialog: MatDialog
     ) {}
@@ -98,7 +100,9 @@ export class MaterialComponent implements OnInit, AfterViewInit {
     ngOnInit(): void {
         // Get the materials
         this.getMaterials();
-
+        this._userService.get().subscribe((user) => {
+            this.role = user.role;
+        });
         // Get the pagination
         this._materialService.pagination$
             .pipe(takeUntil(this._unsubscribeAll))

@@ -166,6 +166,7 @@
                         @if (notification.body) {
                             <div
                                 class="line-clamp-2"
+                                matTooltip="{{ notification.body }}"
                                 [innerHTML]="notification.body"
                             ></div>
                         }

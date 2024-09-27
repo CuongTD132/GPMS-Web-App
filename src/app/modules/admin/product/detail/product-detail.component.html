@@ -64,7 +64,7 @@
                                         </button>
                                         <button
                                             class="flex items-center rounded-full"
-                                            (click)="declineProduct(product.id)"
+                                            (click)="decline(product.id)"
                                             mat-menu-item
                                         >
                                             Decline
@@ -80,7 +80,7 @@
                                 >
                                     <button
                                         class="flex items-center rounded-full"
-                                        (click)="deleteProduct(product.id)"
+                                        (click)="showConfirmDialog(product.id)"
                                         mat-menu-item
                                     >
                                         Delete

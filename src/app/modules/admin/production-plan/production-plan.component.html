@@ -127,6 +127,35 @@
                                             "
                                         ></mat-icon>
                                     </span>
+                                    <ng-container
+                                        *ngIf="
+                                            role === 'FactoryDirector' &&
+                                            productionPlan.status === 'Approved'
+                                        "
+                                    >
+                                        <span [matMenuTriggerFor]="menu">
+                                            <mat-icon
+                                                class="cursor-pointer text-blue-500 icon-size-5"
+                                                svgIcon="heroicons_outline:ellipsis-horizontal-circle"
+                                            ></mat-icon>
+                                            <mat-menu #menu="matMenu">
+                                                <button
+                                                    (click)="
+                                                        showConfirmDialog(
+                                                            productionPlan.id
+                                                        )
+                                                    "
+                                                    mat-menu-item
+                                                >
+                                                    Delete
+                                                    <mat-icon
+                                                        class="cursor-pointer text-blue-500 icon-size-5"
+                                                        svgIcon="heroicons_outline:x-circle"
+                                                    ></mat-icon>
+                                                </button>
+                                            </mat-menu>
+                                        </span>
+                                    </ng-container>
                                 </div>
                             </div>
 

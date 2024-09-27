@@ -33,6 +33,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { FuseAlertComponent } from '@fuse/components/alert';
 import { CustomPipeModule } from '@fuse/pipes/pipe.module';
+import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { UserService } from 'app/core/user/user.service';
 import { Pagination } from 'app/types/pagination.type';
 import {
@@ -103,7 +104,8 @@ export class ProductionPlanComponent implements OnInit, AfterViewInit {
         private _formBuilder: UntypedFormBuilder,
         private _userService: UserService,
         private _dialog: MatDialog,
-        private dateAdapter: DateAdapter<Date>
+        private dateAdapter: DateAdapter<Date>,
+        private _fuseConfirmationService: FuseConfirmationService
     ) {}
 
     ngOnInit(): void {
@@ -267,6 +269,26 @@ export class ProductionPlanComponent implements OnInit, AfterViewInit {
                     }
                 });
         });
+    }
+
+    showConfirmDialog(id: string) {
+        this._fuseConfirmationService
+            .open({
+                title: 'Are you sure?',
+                message: 'This action will delete this production plan',
+                icon: {
+                    color: 'error',
+                    name: 'heroicons_outline:trash',
+                },
+            })
+            .afterClosed()
+            .subscribe((result) => {
+                if (result === 'confirmed') {
+                    this.deleteProductionPlan(id);
+                }
+                if (result === 'cancelled') {
+                }
+            });
     }
 
     deleteProductionPlan(id: string) {

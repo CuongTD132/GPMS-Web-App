@@ -19,6 +19,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { FuseAlertComponent } from '@fuse/components/alert';
 import { CustomPipeModule } from '@fuse/pipes/pipe.module';
+import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { UserService } from 'app/core/user/user.service';
 import { ProductionPlanService } from '../../production-plan.service';
 import { EstimationsListComponent } from './estimations-list/estimations-list.component';
@@ -61,7 +62,8 @@ export class ProductionPlanYearDetailComponent implements OnInit {
         private _dialog: MatDialog,
         private _userService: UserService,
         private dateAdapter: DateAdapter<Date>,
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _fuseConfirmationService: FuseConfirmationService
     ) {}
 
     ngOnInit(): void {
@@ -74,7 +76,25 @@ export class ProductionPlanYearDetailComponent implements OnInit {
             }
         );
     }
-
+    showConfirmDialog(id: string) {
+        this._fuseConfirmationService
+            .open({
+                title: 'Are you sure?',
+                message: 'This action will delete this production plan',
+                icon: {
+                    color: 'error',
+                    name: 'heroicons_outline:trash',
+                },
+            })
+            .afterClosed()
+            .subscribe((result) => {
+                if (result === 'confirmed') {
+                    this.deleteProductionPlan(id);
+                }
+                if (result === 'cancelled') {
+                }
+            });
+    }
     getFormattedDate(date: string): string {
         const parsedDate = this.dateAdapter.parse(
             date,
@@ -158,29 +178,6 @@ export class ProductionPlanYearDetailComponent implements OnInit {
                 this.showFlashMessage(
                     'error',
                     'Production plan has been aprrove failed',
-                    3000
-                ),
-        });
-    }
-
-    declineProductionPlan(id: string) {
-        this._productionPlanService.declineProductionPlan(id).subscribe({
-            next: () => {
-                this._productionPlanService
-                    .getProductionPlanById(this.productionPlan.id)
-                    .subscribe((productionPlan) => {
-                        this.productionPlan = productionPlan;
-                    });
-                this.showFlashMessage(
-                    'success',
-                    'Production plan has been decline successful',
-                    3000
-                );
-            },
-            error: () =>
-                this.showFlashMessage(
-                    'error',
-                    'Production plan has been decline failed',
                     3000
                 ),
         });
