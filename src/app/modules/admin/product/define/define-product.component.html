@@ -10,6 +10,14 @@
                 <ng-template matStepLabel>Semi-finished products</ng-template>
                 <semi-product-form />
             </mat-step>
+            <mat-step [stepControl]="form">
+                <ng-template matStepLabel>Specifications</ng-template>
+                <specification-form/>
+            </mat-step>
+            <mat-step [stepControl]="form">
+                <ng-template matStepLabel>Process</ng-template>
+                <process-form/>
+            </mat-step>
         </mat-horizontal-stepper>
         <button type="submit">test</button>
     </form>

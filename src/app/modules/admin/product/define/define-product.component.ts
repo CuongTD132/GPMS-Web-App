@@ -6,6 +6,8 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { GeneralProductFormComponent } from './general-form/general-product-form.component';
 import { ProductFormService } from './product-form.service';
 import { SemiProductFormComponent } from "./semi-form/semi-product-form.component";
+import { SpecificationFormComponent } from "./specification-form/specification-form.component";
+import { ProcessFormComponent } from "./process-form/process-form.component";
 
 @Component({
     standalone: true,
@@ -19,7 +21,9 @@ import { SemiProductFormComponent } from "./semi-form/semi-product-form.componen
     MatFormFieldModule,
     MatStepperModule,
     GeneralProductFormComponent,
-    SemiProductFormComponent
+    SemiProductFormComponent,
+    SpecificationFormComponent,
+    ProcessFormComponent
 ],
     providers: [ProductFormService],
 })

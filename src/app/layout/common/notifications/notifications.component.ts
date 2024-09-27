@@ -83,11 +83,13 @@ export class NotificationsComponent implements OnInit, OnDestroy {
             });
 
         onMessage(this._msg, (payload) => {
+            console.log(payload)
+
             this._notificationsService
                 .create({
                     id: payload.messageId,
                     // read: false,
-                    createdDate: payload.data['google.c.a.ts'],
+                    createdDate: payload.data['google.c.a.ts'] ?? payload.data['CreatedDate'],
                     title: payload.notification.title,
                     body: payload.notification.body,
                 })

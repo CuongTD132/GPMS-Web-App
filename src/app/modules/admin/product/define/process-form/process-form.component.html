@@ -1,0 +1,804 @@
+<form [formGroup]="form" class="">
+    <div class="flex items-center justify-between">
+        <mat-label>Steps</mat-label>
+        <button
+            [disabled]="form.get('processes').invalid"
+            [class]="
+                form.get('processes').invalid
+                    ? 'hidden'
+                    : 'mb-4 rounded-md bg-slate-400 px-4 py-1 text-sm text-white'
+            "
+            type="button"
+            (click)="addProcess()"
+        >
+            New
+        </button>
+    </div>
+    <mat-accordion multi>
+        <ng-container formArrayName="processes">
+            @for (process of processes.controls; track $index; let i = $index) {
+                <ng-container [formGroupName]="i">
+                    <mat-expansion-panel
+                        [disabled]="process.invalid"
+                        [expanded]="process.invalid"
+                    >
+                        <mat-expansion-panel-header>
+                            <mat-panel-title class=""
+                                >{{ i + 1 }}. New process</mat-panel-title
+                            >
+                            <mat-panel-description
+                                class="flex flex-row-reverse"
+                            >
+                                <!-- Type your name and age
+                                <mat-icon>account_circle</mat-icon> -->
+                                @if (processes.length > 1) {
+                                    <button
+                                        type="button"
+                                        (click)="removeProcess(i)"
+                                        class=""
+                                    >
+                                        remove
+                                    </button>
+                                }
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <div class="">
+                            <div class="grid grid-cols-5 gap-8">
+                                <div
+                                    class="col-span-2 grid grid-flow-row grid-cols-2 gap-x-8"
+                                >
+                                    <mat-form-field>
+                                        <mat-label>Code</mat-label>
+                                        <input
+                                            matInput
+                                            formControlName="code"
+                                        />
+                                        @if (
+                                            process
+                                                .get('code')
+                                                .hasError('required')
+                                        ) {
+                                            <mat-error
+                                                >Code is required</mat-error
+                                            >
+                                        }
+                                    </mat-form-field>
+                                    <mat-form-field>
+                                        <mat-label>Name</mat-label>
+                                        <input
+                                            matInput
+                                            formControlName="name"
+                                        />
+                                        @if (
+                                            process
+                                                .get('name')
+                                                .hasError('required')
+                                        ) {
+                                            <mat-error
+                                                >Name is required</mat-error
+                                            >
+                                        }
+                                        @if (
+                                            process
+                                                .get('name')
+                                                .hasError('minlength')
+                                        ) {
+                                            <mat-error
+                                                >Must be at least 6
+                                                characters</mat-error
+                                            >
+                                        }
+                                    </mat-form-field>
+                                    <mat-form-field>
+                                        <mat-label>Order number</mat-label>
+                                        <input
+                                            type="number"
+                                            matInput
+                                            formControlName="orderNumber"
+                                        />
+                                        @if (
+                                            process
+                                                .get('orderNumber')
+                                                .hasError('required')
+                                        ) {
+                                            <mat-error
+                                                >Order number is
+                                                required</mat-error
+                                            >
+                                        }
+                                    </mat-form-field>
+                                    <mat-form-field>
+                                        <mat-label>Type</mat-label>
+                                        <mat-select formControlName="type">
+                                            <mat-option value="Cutting"
+                                                >Cutting</mat-option
+                                            >
+                                            <mat-option value="Sewing"
+                                                >Sewing</mat-option
+                                            >
+                                            <mat-option value="Finishing"
+                                                >Finishing</mat-option
+                                            >
+                                            <mat-option value="Inspecting"
+                                                >Inspecting</mat-option
+                                            >
+                                        </mat-select>
+                                        @if (
+                                            process
+                                                .get('type')
+                                                .hasError('required')
+                                        ) {
+                                            <mat-error
+                                                >Type is required</mat-error
+                                            >
+                                        }
+                                    </mat-form-field>
+                                </div>
+                                <mat-form-field class="col-span-3">
+                                    <mat-label>Description</mat-label>
+                                    <input
+                                        matInput
+                                        formControlName="description"
+                                    />
+                                </mat-form-field>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <mat-label>Steps</mat-label>
+                                <button
+                                    [disabled]="process.get('steps').invalid"
+                                    [class]="
+                                        process.get('steps').invalid
+                                            ? 'hidden'
+                                            : 'mb-4 rounded-md bg-slate-400 px-4 py-1 text-sm text-white'
+                                    "
+                                    type="button"
+                                    (click)="addStep(i)"
+                                >
+                                    New
+                                </button>
+                            </div>
+                            <mat-accordion multi>
+                                <ng-container formArrayName="steps">
+                                    <ng-container
+                                        *ngFor="
+                                            let step of process.controls.steps
+                                                .controls;
+                                            let is = index
+                                        "
+                                    >
+                                        <!-- @for (
+                                        step of process.controls.steps.controls;
+                                        track $index;
+                                        let is = $index
+                                    ) { -->
+                                        <ng-container [formGroupName]="is">
+                                            <mat-expansion-panel
+                                                [disabled]="step.invalid"
+                                                [expanded]="step.invalid"
+                                            >
+                                                <mat-expansion-panel-header>
+                                                    <mat-panel-title class=""
+                                                        >{{ is + 1 }}. New
+                                                        step</mat-panel-title
+                                                    >
+                                                    <mat-panel-description
+                                                        class="flex flex-row-reverse"
+                                                    >
+                                                        <!-- Type your name and age
+                                <mat-icon>account_circle</mat-icon> -->
+                                                        @if (
+                                                            process.controls
+                                                                .steps.length >
+                                                            1
+                                                        ) {
+                                                            <button
+                                                                type="button"
+                                                                (click)="
+                                                                    removeStep(
+                                                                        i,
+                                                                        is
+                                                                    )
+                                                                "
+                                                                class=""
+                                                            >
+                                                                remove
+                                                            </button>
+                                                        }
+                                                    </mat-panel-description>
+                                                </mat-expansion-panel-header>
+                                                <div>
+                                                    <div
+                                                        class="grid grid-cols-5 gap-8"
+                                                    >
+                                                        <div
+                                                            class="col-span-2 grid grid-flow-row grid-cols-2 gap-x-8"
+                                                        >
+                                                            <mat-form-field
+                                                                class="col-span-2"
+                                                            >
+                                                                <mat-label
+                                                                    >Name</mat-label
+                                                                >
+                                                                <input
+                                                                    matInput
+                                                                    formControlName="name"
+                                                                />
+                                                                @if (
+                                                                    step
+                                                                        .get(
+                                                                            'name'
+                                                                        )
+                                                                        .hasError(
+                                                                            'required'
+                                                                        )
+                                                                ) {
+                                                                    <mat-error
+                                                                        >Name is
+                                                                        required</mat-error
+                                                                    >
+                                                                }
+                                                                @if (
+                                                                    step
+                                                                        .get(
+                                                                            'name'
+                                                                        )
+                                                                        .hasError(
+                                                                            'minlength'
+                                                                        )
+                                                                ) {
+                                                                    <mat-error
+                                                                        >Must be
+                                                                        at least
+                                                                        6
+                                                                        characters</mat-error
+                                                                    >
+                                                                }
+                                                            </mat-form-field>
+                                                            <mat-form-field>
+                                                                <mat-label
+                                                                    >Code</mat-label
+                                                                >
+                                                                <input
+                                                                    matInput
+                                                                    formControlName="code"
+                                                                />
+                                                                @if (
+                                                                    step
+                                                                        .get(
+                                                                            'code'
+                                                                        )
+                                                                        .hasError(
+                                                                            'required'
+                                                                        )
+                                                                ) {
+                                                                    <mat-error
+                                                                        >Code is
+                                                                        required</mat-error
+                                                                    >
+                                                                }
+                                                            </mat-form-field>
+                                                            <mat-form-field>
+                                                                <mat-label
+                                                                    >Order
+                                                                    number</mat-label
+                                                                >
+                                                                <input
+                                                                    type="number"
+                                                                    matInput
+                                                                    formControlName="orderNumber"
+                                                                />
+                                                                @if (
+                                                                    step
+                                                                        .get(
+                                                                            'orderNumber'
+                                                                        )
+                                                                        .hasError(
+                                                                            'required'
+                                                                        )
+                                                                ) {
+                                                                    <mat-error
+                                                                        >Order
+                                                                        number
+                                                                        is
+                                                                        required</mat-error
+                                                                    >
+                                                                }
+                                                            </mat-form-field>
+                                                            <mat-form-field>
+                                                                <mat-label
+                                                                    >Standard
+                                                                    Time</mat-label
+                                                                >
+                                                                <input
+                                                                    matInput
+                                                                    type="number"
+                                                                    formControlName="standardTime"
+                                                                />
+                                                                @if (
+                                                                    step
+                                                                        .get(
+                                                                            'standardTime'
+                                                                        )
+                                                                        .hasError(
+                                                                            'required'
+                                                                        )
+                                                                ) {
+                                                                    <mat-error
+                                                                        >Standard
+                                                                        time is
+                                                                        required</mat-error
+                                                                    >
+                                                                }
+                                                            </mat-form-field>
+                                                            <mat-form-field>
+                                                                <mat-label
+                                                                    >Output per
+                                                                    hour</mat-label
+                                                                >
+                                                                <input
+                                                                    matInput
+                                                                    type="number"
+                                                                    formControlName="outputPerHour"
+                                                                />
+                                                                @if (
+                                                                    step
+                                                                        .get(
+                                                                            'outputPerHour'
+                                                                        )
+                                                                        .hasError(
+                                                                            'required'
+                                                                        )
+                                                                ) {
+                                                                    <mat-error
+                                                                        >Output
+                                                                        per hour
+                                                                        is
+                                                                        required</mat-error
+                                                                    >
+                                                                }
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <mat-form-field
+                                                            class="col-span-3"
+                                                        >
+                                                            <mat-label
+                                                                >Description</mat-label
+                                                            >
+                                                            <input
+                                                                matInput
+                                                                formControlName="description"
+                                                            />
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <div
+                                                        class="flex items-center justify-between"
+                                                    >
+                                                        <mat-label
+                                                            >Step
+                                                            Input/Output</mat-label
+                                                        >
+                                                        <pre>{{
+                                                            step.get('stepIOs')
+                                                                .value | json
+                                                        }}</pre>
+                                                        <button
+                                                            [disabled]="
+                                                                step.get(
+                                                                    'stepIOs'
+                                                                ).invalid
+                                                            "
+                                                            [class]="
+                                                                step.get(
+                                                                    'stepIOs'
+                                                                ).invalid
+                                                                    ? 'hidden'
+                                                                    : 'mb-4 rounded-md bg-slate-400 px-4 py-1 text-sm text-white'
+                                                            "
+                                                            type="button"
+                                                            (click)="
+                                                                addStepIO(i, is)
+                                                            "
+                                                        >
+                                                            New
+                                                        </button>
+                                                    </div>
+                                                    <mat-accordion multi>
+                                                        <ng-container
+                                                            formArrayName="stepIOs"
+                                                        >
+                                                            <ng-container
+                                                                *ngFor="
+                                                                    let stepIO of step
+                                                                        .controls
+                                                                        .stepIOs
+                                                                        .controls;
+                                                                    let isi = index
+                                                                "
+                                                            >
+                                                                <!-- @for (
+                                                                        stepIO of step
+                                                                            .controls
+                                                                            .stepIOs
+                                                                            .controls;
+                                                                        track $index;
+                                                                        let isi = $index
+                                                                    ) { -->
+                                                                <ng-container
+                                                                    [formGroupName]="
+                                                                        isi
+                                                                    "
+                                                                >
+                                                                    <mat-expansion-panel
+                                                                        [disabled]="
+                                                                            stepIO.invalid
+                                                                        "
+                                                                        [expanded]="
+                                                                            stepIO.invalid
+                                                                        "
+                                                                    >
+                                                                        <mat-expansion-panel-header>
+                                                                            <mat-panel-title
+                                                                                class=""
+                                                                                >{{
+                                                                                    isi +
+                                                                                        1
+                                                                                }}.
+                                                                                New
+                                                                                step
+                                                                                Input/Output</mat-panel-title
+                                                                            >
+                                                                            <mat-panel-description
+                                                                                class="flex flex-row-reverse"
+                                                                            >
+                                                                                <!-- Type your name and age
+                                                            <mat-icon>account_circle</mat-icon> -->
+                                                                                @if (
+                                                                                    step
+                                                                                        .controls
+                                                                                        .stepIOs
+                                                                                        .length >
+                                                                                    1
+                                                                                ) {
+                                                                                    <button
+                                                                                        type="button"
+                                                                                        (click)="
+                                                                                            removeStepIO(
+                                                                                                i,
+                                                                                                is,
+                                                                                                isi
+                                                                                            )
+                                                                                        "
+                                                                                        class=""
+                                                                                    >
+                                                                                        remove
+                                                                                    </button>
+                                                                                }
+                                                                            </mat-panel-description>
+                                                                        </mat-expansion-panel-header>
+                                                                        <div
+                                                                            class="grid grid-cols-8 gap-x-4"
+                                                                        >
+                                                                            <mat-form-field
+                                                                                class="col-span-1"
+                                                                            >
+                                                                                <mat-label
+                                                                                    >IO
+                                                                                    Type</mat-label
+                                                                                >
+                                                                                <mat-select
+                                                                                    formControlName="type"
+                                                                                >
+                                                                                    <mat-option
+                                                                                        value="Input"
+                                                                                        >Input</mat-option
+                                                                                    >
+                                                                                    <mat-option
+                                                                                        value="Output"
+                                                                                        >Output</mat-option
+                                                                                    >
+                                                                                </mat-select>
+                                                                            </mat-form-field>
+                                                                            <mat-form-field
+                                                                                class="col-span-2"
+                                                                            >
+                                                                                <mat-label
+                                                                                    >Item
+                                                                                    Type</mat-label
+                                                                                >
+                                                                                <mat-select
+                                                                                    #select
+                                                                                    required
+                                                                                    value="Material"
+                                                                                    (selectionChange)="
+                                                                                        onSelectItemType(
+                                                                                            i,
+                                                                                            is,
+                                                                                            isi,
+                                                                                            $event
+                                                                                        )
+                                                                                    "
+                                                                                >
+                                                                                    <mat-option
+                                                                                        value="Material"
+                                                                                        >Material</mat-option
+                                                                                    >
+                                                                                    <mat-option
+                                                                                        value="Semi"
+                                                                                        >Semi-finished
+                                                                                        Product</mat-option
+                                                                                    >
+                                                                                    <mat-option
+                                                                                        value="Finished"
+                                                                                        >Finished
+                                                                                        Product</mat-option
+                                                                                    >
+                                                                                </mat-select>
+                                                                            </mat-form-field>
+                                                                            <ng-container
+                                                                                *ngIf="
+                                                                                    select.value ===
+                                                                                    'Semi'
+                                                                                "
+                                                                            >
+                                                                                <mat-form-field
+                                                                                    class="col-span-4"
+                                                                                >
+                                                                                    <mat-label
+                                                                                        class="text-nowrap"
+                                                                                        >Semi-finished
+                                                                                        Product</mat-label
+                                                                                    >
+                                                                                    <mat-select
+                                                                                        formControlName="semiFinishedProductCode"
+                                                                                    >
+                                                                                        @for (
+                                                                                            semi of semiFinishedProducts.controls;
+                                                                                            track $index
+                                                                                        ) {
+                                                                                            <mat-option
+                                                                                                [value]="
+                                                                                                    semi
+                                                                                                        .value
+                                                                                                        .code
+                                                                                                "
+                                                                                                >{{
+                                                                                                    semi
+                                                                                                        .value
+                                                                                                        .name
+                                                                                                }}</mat-option
+                                                                                            >
+                                                                                        }
+                                                                                    </mat-select>
+                                                                                </mat-form-field>
+                                                                                <mat-form-field
+                                                                                    class="col-span-1"
+                                                                                >
+                                                                                    <mat-label
+                                                                                        >Quantity</mat-label
+                                                                                    >
+                                                                                    <input
+                                                                                        matInput
+                                                                                        type="number"
+                                                                                        formControlName="quantity"
+                                                                                    />
+                                                                                </mat-form-field>
+                                                                            </ng-container>
+                                                                            <ng-container
+                                                                                *ngIf="
+                                                                                    select.value ===
+                                                                                    'Material'
+                                                                                "
+                                                                            >
+                                                                                <mat-form-field
+                                                                                    class="col-span-4"
+                                                                                >
+                                                                                    <mat-label
+                                                                                        >Selected
+                                                                                        Materials</mat-label
+                                                                                    >
+                                                                                    <mat-select
+                                                                                        (selectionChange)="
+                                                                                            onSelectMaterial(
+                                                                                                i,
+                                                                                                is,
+                                                                                                isi,
+                                                                                                $event
+                                                                                            )
+                                                                                        "
+                                                                                        required
+                                                                                        formControlName="materialId"
+                                                                                    >
+                                                                                        @for (
+                                                                                            selectedMaterial of selectedMaterials;
+                                                                                            track $index
+                                                                                        ) {
+                                                                                            <mat-option
+                                                                                                [value]="
+                                                                                                    selectedMaterial.id
+                                                                                                "
+                                                                                            >
+                                                                                                <div
+                                                                                                    class="flex justify-between"
+                                                                                                >
+                                                                                                    <p>
+                                                                                                        {{
+                                                                                                            selectedMaterial.name
+                                                                                                        }}
+                                                                                                        -
+                                                                                                        Color
+                                                                                                        {{
+                                                                                                            selectedMaterial.color
+                                                                                                        }}
+                                                                                                    </p>
+                                                                                                    <div
+                                                                                                        class="aspect-square h-4"
+                                                                                                        [ngStyle]="{
+                                                                                                            backgroundColor:
+                                                                                                                selectedMaterial.color,
+                                                                                                        }"
+                                                                                                    ></div>
+                                                                                                    <p>
+                                                                                                        -
+                                                                                                        Spec's
+                                                                                                        size:
+                                                                                                        {{
+                                                                                                            selectedMaterial.sizeName
+                                                                                                        }}
+                                                                                                        -
+                                                                                                        Spec's
+                                                                                                        color:
+                                                                                                        {{
+                                                                                                            selectedMaterial.colorCode
+                                                                                                        }}
+                                                                                                    </p>
+                                                                                                    <div
+                                                                                                        class="aspect-square h-4"
+                                                                                                        [ngStyle]="{
+                                                                                                            backgroundColor:
+                                                                                                                selectedMaterial.colorCode,
+                                                                                                        }"
+                                                                                                    ></div>
+                                                                                                </div>
+                                                                                            </mat-option>
+                                                                                        }
+                                                                                    </mat-select>
+                                                                                </mat-form-field>
+                                                                                <mat-form-field
+                                                                                    class="col-span-1"
+                                                                                >
+                                                                                    <mat-label
+                                                                                        >Consumption</mat-label
+                                                                                    >
+                                                                                    <input
+                                                                                        disabled
+                                                                                        matInput
+                                                                                        formControlName="consumption"
+                                                                                    />
+                                                                                </mat-form-field>
+                                                                            </ng-container>
+                                                                            <!-- <mat-radio-group
+                                                                                    formControlName="type"
+                                                                                    aria-label="Select a type"
+                                                                                >
+                                                                                    <mat-radio-button
+                                                                                        value="Input"
+                                                                                        >Input</mat-radio-button
+                                                                                    >
+                                                                                    <mat-radio-button
+                                                                                        value="Output"
+                                                                                        >Output</mat-radio-button
+                                                                                    >
+                                                                                </mat-radio-group> -->
+                                                                            <!-- <mat-radio-group
+                                                                                    aria-label="Select an item type"
+                                                                                    aria-required="true"
+                                                                                >
+                                                                                    <mat-radio-button
+                                                                                        #material
+                                                                                        value="Material"
+                                                                                        >Material</mat-radio-button
+                                                                                    >
+                                                                                    <mat-radio-button
+                                                                                        #product
+                                                                                        value="Product"
+                                                                                        >Product</mat-radio-button
+                                                                                    >
+                                                                                    <mat-radio-button
+                                                                                        #semi
+                                                                                        value="Semi"
+                                                                                        >Semi-finished
+                                                                                        Product</mat-radio-button
+                                                                                    >
+                                                                                </mat-radio-group>
+                                                                                <ng-container
+                                                                                    *ngIf="
+                                                                                        material.checked
+                                                                                    "
+                                                                                >
+                                                                                    <mat-form-field>
+                                                                                        <mat-select
+                                                                                            formControlName="materialId"
+                                                                                        >
+                                                                                            @for (
+                                                                                                material of selectedMaterials;
+                                                                                                track $index
+                                                                                            ) {
+                                                                                                <mat-option
+                                                                                                    [value]="
+                                                                                                        material.id
+                                                                                                    "
+                                                                                                    >{{
+                                                                                                        material.name
+                                                                                                    }}</mat-option
+                                                                                                >
+                                                                                            }
+                                                                                        </mat-select>
+                                                                                    </mat-form-field>
+                                                                                </ng-container>
+                                                                                <ng-container
+                                                                                    *ngIf="
+                                                                                        product.checked
+                                                                                    "
+                                                                                >
+                                                                                    <p>
+                                                                                        test
+                                                                                    </p>
+                                                                                </ng-container>
+                                                                                <ng-container
+                                                                                    *ngIf="
+                                                                                        semi.checked
+                                                                                    "
+                                                                                >
+                                                                                    <mat-form-field>
+                                                                                        <mat-select
+                                                                                            formControlName="semiFinishedProductCode"
+                                                                                        >
+                                                                                            @for (
+                                                                                                semiProduct of semiFinishedProducts.value;
+                                                                                                track $index
+                                                                                            ) {
+                                                                                                <mat-option
+                                                                                                    [value]="
+                                                                                                        semiProduct.code
+                                                                                                    "
+                                                                                                    >{{
+                                                                                                        semiProduct.name
+                                                                                                    }}</mat-option
+                                                                                                >
+                                                                                            }
+                                                                                        </mat-select>
+                                                                                    </mat-form-field>
+                                                                                </ng-container> -->
+                                                                        </div>
+                                                                    </mat-expansion-panel>
+                                                                </ng-container>
+                                                                <!-- } -->
+                                                            </ng-container>
+                                                        </ng-container>
+                                                    </mat-accordion>
+                                                </div>
+                                            </mat-expansion-panel>
+                                        </ng-container>
+                                        <!-- } -->
+                                    </ng-container>
+                                </ng-container>
+                            </mat-accordion>
+                        </div>
+                    </mat-expansion-panel>
+                </ng-container>
+            }
+        </ng-container>
+    </mat-accordion>
+    <button
+        [disabled]="form.invalid"
+        mat-flat-button
+        type="button"
+        [class]="
+            form.invalid ? 'hidden' : 'mt-4 w-full bg-slate-400 text-white'
+        "
+        (click)="submit()"
+    >
+        Submit
+    </button>
+</form>
