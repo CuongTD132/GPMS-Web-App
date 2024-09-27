@@ -77,11 +77,11 @@ export class ProductionPlanMonthDetailComponent implements OnInit {
             }
         );
     }
-    showConfirmDialog(id: string) {
+    showConfirmDialog(id: string, name: string) {
         this._fuseConfirmationService
             .open({
                 title: 'Are you sure?',
-                message: 'This action will delete this production plan',
+                message: 'This action will delete ' + name,
                 icon: {
                     color: 'error',
                     name: 'heroicons_outline:trash',
