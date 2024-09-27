@@ -1,0 +1,48 @@
+<form [formGroup]="form" class="grid grid-cols-4 gap-8">
+    <div class="col-span-1 flex flex-col">
+        <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" />
+            @if (form.get('name').hasError('required')) {
+                <mat-error>Product's name is required</mat-error>
+            }
+            @if (form.get('name').hasError('minlength')) {
+                <mat-error>Must be at least 6 characters</mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Code</mat-label>
+            <input matInput formControlName="code" />
+            @if (form.get('code').hasError('required')) {
+                <mat-error>Product's code is required</mat-error>
+            }
+            @if (form.get('code').hasError('minlength')) {
+                <mat-error>Must be at least 6 characters</mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Category</mat-label>
+            <mat-select formControlName="categoryId" required>
+                @for (category of categories; track category) {
+                    <mat-option [value]="category.id">{{
+                        category.name
+                    }}</mat-option>
+                }
+            </mat-select>
+            @if (form.get('categoryId').hasError('required')) {
+                <mat-error>Product's category is required</mat-error>
+            }
+        </mat-form-field>
+    </div>
+    <div class="col-span-3">
+        <mat-form-field class="overflow-hidden h-full w-full relative">
+            <mat-label>Description</mat-label>
+            <textarea
+                class="resize-none"
+                rows="9"
+                matInput
+                formControlName="description"
+            ></textarea>
+        </mat-form-field>
+    </div>
+</form>

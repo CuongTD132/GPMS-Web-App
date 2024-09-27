@@ -4,3 +4,9 @@ type Measurement = {
     measure: number;
     unit: string;
 };
+
+type MeasurementInput = {
+    name: string;
+    measure: 0;
+    unit: string;
+};
