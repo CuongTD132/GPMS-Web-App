@@ -41,12 +41,7 @@ export class ProductFormService {
                                     1,
                                     [Validators.required, Validators.min(0.1)],
                                 ],
-                                unit: [
-                                    '',
-                                    [
-                                        Validators.required,
-                                    ],
-                                ],
+                                unit: ['', [Validators.required]],
                             }),
                         ],
                         [Validators.required, Validators.minLength(1)]
@@ -54,8 +49,14 @@ export class ProductFormService {
                     boMs: inject(FormBuilder).array(
                         [
                             inject(FormBuilder).group({
-                                sizeWidth: [1, [Validators.required, Validators.min(0.1)],],
-                                consumption: [1, [Validators.required, Validators.min(0.1)],],
+                                sizeWidth: [
+                                    1,
+                                    [Validators.required, Validators.min(0.1)],
+                                ],
+                                consumption: [
+                                    1,
+                                    [Validators.required, Validators.min(0.1)],
+                                ],
                                 description: ['', []],
                                 materialId: ['', [Validators.required]],
                             }),
@@ -72,7 +73,13 @@ export class ProductFormService {
                                         Validators.minLength(3),
                                     ],
                                 ],
-                                description: ['', []],
+                                description: [
+                                    '',
+                                    [
+                                        Validators.required,
+                                        Validators.minLength(3),
+                                    ],
+                                ],
                                 materialId: ['', []],
                             }),
                         ],
@@ -107,15 +114,36 @@ export class ProductFormService {
                                         Validators.minLength(3),
                                     ],
                                 ],
-                                orderNumber: [1, [Validators.required, Validators.min(1)]],
-                                standardTime: [1, [Validators.required, Validators.min(0.1)]],
-                                outputPerHour: [1, [Validators.required, Validators.min(0.1)],],
+                                orderNumber: [
+                                    1,
+                                    [Validators.required, Validators.min(1)],
+                                ],
+                                standardTime: [
+                                    1,
+                                    [Validators.required, Validators.min(0.1)],
+                                ],
+                                outputPerHour: [
+                                    1,
+                                    [Validators.required, Validators.min(0.1)],
+                                ],
                                 description: ['', []],
                                 stepIOs: inject(FormBuilder).array(
                                     [
                                         inject(FormBuilder).group({
-                                            quantity: [1, [Validators.required, Validators.min(1)],],
-                                            consumption: [1, [Validators.required, Validators.min(0.1)],],
+                                            quantity: [
+                                                1,
+                                                [
+                                                    Validators.required,
+                                                    Validators.min(1),
+                                                ],
+                                            ],
+                                            consumption: [
+                                                1,
+                                                [
+                                                    Validators.required,
+                                                    Validators.min(0.1),
+                                                ],
+                                            ],
                                             isProduct: [
                                                 false,
                                                 [Validators.required],

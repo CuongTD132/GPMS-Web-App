@@ -37,7 +37,10 @@ export class SpecificationFormComponent {
     sizes: string[];
     materials: Material[];
 
-    constructor(private _activatedRoute: ActivatedRoute,private cdref: ChangeDetectorRef) {
+    constructor(
+        private _activatedRoute: ActivatedRoute,
+        private cdref: ChangeDetectorRef
+    ) {
         this._activatedRoute.data.subscribe((data) => {
             this.sizes = data['sizes'];
             this.materials = data['materials'].data;
@@ -48,7 +51,7 @@ export class SpecificationFormComponent {
     ngAfterContentChecked() {
         this.specifications = this.form.controls.specifications;
         this.cdref.detectChanges();
-     }
+    }
 
     addSpecification() {
         const newSpec = {
@@ -68,9 +71,7 @@ export class SpecificationFormComponent {
                             Validators.required,
                             Validators.min(0.1),
                         ]),
-                        unit: new FormControl('', [
-                            Validators.required,
-                        ]),
+                        unit: new FormControl('', [Validators.required]),
                     }),
                 ],
                 [Validators.required, Validators.minLength(1)]
@@ -78,8 +79,14 @@ export class SpecificationFormComponent {
             boMs: new FormArray(
                 [
                     new FormGroup({
-                        sizeWidth: new FormControl(1, [Validators.required, Validators.min(0.1)]),
-                        consumption: new FormControl(1, [Validators.required, Validators.min(0.1)]),
+                        sizeWidth: new FormControl(1, [
+                            Validators.required,
+                            Validators.min(0.1),
+                        ]),
+                        consumption: new FormControl(1, [
+                            Validators.required,
+                            Validators.min(0.1),
+                        ]),
                         description: new FormControl('', []),
                         materialId: new FormControl('', [Validators.required]),
                     }),
@@ -93,7 +100,10 @@ export class SpecificationFormComponent {
                             Validators.required,
                             Validators.minLength(3),
                         ]),
-                        description: new FormControl('', []),
+                        description: new FormControl('', [
+                            Validators.required,
+                            Validators.minLength(3),
+                        ]),
                         materialId: new FormControl('', []),
                     }),
                 ],
@@ -103,7 +113,6 @@ export class SpecificationFormComponent {
         this.specifications.push(new FormGroup(newSpec, []));
         console.log(this.form.value);
     }
-
 
     removeSpecification(index: number) {
         event.preventDefault();
@@ -123,9 +132,7 @@ export class SpecificationFormComponent {
                 Validators.required,
                 Validators.min(0.1),
             ]),
-            unit: new FormControl('', [
-                Validators.required,
-            ]),
+            unit: new FormControl('', [Validators.required]),
         };
 
         measurements.push(new FormGroup(newMeasure, []));
@@ -141,8 +148,14 @@ export class SpecificationFormComponent {
         const boMs = this.specifications.at(specificationIndex).controls.boMs;
 
         const newBoM = {
-            sizeWidth: new FormControl(1, [Validators.required, Validators.min(0.1)]),
-            consumption: new FormControl(1, [Validators.required, Validators.min(0.1)]),
+            sizeWidth: new FormControl(1, [
+                Validators.required,
+                Validators.min(0.1),
+            ]),
+            consumption: new FormControl(1, [
+                Validators.required,
+                Validators.min(0.1),
+            ]),
             description: new FormControl('', []),
             materialId: new FormControl('', [Validators.required]),
         };
@@ -166,7 +179,10 @@ export class SpecificationFormComponent {
                 Validators.required,
                 Validators.minLength(3),
             ]),
-            description: new FormControl('', []),
+            description: new FormControl('', [
+                Validators.required,
+                Validators.minLength(3),
+            ]),
             materialId: new FormControl('', []),
         };
 
