@@ -5,14 +5,14 @@ import { FormBuilder, Validators } from '@angular/forms';
 export class ProductFormService {
     readonly form = inject(FormBuilder).group({
         code: ['', [Validators.required, Validators.minLength(6)]],
-        name: ['', [Validators.required, Validators.minLength(6)]],
+        name: ['', [Validators.required, Validators.minLength(3)]],
         categoryId: ['', [Validators.required]],
         description: ['', []],
         semiFinishedProducts: inject(FormBuilder).array(
             [
                 inject(FormBuilder).group({
                     code: ['', [Validators.required, Validators.minLength(6)]],
-                    name: ['', [Validators.required, Validators.minLength(6)]],
+                    name: ['', [Validators.required, Validators.minLength(3)]],
                     quantity: [1, [Validators.required, Validators.min(1)]],
                     description: ['', []],
                 }),
@@ -26,7 +26,7 @@ export class ProductFormService {
                         '',
                         [Validators.required, Validators.minLength(1)],
                     ],
-                    colorCode: ['', [Validators.required]],
+                    colorCode: ['#000000', [Validators.required]],
                     measurements: inject(FormBuilder).array(
                         [
                             inject(FormBuilder).group({
@@ -34,18 +34,17 @@ export class ProductFormService {
                                     '',
                                     [
                                         Validators.required,
-                                        Validators.minLength(6),
+                                        Validators.minLength(3),
                                     ],
                                 ],
                                 measure: [
                                     1,
-                                    [Validators.required, Validators.min(1)],
+                                    [Validators.required, Validators.min(0.1)],
                                 ],
                                 unit: [
                                     '',
                                     [
                                         Validators.required,
-                                        Validators.minLength(1),
                                     ],
                                 ],
                             }),
@@ -55,8 +54,8 @@ export class ProductFormService {
                     boMs: inject(FormBuilder).array(
                         [
                             inject(FormBuilder).group({
-                                sizeWidth: [0, [Validators.required]],
-                                consumption: [0, [Validators.required]],
+                                sizeWidth: [1, [Validators.required, Validators.min(0.1)],],
+                                consumption: [1, [Validators.required, Validators.min(0.1)],],
                                 description: ['', []],
                                 materialId: ['', [Validators.required]],
                             }),
@@ -70,7 +69,7 @@ export class ProductFormService {
                                     '',
                                     [
                                         Validators.required,
-                                        Validators.minLength(6),
+                                        Validators.minLength(3),
                                     ],
                                 ],
                                 description: ['', []],
@@ -87,8 +86,8 @@ export class ProductFormService {
             [
                 inject(FormBuilder).group({
                     code: ['', [Validators.required, Validators.minLength(6)]],
-                    name: ['', [Validators.required, Validators.minLength(6)]],
-                    orderNumber: [0, [Validators.required]],
+                    name: ['', [Validators.required, Validators.minLength(3)]],
+                    orderNumber: [1, [Validators.required, Validators.min(1)]],
                     description: ['', []],
                     type: ['', [Validators.required]],
                     steps: inject(FormBuilder).array(
@@ -105,18 +104,18 @@ export class ProductFormService {
                                     '',
                                     [
                                         Validators.required,
-                                        Validators.minLength(6),
+                                        Validators.minLength(3),
                                     ],
                                 ],
-                                orderNumber: [0, [Validators.required]],
-                                standardTime: [0, [Validators.required]],
-                                outputPerHour: [0, [Validators.required]],
+                                orderNumber: [1, [Validators.required, Validators.min(1)]],
+                                standardTime: [1, [Validators.required, Validators.min(0.1)]],
+                                outputPerHour: [1, [Validators.required, Validators.min(0.1)],],
                                 description: ['', []],
                                 stepIOs: inject(FormBuilder).array(
                                     [
                                         inject(FormBuilder).group({
-                                            quantity: [0, []],
-                                            consumption: [0, []],
+                                            quantity: [1, [Validators.required, Validators.min(1)],],
+                                            consumption: [1, [Validators.required, Validators.min(0.1)],],
                                             isProduct: [
                                                 false,
                                                 [Validators.required],

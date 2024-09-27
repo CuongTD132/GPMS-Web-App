@@ -48,7 +48,7 @@ export class SemiProductFormComponent {
             ]),
             name: new FormControl('', [
                 Validators.required,
-                Validators.minLength(6),
+                Validators.minLength(3),
             ]),
             quantity: new FormControl(1, [
                 Validators.required,

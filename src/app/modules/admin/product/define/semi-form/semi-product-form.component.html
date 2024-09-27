@@ -64,7 +64,7 @@
                                                 .hasError('minlength')
                                         ) {
                                             <mat-error
-                                                >Must be at least 6
+                                                >Must be at least 3
                                                 characters</mat-error
                                             >
                                         }
@@ -99,6 +99,8 @@
                                     <mat-form-field>
                                         <mat-label>Quantity</mat-label>
                                         <input
+                                            type="number"
+                                            min="1"
                                             matInput
                                             formControlName="quantity"
                                         />
