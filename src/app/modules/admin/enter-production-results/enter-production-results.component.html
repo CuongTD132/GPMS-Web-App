@@ -1428,11 +1428,7 @@
                                         </ng-container>
                                     </mat-tab-group>
                                     <div
-                                        *ngIf="
-                                            inputOutputResults &&
-                                            inputOutputResults.length > 0 &&
-                                            role === 'ProductionStaff'
-                                        "
+                                        *ngIf="role === 'ProductionStaff'"
                                         class="mt-4 flex justify-end pr-8"
                                     >
                                         <button

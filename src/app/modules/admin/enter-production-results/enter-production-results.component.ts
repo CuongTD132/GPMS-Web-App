@@ -346,7 +346,7 @@ export class ProductionResultComponent implements OnInit {
                 .createStepResult(this.seriesId, this.stepResultForm.value)
                 .subscribe({
                     next: () => {
-                        this.resetAll(),
+                        this.resetFromSeries(),
                             this.showFlashMessage(
                                 'success',
                                 'Create production result successful',

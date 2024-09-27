@@ -21,6 +21,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router, RouterModule } from '@angular/router';
 import { FuseAlertComponent } from '@fuse/components/alert';
+import { CarouselModule } from '@fuse/components/carousel/carousel.module';
 import { CustomPipeModule } from '@fuse/pipes/pipe.module';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { UserService } from 'app/core/user/user.service';
@@ -55,6 +56,7 @@ import { StepDetailComponent } from './step-detail/step-detail.component';
         MatTooltipModule,
         MatMenuModule,
         FuseAlertComponent,
+        CarouselModule,
     ],
 })
 export class ProductDetailComponent implements OnInit {
@@ -212,7 +214,7 @@ export class ProductDetailComponent implements OnInit {
             this._productService.uploadSpecImg(id, formData).subscribe({
                 next: () => {
                     this._productService.getProductById(proId).subscribe();
-
+                    this._productService.getProducts().subscribe();
                     this.showFlashMessage(
                         'success',
                         'Image has been upload successful',
