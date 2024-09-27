@@ -6,6 +6,7 @@ type Process = {
     description?: string;
     haveResult?: boolean;
     steps: Step[];
+    type:string
 };
 
 type Step = {

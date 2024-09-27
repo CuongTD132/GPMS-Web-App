@@ -7,27 +7,19 @@
         >
             <div class="grid w-full grid-cols-12 space-x-5 pb-10">
                 <div class="col-span-3 flex">
-                    <div
-                        class="relative mr-6 flex h-72 w-72 flex-0 items-center justify-center overflow-hidden rounded border"
-                    >
-                        <img
-                            class="w-full"
-                            *ngIf="
-                                product.imageURLs &&
-                                product.imageURLs.length > 0
-                            "
-                            [alt]="'Product image'"
-                            [src]="product.imageURLs[0]"
-                        />
+                    <ng-container *ngIf="product.imageURLs &&
+                                product.imageURLs.length > 0">
+
+                    <carousel  [images]="product.imageURLs"></carousel>
+                    </ng-container>
                         <div
-                            class="flex h-full w-full items-center justify-center text-center text-xl font-semibold uppercase leading-none"
+                            class="flex w-[320px] h-[420px] rounded-2xl border items-center justify-center text-center text-xl font-semibold uppercase leading-none"
                             *ngIf="
                                 !product.imageURLs ||
                                 !(product.imageURLs.length > 0)
                             "
                         >
                             No Image
-                        </div>
                     </div>
                 </div>
                 <div class="col-span-8 flex w-full flex-col gap-4">
@@ -205,7 +197,7 @@
                                                                             class="pointer-events-none invisible absolute h-0 w-0 opacity-0"
                                                                             type="file"
                                                                             [multiple]="
-                                                                                false
+                                                                                true
                                                                             "
                                                                             [accept]="
                                                                                 'image/jpeg, image/png'

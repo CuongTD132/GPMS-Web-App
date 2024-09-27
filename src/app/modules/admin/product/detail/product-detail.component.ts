@@ -200,35 +200,58 @@ export class ProductDetailComponent implements OnInit {
         }
 
         const allowedTypes = ['image/jpeg', 'image/png'];
-        const file = fileList[0];
-
-        // Return if the file is not allowed
-        if (!allowedTypes.includes(file.type)) {
-            return;
-        }
+        // const file = fileList[0];
+        // // Return if the file is not allowed
+        // if (!allowedTypes.includes(file.type)) {
+        //     return;
+        // }
+        // const formData = new FormData();
+        // if (file) {
+        //     formData.append('imageURLs', file);
+        //     this._productService.uploadSpecImg(id, formData).subscribe({
+        //         next: () => {
+        //             this._productService.getProductById(proId).subscribe();
+        //             this._productService.getProducts().subscribe();
+        //             this.showFlashMessage(
+        //                 'success',
+        //                 'Image has been upload successful',
+        //                 3000
+        //             );
+        //         },
+        //         error: () =>
+        //             this.showFlashMessage(
+        //                 'error',
+        //                 'Image has been upload failed',
+        //                 3000
+        //             ),
+        //     });
+        // }
         const formData = new FormData();
-
-        if (file) {
-            formData.append('imageURLs', file);
-            // Upload the avatar
-            this._productService.uploadSpecImg(id, formData).subscribe({
-                next: () => {
-                    this._productService.getProductById(proId).subscribe();
-                    this._productService.getProducts().subscribe();
-                    this.showFlashMessage(
-                        'success',
-                        'Image has been upload successful',
-                        3000
-                    );
-                },
-                error: () =>
-                    this.showFlashMessage(
-                        'error',
-                        'Image has been upload failed',
-                        3000
-                    ),
-            });
+        for (let i = 0; i < fileList.length; i++) {
+            if (allowedTypes.includes(fileList.item(i).type)) {
+            formData.append('imageURLs', fileList.item(i));
+            }
         }
+
+// Upload the avatar
+        this._productService.uploadSpecImg(id, formData).subscribe({
+            next: () => {
+                this._productService.getProductById(proId).subscribe();
+                this._productService.getProducts().subscribe();
+                this.showFlashMessage(
+                    'success',
+                    'Image has been upload successful',
+                    3000
+                );
+            },
+            error: () =>
+                this.showFlashMessage(
+                    'error',
+                    'Image has been upload failed',
+                    3000
+                ),
+        });
+
     }
 
     private showFlashMessage(
