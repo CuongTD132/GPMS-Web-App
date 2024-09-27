@@ -242,6 +242,8 @@ export class ProcessFormComponent {
         );
     }
 
+    // comment for build
+
     onSelectMaterial(
         processIndex: number,
         stepIndex: number,
