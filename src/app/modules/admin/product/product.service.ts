@@ -161,12 +161,12 @@ export class ProductService {
         );
     }
 
-    declineProduct(id: string) {
+    declineProduct(id: string, data) {
         return this.productPatch$.pipe(
             take(1),
             switchMap(() =>
                 this._httpClient
-                    .patch<Patch>('/api/v1/products/' + id + '/decline', null)
+                    .patch<Patch>('/api/v1/products/' + id + '/decline', data)
                     .pipe(
                         tap((response) => {
                             this._productPatch.next(response);

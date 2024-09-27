@@ -347,22 +347,4 @@ export class ProductHeaderComponent implements OnInit, AfterViewInit {
                 }
             });
     }
-
-    approveProduct(id: string) {
-        this._productService.approveProduct(id).subscribe(() => {
-            this._productService.getProducts().subscribe();
-        });
-    }
-
-    declineProduct(id: string) {
-        this._productService.declineProduct(id).subscribe(() => {
-            this._productService.getProducts().subscribe();
-        });
-    }
-
-    deleteProduct(id: string) {
-        this._productService.deleteProduct(id).subscribe(() => {
-            this._productService.getProducts().subscribe();
-        });
-    }
 }

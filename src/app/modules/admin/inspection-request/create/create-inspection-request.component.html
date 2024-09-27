@@ -13,52 +13,63 @@
     </div>
     <div class="font-poppins overflow-y-scroll p-8 dark:bg-gray-800">
         <ng-container *ngIf="data | async as series">
-            <ng-container *ngIf="inspectionRequestForm">
-                <form [formGroup]="inspectionRequestForm">
-                    <mat-form-field class="w-full">
-                        <mat-label>Select a series:</mat-label>
-                        <mat-select
-                            (selectionChange)="onSeriesChange($event.value)"
-                            [formControlName]="'productionSeriesId'"
-                        >
-                            <ng-container *ngFor="let item of series">
-                                <mat-option value="{{ item.id }}"
-                                    >Series {{ item.code }} của
-                                    {{ item.productionPlanCode }} để sản xuất
-                                    {{ item.productName }} với số lượng cần kiểm
-                                    định là
-                                    <ng-container *ngIf="item.faultyQuantity">
-                                        {{ item.faultyQuantity }} cái
-                                    </ng-container>
-                                    <ng-container *ngIf="!item.faultyQuantity">
-                                        {{ item.quantity }} cái
-                                    </ng-container>
-                                </mat-option>
-                            </ng-container>
-                        </mat-select>
-                    </mat-form-field>
-                    <mat-form-field class="w-full">
-                        <mat-label>Note:</mat-label>
-                        <textarea
-                            matInput
-                            placeholder="You can note something in here..."
-                            [formControlName]="'description'"
-                        ></textarea>
-                    </mat-form-field>
-                    <div class="mt-4 flex justify-end">
-                        <button
-                            (click)="create()"
-                            mat-raised-button
-                            color="primary"
-                            class="flex min-w-fit gap-2"
-                        >
-                            <mat-icon
-                                svgIcon="heroicons_outline:inbox"
-                            ></mat-icon>
-                            <span> Send </span>
-                        </button>
-                    </div>
-                </form>
+            <ng-container *ngIf="series.length > 0">
+                <ng-container *ngIf="inspectionRequestForm">
+                    <form [formGroup]="inspectionRequestForm">
+                        <mat-form-field class="w-full">
+                            <mat-label>Select a series:</mat-label>
+                            <mat-select
+                                (selectionChange)="onSeriesChange($event.value)"
+                                [formControlName]="'productionSeriesId'"
+                            >
+                                <ng-container *ngFor="let item of series">
+                                    <mat-option value="{{ item.id }}"
+                                        >Series {{ item.code }} của
+                                        {{ item.productionPlanCode }} để sản
+                                        xuất {{ item.productName }} với số lượng
+                                        cần kiểm định là
+                                        <ng-container
+                                            *ngIf="item.faultyQuantity"
+                                        >
+                                            {{ item.faultyQuantity }} cái
+                                        </ng-container>
+                                        <ng-container
+                                            *ngIf="!item.faultyQuantity"
+                                        >
+                                            {{ item.quantity }} cái
+                                        </ng-container>
+                                    </mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field class="w-full">
+                            <mat-label>Note:</mat-label>
+                            <textarea
+                                matInput
+                                placeholder="You can note something in here..."
+                                [formControlName]="'description'"
+                            ></textarea>
+                        </mat-form-field>
+                        <div class="mt-4 flex justify-end">
+                            <button
+                                (click)="create()"
+                                mat-raised-button
+                                color="primary"
+                                class="flex min-w-fit gap-2"
+                            >
+                                <mat-icon
+                                    svgIcon="heroicons_outline:inbox"
+                                ></mat-icon>
+                                <span> Send </span>
+                            </button>
+                        </div>
+                    </form>
+                </ng-container></ng-container
+            >
+            <ng-container *ngIf="series.length < 1">
+                <p class="text-xl font-semibold">
+                    Hiện tại chưa có series nào sẵn sàng để tạo request!
+                </p>
             </ng-container>
         </ng-container>
     </div>

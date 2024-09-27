@@ -46,12 +46,14 @@ export class ProjectService {
     // }
 
     getData(): Observable<any> {
-        return this._httpClient.get('/api/v1/production-plans/dashboard').pipe(
-            tap((response: any) => {
-                console.log(response);
+        return this._httpClient
+            .post('/api/v1/production-plans/dashboard', null)
+            .pipe(
+                tap((response: any) => {
+                    console.log(response);
 
-                this._data.next(response);
-            })
-        );
+                    this._data.next(response);
+                })
+            );
     }
 }

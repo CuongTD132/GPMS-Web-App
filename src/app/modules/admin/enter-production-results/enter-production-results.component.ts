@@ -23,6 +23,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { FuseAlertComponent } from '@fuse/components/alert';
+import { CustomPipeModule } from '@fuse/pipes/pipe.module';
 import { UserService } from 'app/core/user/user.service';
 import { Observable, Subject, map, startWith } from 'rxjs';
 import { ProcessService } from '../process/process.service';
@@ -56,6 +57,7 @@ export interface State {
         FuseAlertComponent,
         MatAutocompleteModule,
         MatExpansionModule,
+        CustomPipeModule,
     ],
 })
 export class ProductionResultComponent implements OnInit {
@@ -64,7 +66,7 @@ export class ProductionResultComponent implements OnInit {
     stepResultForm: FormGroup;
     totalIO: number = 0;
     inputOutputResults: InputOutputResult[] = [];
-    quantityForms: { [key: string]: FormGroup } = {}; // Object to hold form groups for each item
+    quantityForms: { [key: string]: FormGroup } = {};
     consumptionForms: { [key: string]: FormGroup } = {};
     productionPlans$: Observable<ProductionPlan[]>;
     productionPlans: ProductionPlan[] = [];
@@ -92,24 +94,6 @@ export class ProductionResultComponent implements OnInit {
     role: string = null;
     stateCtrl = new FormControl('');
     filteredStates: Observable<ProductionPlan[]>;
-    states: State[] = [
-        {
-            name: 'Arkansas',
-            population: '2.978M',
-        },
-        {
-            name: 'California',
-            population: '39.14M',
-        },
-        {
-            name: 'Florida',
-            population: '20.27M',
-        },
-        {
-            name: 'Texas',
-            population: '27.47M',
-        },
-    ];
 
     constructor(
         private _productionResultService: ProductionResultService,
@@ -134,6 +118,7 @@ export class ProductionResultComponent implements OnInit {
             (plan) => plan.code === event.option.value
         )[0].id;
         if (planId) {
+            this.resetFromProPlan();
             this._seriesService
                 .getSeriesInProcess(planId)
                 .subscribe((res) => (this.seriesList = res));
@@ -361,7 +346,7 @@ export class ProductionResultComponent implements OnInit {
                 .createStepResult(this.seriesId, this.stepResultForm.value)
                 .subscribe({
                     next: () => {
-                        this.resetAll(),
+                        this.resetFromSeries(),
                             this.showFlashMessage(
                                 'success',
                                 'Create production result successful',

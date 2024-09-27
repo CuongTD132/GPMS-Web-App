@@ -83,19 +83,17 @@ export class NotificationsComponent implements OnInit, OnDestroy {
             });
 
         onMessage(this._msg, (payload) => {
-            console.log(payload)
+            console.log(payload);
 
-            this._notificationsService
-                .create({
-                    id: payload.messageId,
-                    // read: false,
-                    createdDate: payload.data['google.c.a.ts'] ?? payload.data['CreatedDate'],
-                    title: payload.notification.title,
-                    body: payload.notification.body,
-                })
-                .subscribe((_) => {
-                    // this._calculateUnreadCount();
-                });
+            this._notificationsService.create({
+                id: payload.messageId,
+                isRead: false,
+                createdDate:
+                    payload.data['google.c.a.ts'] ??
+                    payload.data['createdDate'],
+                title: payload.notification.title,
+                body: payload.notification.body,
+            });
         });
     }
 
@@ -147,23 +145,25 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     /**
      * Mark all notifications as read
      */
-    // markAllAsRead(): void {
-    //     // Mark all as read
-    //     this._notificationsService.markAllAsRead().subscribe();
-    // }
+    markAllAsRead(): void {
+        // Mark all as read
+        this._notificationsService.markAllAsRead().subscribe();
+    }
 
     /**
      * Toggle read status of the given notification
      */
-    // toggleRead(notification: Notification): void {
-    //     // Toggle the read status
-    //     notification.read = !notification.read;
-
-    //     // Update the notification
-    //     this._notificationsService
-    //         .update(notification.id, notification)
-    //         .subscribe();
-    // }
+    toggleRead(notification: Notification): void {
+        // Toggle the read status
+        // notification.isRead = !notification.isRead;
+        if (notification.isRead) {
+            // Update the notification
+            this._notificationsService.unRead(notification.id).subscribe();
+        } else {
+            // Update the notification
+            this._notificationsService.read(notification.id).subscribe();
+        }
+    }
 
     /**
      * Delete the given notification

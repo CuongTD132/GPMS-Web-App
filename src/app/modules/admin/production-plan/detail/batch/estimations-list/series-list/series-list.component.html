@@ -24,7 +24,7 @@
                         <div class="hidden sm:block">Quantity</div>
                         <div class="hidden sm:block">Faulty Quantity</div>
                         <div class="hidden sm:block">Current Process</div>
-                        <div class="hidden sm:block">Current Status</div>
+                        <div class="hidden sm:block">Status</div>
                     </div>
                     <div class="max-h-100 overflow-y-scroll">
                         <ng-container *ngFor="let item of seriesList">
@@ -35,7 +35,7 @@
                                     {{ item.code }}
                                 </div>
                                 <div class="hidden sm:block">
-                                    {{ item.quantity }}
+                                    {{ item.quantity }} pcs
                                 </div>
                                 <div
                                     *ngIf="item.faultyQuantity === null"
@@ -47,7 +47,7 @@
                                     *ngIf="item.faultyQuantity !== null"
                                     class="hidden sm:block"
                                 >
-                                    {{ item.faultyQuantity }}
+                                    {{ item.faultyQuantity }} pcs
                                 </div>
                                 <div class="hidden sm:block">
                                     {{ item.currentProcess || 'Not Start' }}

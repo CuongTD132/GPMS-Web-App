@@ -15,15 +15,17 @@
         <div class="text-4xl font-extrabold tracking-tight">Materials</div>
         <!-- Actions -->
         <div class="mt-6 flex shrink-0 items-center gap-3 sm:ml-4 sm:mt-0">
-            <button
-                (click)="openCreateMaterialDialog()"
-                mat-raised-button
-                class="flex min-w-fit gap-2"
-                color="primary"
-            >
-                <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
-                <span> Create </span>
-            </button>
+            <ng-container *ngIf="role === 'ProductionManager'">
+                <button
+                    (click)="openCreateMaterialDialog()"
+                    mat-raised-button
+                    class="flex min-w-fit gap-2"
+                    color="primary"
+                >
+                    <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
+                    <span> Create </span>
+                </button>
+            </ng-container>
 
             <div class="flex gap-3" [formGroup]="filterForm">
                 <div>
@@ -62,7 +64,9 @@
                     matSort
                     matSortDisableClear
                 >
-                    <div class="hidden sm:block">Action</div>
+                    <ng-container *ngIf="role === 'ProductionManager'">
+                        <div class="hidden sm:block">Action</div></ng-container
+                    >
                     <!-- <div class="hidden sm:block">Thumbnail</div> -->
                     <div class="hidden sm:block">Code</div>
                     <div class="hidden sm:block">Name</div>
@@ -79,26 +83,27 @@
                         <div
                             class="material-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
                         >
-                            <!-- Id -->
-                            <div class="hidden sm:block">
-                                <div class="flex gap-3">
-                                    <span
-                                        (click)="
-                                            openMaterialDetailDialog(
-                                                material.id
-                                            )
-                                        "
-                                    >
-                                        <mat-icon
-                                            class="cursor-pointer text-blue-500 icon-size-5"
-                                            [svgIcon]="
-                                                'heroicons_outline:pencil-square'
+                            <ng-container *ngIf="role === 'ProductionManager'">
+                                <!-- Id -->
+                                <div class="hidden sm:block">
+                                    <div class="flex gap-3">
+                                        <span
+                                            (click)="
+                                                openMaterialDetailDialog(
+                                                    material.id
+                                                )
                                             "
-                                        ></mat-icon>
-                                    </span>
+                                        >
+                                            <mat-icon
+                                                class="cursor-pointer text-blue-500 icon-size-5"
+                                                [svgIcon]="
+                                                    'heroicons_outline:pencil-square'
+                                                "
+                                            ></mat-icon>
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
-
+                            </ng-container>
                             <!-- <div class="flex items-center">
                                 <div
                                     class="relative mr-6 flex h-12 w-12 flex-0 items-center justify-center overflow-hidden rounded border"

@@ -237,14 +237,14 @@ export class ProductionPlanService {
     /**
      * Decline productionPlan
      */
-    declineProductionPlan(id: string) {
+    declineProductionPlan(id: string, data) {
         return this.productionPlanPatch$.pipe(
             take(1),
             switchMap(() =>
                 this._httpClient
                     .patch<Patch>(
                         '/api/v1/production-plans/' + id + '/decline',
-                        null
+                        data
                     )
                     .pipe(
                         tap((response) => {

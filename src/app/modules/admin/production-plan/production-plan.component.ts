@@ -29,9 +29,11 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { FuseAlertComponent } from '@fuse/components/alert';
 import { CustomPipeModule } from '@fuse/pipes/pipe.module';
+import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { UserService } from 'app/core/user/user.service';
 import { Pagination } from 'app/types/pagination.type';
 import {
@@ -72,6 +74,7 @@ import { ProductionPlanService } from './production-plan.service';
         RouterModule,
         MatProgressBar,
         MatMenuModule,
+        MatTooltipModule,
         CustomPipeModule,
     ],
 })
@@ -101,7 +104,8 @@ export class ProductionPlanComponent implements OnInit, AfterViewInit {
         private _formBuilder: UntypedFormBuilder,
         private _userService: UserService,
         private _dialog: MatDialog,
-        private dateAdapter: DateAdapter<Date>
+        private dateAdapter: DateAdapter<Date>,
+        private _fuseConfirmationService: FuseConfirmationService
     ) {}
 
     ngOnInit(): void {
@@ -265,6 +269,26 @@ export class ProductionPlanComponent implements OnInit, AfterViewInit {
                     }
                 });
         });
+    }
+
+    showConfirmDialog(id: string, name: string) {
+        this._fuseConfirmationService
+            .open({
+                title: 'Are you sure?',
+                message: 'This action will delete ' + name,
+                icon: {
+                    color: 'error',
+                    name: 'heroicons_outline:trash',
+                },
+            })
+            .afterClosed()
+            .subscribe((result) => {
+                if (result === 'confirmed') {
+                    this.deleteProductionPlan(id);
+                }
+                if (result === 'cancelled') {
+                }
+            });
     }
 
     deleteProductionPlan(id: string) {

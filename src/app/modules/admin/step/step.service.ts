@@ -100,7 +100,7 @@ export class StepService {
                             id +
                             '/series/' +
                             seriesId +
-                            '/step-input-outputs/step-results/filter'
+                            '/step-input-outputs/step-results'
                     )
                     .pipe(
                         map((stepIO) => {

@@ -112,9 +112,9 @@
                                         <!-- Status -->
                                         <div class="hidden sm:block">
                                             {{
-                                                getFormattedDate(
-                                                    item.createdDate
-                                                )
+                                                item.createdDate
+                                                    | date
+                                                        : 'MMM dd YYYY, h:mm a'
                                             }}
                                         </div>
 
@@ -177,6 +177,7 @@
                                                 class="flex items-center gap-2"
                                             >
                                                 <button
+                                                    class="flex items-center rounded-full"
                                                     (click)="approve(item.id)"
                                                     mat-menu-item
                                                 >
@@ -187,6 +188,7 @@
                                                     ></mat-icon>
                                                 </button>
                                                 <button
+                                                    class="flex items-center rounded-full"
                                                     (click)="decline(item.id)"
                                                     mat-menu-item
                                                 >
@@ -230,7 +232,7 @@
                                                         - Size
                                                         {{ req.size }} -
                                                         Quantity:
-                                                        {{ req.quantity }}
+                                                        {{ req.quantity }} pcs
                                                     </p>
                                                 </div>
                                             </div>
@@ -296,11 +298,10 @@
                                                     <p>
                                                         - Ngày tạo ticket:
                                                         {{
-                                                            getFormattedDate(
-                                                                req
-                                                                    .warehouseTicket
-                                                                    .createdDate
-                                                            )
+                                                            req.warehouseTicket
+                                                                .createdDate
+                                                                | date
+                                                                    : 'MMM dd YYYY, h:mm a'
                                                         }}
                                                     </p>
                                                 </div>

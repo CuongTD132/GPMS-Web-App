@@ -94,8 +94,7 @@
                     <div class="hidden sm:block">Actions</div>
                     <div class="hidden sm:block">Code</div>
                     <div class="hidden sm:block">Name</div>
-                    <div class="hidden sm:block">Expected Starting Date</div>
-                    <div class="hidden sm:block">Due Date</div>
+                    <div class="hidden sm:block">Timeline</div>
                     <div class="hidden sm:block">Status</div>
                     <div class="hidden sm:block">Type</div>
                 </div>
@@ -129,15 +128,12 @@
                                         ></mat-icon>
                                     </span>
                                     <ng-container
-                                        *ngIf="role === 'FactoryDirector'"
+                                        *ngIf="
+                                            role === 'FactoryDirector' &&
+                                            productionPlan.status === 'Approved'
+                                        "
                                     >
-                                        <span
-                                            *ngIf="
-                                                productionPlan.status ===
-                                                'Approved'
-                                            "
-                                            [matMenuTriggerFor]="menu"
-                                        >
+                                        <span [matMenuTriggerFor]="menu">
                                             <mat-icon
                                                 class="cursor-pointer text-blue-500 icon-size-5"
                                                 svgIcon="heroicons_outline:ellipsis-horizontal-circle"
@@ -145,8 +141,9 @@
                                             <mat-menu #menu="matMenu">
                                                 <button
                                                     (click)="
-                                                        deleteProductionPlan(
-                                                            productionPlan.id
+                                                        showConfirmDialog(
+                                                            productionPlan.id,
+                                                            productionPlan.name
                                                         )
                                                     "
                                                     mat-menu-item
@@ -169,22 +166,17 @@
                             </div>
 
                             <!-- Name -->
-                            <div class="hidden truncate sm:block">
+                            <div
+                                class="hidden truncate sm:block"
+                                matTooltip="{{ productionPlan.name }}"
+                            >
                                 {{ productionPlan.name }}
                             </div>
 
                             <!-- Status -->
                             <div class="hidden sm:block">
-                                {{
-                                    getFormattedDate(
-                                        productionPlan.expectedStartingDate
-                                    )
-                                }}
-                            </div>
-
-                            <!-- Status -->
-                            <div class="hidden sm:block">
-                                {{ getFormattedDate(productionPlan.dueDate) }}
+                                {{ productionPlan.expectedStartingDate | date }}
+                                - {{ productionPlan.dueDate | date }}
                             </div>
 
                             <div class="hidden sm:block">
@@ -192,8 +184,31 @@
                                     [class]="
                                         productionPlan.status | statusClass
                                     "
-                                >
-                                    {{ productionPlan.status }}
+                                    ><ng-container
+                                        *ngIf="
+                                            productionPlan.status === 'Approved'
+                                        "
+                                    >
+                                        Waiting for production
+                                    </ng-container>
+                                    <ng-container
+                                        *ngIf="
+                                            productionPlan.status ===
+                                            'InProgress'
+                                        "
+                                    >
+                                        In Progress
+                                    </ng-container>
+                                    <ng-container
+                                        *ngIf="
+                                            productionPlan.status !==
+                                                'Approved' &&
+                                            productionPlan.status !==
+                                                'InProgress'
+                                        "
+                                    >
+                                        {{ productionPlan.status }}
+                                    </ng-container>
                                 </span>
                             </div>
 

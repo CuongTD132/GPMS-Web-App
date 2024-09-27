@@ -15,18 +15,22 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FuseAlertComponent } from '@fuse/components/alert';
+import { CarouselModule } from '@fuse/components/carousel/carousel.module';
 import { CustomPipeModule } from '@fuse/pipes/pipe.module';
+import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { UserService } from 'app/core/user/user.service';
 import { ProcessService } from '../../process/process.service';
 import { SemiService } from '../../semi/semi.service';
 import { SpecificationService } from '../../specification/specification.service';
 import { StepService } from '../../step/step.service';
 import { ProductService } from '../product.service';
+import { DeclineComponent } from './decline/decline.component';
 import { StepDetailComponent } from './step-detail/step-detail.component';
 
 @Component({
@@ -50,7 +54,9 @@ import { StepDetailComponent } from './step-detail/step-detail.component';
         RouterModule,
         MatExpansionModule,
         MatTooltipModule,
+        MatMenuModule,
         FuseAlertComponent,
+        CarouselModule,
     ],
 })
 export class ProductDetailComponent implements OnInit {
@@ -67,6 +73,7 @@ export class ProductDetailComponent implements OnInit {
     message: string = null;
     role: string = null;
     constructor(
+        private _router: Router,
         private _productService: ProductService,
         private _specificationsService: SpecificationService,
         private _processService: ProcessService,
@@ -74,7 +81,8 @@ export class ProductDetailComponent implements OnInit {
         private _dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef,
         private _stepService: StepService,
-        private _userService: UserService
+        private _userService: UserService,
+        private _fuseConfirmationService: FuseConfirmationService
     ) {}
 
     ngOnInit(): void {
@@ -88,16 +96,100 @@ export class ProductDetailComponent implements OnInit {
             });
         });
     }
-
+    showConfirmDialog(id: string) {
+        this._fuseConfirmationService
+            .open({
+                title: 'Are you sure?',
+                message: 'This action will delete this product',
+                icon: {
+                    color: 'error',
+                    name: 'heroicons_outline:trash',
+                },
+            })
+            .afterClosed()
+            .subscribe((result) => {
+                if (result === 'confirmed') {
+                    this.deleteProduct(id);
+                }
+                if (result === 'cancelled') {
+                }
+            });
+    }
     approveProduct(id: string) {
-        this._productService.approveProduct(id).subscribe(() => {
-            this._productService.getProducts().subscribe();
+        this._productService.approveProduct(id).subscribe({
+            next: () => {
+                this._productService.getProducts().subscribe((res) => {
+                    this.showFlashMessage(
+                        'success',
+                        'Product has been aprrove successful',
+                        3000
+                    );
+                    setTimeout(() => {
+                        this._router.navigate(['/products']);
+                    }, 1000);
+                });
+            },
+            error: () =>
+                this.showFlashMessage(
+                    'error',
+                    'Product has been aprrove failed',
+                    3000
+                ),
         });
     }
 
-    declineProduct(id: string) {
-        this._productService.declineProduct(id).subscribe(() => {
-            this._productService.getProducts().subscribe();
+    decline(id: string): void {
+        this._dialog
+            .open(DeclineComponent, {
+                width: '720px',
+                data: id,
+            })
+            .afterClosed()
+            .subscribe((result) => {
+                console.log(result);
+
+                if (result === 'success') {
+                    this._productService.getProducts().subscribe((res) => {
+                        this.showFlashMessage(
+                            'success',
+                            'Product has been decline successful',
+                            3000
+                        );
+                        setTimeout(() => {
+                            this._router.navigate(['/products']);
+                        }, 1000);
+                    });
+                }
+                if (result === 'error') {
+                    this.showFlashMessage(
+                        'error',
+                        'Product has been decline failed',
+                        3000
+                    );
+                }
+            });
+    }
+
+    deleteProduct(id: string) {
+        this._productService.deleteProduct(id).subscribe({
+            next: () => {
+                this._productService.getProducts().subscribe((res) => {
+                    this.showFlashMessage(
+                        'success',
+                        'Product has been delete successful',
+                        3000
+                    );
+                    setTimeout(() => {
+                        this._router.navigate(['/products']);
+                    }, 1000);
+                });
+            },
+            error: () =>
+                this.showFlashMessage(
+                    'error',
+                    'Product has been delete failed',
+                    3000
+                ),
         });
     }
 
@@ -108,35 +200,58 @@ export class ProductDetailComponent implements OnInit {
         }
 
         const allowedTypes = ['image/jpeg', 'image/png'];
-        const file = fileList[0];
-
-        // Return if the file is not allowed
-        if (!allowedTypes.includes(file.type)) {
-            return;
-        }
+        // const file = fileList[0];
+        // // Return if the file is not allowed
+        // if (!allowedTypes.includes(file.type)) {
+        //     return;
+        // }
+        // const formData = new FormData();
+        // if (file) {
+        //     formData.append('imageURLs', file);
+        //     this._productService.uploadSpecImg(id, formData).subscribe({
+        //         next: () => {
+        //             this._productService.getProductById(proId).subscribe();
+        //             this._productService.getProducts().subscribe();
+        //             this.showFlashMessage(
+        //                 'success',
+        //                 'Image has been upload successful',
+        //                 3000
+        //             );
+        //         },
+        //         error: () =>
+        //             this.showFlashMessage(
+        //                 'error',
+        //                 'Image has been upload failed',
+        //                 3000
+        //             ),
+        //     });
+        // }
         const formData = new FormData();
-
-        if (file) {
-            formData.append('imageURLs', file);
-            // Upload the avatar
-            this._productService.uploadSpecImg(id, formData).subscribe({
-                next: () => {
-                    this._productService.getProductById(proId).subscribe();
-
-                    this.showFlashMessage(
-                        'success',
-                        'Image has been upload successful',
-                        3000
-                    );
-                },
-                error: () =>
-                    this.showFlashMessage(
-                        'error',
-                        'Image has been upload failed',
-                        3000
-                    ),
-            });
+        for (let i = 0; i < fileList.length; i++) {
+            if (allowedTypes.includes(fileList.item(i).type)) {
+            formData.append('imageURLs', fileList.item(i));
+            }
         }
+
+// Upload the avatar
+        this._productService.uploadSpecImg(id, formData).subscribe({
+            next: () => {
+                this._productService.getProductById(proId).subscribe();
+                this._productService.getProducts().subscribe();
+                this.showFlashMessage(
+                    'success',
+                    'Image has been upload successful',
+                    3000
+                );
+            },
+            error: () =>
+                this.showFlashMessage(
+                    'error',
+                    'Image has been upload failed',
+                    3000
+                ),
+        });
+
     }
 
     private showFlashMessage(

@@ -3,9 +3,9 @@
 }
 
 .production-plans-grid {
-    grid-template-columns: 120px auto 160px 120px 100px 50px;
+    grid-template-columns: 120px auto 210px 100px 50px;
 }
 
 .production-plans-header-grid {
-    grid-template-columns: 120px auto 160px 120px 100px 60px;
+    grid-template-columns: 120px auto 210px 100px 60px;
 }
