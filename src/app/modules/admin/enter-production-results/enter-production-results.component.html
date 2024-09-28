@@ -31,7 +31,7 @@
                     <mat-option [value]="item.code">
                         <div class="flex items-center">
                             <span
-                                class="mr-1"
+                                class="mr-1 w-fit text-nowrap"
                                 [class]="item.status | statusClass"
                             >
                                 <ng-container
@@ -81,9 +81,16 @@
                                 <p>
                                     {{ item.code }} - Required
                                     {{ item.quantity }} pcs size {{ item.size }}
-                                    <ng-container *ngIf="item.currentProcess">
-                                        - Current Process:
-                                        {{ item.currentProcess }}
+                                    - Status:
+                                    <ng-container
+                                        *ngIf="item.status === 'InProduction'"
+                                    >
+                                        In production
+                                    </ng-container>
+                                    <ng-container
+                                        *ngIf="item.status !== 'InProduction'"
+                                    >
+                                        {{ item.status }}
                                     </ng-container>
                                 </p>
                             </div>

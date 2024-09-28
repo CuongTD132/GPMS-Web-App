@@ -88,6 +88,7 @@ export class ProductionResultComponent implements OnInit {
     selectedProcess: string = null;
     selectedStep: string = null;
     selectedStepIO: string = null;
+    planId: string = null;
     flashMessage: 'success' | 'error' | null = null;
     message: string = null;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -114,14 +115,19 @@ export class ProductionResultComponent implements OnInit {
     }
 
     planSelectHandle(event: MatAutocompleteSelectedEvent): void {
-        const planId = this.productionPlans.filter(
+        this.planId = this.productionPlans.filter(
             (plan) => plan.code === event.option.value
         )[0].id;
-        if (planId) {
+        if (this.planId) {
             this.resetFromProPlan();
             this._seriesService
-                .getSeriesInProcess(planId)
-                .subscribe((res) => (this.seriesList = res));
+                .getSeriesInProcess(this.planId)
+                .subscribe((res) => {
+                    this.seriesList = res;
+                    this.seriesList = this.seriesList.filter(
+                        (series) => series.status !== 'InInspection'
+                    );
+                });
         }
     }
 
@@ -313,10 +319,8 @@ export class ProductionResultComponent implements OnInit {
 
     resetAll(): void {
         this.getProductionPlans();
-        this.selectedColor = null;
-        this.selectedProPlan = null;
 
-        this.productionPlan$ = null;
+        this.selectedColor = null;
         this.selectedProReqs = null;
 
         this.estimationsList = null;
@@ -333,7 +337,6 @@ export class ProductionResultComponent implements OnInit {
 
         this.stepIOsList = null;
         this.selectedStepIO = null;
-        this.inputOutputResults = [];
     }
 
     submit() {
@@ -347,11 +350,12 @@ export class ProductionResultComponent implements OnInit {
                 .subscribe({
                     next: () => {
                         this.resetFromSeries(),
-                            this.showFlashMessage(
-                                'success',
-                                'Create production result successful',
-                                3000
-                            );
+                            this.getProcessesList(this.selectedSeries);
+                        this.showFlashMessage(
+                            'success',
+                            'Create production result successful',
+                            3000
+                        );
                     },
                     error: () => {
                         this.showFlashMessage(
@@ -386,7 +390,6 @@ export class ProductionResultComponent implements OnInit {
 
     resetFromSeries(): void {
         this.selectedProcess = null;
-
         this.stepsList = null;
         this.selectedStep = null;
 
@@ -410,7 +413,30 @@ export class ProductionResultComponent implements OnInit {
         this._processService
             .getProcessListBySeriesId(id)
             .subscribe((processes) => {
-                (this.processesList = processes), this.resetFromSeries();
+                this.processesList = processes;
+                this.inputOutputResults = [];
+
+                if (
+                    this.processesList.length === 3 &&
+                    this.processesList[0].haveResult === true
+                ) {
+                    this.resetFromProPlan();
+                    this._seriesService
+                        .getSeriesInProcess(this.planId)
+                        .subscribe((res) => {
+                            this.seriesList = res;
+                            this.seriesList = this.seriesList.filter(
+                                (series) => series.status !== 'InInspection'
+                            );
+
+                            if (this.seriesList.length === 0) {
+                                this.stateCtrl.setValue('');
+                                this.resetAll();
+                            }
+                        });
+                } else {
+                    this.resetFromSeries();
+                }
             });
     }
 

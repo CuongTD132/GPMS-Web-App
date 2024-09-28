@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CarouselComponent } from './carousel.component';
 import { MatIcon } from '@angular/material/icon';
+import { CarouselComponent } from './carousel.component';
 
 @NgModule({
     declarations: [CarouselComponent],
