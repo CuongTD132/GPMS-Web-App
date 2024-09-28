@@ -130,7 +130,7 @@ export class ProductFormService {
                                 stepIOs: inject(FormBuilder).array(
                                     [
                                         inject(FormBuilder).group({
-                                            quantity: [1, [Validators.min(1)]],
+                                            quantity: [0, [Validators.min(1)]],
                                             consumption: [
                                                 1,
                                                 [
