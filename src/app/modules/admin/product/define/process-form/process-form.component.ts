@@ -73,7 +73,7 @@ export class ProcessFormComponent {
 
     ngAfterContentChecked() {
         this.specifications = this.form.controls.specifications;
-        this.getSelectedMaterials();
+        this.updateSelectedMaterials();
         this._cdRef.detectChanges();
     }
 
@@ -113,12 +113,18 @@ export class ProcessFormComponent {
                     .at(processIndex)
                     .controls.steps.at(stepIndex)
                     .controls.stepIOs.at(stepIOIndex)
-                    .controls.materialId.setValidators([Validators.required]);
+                    .controls.materialId.setValidators([
+                        Validators.required,
+                        Validators.minLength(1),
+                    ]);
                 this.processes
                     .at(processIndex)
                     .controls.steps.at(stepIndex)
                     .controls.stepIOs.at(stepIOIndex)
-                    .controls.consumption.setValidators([Validators.required]);
+                    .controls.consumption.setValidators([
+                        Validators.required,
+                        Validators.min(0.1),
+                    ]);
                 this.processes
                     .at(processIndex)
                     .controls.steps.at(stepIndex)
@@ -144,7 +150,7 @@ export class ProcessFormComponent {
                     .controls.steps.at(stepIndex)
                     .controls.stepIOs.at(stepIOIndex)
                     .controls.quantity.setValue(null);
-                this.getSelectedMaterials();
+                this.updateSelectedMaterials();
                 console.log(this.selectedMaterials);
                 break;
             case 'Semi':
@@ -154,12 +160,16 @@ export class ProcessFormComponent {
                     .controls.stepIOs.at(stepIOIndex)
                     .controls.semiFinishedProductCode.setValidators([
                         Validators.required,
+                        Validators.minLength(1),
                     ]);
                 this.processes
                     .at(processIndex)
                     .controls.steps.at(stepIndex)
                     .controls.stepIOs.at(stepIOIndex)
-                    .controls.quantity.setValidators([Validators.required]);
+                    .controls.quantity.setValidators([
+                        Validators.required,
+                        Validators.min(1),
+                    ]);
                 this.processes
                     .at(processIndex)
                     .controls.steps.at(stepIndex)
@@ -250,18 +260,20 @@ export class ProcessFormComponent {
         stepIOIndex: number,
         event: MatSelectChange
     ) {
-        const consumptionOfBom = this.selectedMaterials.find(
-            (selected) => selected.id === event.value
-        ).consumption;
+        if (event.value !== '' || event.value) {
+            const consumptionOfBom = this.selectedMaterials.find(
+                (selected) => selected.id === event.value
+            ).consumption;
 
-        this.processes
-            .at(processIndex)
-            .controls.steps.at(stepIndex)
-            .controls.stepIOs.at(stepIOIndex)
-            .controls.consumption.setValue(consumptionOfBom);
+            this.processes
+                .at(processIndex)
+                .controls.steps.at(stepIndex)
+                .controls.stepIOs.at(stepIOIndex)
+                .controls.consumption.setValue(consumptionOfBom);
+        }
     }
 
-    getSelectedMaterials() {
+    updateSelectedMaterials() {
         const materialList = [];
         this.specifications.value.map((specification) =>
             specification.boMs.map((bom) =>
@@ -300,8 +312,11 @@ export class ProcessFormComponent {
                 })
             )
         );
+        this.selectedMaterials = materialList.filter(ml => ml.id !== '');
+    }
 
-        this.selectedMaterials = materialList;
+    trackByFn(index: number, item: any) {
+        return item.id; // Use a unique identifier
     }
 
     addProcess() {
@@ -314,7 +329,10 @@ export class ProcessFormComponent {
                 Validators.required,
                 Validators.minLength(3),
             ]),
-            orderNumber: new FormControl(1, [Validators.required, Validators.min(1)]),
+            orderNumber: new FormControl(1, [
+                Validators.required,
+                Validators.min(1),
+            ]),
             description: new FormControl('', []),
             type: new FormControl('', [Validators.required]),
             steps: new FormArray(
@@ -328,15 +346,30 @@ export class ProcessFormComponent {
                             Validators.required,
                             Validators.minLength(3),
                         ]),
-                        orderNumber: new FormControl(1, [Validators.required, Validators.min(1)]),
-                        standardTime: new FormControl(1, [Validators.required, Validators.min(0.1)]),
-                        outputPerHour: new FormControl(1, [Validators.required, Validators.min(0.1)]),
+                        orderNumber: new FormControl(1, [
+                            Validators.required,
+                            Validators.min(1),
+                        ]),
+                        standardTime: new FormControl(1, [
+                            Validators.required,
+                            Validators.min(0.1),
+                        ]),
+                        outputPerHour: new FormControl(1, [
+                            Validators.required,
+                            Validators.min(0.1),
+                        ]),
                         description: new FormControl('', []),
                         stepIOs: new FormArray(
                             [
                                 new FormGroup({
-                                    quantity: new FormControl(1, [Validators.required, Validators.min(1)]),
-                                    consumption: new FormControl(1, [Validators.required, Validators.min(0.1)]),
+                                    quantity: new FormControl(1, [
+                                        Validators.required,
+                                        Validators.min(1),
+                                    ]),
+                                    consumption: new FormControl(1, [
+                                        Validators.required,
+                                        Validators.min(0.1),
+                                    ]),
                                     isProduct: new FormControl(false, [
                                         Validators.required,
                                     ]),

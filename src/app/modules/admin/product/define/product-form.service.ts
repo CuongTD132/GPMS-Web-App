@@ -58,7 +58,7 @@ export class ProductFormService {
                                     [Validators.required, Validators.min(0.1)],
                                 ],
                                 description: ['', []],
-                                materialId: ['', [Validators.required]],
+                                materialId: ['', [Validators.required, Validators.minLength(1)]],
                             }),
                         ],
                         [Validators.required, Validators.minLength(1)]
@@ -130,13 +130,7 @@ export class ProductFormService {
                                 stepIOs: inject(FormBuilder).array(
                                     [
                                         inject(FormBuilder).group({
-                                            quantity: [
-                                                1,
-                                                [
-                                                    Validators.required,
-                                                    Validators.min(1),
-                                                ],
-                                            ],
+                                            quantity: [1, [Validators.min(1)]],
                                             consumption: [
                                                 1,
                                                 [
@@ -152,7 +146,10 @@ export class ProductFormService {
                                                 'Input',
                                                 [Validators.required],
                                             ],
-                                            materialId: ['', []],
+                                            materialId: [
+                                                '',
+                                                [Validators.required, Validators.minLength(1)],
+                                            ],
                                             semiFinishedProductCode: ['', []],
                                         }),
                                     ],

@@ -36,6 +36,15 @@ export class SpecificationFormComponent {
     specifications = this.form.controls.specifications;
     sizes: string[];
     materials: Material[];
+    selectedMaterials: {
+        id: string;
+        name: string;
+        sizeName: string;
+        colorCode: string;
+        color: string;
+        sizeWidth: number;
+        sizeWidthUnit: string;
+    }[] = [];
 
     constructor(
         private _activatedRoute: ActivatedRoute,
@@ -50,7 +59,84 @@ export class SpecificationFormComponent {
 
     ngAfterContentChecked() {
         this.specifications = this.form.controls.specifications;
+        this.updateSelectedMaterials();
         this.cdref.detectChanges();
+    }
+
+    getSelectedMaterials(sizeName: string, colorCode: string) {
+        const newList = this.selectedMaterials.filter(
+            (selected) =>
+                selected.sizeName == sizeName && selected.colorCode == colorCode
+        );
+
+        this.specifications.value
+            .find(
+                (specification) =>
+                    specification.sizeName === sizeName &&
+                    specification.colorCode === colorCode
+            )
+            .qualityStandards.map((qualityStandard) => {
+                qualityStandard.materialId &&
+                    this.selectedMaterials.filter(
+                        (sm) => sm.id === qualityStandard.materialId
+                    ).length === 0 &&
+                    (qualityStandard.materialId = '');
+                console.log(qualityStandard.materialId);
+            });
+
+        return newList;
+    }
+
+    trackByFn(index: number, item: any) {
+        return item.id; // Use a unique identifier
+    }
+
+    updateSelectedMaterials() {
+        const materialList: {
+            id: string;
+            name: string;
+            sizeName: string;
+            colorCode: string;
+            color: string;
+            sizeWidth: number;
+            sizeWidthUnit: string;
+        }[] = [];
+        this.specifications.value.map((specification) =>
+            specification.boMs.map((bom) =>
+                materialList.push({
+                    id: bom.materialId,
+                    sizeName: specification.sizeName,
+                    colorCode: specification.colorCode,
+                    color:
+                        this.materials.find(
+                            (material) => material.id === bom.materialId
+                        )?.colorCode ?? '',
+                    name:
+                        this.materials.find(
+                            (material) => material.id === bom.materialId
+                        )?.name ?? '',
+                    sizeWidth: bom.sizeWidth,
+                    sizeWidthUnit:
+                        this.materials.find(
+                            (material) => material.id === bom.materialId
+                        )?.sizeWidthUnit ?? '',
+                })
+            )
+        );
+        // this.processes.value.map((process) =>
+        //     process.steps.map((step) =>
+        //         step.stepIOs.map((stepIO) => {
+        //             stepIO.materialId &&
+        //                 array1.map(
+        //                     (array) =>
+        //                         stepIO.materialId === array.id &&
+        //                         (stepIO.materialId = '')
+        //                 );
+        //         })
+        //     )
+        // );
+
+        this.selectedMaterials = materialList;
     }
 
     addSpecification() {

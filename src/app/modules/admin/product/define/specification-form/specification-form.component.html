@@ -854,13 +854,82 @@
                                                                         <mat-select
                                                                             formControlName="materialId"
                                                                         >
-                                                                            @for (
-                                                                                material of materials;
+                                                                            <mat-option
+                                                                                [selected]="
+                                                                                    qualityStandard
+                                                                                        .controls
+                                                                                        .materialId ===
+                                                                                    ''
+                                                                                "
+                                                                                [value]="
+                                                                                    ''
+                                                                                "
+                                                                            ></mat-option>
+                                                                            <mat-option
+                                                                                *ngFor="
+                                                                                    let selectedMaterial of getSelectedMaterials(
+                                                                                        specification
+                                                                                            .controls
+                                                                                            .sizeName
+                                                                                            .value,
+                                                                                        specification
+                                                                                            .controls
+                                                                                            .colorCode
+                                                                                            .value
+                                                                                    );
+                                                                                    trackBy: trackByFn
+                                                                                "
+                                                                                [value]="
+                                                                                    selectedMaterial.id
+                                                                                "
+                                                                            >
+                                                                                <div
+                                                                                    class="flex w-full items-center justify-between gap-1"
+                                                                                >
+                                                                                    <p>
+                                                                                        {{
+                                                                                            selectedMaterial.name
+                                                                                        }}
+                                                                                        -
+                                                                                        SizeWidth:
+                                                                                        {{
+                                                                                            selectedMaterial.sizeWidth
+                                                                                        }}
+                                                                                        {{
+                                                                                            selectedMaterial.sizeWidthUnit
+                                                                                        }}
+                                                                                        -
+                                                                                        Color:
+                                                                                        {{
+                                                                                            selectedMaterial.color
+                                                                                        }}
+                                                                                    </p>
+                                                                                    <div
+                                                                                        class="h-4 w-4 rounded-full"
+                                                                                        [ngStyle]="{
+                                                                                            backgroundColor:
+                                                                                                selectedMaterial.color,
+                                                                                        }"
+                                                                                    ></div>
+                                                                                </div>
+                                                                            </mat-option>
+
+                                                                            <!-- @for (
+                                                                                selectedMaterial of getSelectedMaterials(
+                                                                                    specification
+                                                                                        .controls
+                                                                                        .sizeName
+                                                                                        .value,
+                                                                                    specification
+                                                                                        .controls
+                                                                                        .colorCode
+                                                                                        .value
+                                                                                );
                                                                                 track $index
                                                                             ) {
                                                                                 <mat-option
-                                                                                    [value]="
-                                                                                        material.id
+                                                                                    [(value)]="
+                                                                                        selectedMaterial.id
                                                                                     "
                                                                                 >
                                                                                     <div
@@ -868,29 +937,32 @@
                                                                                     >
                                                                                         <p>
                                                                                             {{
-                                                                                                material.name
+                                                                                                selectedMaterial.name
                                                                                             }}
                                                                                             -
-                                                                                            Size:
+                                                                                            SizeWidth:
                                                                                             {{
-                                                                                                material.sizeWidthUnit
+                                                                                                selectedMaterial.sizeWidth
+                                                                                            }}
+                                                                                            {{
+                                                                                                selectedMaterial.sizeWidthUnit
                                                                                             }}
                                                                                             -
                                                                                             Color:
                                                                                             {{
-                                                                                                material.colorCode
+                                                                                                selectedMaterial.color
                                                                                             }}
                                                                                         </p>
                                                                                         <div
                                                                                             class="h-4 w-4 rounded-full"
                                                                                             [ngStyle]="{
                                                                                                 backgroundColor:
-                                                                                                    material.colorCode,
+                                                                                                    selectedMaterial.color,
                                                                                             }"
                                                                                         ></div>
                                                                                     </div>
                                                                                 </mat-option>
-                                                                            }
+                                                                            } -->
                                                                         </mat-select>
                                                                         @if (
                                                                             qualityStandard
