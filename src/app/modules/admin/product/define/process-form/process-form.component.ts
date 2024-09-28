@@ -17,7 +17,6 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../../product.service';
 import { ProductFormService } from '../product-form.service';
-import { log } from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
 
 @Component({
     standalone: true,
@@ -82,9 +81,9 @@ export class ProcessFormComponent {
         console.log('Submitting', this.form.value);
         this._productService.createProduct(this.form.value).subscribe(() => {
             this.showFlashMessage('success', 'Create product successful', 3000);
-            setInterval(() => {
+            setTimeout(() => {
                 this._router.navigate(['/products']);
-            }, 3000);
+            }, 1000);
         });
     }
 
