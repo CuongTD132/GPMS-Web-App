@@ -244,12 +244,12 @@ export class ProcessFormComponent {
                     .controls.quantity.setValue(1);
                 break;
         }
-        //console.log(
-            this.processes
-                .at(processIndex)
-                .controls.steps.at(stepIndex)
-                .controls.stepIOs.at(stepIOIndex)
-        );
+        // console.log(
+        //     this.processes
+        //         .at(processIndex)
+        //         .controls.steps.at(stepIndex)
+        //         .controls.stepIOs.at(stepIOIndex)
+        // );
     }
 
     // comment for build
@@ -312,7 +312,7 @@ export class ProcessFormComponent {
                 })
             )
         );
-        this.selectedMaterials = materialList.filter(ml => ml.id !== '');
+        this.selectedMaterials = materialList.filter((ml) => ml.id !== '');
     }
 
     trackByFn(index: number, item: any) {
