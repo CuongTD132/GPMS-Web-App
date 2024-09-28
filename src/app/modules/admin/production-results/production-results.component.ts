@@ -148,7 +148,7 @@ export class ProductionResultComponent implements OnInit {
                 }
             }
         }
-        console.log(this.totalIO);
+        //console.log(this.totalIO);
     }
 
     initForms() {
@@ -222,7 +222,7 @@ export class ProductionResultComponent implements OnInit {
                     quantity: quantityValue,
                 });
             }
-            console.log(this.inputOutputResults);
+            //console.log(this.inputOutputResults);
         }
     }
 
@@ -244,7 +244,7 @@ export class ProductionResultComponent implements OnInit {
                     consumption: consumptionValue,
                 });
             }
-            console.log(this.inputOutputResults);
+            //console.log(this.inputOutputResults);
         }
     }
 
@@ -277,7 +277,7 @@ export class ProductionResultComponent implements OnInit {
         this.stepResultForm.controls['inputOutputResults'].setValue(
             this.inputOutputResults
         );
-        console.log(this.stepResultForm.value);
+        //console.log(this.stepResultForm.value);
         if (this.stepResultForm.valid) {
             this._stepService
                 .createStepResult(this.seriesId, this.stepResultForm.value)
@@ -302,15 +302,15 @@ export class ProductionResultComponent implements OnInit {
     }
 
     logProPlan(): void {
-        console.log(this.selectedProPlan);
+        //console.log(this.selectedProPlan);
     }
 
     logProReqs(): void {
-        console.log(this.selectedProReqs);
+        //console.log(this.selectedProReqs);
     }
 
     logEstimation(): void {
-        console.log(this.selectedEstimation);
+        //console.log(this.selectedEstimation);
     }
 
     getProReqs(id: string) {
@@ -411,7 +411,7 @@ export class ProductionResultComponent implements OnInit {
             )
             .subscribe((estimations) => {
                 this.estimationsList = estimations;
-                console.log(this.estimationsList);
+                //console.log(this.estimationsList);
                 this.resetFromProReqs();
             });
     }
@@ -426,7 +426,7 @@ export class ProductionResultComponent implements OnInit {
             this.seriesList = [];
         }
         this.resetFromEstimation();
-        console.log(this.seriesList);
+        //console.log(this.seriesList);
     }
 
     getProcessesList(id: string) {

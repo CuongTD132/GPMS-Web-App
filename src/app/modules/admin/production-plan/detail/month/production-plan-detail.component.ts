@@ -192,7 +192,7 @@ export class ProductionPlanMonthDetailComponent implements OnInit {
             })
             .afterClosed()
             .subscribe((result) => {
-                console.log(result);
+                //console.log(result);
 
                 if (result === 'success') {
                     this._productionPlanService

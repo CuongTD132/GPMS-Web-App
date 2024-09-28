@@ -11,10 +11,10 @@ export class FcmService {
         Notification.requestPermission().then(
             (notificationPermissions: NotificationPermission) => {
                 if (notificationPermissions === 'granted') {
-                    console.log('Granted');
+                    //console.log('Granted');
                 }
                 if (notificationPermissions === 'denied') {
-                    console.log('Denied');
+                    //console.log('Denied');
                 }
             }
         );
@@ -33,12 +33,12 @@ export class FcmService {
                 });
             });
 
-        // onMessage(msg, (payload) => console.log(payload));
+        // onMessage(msg, (payload) => //console.log(payload));
         // let message$ = new Observable((sub) =>
         //     onMessage(this.msg, (msg) => sub.next(msg))
         // ).pipe(
         //     tap((msg) => {
-        //         console.log('My Firebase Cloud Message', msg);
+        //         //console.log('My Firebase Cloud Message', msg);
         //     })
         // );
     }

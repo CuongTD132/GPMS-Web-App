@@ -28,6 +28,6 @@ export class SeriesListComponent implements OnInit {
 
     ngOnInit() {
         this.seriesList = this.data;
-        console.log(this.seriesList);
+        //console.log(this.seriesList);
     }
 }

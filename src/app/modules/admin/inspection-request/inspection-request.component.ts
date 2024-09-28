@@ -139,7 +139,7 @@ export class InspectionRequestComponent implements OnInit, AfterViewInit {
                             this._paginator.pageIndex,
                             this._paginator.pageSize
                         );
-                        console.log('pagination');
+                        //console.log('pagination');
 
                         this.isLoading = true;
                         return of(true);

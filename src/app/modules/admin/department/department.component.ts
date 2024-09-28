@@ -259,7 +259,7 @@ export class DepartmentComponent implements OnInit, AfterViewInit {
             .subscribe((departDetail) => {
                 if (departDetail) {
                     this.departmentDetail = departDetail;
-                    console.log(this.departmentDetail);
+                    //console.log(this.departmentDetail);
                 }
             });
     }

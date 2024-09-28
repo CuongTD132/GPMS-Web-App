@@ -91,7 +91,7 @@ export class CreateBatchProductionPlanComponent implements OnInit {
                 .createChildProductionPlan(this.createProductionPlanForm.value)
                 .subscribe({
                     next: (result: any) => {
-                        console.log(result);
+                        //console.log(result);
 
                         this.matDialogRef.close('success');
                     },
@@ -111,7 +111,7 @@ export class CreateBatchProductionPlanComponent implements OnInit {
                     this.createProductionPlanForm.controls[
                         'productionRequirements'
                     ].setValue(this.productionRequirements);
-                    console.log(this.createProductionPlanForm.value);
+                    //console.log(this.createProductionPlanForm.value);
                 }
             });
     }

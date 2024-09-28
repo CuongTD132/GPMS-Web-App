@@ -94,7 +94,7 @@ export class CreateMonthProductionPlanComponent implements OnInit {
     }
 
     createProductionPlan() {
-        console.log(this.createProductionPlanForm);
+        //console.log(this.createProductionPlanForm);
 
         if (this.createProductionPlanForm.valid) {
             this._productionPlanService
@@ -118,13 +118,13 @@ export class CreateMonthProductionPlanComponent implements OnInit {
             })
             .afterClosed()
             .subscribe((result) => {
-                console.log(result);
+                //console.log(result);
                 if (result.status == 'success') {
                     this.productionRequirements.push(result.data);
                     this.createProductionPlanForm.controls[
                         'productionRequirements'
                     ].setValue(this.productionRequirements);
-                    console.log(this.createProductionPlanForm.value);
+                    //console.log(this.createProductionPlanForm.value);
                 }
             });
     }

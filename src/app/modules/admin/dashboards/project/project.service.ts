@@ -50,7 +50,7 @@ export class ProjectService {
             .post('/api/v1/production-plans/dashboard', null)
             .pipe(
                 tap((response: any) => {
-                    console.log(response);
+                    //console.log(response);
 
                     this._data.next(response);
                 })

@@ -105,19 +105,19 @@ export class CreateProductComponent implements OnInit {
     ) {}
 
     logStepIOListForm(): void {
-        console.log(this.stepIOListForm.value);
+        //console.log(this.stepIOListForm.value);
     }
 
     logProForm(): void {
         if (this.proForm.valid) {
-            console.log(this.proForm.value);
+            //console.log(this.proForm.value);
             const control = <FormArray>this.stepIOListForm.controls['stepIOs'];
             control.push(this.proForm);
-            console.log(this.stepIOListForm.value);
+            //console.log(this.stepIOListForm.value);
 
             this.stepIOs.push(this.proForm.value);
             this.stepForm.controls['stepIOs'].setValue(this.stepIOs);
-            console.log(this.stepForm.value);
+            //console.log(this.stepForm.value);
             this.isEditStepIO = !this.isEditStepIO;
         }
     }
@@ -168,10 +168,10 @@ export class CreateProductComponent implements OnInit {
 
     setStep(): void {
         this.steps.push(this.stepForm.value);
-        console.log(this.steps);
+        //console.log(this.steps);
 
         this.stepListForm.controls['steps'].setValue(this.steps);
-        console.log(this.stepListForm.value);
+        //console.log(this.stepListForm.value);
 
         this.isEditStep = false;
     }
@@ -186,38 +186,38 @@ export class CreateProductComponent implements OnInit {
 
     logMatForm(): void {
         if (this.matForm.valid) {
-            console.log(this.matForm.value);
+            //console.log(this.matForm.value);
             const control = <FormArray>this.stepIOListForm.controls['stepIOs'];
             control.push(this.matForm);
-            console.log(this.stepIOListForm.value);
+            //console.log(this.stepIOListForm.value);
 
             this.stepIOs.push(this.matForm.value);
             this.stepForm.controls['stepIOs'].setValue(this.stepIOs);
-            console.log(this.stepForm.value);
+            //console.log(this.stepForm.value);
             this.isEditStepIO = !this.isEditStepIO;
         }
     }
 
     logSemiForm(): void {
         if (this.semiForm.valid) {
-            console.log(this.semiForm.value);
+            //console.log(this.semiForm.value);
             const control = <FormArray>this.stepIOListForm.controls['stepIOs'];
             control.push(this.semiForm);
-            console.log(this.stepIOListForm.value);
+            //console.log(this.stepIOListForm.value);
 
             this.stepIOs.push(this.semiForm.value);
             this.stepForm.controls['stepIOs'].setValue(this.stepIOs);
-            console.log(this.stepForm.value);
+            //console.log(this.stepForm.value);
             this.isEditStepIO = !this.isEditStepIO;
         }
     }
 
     logStepForm(): void {
-        console.log(this.stepForm.value);
+        //console.log(this.stepForm.value);
     }
 
     logStepListForm(): void {
-        console.log(this.stepListForm.value);
+        //console.log(this.stepListForm.value);
     }
 
     logProcessForm(): void {
@@ -225,11 +225,11 @@ export class CreateProductComponent implements OnInit {
         this.processForm.controls.steps.setValue(
             this.stepListForm.controls.steps.value
         );
-        console.log(this.processForm.value);
+        //console.log(this.processForm.value);
 
         this.processes.push(this.processForm.value);
         this.processesListForm.controls.processes.setValue(this.processes);
-        console.log(this.processesListForm.value);
+        //console.log(this.processesListForm.value);
     }
 
     logProcessesListForm(): void {
@@ -239,31 +239,31 @@ export class CreateProductComponent implements OnInit {
         this.createProductForm.controls.semiFinishedProducts.setValue(
             this.semiListForm.controls.semiFinishedProducts.value
         );
-        console.log(this.createProductForm.value);
+        //console.log(this.createProductForm.value);
         this.isEditGeneral = false;
     }
 
     logGeneralForm(): void {
-        console.log(this.createProductForm.value);
+        //console.log(this.createProductForm.value);
     }
 
     logSemiListForm(): void {
-        console.log(this.semiListForm.controls.semiFinishedProducts.value);
+        //console.log(this.semiListForm.controls.semiFinishedProducts.value);
     }
 
     logMesureForm(): void {
-        console.log(this.measurementsListForm.value);
+        //console.log(this.measurementsListForm.value);
     }
 
     logBomForm(): void {
         this.isEditSubSpec = !this.isEditSubSpec;
         this.boMs = this.bomsListForm.controls.boMs.value;
-        console.log(this.boMs);
+        //console.log(this.boMs);
         this.getSelectedMaterial();
     }
 
     logSpecForm(): void {
-        console.log(this.specificationForm.value);
+        //console.log(this.specificationForm.value);
     }
 
     logSpecListForm(): void {
@@ -309,7 +309,7 @@ export class CreateProductComponent implements OnInit {
             this.createProductForm.controls['specifications'].setValue(
                 this.specifications
             );
-            console.log(this.createProductForm.value);
+            //console.log(this.createProductForm.value);
             control.push(this.specificationForm);
         }
     }
@@ -636,7 +636,7 @@ export class CreateProductComponent implements OnInit {
                     matIdUniqueArr.includes(material.id)
                 );
                 this.selectedMaterialsList = materialListReturn;
-                console.log(this.selectedMaterialsList);
+                //console.log(this.selectedMaterialsList);
 
                 return this.selectedMaterialsList;
             }
@@ -651,7 +651,7 @@ export class CreateProductComponent implements OnInit {
             this.createProductForm.controls['processes'].setValue(
                 this.processes
             );
-            console.log(this.createProductForm.value);
+            //console.log(this.createProductForm.value);
         }
     }
 }

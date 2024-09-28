@@ -48,7 +48,7 @@ export class CreateCategoryComponent implements OnInit {
         this.initCategoryForm();
     }
     logForm() {
-        console.log(this.createCategoryForm.value);
+        //console.log(this.createCategoryForm.value);
     }
     initCategoryForm() {
         this.createCategoryForm = this._formBuilder.group({

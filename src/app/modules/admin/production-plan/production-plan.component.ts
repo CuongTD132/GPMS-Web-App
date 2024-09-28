@@ -292,7 +292,7 @@ export class ProductionPlanComponent implements OnInit, AfterViewInit {
     }
 
     deleteProductionPlan(id: string) {
-        console.log('hihi');
+        //console.log('hihi');
 
         this._productionPlanService.deleteProductionPlan(id).subscribe(() => {
             this._productionPlanService.getProductionPlans().subscribe({
@@ -325,7 +325,7 @@ export class ProductionPlanComponent implements OnInit, AfterViewInit {
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         ];
         const file = fileList[0];
-        console.log(file.type);
+        //console.log(file.type);
 
         // Return if the file is not allowed
         if (!allowedTypes.includes(file.type)) {

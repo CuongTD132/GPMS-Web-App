@@ -109,7 +109,7 @@ export class CreateYearProductionPlanComponent implements OnInit {
                     this.createProductionPlanForm.controls[
                         'productionRequirements'
                     ].setValue(this.productionRequirements);
-                    console.log(this.createProductionPlanForm.value);
+                    //console.log(this.createProductionPlanForm.value);
                 }
             });
     }

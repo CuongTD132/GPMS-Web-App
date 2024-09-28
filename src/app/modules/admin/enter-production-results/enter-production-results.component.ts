@@ -212,7 +212,7 @@ export class ProductionResultComponent implements OnInit {
                     }
                 }
             }
-            console.log(this.totalIO);
+            //console.log(this.totalIO);
         }
     }
 
@@ -291,7 +291,7 @@ export class ProductionResultComponent implements OnInit {
                     quantity: quantityValue,
                 });
             }
-            console.log(this.inputOutputResults);
+            //console.log(this.inputOutputResults);
         }
     }
 
@@ -313,7 +313,7 @@ export class ProductionResultComponent implements OnInit {
                     consumption: consumptionValue,
                 });
             }
-            console.log(this.inputOutputResults);
+            //console.log(this.inputOutputResults);
         }
     }
 
@@ -343,7 +343,7 @@ export class ProductionResultComponent implements OnInit {
         this.stepResultForm.controls['inputOutputResults'].setValue(
             this.inputOutputResults
         );
-        console.log(this.stepResultForm.value);
+        //console.log(this.stepResultForm.value);
         if (this.stepResultForm.valid) {
             this._stepService
                 .createStepResult(this.seriesId, this.stepResultForm.value)
@@ -467,7 +467,7 @@ export class ProductionResultComponent implements OnInit {
             this.initForms();
         }
 
-        console.log(this.stepIOsList);
+        //console.log(this.stepIOsList);
     }
 
     getStepIOsList(id: string) {

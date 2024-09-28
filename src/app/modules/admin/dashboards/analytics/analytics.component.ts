@@ -69,7 +69,7 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
                 // Store the data
                 this.data = data;
 
-                console.log(data);
+                //console.log(data);
 
                 // Prepare the chart data
                 this._prepareChartData();

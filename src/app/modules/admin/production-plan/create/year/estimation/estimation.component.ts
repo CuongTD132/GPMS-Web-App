@@ -62,7 +62,7 @@ export class EstimationComponent implements OnInit {
                 this.addProductionEstimationForm.value;
             this.estimations.push(estimation);
             this.addProductionEstimationForm.reset();
-            console.log(estimation);
+            //console.log(estimation);
             this.totalQuantity += estimation.quantity;
         }
     }

@@ -37,7 +37,7 @@ export class SemiProductFormComponent {
 
     constructor(private _activatedRoute: ActivatedRoute) {
         this.semiFinishedProducts = this.form.controls.semiFinishedProducts;
-        console.log(this.semiFinishedProducts);
+        //console.log(this.semiFinishedProducts);
     }
 
     addSemiFinishedProduct() {
@@ -57,12 +57,12 @@ export class SemiProductFormComponent {
             description: new FormControl('', []),
         };
         this.semiFinishedProducts.push(new FormGroup(newSemi, []));
-        console.log(this.semiFinishedProducts);
-        console.log(this.form.value);
+        //console.log(this.semiFinishedProducts);
+        //console.log(this.form.value);
     }
 
     removeSemiFinishedProduct(index: number) {
         this.semiFinishedProducts.removeAt(index);
-        console.log(this.semiFinishedProducts);
+        //console.log(this.semiFinishedProducts);
     }
 }

@@ -78,7 +78,7 @@ export class ProcessFormComponent {
     }
 
     submit() {
-        console.log('Submitting', this.form.value);
+        //console.log('Submitting', this.form.value);
         this._productService.createProduct(this.form.value).subscribe(() => {
             this.showFlashMessage('success', 'Create product successful', 3000);
             setTimeout(() => {
@@ -151,7 +151,7 @@ export class ProcessFormComponent {
                     .controls.stepIOs.at(stepIOIndex)
                     .controls.quantity.setValue(null);
                 this.updateSelectedMaterials();
-                console.log(this.selectedMaterials);
+                //console.log(this.selectedMaterials);
                 break;
             case 'Semi':
                 this.processes
@@ -244,7 +244,7 @@ export class ProcessFormComponent {
                     .controls.quantity.setValue(1);
                 break;
         }
-        console.log(
+        //console.log(
             this.processes
                 .at(processIndex)
                 .controls.steps.at(stepIndex)
@@ -393,11 +393,11 @@ export class ProcessFormComponent {
             ),
         };
         this.processes.push(new FormGroup(newProcess, []));
-        console.log(this.form.value);
+        //console.log(this.form.value);
     }
 
     removeProcess(index: number) {
-        console.log('spec index', index);
+        //console.log('spec index', index);
     }
 
     addStep(processIndex: number) {

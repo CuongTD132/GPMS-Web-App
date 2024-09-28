@@ -178,7 +178,7 @@ export class ProductHeaderComponent implements OnInit, AfterViewInit {
                             this._paginator.pageIndex,
                             this._paginator.pageSize
                         );
-                        console.log('pagination');
+                        //console.log('pagination');
 
                         this.isLoading = true;
                         return of(true);
@@ -277,7 +277,7 @@ export class ProductHeaderComponent implements OnInit, AfterViewInit {
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         ];
         const file = fileList[0];
-        console.log(file.type);
+        //console.log(file.type);
 
         // Return if the file is not allowed
         if (!allowedTypes.includes(file.type)) {
@@ -340,10 +340,10 @@ export class ProductHeaderComponent implements OnInit, AfterViewInit {
             })
             .afterClosed()
             .subscribe((result) => {
-                console.log(result);
+                //console.log(result);
 
                 if (result === 'confirmed') {
-                    console.log('confirm');
+                    //console.log('confirm');
                 }
             });
     }

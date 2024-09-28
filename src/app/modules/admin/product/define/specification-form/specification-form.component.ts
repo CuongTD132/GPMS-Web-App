@@ -54,7 +54,7 @@ export class SpecificationFormComponent {
             this.sizes = data['sizes'];
             this.materials = data['materials'].data;
         });
-        console.log(this.specifications.controls);
+        //console.log(this.specifications.controls);
     }
 
     ngAfterContentChecked() {
@@ -81,7 +81,7 @@ export class SpecificationFormComponent {
                         (sm) => sm.id === qualityStandard.materialId
                     ).length === 0 &&
                     (qualityStandard.materialId = '');
-                console.log(qualityStandard.materialId);
+                //console.log(qualityStandard.materialId);
             });
 
         return newList;
@@ -197,12 +197,12 @@ export class SpecificationFormComponent {
             ),
         };
         this.specifications.push(new FormGroup(newSpec, []));
-        console.log(this.form.value);
+        //console.log(this.form.value);
     }
 
     removeSpecification(index: number) {
         event.preventDefault();
-        console.log('spec index', index);
+        //console.log('spec index', index);
     }
 
     addMeasurement(specificationIndex: number) {

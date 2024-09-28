@@ -25,7 +25,7 @@ export class EstimationsListComponent implements OnInit {
 
     ngOnInit() {
         this.productionEstimations = this.data;
-        console.log(this.productionEstimations);
+        //console.log(this.productionEstimations);
     }
 
     openSeriesListDialog(seriesList: ProductionSeries[]) {

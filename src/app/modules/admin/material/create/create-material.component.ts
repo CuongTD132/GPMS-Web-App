@@ -48,7 +48,7 @@ export class CreateMaterialComponent implements OnInit {
         this.initMaterialForm();
     }
     logForm() {
-        console.log(this.createMaterialForm.value);
+        //console.log(this.createMaterialForm.value);
     }
     initMaterialForm() {
         this.createMaterialForm = this._formBuilder.group({

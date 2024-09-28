@@ -67,7 +67,7 @@ export class EstimationComponent implements OnInit {
                 this.addProductionEstimationForm.value;
             this.addedEstimations.push(estimation);
             this.addProductionEstimationForm.reset();
-            console.log(estimation);
+            //console.log(estimation);
             this.totalQuantity += estimation.quantity;
         }
     }
@@ -79,7 +79,7 @@ export class EstimationComponent implements OnInit {
                 quantity: this.totalQuantity,
                 productionEstimations: this.estimations,
             };
-            console.log(productionRequirement);
+            //console.log(productionRequirement);
 
             this.matDialogRef.close({
                 status: 'success',
@@ -98,10 +98,10 @@ export class EstimationComponent implements OnInit {
             .subscribe((result) => {
                 if (result.status == 'success') {
                     this.estimations.push(result.data);
-                    console.log(this.estimations);
+                    //console.log(this.estimations);
 
                     this.addProductionEstimationForm.setValue(this.estimations);
-                    console.log(this.addProductionEstimationForm.value);
+                    //console.log(this.addProductionEstimationForm.value);
                 }
             });
     }

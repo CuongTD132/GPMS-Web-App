@@ -44,7 +44,7 @@ export class ApprovedProductComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        console.log(this.data);
+        //console.log(this.data);
     }
 
     getSelectedId(id: string) {

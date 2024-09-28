@@ -159,7 +159,7 @@ export class ProductDetailComponent implements OnInit {
             })
             .afterClosed()
             .subscribe((result) => {
-                console.log(result);
+                //console.log(result);
 
                 if (result === 'success') {
                     this._productService.getProducts().subscribe((res) => {
@@ -307,7 +307,7 @@ export class ProductDetailComponent implements OnInit {
             .subscribe((spec) => {
                 if (spec) {
                     this.specification = spec;
-                    console.log(this.specification);
+                    //console.log(this.specification);
                 }
             });
     }

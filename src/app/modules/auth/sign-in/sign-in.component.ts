@@ -115,7 +115,7 @@ export class AuthSignInComponent implements OnInit {
 
                 // Reset the form
                 this.signInNgForm.resetForm();
-                console.log(response);
+                //console.log(response);
                 // Set the alert
                 this.alert = {
                     type: 'error',

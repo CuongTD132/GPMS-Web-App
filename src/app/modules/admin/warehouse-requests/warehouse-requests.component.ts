@@ -308,7 +308,7 @@ export class WarehouseRequestComponent implements OnInit, AfterViewInit {
             })
             .afterClosed()
             .subscribe((result) => {
-                console.log(result);
+                //console.log(result);
 
                 if (result === 'success') {
                     this._warehouseRequestService

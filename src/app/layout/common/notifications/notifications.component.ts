@@ -83,7 +83,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
             });
 
         onMessage(this._msg, (payload) => {
-            console.log(payload);
+            //console.log(payload);
 
             this._notificationsService.create({
                 id: payload.messageId,

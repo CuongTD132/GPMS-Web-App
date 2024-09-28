@@ -54,7 +54,7 @@ export class CreateAccountComponent implements OnInit {
     }
 
     logForm() {
-        console.log(this.createAccountForm.value);
+        //console.log(this.createAccountForm.value);
     }
 
     initAccountForm() {

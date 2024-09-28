@@ -104,7 +104,7 @@ export class AccountComponent implements OnInit, AfterViewInit {
                 // Update the pagination
                 this.pagination = pagination;
 
-                console.log(this.pagination);
+                //console.log(this.pagination);
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();

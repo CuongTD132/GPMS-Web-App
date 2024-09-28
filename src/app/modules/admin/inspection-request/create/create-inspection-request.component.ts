@@ -74,7 +74,7 @@ export class CreateWarehouseRequestComponent implements OnInit {
                         .setValue(series.quantity);
                 }
             }
-            console.log(this.inspectionRequestForm.value);
+            //console.log(this.inspectionRequestForm.value);
         });
     }
     create() {

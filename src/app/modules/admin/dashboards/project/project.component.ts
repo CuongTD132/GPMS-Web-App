@@ -91,7 +91,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
                     newTodayParts.push(Math.round(number));
                 });
                 data.todayPieChart.part = newTodayParts;
-                console.log(data);
+                //console.log(data);
 
                 // Prepare the chart data
                 this._prepareChartData();

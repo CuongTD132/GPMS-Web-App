@@ -71,7 +71,7 @@ export class SeriesComponent implements OnInit {
             overTimeQuantity: this.data.overTimeQuantity,
             productionSeries: this.seriess,
         };
-        console.log(productionRequirement);
+        //console.log(productionRequirement);
 
         this.matDialogRef.close({
             status: 'success',
