@@ -9,7 +9,7 @@
                 <ng-container [formGroupName]="i">
                     <mat-expansion-panel
                         [disabled]="specification.invalid"
-                        [expanded]="specification.invalid"
+                        [expanded]="true"
                     >
                         <mat-expansion-panel-header>
                             <mat-panel-title class="text-nowrap"
@@ -136,9 +136,7 @@
                                                             [disabled]="
                                                                 measurement.invalid
                                                             "
-                                                            [expanded]="
-                                                                measurement.invalid
-                                                            "
+                                                            [expanded]="true"
                                                         >
                                                             <mat-expansion-panel-header>
                                                                 <mat-panel-title
@@ -372,7 +370,7 @@
                                                                     bom.invalid
                                                                 "
                                                                 [expanded]="
-                                                                    bom.invalid
+                                                                    true
                                                                 "
                                                             >
                                                                 <mat-expansion-panel-header>
@@ -608,7 +606,7 @@
                                                                     qualityStandard.invalid
                                                                 "
                                                                 [expanded]="
-                                                                    qualityStandard.invalid
+                                                                    true
                                                                 "
                                                             >
                                                                 <mat-expansion-panel-header>

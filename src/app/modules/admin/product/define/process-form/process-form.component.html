@@ -20,7 +20,7 @@
                 <ng-container [formGroupName]="i">
                     <mat-expansion-panel
                         [disabled]="process.invalid"
-                        [expanded]="process.invalid"
+                        [expanded]="true"
                     >
                         <mat-expansion-panel-header>
                             <mat-panel-title class=""
@@ -174,7 +174,7 @@
                                         <ng-container [formGroupName]="is">
                                             <mat-expansion-panel
                                                 [disabled]="step.invalid"
-                                                [expanded]="step.invalid"
+                                                [expanded]="true"
                                             >
                                                 <mat-expansion-panel-header>
                                                     <mat-panel-title class=""
@@ -434,7 +434,7 @@
                                                                             stepIO.invalid
                                                                         "
                                                                         [expanded]="
-                                                                            stepIO.invalid
+                                                                            true
                                                                         "
                                                                     >
                                                                         <mat-expansion-panel-header>

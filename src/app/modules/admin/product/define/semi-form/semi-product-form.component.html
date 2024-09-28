@@ -2,143 +2,136 @@
     <mat-accordion multi>
         <ng-container formArrayName="semiFinishedProducts">
             <ng-container
-            *ngFor="let semiProduct of semiFinishedProducts.controls; let i = index"
+                *ngFor="
+                    let semiProduct of semiFinishedProducts.controls;
+                    let i = index
+                "
             >
                 <!-- @for (
                     semiProduct of semiFinishedProducts.controls;
                     track $index;
                     let i = $index
                 ) { -->
-                    <ng-container [formGroupName]="i">
-                        <mat-expansion-panel
-                            [disabled]="semiProduct.invalid"
-                            [expanded]="semiProduct.invalid"
-                        >
-                            <mat-expansion-panel-header>
-                                <mat-panel-title class="text-nowrap"
-                                    >{{ i + 1 }}. New Semi-finished
-                                    Product</mat-panel-title
-                                >
-                                <mat-panel-description
-                                    class="flex flex-row-reverse"
-                                >
-                                    <!-- Type your name and age
+                <ng-container [formGroupName]="i">
+                    <mat-expansion-panel
+                        [disabled]="semiProduct.invalid"
+                        [expanded]="true"
+                    >
+                        <mat-expansion-panel-header>
+                            <mat-panel-title class="text-nowrap"
+                                >{{ i + 1 }}. New Semi-finished
+                                Product</mat-panel-title
+                            >
+                            <mat-panel-description
+                                class="flex flex-row-reverse"
+                            >
+                                <!-- Type your name and age
                                 <mat-icon>account_circle</mat-icon> -->
-                                    @if (
-                                        semiFinishedProducts.length > 1 &&
-                                        !semiProduct.invalid
-                                    ) {
-                                        <button
-                                            type="button"
-                                            (click)="
-                                                removeSemiFinishedProduct(i)
-                                            "
-                                            class=""
-                                        >
-                                            remove
-                                        </button>
-                                    }
-                                </mat-panel-description>
-                            </mat-expansion-panel-header>
-                            <div class="grid grid-cols-4 gap-8">
-                                <div class="col-span-1 flex flex-col">
-                                    <mat-form-field>
-                                        <mat-label>Name</mat-label>
-                                        <input
-                                            matInput
-                                            formControlName="name"
-                                        />
-                                        @if (
-                                            semiProduct
-                                                .get('name')
-                                                .hasError('required')
-                                        ) {
-                                            <mat-error
-                                                >Semi-finished product's name is
-                                                required</mat-error
-                                            >
-                                        }
-                                        @if (
-                                            semiProduct
-                                                .get('name')
-                                                .hasError('minlength')
-                                        ) {
-                                            <mat-error
-                                                >Must be at least 6
-                                                characters</mat-error
-                                            >
-                                        }
-                                    </mat-form-field>
-                                    <mat-form-field>
-                                        <mat-label>Code</mat-label>
-                                        <input
-                                            matInput
-                                            formControlName="code"
-                                        />
-                                        @if (
-                                            semiProduct
-                                                .get('code')
-                                                .hasError('required')
-                                        ) {
-                                            <mat-error
-                                                >Semi-finished product's code is
-                                                required</mat-error
-                                            >
-                                        }
-                                        @if (
-                                            semiProduct
-                                                .get('code')
-                                                .hasError('minlength')
-                                        ) {
-                                            <mat-error
-                                                >Must be at least 6
-                                                characters</mat-error
-                                            >
-                                        }
-                                    </mat-form-field>
-                                    <mat-form-field>
-                                        <mat-label>Quantity</mat-label>
-                                        <input
-                                            matInput
-                                            formControlName="quantity"
-                                        />
-                                        @if (
-                                            semiProduct
-                                                .get('quantity')
-                                                .hasError('required')
-                                        ) {
-                                            <mat-error
-                                                >Semi-finished product's
-                                                quantity is required</mat-error
-                                            >
-                                        }
-                                        @if (
-                                            semiProduct
-                                                .get('code')
-                                                .hasError('min')
-                                        ) {
-                                            <mat-error
-                                                >Must be at least 1</mat-error
-                                            >
-                                        }
-                                    </mat-form-field>
-                                </div>
-                                <div class="col-span-3">
-                                    <mat-form-field
-                                        class="relative h-full w-full overflow-hidden"
+                                @if (
+                                    semiFinishedProducts.length > 1 &&
+                                    !semiProduct.invalid
+                                ) {
+                                    <button
+                                        type="button"
+                                        (click)="removeSemiFinishedProduct(i)"
+                                        class=""
                                     >
-                                        <mat-label>Description</mat-label>
-                                        <textarea
-                                            matInput
-                                            rows="9"
-                                            formControlName="description"
-                                            class="resize-none"
-                                        ></textarea>
-                                    </mat-form-field>
-                                </div>
+                                        remove
+                                    </button>
+                                }
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <div class="grid grid-cols-4 gap-8">
+                            <div class="col-span-1 flex flex-col">
+                                <mat-form-field>
+                                    <mat-label>Name</mat-label>
+                                    <input matInput formControlName="name" />
+                                    @if (
+                                        semiProduct
+                                            .get('name')
+                                            .hasError('required')
+                                    ) {
+                                        <mat-error
+                                            >Semi-finished product's name is
+                                            required</mat-error
+                                        >
+                                    }
+                                    @if (
+                                        semiProduct
+                                            .get('name')
+                                            .hasError('minlength')
+                                    ) {
+                                        <mat-error
+                                            >Must be at least 6
+                                            characters</mat-error
+                                        >
+                                    }
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-label>Code</mat-label>
+                                    <input matInput formControlName="code" />
+                                    @if (
+                                        semiProduct
+                                            .get('code')
+                                            .hasError('required')
+                                    ) {
+                                        <mat-error
+                                            >Semi-finished product's code is
+                                            required</mat-error
+                                        >
+                                    }
+                                    @if (
+                                        semiProduct
+                                            .get('code')
+                                            .hasError('minlength')
+                                    ) {
+                                        <mat-error
+                                            >Must be at least 6
+                                            characters</mat-error
+                                        >
+                                    }
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-label>Quantity</mat-label>
+                                    <input
+                                        matInput
+                                        formControlName="quantity"
+                                    />
+                                    @if (
+                                        semiProduct
+                                            .get('quantity')
+                                            .hasError('required')
+                                    ) {
+                                        <mat-error
+                                            >Semi-finished product's quantity is
+                                            required</mat-error
+                                        >
+                                    }
+                                    @if (
+                                        semiProduct.get('code').hasError('min')
+                                    ) {
+                                        <mat-error
+                                            >Must be at least 1</mat-error
+                                        >
+                                    }
+                                </mat-form-field>
                             </div>
-                        </mat-expansion-panel>
-                    </ng-container>
+                            <div class="col-span-3">
+                                <mat-form-field
+                                    class="relative h-full w-full overflow-hidden"
+                                >
+                                    <mat-label>Description</mat-label>
+                                    <textarea
+                                        matInput
+                                        rows="9"
+                                        formControlName="description"
+                                        class="resize-none"
+                                    ></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                </ng-container>
                 <!-- } -->
             </ng-container>
         </ng-container>
