@@ -24,6 +24,7 @@ import { FuseAlertComponent } from '@fuse/components/alert';
 import { CarouselModule } from '@fuse/components/carousel/carousel.module';
 import { CustomPipeModule } from '@fuse/pipes/pipe.module';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
+import { QRCodeModule } from 'angularx-qrcode';
 import { UserService } from 'app/core/user/user.service';
 import { ProcessService } from '../../process/process.service';
 import { SemiService } from '../../semi/semi.service';
@@ -57,10 +58,12 @@ import { StepDetailComponent } from './step-detail/step-detail.component';
         MatMenuModule,
         FuseAlertComponent,
         CarouselModule,
+        QRCodeModule,
     ],
 })
 export class ProductDetailComponent implements OnInit {
     @ViewChild('uploadImg') private _avatarFileInput: ElementRef;
+
     stepsList: Step[] = [];
     stepDetail: StepDetail;
     specification: Specification;
@@ -96,6 +99,16 @@ export class ProductDetailComponent implements OnInit {
             });
         });
     }
+
+    downloadQRCode() {
+        const canvas = document.querySelector('canvas') as HTMLCanvasElement;
+        const qrImage = canvas.toDataURL('image/png');
+        const a = document.createElement('a');
+        a.href = qrImage;
+        a.download = `qrcode-product ${this.product.code}.png`;
+        a.click();
+    }
+
     showConfirmDialog(id: string) {
         this._fuseConfirmationService
             .open({
@@ -229,11 +242,11 @@ export class ProductDetailComponent implements OnInit {
         const formData = new FormData();
         for (let i = 0; i < fileList.length; i++) {
             if (allowedTypes.includes(fileList.item(i).type)) {
-            formData.append('imageURLs', fileList.item(i));
+                formData.append('imageURLs', fileList.item(i));
             }
         }
 
-// Upload the avatar
+        // Upload the avatar
         this._productService.uploadSpecImg(id, formData).subscribe({
             next: () => {
                 this._productService.getProductById(proId).subscribe();
@@ -251,7 +264,6 @@ export class ProductDetailComponent implements OnInit {
                     3000
                 ),
         });
-
     }
 
     private showFlashMessage(

@@ -7,19 +7,21 @@
         >
             <div class="grid w-full grid-cols-12 space-x-5 pb-10">
                 <div class="col-span-3 flex">
-                    <ng-container *ngIf="product.imageURLs &&
-                                product.imageURLs.length > 0">
-
-                    <carousel  [images]="product.imageURLs"></carousel>
+                    <ng-container
+                        *ngIf="
+                            product.imageURLs && product.imageURLs.length > 0
+                        "
+                    >
+                        <carousel [images]="product.imageURLs"></carousel>
                     </ng-container>
-                        <div
-                            class="flex w-[320px] h-[420px] rounded-2xl border items-center justify-center text-center text-xl font-semibold uppercase leading-none"
-                            *ngIf="
-                                !product.imageURLs ||
-                                !(product.imageURLs.length > 0)
-                            "
-                        >
-                            No Image
+                    <div
+                        class="flex h-[420px] w-[320px] items-center justify-center rounded-2xl border text-center text-xl font-semibold uppercase leading-none"
+                        *ngIf="
+                            !product.imageURLs ||
+                            !(product.imageURLs.length > 0)
+                        "
+                    >
+                        No Image
                     </div>
                 </div>
                 <div class="col-span-8 flex w-full flex-col gap-4">
@@ -119,6 +121,23 @@
                                         {{ product.category.name }}
                                     </mat-chip>
                                 </mat-chip-set>
+                            </div>
+                            <div class="text-center">
+                                <div class="border">
+                                    <qrcode
+                                        [qrdata]="product.id"
+                                        [width]="100"
+                                        [errorCorrectionLevel]="'M'"
+                                    ></qrcode>
+                                </div>
+
+                                <br />
+                                <button
+                                    class="rounded-xl bg-slate-300 px-2 py-1 text-sm hover:bg-slate-400"
+                                    (click)="downloadQRCode()"
+                                >
+                                    Download QR Code
+                                </button>
                             </div>
                         </div>
                     </div>
