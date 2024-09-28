@@ -194,26 +194,48 @@ export class ProductionPlanBatchDetailComponent implements OnInit {
     }
 
     startProductionPlan(id: string) {
-        this._productionPlanService
-            .startProductionPlan(id)
-            .subscribe((response) => {
+        this._productionPlanService.startProductionPlan(id).subscribe({
+            next: () => {
                 this._productionPlanService
                     .getProductionPlanById(this.productionPlan.id)
                     .subscribe((productionPlan) => {
                         this.productionPlan = productionPlan;
                     });
-            });
+                this.showFlashMessage(
+                    'success',
+                    'Production plan has been started successful',
+                    3000
+                );
+            },
+            error: () =>
+                this.showFlashMessage(
+                    'error',
+                    'Production plan has been started failed',
+                    3000
+                ),
+        });
     }
 
     endProductionPlan(id: string) {
-        this._productionPlanService
-            .endProductionPlan(id)
-            .subscribe((response) => {
+        this._productionPlanService.endProductionPlan(id).subscribe({
+            next: () => {
                 this._productionPlanService
                     .getProductionPlanById(this.productionPlan.id)
                     .subscribe((productionPlan) => {
                         this.productionPlan = productionPlan;
                     });
-            });
+                this.showFlashMessage(
+                    'success',
+                    'Production plan has been ended successful',
+                    3000
+                );
+            },
+            error: () =>
+                this.showFlashMessage(
+                    'error',
+                    'Production plan has been ended failed',
+                    3000
+                ),
+        });
     }
 }
