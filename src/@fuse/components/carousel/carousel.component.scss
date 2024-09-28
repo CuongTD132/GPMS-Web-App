@@ -42,7 +42,8 @@
     opacity: 0.5;
 }
 
-.active, .dot:hover {
+.active,
+.dot:hover {
     opacity: 1;
 }
 
@@ -53,10 +54,10 @@
 
 @keyframes fade {
     from {
-        opacity: 0.4
+        opacity: 0.4;
     }
     to {
-        opacity: 1
+        opacity: 1;
     }
 }
 
