@@ -37,7 +37,10 @@ export class SpecificationFormComponent {
     sizes: string[];
     materials: Material[];
 
-    constructor(private _activatedRoute: ActivatedRoute,private cdref: ChangeDetectorRef) {
+    constructor(
+        private _activatedRoute: ActivatedRoute,
+        private cdref: ChangeDetectorRef
+    ) {
         this._activatedRoute.data.subscribe((data) => {
             this.sizes = data['sizes'];
             this.materials = data['materials'].data;
@@ -48,7 +51,7 @@ export class SpecificationFormComponent {
     ngAfterContentChecked() {
         this.specifications = this.form.controls.specifications;
         this.cdref.detectChanges();
-     }
+    }
 
     addSpecification() {
         const newSpec = {
@@ -56,22 +59,19 @@ export class SpecificationFormComponent {
                 Validators.required,
                 Validators.minLength(1),
             ]),
-            colorCode: new FormControl('', [Validators.required]),
+            colorCode: new FormControl('#000000', [Validators.required]),
             measurements: new FormArray(
                 [
                     new FormGroup({
                         name: new FormControl('', [
                             Validators.required,
-                            Validators.minLength(6),
+                            Validators.minLength(3),
                         ]),
                         measure: new FormControl(1, [
                             Validators.required,
-                            Validators.min(1),
+                            Validators.min(0.1),
                         ]),
-                        unit: new FormControl('', [
-                            Validators.required,
-                            Validators.minLength(1),
-                        ]),
+                        unit: new FormControl('', [Validators.required]),
                     }),
                 ],
                 [Validators.required, Validators.minLength(1)]
@@ -79,8 +79,14 @@ export class SpecificationFormComponent {
             boMs: new FormArray(
                 [
                     new FormGroup({
-                        sizeWidth: new FormControl(0, [Validators.required]),
-                        consumption: new FormControl(0, [Validators.required]),
+                        sizeWidth: new FormControl(1, [
+                            Validators.required,
+                            Validators.min(0.1),
+                        ]),
+                        consumption: new FormControl(1, [
+                            Validators.required,
+                            Validators.min(0.1),
+                        ]),
                         description: new FormControl('', []),
                         materialId: new FormControl('', [Validators.required]),
                     }),
@@ -92,9 +98,12 @@ export class SpecificationFormComponent {
                     new FormGroup({
                         name: new FormControl('', [
                             Validators.required,
-                            Validators.minLength(6),
+                            Validators.minLength(3),
                         ]),
-                        description: new FormControl('', []),
+                        description: new FormControl('', [
+                            Validators.required,
+                            Validators.minLength(3),
+                        ]),
                         materialId: new FormControl('', []),
                     }),
                 ],
@@ -117,16 +126,13 @@ export class SpecificationFormComponent {
         const newMeasure = {
             name: new FormControl('', [
                 Validators.required,
-                Validators.minLength(6),
+                Validators.minLength(3),
             ]),
             measure: new FormControl(1, [
                 Validators.required,
-                Validators.min(1),
+                Validators.min(0.1),
             ]),
-            unit: new FormControl('', [
-                Validators.required,
-                Validators.minLength(1),
-            ]),
+            unit: new FormControl('', [Validators.required]),
         };
 
         measurements.push(new FormGroup(newMeasure, []));
@@ -142,8 +148,14 @@ export class SpecificationFormComponent {
         const boMs = this.specifications.at(specificationIndex).controls.boMs;
 
         const newBoM = {
-            sizeWidth: new FormControl(0, [Validators.required]),
-            consumption: new FormControl(0, [Validators.required]),
+            sizeWidth: new FormControl(1, [
+                Validators.required,
+                Validators.min(0.1),
+            ]),
+            consumption: new FormControl(1, [
+                Validators.required,
+                Validators.min(0.1),
+            ]),
             description: new FormControl('', []),
             materialId: new FormControl('', [Validators.required]),
         };
@@ -165,9 +177,12 @@ export class SpecificationFormComponent {
         const newQualityStandard = {
             name: new FormControl('', [
                 Validators.required,
-                Validators.minLength(6),
+                Validators.minLength(3),
             ]),
-            description: new FormControl('', []),
+            description: new FormControl('', [
+                Validators.required,
+                Validators.minLength(3),
+            ]),
             materialId: new FormControl('', []),
         };
 

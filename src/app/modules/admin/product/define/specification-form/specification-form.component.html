@@ -13,8 +13,8 @@
                     >
                         <mat-expansion-panel-header>
                             <mat-panel-title class="text-nowrap"
-                                >{{ i + 1 }}. New Specification</mat-panel-title
-                            >
+                                >{{ i + 1 }}. New Specification
+                            </mat-panel-title>
                             <mat-panel-description
                                 class="flex flex-row-reverse"
                             >
@@ -59,8 +59,8 @@
                                             ) {
                                                 <mat-error
                                                     >Specification's size is
-                                                    required</mat-error
-                                                >
+                                                    required
+                                                </mat-error>
                                             }
                                         </mat-form-field>
                                         <mat-form-field>
@@ -79,14 +79,14 @@
                                             ) {
                                                 <mat-error
                                                     >Specification's color is
-                                                    required</mat-error
-                                                >
+                                                    required
+                                                </mat-error>
                                             }
                                         </mat-form-field>
                                     </div>
                                     <div>
                                         <div
-                                            class="flex items-center justify-between"
+                                            class="mt-4 flex items-center justify-between"
                                         >
                                             <mat-label>Measurements</mat-label>
                                             <button
@@ -144,13 +144,11 @@
                                                                     >{{
                                                                         im + 1
                                                                     }}. New
-                                                                    measurement</mat-panel-title
-                                                                >
+                                                                    measurement
+                                                                </mat-panel-title>
                                                                 <mat-panel-description
                                                                     class="flex flex-row-reverse"
                                                                 >
-                                                                    <!-- Type your name and age
-                                <mat-icon>account_circle</mat-icon> -->
                                                                     @if (
                                                                         specification
                                                                             .controls
@@ -178,8 +176,8 @@
                                                             >
                                                                 <mat-form-field>
                                                                     <mat-label
-                                                                        >Name</mat-label
-                                                                    >
+                                                                        >Name
+                                                                    </mat-label>
                                                                     <input
                                                                         matInput
                                                                         formControlName="name"
@@ -197,8 +195,8 @@
                                                                             >Measurement's
                                                                             name
                                                                             is
-                                                                            required</mat-error
-                                                                        >
+                                                                            required
+                                                                        </mat-error>
                                                                     }
                                                                     @if (
                                                                         measurement
@@ -214,97 +212,177 @@
                                                                             be
                                                                             at
                                                                             least
-                                                                            6
-                                                                            characters</mat-error
-                                                                        >
+                                                                            3
+                                                                            characters
+                                                                        </mat-error>
                                                                     }
                                                                 </mat-form-field>
-                                                                <mat-form-field>
-                                                                    <mat-label
-                                                                        >Measure:</mat-label
-                                                                    >
-                                                                    <input
-                                                                        matInput
-                                                                        type="number"
-                                                                        formControlName="measure"
-                                                                        required
-                                                                    />
-                                                                    @if (
-                                                                        measurement
-                                                                            .get(
-                                                                                'measure'
-                                                                            )
-                                                                            .hasError(
-                                                                                'required'
-                                                                            )
-                                                                    ) {
-                                                                        <mat-error
+                                                                <div
+                                                                    class="mb-3 flex gap-1"
+                                                                >
+                                                                    <mat-form-field>
+                                                                        <mat-label
+                                                                            >Measure:
+                                                                        </mat-label>
+                                                                        <input
+                                                                            matInput
+                                                                            type="number"
+                                                                            formControlName="measure"
+                                                                            required
+                                                                            step="0.01"
+                                                                            min="0.1"
+                                                                        />
+                                                                        @if (
+                                                                            measurement
+                                                                                .get(
+                                                                                    'measure'
+                                                                                )
+                                                                                .hasError(
+                                                                                    'required'
+                                                                                )
+                                                                        ) {
+                                                                            <mat-error
+                                                                                >Measure
+                                                                                is
+                                                                                required
+                                                                            </mat-error>
+                                                                        }
+                                                                        @if (
+                                                                            measurement
+                                                                                .get(
+                                                                                    'measure'
+                                                                                )
+                                                                                .hasError(
+                                                                                    'min'
+                                                                                )
+                                                                        ) {
+                                                                            <mat-error
+                                                                                >Measure
+                                                                                is
+                                                                                minimum
+                                                                                0.1
+                                                                            </mat-error>
+                                                                        }
+                                                                    </mat-form-field>
+                                                                    <mat-form-field>
+                                                                        <mat-label
                                                                             >Measure
-                                                                            is
-                                                                            required</mat-error
+                                                                            unit</mat-label
                                                                         >
-                                                                    }
-                                                                    @if (
-                                                                        measurement
-                                                                            .get(
-                                                                                'measure'
-                                                                            )
-                                                                            .hasError(
-                                                                                'min'
-                                                                            )
-                                                                    ) {
-                                                                        <mat-error
-                                                                            >Measure
-                                                                            is
-                                                                            minimum
-                                                                            1</mat-error
+                                                                        <mat-select
+                                                                            formControlName="unit"
                                                                         >
-                                                                    }
-                                                                </mat-form-field>
-                                                                <mat-form-field>
-                                                                    <mat-label
-                                                                        >Measure
-                                                                        unit</mat-label
-                                                                    >
-                                                                    <input
-                                                                        matInput
-                                                                        formControlName="unit"
-                                                                    />
-                                                                    @if (
-                                                                        measurement
-                                                                            .get(
-                                                                                'unit'
-                                                                            )
-                                                                            .hasError(
-                                                                                'required'
-                                                                            )
-                                                                    ) {
-                                                                        <mat-error
-                                                                            >Measurement's
-                                                                            unit
-                                                                            is
-                                                                            required</mat-error
-                                                                        >
-                                                                    }
-                                                                    @if (
-                                                                        measurement
-                                                                            .get(
-                                                                                'unit'
-                                                                            )
-                                                                            .hasError(
-                                                                                'minlength'
-                                                                            )
-                                                                    ) {
-                                                                        <mat-error
-                                                                            >Must
-                                                                            be
-                                                                            at
-                                                                            least
-                                                                            1
-                                                                            characters</mat-error
-                                                                        >
-                                                                    }
-                                                                </mat-form-field>
+                                                                            <mat-option
+                                                                                value="mm"
+                                                                                >mm</mat-option
+                                                                            >
+                                                                            <mat-option
+                                                                                value="cm"
+                                                                                >cm</mat-option
+                                                                            >
+                                                                            <mat-option
+                                                                                value="m"
+                                                                                >m</mat-option
+                                                                            >
+                                                                            <mat-option
+                                                                                value="inches"
+                                                                                >Inches</mat-option
+                                                                            >
+                                                                        </mat-select>
+                                                                        @if (
+                                                                            measurement
+                                                                                .get(
+                                                                                    'unit'
+                                                                                )
+                                                                                .hasError(
+                                                                                    'required'
+                                                                                )
+                                                                        ) {
+                                                                            <mat-error
+                                                                                >Measurement's
+                                                                                unit
+                                                                                is
+                                                                                required
+                                                                            </mat-error>
+                                                                        }
+                                                                    </mat-form-field>
+                                                                </div>
+                                                                <!--                                                                <mat-form-field>-->
+                                                                <!--                                                                    <mat-label-->
+                                                                <!--                                                                    >Measure:-->
+                                                                <!--                                                                    </mat-label-->
+                                                                <!--                                                                    >-->
+                                                                <!--                                                                    <input-->
+                                                                <!--                                                                        matInput-->
+                                                                <!--                                                                        type="number"-->
+                                                                <!--                                                                        formControlName="measure"-->
+                                                                <!--                                                                        required-->
+                                                                <!--                                                                        step="0.01"-->
+                                                                <!--                                                                        min="0.1"-->
+                                                                <!--                                                                    />-->
+                                                                <!--                                                                    @if (measurement-->
+                                                                <!--                                                                        .get(-->
+                                                                <!--                                                                            'measure'-->
+                                                                <!--                                                                        )-->
+                                                                <!--                                                                        .hasError(-->
+                                                                <!--                                                                            'required'-->
+                                                                <!--                                                                        )) {-->
+                                                                <!--                                                                        <mat-error-->
+                                                                <!--                                                                        >Measure-->
+                                                                <!--                                                                            is-->
+                                                                <!--                                                                            required-->
+                                                                <!--                                                                        </mat-error-->
+                                                                <!--                                                                        >-->
+                                                                <!--                                                                    }-->
+                                                                <!--                                                                    @if (measurement-->
+                                                                <!--                                                                        .get(-->
+                                                                <!--                                                                            'measure'-->
+                                                                <!--                                                                        )-->
+                                                                <!--                                                                        .hasError(-->
+                                                                <!--                                                                            'min'-->
+                                                                <!--                                                                        )) {-->
+                                                                <!--                                                                        <mat-error-->
+                                                                <!--                                                                        >Measure-->
+                                                                <!--                                                                            is-->
+                                                                <!--                                                                            minimum-->
+                                                                <!--                                                                            0.1-->
+                                                                <!--                                                                        </mat-error-->
+                                                                <!--                                                                        >-->
+                                                                <!--                                                                    }-->
+                                                                <!--                                                                </mat-form-field>-->
+                                                                <!--                                                                <mat-form-field>-->
+                                                                <!--                                                                    <mat-label>Measure-->
+                                                                <!--                                                                        unit</mat-label>-->
+                                                                <!--                                                                    <mat-select formControlName="unit">-->
+                                                                <!--                                                                        <mat-option value="mm"-->
+                                                                <!--                                                                        >mm</mat-option-->
+                                                                <!--                                                                        >-->
+                                                                <!--                                                                        <mat-option value="cm"-->
+                                                                <!--                                                                        >cm</mat-option-->
+                                                                <!--                                                                        >-->
+                                                                <!--                                                                        <mat-option value="m"-->
+                                                                <!--                                                                        >m</mat-option-->
+                                                                <!--                                                                        >-->
+                                                                <!--                                                                        <mat-option value="inches"-->
+                                                                <!--                                                                        >Inches</mat-option-->
+                                                                <!--                                                                        >-->
+                                                                <!--                                                                    </mat-select>-->
+                                                                <!--                                                                    @if (measurement-->
+                                                                <!--                                                                        .get(-->
+                                                                <!--                                                                            'unit'-->
+                                                                <!--                                                                        )-->
+                                                                <!--                                                                        .hasError(-->
+                                                                <!--                                                                            'required'-->
+                                                                <!--                                                                        )) {-->
+                                                                <!--                                                                        <mat-error-->
+                                                                <!--                                                                        >Measurement's-->
+                                                                <!--                                                                            unit-->
+                                                                <!--                                                                            is-->
+                                                                <!--                                                                            required-->
+                                                                <!--                                                                        </mat-error-->
+                                                                <!--                                                                        >-->
+                                                                <!--                                                                    }-->
+                                                                <!--                                                                </mat-form-field>-->
                                                             </div>
                                                         </mat-expansion-panel>
                                                     </ng-container>
@@ -321,9 +399,8 @@
                                                 class="flex items-center justify-between"
                                             >
                                                 <mat-label
-                                                    >Bill of
-                                                    Materials:</mat-label
-                                                >
+                                                    >Bill of Materials:
+                                                </mat-label>
                                                 <button
                                                     [disabled]="
                                                         specification.get(
@@ -355,13 +432,6 @@
                                                             let ib = index
                                                         "
                                                     >
-                                                        <!-- @for (
-                                                        bom of specification
-                                                            .controls.boMs
-                                                            .controls;
-                                                        track $index;
-                                                        let ib = $index
-                                                    ) { -->
                                                         <ng-container
                                                             [formGroupName]="ib"
                                                         >
@@ -381,8 +451,8 @@
                                                                                 1
                                                                         }}. New
                                                                         bill of
-                                                                        material</mat-panel-title
-                                                                    >
+                                                                        material
+                                                                    </mat-panel-title>
                                                                     <mat-panel-description
                                                                         class="flex flex-row-reverse"
                                                                     >
@@ -414,75 +484,10 @@
                                                                 <div
                                                                     class="flex flex-col"
                                                                 >
-                                                                    <div
-                                                                        class="flex items-center justify-between gap-8"
-                                                                    >
-                                                                        <mat-form-field
-                                                                            class="flex-grow"
-                                                                        >
-                                                                            <mat-label
-                                                                                >Size/Width</mat-label
-                                                                            >
-                                                                            <input
-                                                                                type="number"
-                                                                                matInput
-                                                                                formControlName="sizeWidth"
-                                                                            />
-                                                                            @if (
-                                                                                bom
-                                                                                    .get(
-                                                                                        'sizeWidth'
-                                                                                    )
-                                                                                    .hasError(
-                                                                                        'required'
-                                                                                    )
-                                                                            ) {
-                                                                                <mat-error
-                                                                                    >Size/Width
-                                                                                    is
-                                                                                    required</mat-error
-                                                                                >
-                                                                            }
-                                                                        </mat-form-field>
-                                                                        <mat-form-field>
-                                                                            <mat-label
-                                                                                >Consumption</mat-label
-                                                                            >
-                                                                            <input
-                                                                                type="number"
-                                                                                matInput
-                                                                                formControlName="consumption"
-                                                                            />
-                                                                            @if (
-                                                                                bom
-                                                                                    .get(
-                                                                                        'consumption'
-                                                                                    )
-                                                                                    .hasError(
-                                                                                        'required'
-                                                                                    )
-                                                                            ) {
-                                                                                <mat-error
-                                                                                    >Consumption
-                                                                                    is
-                                                                                    required</mat-error
-                                                                                >
-                                                                            }
-                                                                        </mat-form-field>
-                                                                    </div>
                                                                     <mat-form-field>
                                                                         <mat-label
-                                                                            >Description</mat-label
-                                                                        >
-                                                                        <input
-                                                                            matInput
-                                                                            formControlName="description"
-                                                                        />
-                                                                    </mat-form-field>
-                                                                    <mat-form-field>
-                                                                        <mat-label
-                                                                            >Material</mat-label
-                                                                        >
+                                                                            >Material
+                                                                        </mat-label>
                                                                         <mat-select
                                                                             formControlName="materialId"
                                                                         >
@@ -496,16 +501,11 @@
                                                                                     "
                                                                                 >
                                                                                     <div
-                                                                                        class="flex w-full justify-between"
+                                                                                        class="flex w-full items-center gap-1"
                                                                                     >
                                                                                         <p>
                                                                                             {{
                                                                                                 material.name
-                                                                                            }}
-                                                                                            -
-                                                                                            Size:
-                                                                                            {{
-                                                                                                material.sizeName
                                                                                             }}
                                                                                             -
                                                                                             Color:
@@ -514,13 +514,27 @@
                                                                                             }}
                                                                                         </p>
                                                                                         <div
-                                                                                            class="aspect-square h-4"
+                                                                                            class="h-4 w-4 rounded-full"
                                                                                             [ngStyle]="{
                                                                                                 backgroundColor:
                                                                                                     material.colorCode,
                                                                                             }"
                                                                                         ></div>
                                                                                     </div>
+                                                                                    <p>
+                                                                                        Size
+                                                                                        width
+                                                                                        unit:
+                                                                                        {{
+                                                                                            material.sizeWidthUnit
+                                                                                        }}
+                                                                                        -
+                                                                                        Consumption
+                                                                                        unit:
+                                                                                        {{
+                                                                                            material.consumptionUnit
+                                                                                        }}
+                                                                                    </p>
                                                                                 </mat-option>
                                                                             }
                                                                         </mat-select>
@@ -536,9 +550,112 @@
                                                                             <mat-error
                                                                                 >Material
                                                                                 is
-                                                                                required</mat-error
-                                                                            >
+                                                                                required
+                                                                            </mat-error>
                                                                         }
+                                                                    </mat-form-field>
+                                                                    <div
+                                                                        class="flex items-center justify-between gap-8"
+                                                                    >
+                                                                        <mat-form-field
+                                                                            class="flex-grow"
+                                                                        >
+                                                                            <mat-label
+                                                                                >Size/Width
+                                                                            </mat-label>
+                                                                            <input
+                                                                                type="number"
+                                                                                step="0.01"
+                                                                                min="0.1"
+                                                                                required
+                                                                                matInput
+                                                                                formControlName="sizeWidth"
+                                                                            />
+                                                                            @if (
+                                                                                bom
+                                                                                    .get(
+                                                                                        'sizeWidth'
+                                                                                    )
+                                                                                    .hasError(
+                                                                                        'required'
+                                                                                    )
+                                                                            ) {
+                                                                                <mat-error
+                                                                                    >Size/Width
+                                                                                    is
+                                                                                    required
+                                                                                </mat-error>
+                                                                            }
+                                                                            @if (
+                                                                                bom
+                                                                                    .get(
+                                                                                        'sizeWidth'
+                                                                                    )
+                                                                                    .hasError(
+                                                                                        'min'
+                                                                                    )
+                                                                            ) {
+                                                                                <mat-error
+                                                                                    >Size/Width
+                                                                                    is
+                                                                                    minimum
+                                                                                    0.1
+                                                                                </mat-error>
+                                                                            }
+                                                                        </mat-form-field>
+                                                                        <mat-form-field>
+                                                                            <mat-label
+                                                                                >Consumption
+                                                                            </mat-label>
+                                                                            <input
+                                                                                type="number"
+                                                                                step="0.01"
+                                                                                min="0.1"
+                                                                                required
+                                                                                matInput
+                                                                                formControlName="consumption"
+                                                                            />
+                                                                            @if (
+                                                                                bom
+                                                                                    .get(
+                                                                                        'consumption'
+                                                                                    )
+                                                                                    .hasError(
+                                                                                        'required'
+                                                                                    )
+                                                                            ) {
+                                                                                <mat-error
+                                                                                    >Consumption
+                                                                                    is
+                                                                                    required
+                                                                                </mat-error>
+                                                                            }
+                                                                            @if (
+                                                                                bom
+                                                                                    .get(
+                                                                                        'consumption'
+                                                                                    )
+                                                                                    .hasError(
+                                                                                        'min'
+                                                                                    )
+                                                                            ) {
+                                                                                <mat-error
+                                                                                    >Consumption
+                                                                                    is
+                                                                                    minimum
+                                                                                    0.1
+                                                                                </mat-error>
+                                                                            }
+                                                                        </mat-form-field>
+                                                                    </div>
+                                                                    <mat-form-field>
+                                                                        <mat-label
+                                                                            >Description
+                                                                        </mat-label>
+                                                                        <textarea
+                                                                            matInput
+                                                                            formControlName="description"
+                                                                        ></textarea>
                                                                     </mat-form-field>
                                                                 </div>
                                                             </mat-expansion-panel>
@@ -553,9 +670,8 @@
                                                 class="flex items-center justify-between"
                                             >
                                                 <mat-label
-                                                    >Quality
-                                                    Standards</mat-label
-                                                >
+                                                    >Quality Standards
+                                                </mat-label>
                                                 <button
                                                     [disabled]="
                                                         specification.get(
@@ -617,8 +733,8 @@
                                                                                 1
                                                                         }}. New
                                                                         quality
-                                                                        standard</mat-panel-title
-                                                                    >
+                                                                        standard
+                                                                    </mat-panel-title>
                                                                     <mat-panel-description
                                                                         class="flex flex-row-reverse"
                                                                     >
@@ -651,8 +767,8 @@
                                                                 >
                                                                     <mat-form-field>
                                                                         <mat-label
-                                                                            >Name</mat-label
-                                                                        >
+                                                                            >Name
+                                                                        </mat-label>
                                                                         <input
                                                                             matInput
                                                                             formControlName="name"
@@ -669,8 +785,8 @@
                                                                             <mat-error
                                                                                 >Name
                                                                                 is
-                                                                                required</mat-error
-                                                                            >
+                                                                                required
+                                                                            </mat-error>
                                                                         }
                                                                         @if (
                                                                             qualityStandard
@@ -685,24 +801,56 @@
                                                                                 >Must
                                                                                 at
                                                                                 least
-                                                                                6
-                                                                                characters</mat-error
-                                                                            >
+                                                                                3
+                                                                                characters
+                                                                            </mat-error>
                                                                         }
                                                                     </mat-form-field>
                                                                     <mat-form-field>
                                                                         <mat-label
-                                                                            >Description</mat-label
-                                                                        >
-                                                                        <input
+                                                                            >Description
+                                                                        </mat-label>
+                                                                        <textarea
                                                                             matInput
                                                                             formControlName="description"
-                                                                        />
+                                                                        ></textarea>
+                                                                        @if (
+                                                                            qualityStandard
+                                                                                .get(
+                                                                                    'description'
+                                                                                )
+                                                                                .hasError(
+                                                                                    'required'
+                                                                                )
+                                                                        ) {
+                                                                            <mat-error
+                                                                                >Description
+                                                                                is
+                                                                                required
+                                                                            </mat-error>
+                                                                        }
+                                                                        @if (
+                                                                            qualityStandard
+                                                                                .get(
+                                                                                    'description'
+                                                                                )
+                                                                                .hasError(
+                                                                                    'minlength'
+                                                                                )
+                                                                        ) {
+                                                                            <mat-error
+                                                                                >Must
+                                                                                at
+                                                                                least
+                                                                                3
+                                                                                characters
+                                                                            </mat-error>
+                                                                        }
                                                                     </mat-form-field>
                                                                     <mat-form-field>
                                                                         <mat-label
-                                                                            >Material</mat-label
-                                                                        >
+                                                                            >Material
+                                                                        </mat-label>
                                                                         <mat-select
                                                                             formControlName="materialId"
                                                                         >
@@ -716,7 +864,7 @@
                                                                                     "
                                                                                 >
                                                                                     <div
-                                                                                        class="flex justify-between"
+                                                                                        class="flex w-full items-center justify-between gap-1"
                                                                                     >
                                                                                         <p>
                                                                                             {{
@@ -725,7 +873,7 @@
                                                                                             -
                                                                                             Size:
                                                                                             {{
-                                                                                                material.sizeName
+                                                                                                material.sizeWidthUnit
                                                                                             }}
                                                                                             -
                                                                                             Color:
@@ -734,7 +882,7 @@
                                                                                             }}
                                                                                         </p>
                                                                                         <div
-                                                                                            class="aspect-square h-4"
+                                                                                            class="h-4 w-4 rounded-full"
                                                                                             [ngStyle]="{
                                                                                                 backgroundColor:
                                                                                                     material.colorCode,
@@ -756,8 +904,8 @@
                                                                             <mat-error
                                                                                 >Material
                                                                                 is
-                                                                                required</mat-error
-                                                                            >
+                                                                                required
+                                                                            </mat-error>
                                                                         }
                                                                     </mat-form-field>
                                                                 </div>

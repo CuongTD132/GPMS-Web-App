@@ -64,7 +64,7 @@ export class ProcessFormComponent {
         private _router: Router,
         private _productService: ProductService,
         private _activatedRoute: ActivatedRoute,
-        private cdref: ChangeDetectorRef
+        private _cdRef: ChangeDetectorRef
     ) {
         this._activatedRoute.data.subscribe((data) => {
             this.materials = data['materials'].data;
@@ -74,16 +74,16 @@ export class ProcessFormComponent {
     ngAfterContentChecked() {
         this.specifications = this.form.controls.specifications;
         this.getSelectedMaterials();
-        this.cdref.detectChanges();
+        this._cdRef.detectChanges();
     }
 
     submit() {
         console.log('Submitting', this.form.value);
         this._productService.createProduct(this.form.value).subscribe(() => {
             this.showFlashMessage('success', 'Create product successful', 3000);
-            setInterval(() => {
+            setTimeout(() => {
                 this._router.navigate(['/products']);
-            }, 3000);
+            }, 1000);
         });
     }
 
@@ -94,10 +94,10 @@ export class ProcessFormComponent {
     ): void {
         this.flashMessage = type;
         this.message = message;
-        this.cdref.markForCheck();
+        this._cdRef.markForCheck();
         setTimeout(() => {
             this.flashMessage = this.message = null;
-            this.cdref.markForCheck();
+            this._cdRef.markForCheck();
         }, time);
     }
 
@@ -312,9 +312,9 @@ export class ProcessFormComponent {
             ]),
             name: new FormControl('', [
                 Validators.required,
-                Validators.minLength(6),
+                Validators.minLength(3),
             ]),
-            orderNumber: new FormControl(0, [Validators.required]),
+            orderNumber: new FormControl(1, [Validators.required, Validators.min(1)]),
             description: new FormControl('', []),
             type: new FormControl('', [Validators.required]),
             steps: new FormArray(
@@ -326,21 +326,17 @@ export class ProcessFormComponent {
                         ]),
                         name: new FormControl('', [
                             Validators.required,
-                            Validators.minLength(6),
+                            Validators.minLength(3),
                         ]),
-                        orderNumber: new FormControl(0, [Validators.required]),
-                        standardTime: new FormControl(0, [Validators.required]),
-                        outputPerHour: new FormControl(0, [
-                            Validators.required,
-                        ]),
+                        orderNumber: new FormControl(1, [Validators.required, Validators.min(1)]),
+                        standardTime: new FormControl(1, [Validators.required, Validators.min(0.1)]),
+                        outputPerHour: new FormControl(1, [Validators.required, Validators.min(0.1)]),
                         description: new FormControl('', []),
                         stepIOs: new FormArray(
                             [
                                 new FormGroup({
-                                    quantity: new FormControl(0, []),
-                                    consumption: new FormControl(0, [
-                                        Validators.required,
-                                    ]),
+                                    quantity: new FormControl(1, [Validators.required, Validators.min(1)]),
+                                    consumption: new FormControl(1, [Validators.required, Validators.min(0.1)]),
                                     isProduct: new FormControl(false, [
                                         Validators.required,
                                     ]),
