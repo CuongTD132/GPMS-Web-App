@@ -151,6 +151,11 @@ export class InspectionRequestComponent implements OnInit, AfterViewInit {
                 .subscribe();
         }
     }
+
+    openDetails(id: string){
+        window.open('http://localhost:3000/inspection-requests/public/' + id + '?token=' + encodeURIComponent('BsXzk8wUzhqeBSIZ4E+Dn/5KltXpNJ/+k3MMZ0YgyzQ='))
+    }
+
     private getSeries() {
         this.series$ = this._seriesService.series$;
     }
